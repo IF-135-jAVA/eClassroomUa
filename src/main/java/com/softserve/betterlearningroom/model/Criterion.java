@@ -12,6 +12,7 @@ import javax.persistence.InheritanceType;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@EqualsAndHashCode
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Criterion {

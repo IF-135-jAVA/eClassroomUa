@@ -8,11 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
-@ToString
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
+@EqualsAndHashCode
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Material {

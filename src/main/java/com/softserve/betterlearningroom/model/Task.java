@@ -14,7 +14,7 @@ import javax.persistence.InheritanceType;
 @ToString
 @EqualsAndHashCode
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Task extends Assignment {
 
     @Column(length = 1000)
