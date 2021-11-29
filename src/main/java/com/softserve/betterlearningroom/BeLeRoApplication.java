@@ -1,4 +1,4 @@
-package com.softserwe.betterlearningroom;
+package com.softserve.betterlearningroom;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
