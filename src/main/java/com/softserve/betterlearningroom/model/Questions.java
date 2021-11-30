@@ -13,6 +13,7 @@ import java.util.List;
 @EqualsAndHashCode
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorValue("QUESTIONS")
 public class Questions extends Assignment {
 
     @ElementCollection

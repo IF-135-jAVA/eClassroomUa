@@ -14,6 +14,7 @@ import java.util.List;
 @ToString
 @EqualsAndHashCode
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "ASSIGNMENT_TYPE")
 public class Assignment extends Material {
 
     private LocalDateTime startDate;
