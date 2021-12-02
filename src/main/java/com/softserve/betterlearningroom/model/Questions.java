@@ -1,25 +1,47 @@
 package com.softserve.betterlearningroom.model;
 
-import lombok.*;
-
-import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
-@Builder
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-@EqualsAndHashCode
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorValue("QUESTIONS")
 public class Questions extends Assignment {
 
-    @ElementCollection
-    private List<String> questions;
+    private List<Question> questions;
 
-    @ElementCollection
-    private List<String> answers;
+    public Questions() {
+    }
 
+    public Questions(Long id, MaterialType materialType, String title, String text, List<Link> urls, LocalDateTime startDate, LocalDateTime dueDate, List<Criterion> criterions, List<User> students, int maxScore, List<Question> questions) {
+        super(id, materialType, title, text, urls, startDate, dueDate, criterions, students, maxScore);
+        this.questions = questions;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Questions questions1 = (Questions) o;
+        return Objects.equals(getQuestions(), questions1.getQuestions());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getQuestions());
+    }
+
+    @Override
+    public String toString() {
+        return "Questions{" +
+                "questions=" + questions +
+                '}';
+    }
 }

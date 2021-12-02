@@ -1,9 +1,8 @@
 package com.softserve.betterlearningroom.model;
 
-import java.util.List;
 import java.util.Objects;
 
-public class Criterion {
+public class Level {
 
     private Long id;
 
@@ -11,23 +10,16 @@ public class Criterion {
 
     private String description;
 
-    private List<Level> levels;
+    private Integer mark;
 
-    public Criterion() { }
-
-    public Criterion(Long id, String title, String description, List<Level> levels) {
+    public Level(Long id, String title, String description, Integer mark) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.levels = levels;
+        this.mark = mark;
     }
 
-    public List<Level> getLevels() {
-        return levels;
-    }
-
-    public void setLevels(List<Level> levels) {
-        this.levels = levels;
+    public Level() {
     }
 
     public Long getId() {
@@ -54,29 +46,37 @@ public class Criterion {
         this.description = description;
     }
 
+    public Integer getMark() {
+        return mark;
+    }
+
+    public void setMark(Integer mark) {
+        this.mark = mark;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Criterion criterion = (Criterion) o;
-        return getId().equals(criterion.getId()) &&
-                getTitle().equals(criterion.getTitle()) &&
-                Objects.equals(getDescription(), criterion.getDescription()) &&
-                Objects.equals(getLevels(), criterion.getLevels());
+        Level level = (Level) o;
+        return getId().equals(level.getId()) &&
+                getTitle().equals(level.getTitle()) &&
+                Objects.equals(getDescription(), level.getDescription()) &&
+                getMark().equals(level.getMark());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getDescription(), getLevels());
+        return Objects.hash(getId(), getTitle(), getDescription(), getMark());
     }
 
     @Override
     public String toString() {
-        return "Criterion{" +
+        return "Level{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", levels=" + levels +
+                ", mark=" + mark +
                 '}';
     }
 }
