@@ -7,11 +7,12 @@ import org.springframework.context.annotation.Configuration;
 public class Configure {
 
     @Bean
-public Announcement announcement(){
-    return new Announcement();
-}
-@Bean
-    public Comment comment(){
-        return  new Comment();
-}
+    public Announcement announcement() {
+        return new Announcement();
+    }
+
+    @Bean
+    public Comment comment() {
+        return new Comment();
+    }
 }
