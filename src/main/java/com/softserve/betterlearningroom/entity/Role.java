@@ -1,5 +1,18 @@
 package com.softserve.betterlearningroom.entity;
 
-public enum Role {
-	ROLE_TEACHER, ROLE_STUDENT
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Data
+@NoArgsConstructor
+@Getter
+@Setter
+public class Role {
+	
+	int id;
+	
+	String name;
+
 }
