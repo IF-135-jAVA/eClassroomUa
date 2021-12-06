@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All comments</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+</head>
+<body>
+<div class="all-classes-container">
+    <div th:replace="header :: header"></div>
+    <h1>List of Comments</h1>
+    <form th:action="@{/comments/new}" method="get">
+        <div class="text-left">
+            <button type="submit" class="btn btn-info">Create new comment</button>
+        </div>
+    </form>
+
+    <table class="table">
+        <thead>
+        <!--    <div class="row">-->
+        <!--        <table class="table">-->
+        <tr scope="row">
+            <th scope="col">No.</th>
+            <th scope="col">Id</th>
+            <th scope="col">Text</th>
+            <th scope="col">Author</th>
+            <th scope="col">Date</th>
+            <th colspan="2" scope="col">Operations</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr scope="row" th:each="comment, state : ${comments}">
+            <td><b th:text="${state.count}"></b></td>
+            <td th:text="${comment.getId()}"></td>
+            <td><a th:text="${comment.getText()}"></a></td>
+            <td th:text="${comment.getAuthor()}"></td>
+            <td th:text="${comment.getDate()}"></td>
+            <td><a th:href="@{/comments/{id}/edit(id=${comment.getId()})}">Edit</a></td>
+            <td><a th:href="@{/comments/{id}(id=${comment.getId()})}">Remote</a></td>
+
+
+
+        </tr>
+        </tbody>
+    </table>
+    <!--        </table>-->
+    <!--    </div>-->
+</div>
+</body>
+</html>

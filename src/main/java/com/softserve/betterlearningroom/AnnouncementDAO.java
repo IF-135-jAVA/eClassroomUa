@@ -1,42 +1,60 @@
 package com.softserve.betterlearningroom;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 public class AnnouncementDAO {
-    private final JdbcTemplate jdbcTemplate;
+
+
+    private NamedParameterJdbcTemplate jdbcTemplate;
 
     @Autowired
-    public AnnouncementDAO(JdbcTemplate jdbcTemplate){
-        this.jdbcTemplate=jdbcTemplate;
-    }
-    public List<Announcement> readAll() {
-        return jdbcTemplate.query("SELECT * FROM Announcement", new BeanPropertyRowMapper<>(Announcement.class));
+    public AnnouncementDAO(NamedParameterJdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Announcement readById(int id) {
-        return jdbcTemplate.query("SELECT * FROM Announcement WHERE id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Announcement.class))
-                .stream().findAny().orElse(null);
+    public List<Announcement> readAll() {
+        return jdbcTemplate.query("SELECT id, text, comments FROM Announcement",
+                BeanPropertyRowMapper.newInstance(Announcement.class));
     }
+
+
+    public Announcement readById(long id) {
+        String sql = "SELECT id, text, comments FROM Announcement WHERE id=:id";
+        SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
+        return jdbcTemplate.queryForObject(sql, parameterSource,
+                BeanPropertyRowMapper.newInstance(Announcement.class));
+    }
+
 
     public void create(Announcement announcement) {
-       jdbcTemplate.update("INSERT INTO announcement VALUES(1, ?, ?)", announcement.getText(), announcement.getComments());
-
+        String sql = "INSERT INTO Announcement (text, comments) VALUES (:text, :comments)";
+        BeanPropertySqlParameterSource parameterSource =
+                new BeanPropertySqlParameterSource(announcement);
+        jdbcTemplate.update(sql, parameterSource);
     }
 
-    public void update(int id, Announcement updateAnnouncement) {
-        jdbcTemplate.update("UPDATE announcement SET text=?, comments=? WHERE id=?", updateAnnouncement.getText(),
-                updateAnnouncement.getComments(), id);
+    public void update(long id, Announcement updateAnnouncement) {
+        String sql = "UPDATE Announcement SET text=:text, comments=:comments";
+        BeanPropertySqlParameterSource parameterSource =
+                new BeanPropertySqlParameterSource(updateAnnouncement);
+        jdbcTemplate.update(sql, parameterSource);
     }
 
-    public void delete(int id) {
-        jdbcTemplate.update("DELETE FROM announcement WHERE id=?", id);
+
+    public void delete(long id) {
+        String sql = "DELETE FROM announcement WHERE id=:id";
+        SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
+        jdbcTemplate.update(sql, parameterSource);
+
     }
 }
 
