@@ -10,12 +10,6 @@ public interface UserService {
 	
 	UserDTO findByEmail(String email);
 	
-	UserDTO getClassroomOwner(int classroomId);
-	
 	List<UserDTO> findAll();
-	
-	List<UserDTO> getClassroomTeachers(int classroomId);
-	
-	List<UserDTO> getClassroomStudents(int classroomId);
 
 }

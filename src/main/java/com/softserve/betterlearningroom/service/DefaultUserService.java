@@ -33,28 +33,10 @@ public class DefaultUserService implements UserService {
 				.orElseThrow(() -> new UsernameNotFoundException(String.format("User with email - %s, not found", email)));
 		return userMapper.userToUserDTO(user);
 	}
-	
-	@Override
-	public UserDTO getClassroomOwner(int classroomId) throws UsernameNotFoundException {
-		User user = userRepository.getClassroomOwner(classroomId)
-				.orElseThrow(() -> new UsernameNotFoundException("Owner not found."));
-		return userMapper.userToUserDTO(user);
-	}
 
 	@Override
 	public List<UserDTO> findAll() {
 		return userRepository.findAll().stream().map(userMapper::userToUserDTO).collect(Collectors.toList());
 	}
-	
-	@Override
-	public List<UserDTO> getClassroomTeachers(int classroomId) {
-		return userRepository.getClassroomTeachers(classroomId).stream().map(userMapper::userToUserDTO).collect(Collectors.toList());
-	}
-	
-	@Override
-	public List<UserDTO> getClassroomStudents(int classroomId) {
-		return userRepository.getClassroomStudents(classroomId).stream().map(userMapper::userToUserDTO).collect(Collectors.toList());
-	}
-
 
 }

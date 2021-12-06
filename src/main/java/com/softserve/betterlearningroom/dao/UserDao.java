@@ -13,12 +13,6 @@ public interface UserDao {
 	
 	Optional<User> findByEmail(String email);
 	
-	Optional<User> getClassroomOwner(int classroomId);
-	
-	List<User> getClassroomTeachers(int classroomId);
-	
-	List<User> getClassroomStudents(int classroomId);
-	
 	void save(User user);
 	
 	void update(User user);

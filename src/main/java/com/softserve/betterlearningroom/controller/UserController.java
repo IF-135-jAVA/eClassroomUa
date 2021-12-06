@@ -33,27 +33,5 @@ public class UserController {
 		List<UserDTO> users = userService.findAll();
 		return new ResponseEntity<>(users, HttpStatus.OK);
 	}
-	
-	@GetMapping("/owner/classrooms/{classroomId}")
-	public ResponseEntity<UserDTO> getClassroomOwner(
-			@PathVariable int classroomId) {
-		UserDTO user = userService.getClassroomOwner(classroomId);
-		return ResponseEntity.ok().body(user);
-	}
-	
-	@GetMapping("/teachers/classrooms/{classroomId}")
-	public ResponseEntity<List<UserDTO>> getClassroomTeachers(
-			@PathVariable int classroomId) {
-		List<UserDTO> users = userService.getClassroomTeachers(classroomId);
-		return new ResponseEntity<>(users, HttpStatus.OK);
-	}
-	
-	@GetMapping("/students/classrooms/{classroomId}")
-	public ResponseEntity<List<UserDTO>> getClassroomStudents(
-			@PathVariable int classroomId) {
-		List<UserDTO> users = userService.getClassroomStudents(classroomId);
-		return new ResponseEntity<>(users, HttpStatus.OK);
-	}
-
 
 }

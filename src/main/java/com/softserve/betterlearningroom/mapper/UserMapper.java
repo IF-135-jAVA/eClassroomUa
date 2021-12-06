@@ -5,9 +5,6 @@ import org.springframework.stereotype.Component;
 import com.softserve.betterlearningroom.dto.UserDTO;
 import com.softserve.betterlearningroom.entity.User;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 @Component
 public class UserMapper {
 	
