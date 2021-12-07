@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<databaseChangeLog 
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"  
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+  xmlns:pro="http://www.liquibase.org/xml/ns/pro"  
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd
+      http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.5.xsd">
+      
+      <changeSet id="1" author="ykotsiuba">
+      	<createTable tableName="users">
+      		<column name="id" type="INTEGER" autoIncrement="true">
+      			<constraints primaryKey="true" nullable="false" primaryKeyName="pkey_users"/>
+      		</column>
+      		<column name="firstname" type="VARCHAR(30)"></column>
+      		<column name="lastname" type="VARCHAR(30)"></column>
+      		<column name="password" type="VARCHAR(30)"></column>
+      		<column name="email" type="VARCHAR(30)"></column>
+      		<column name="enabled" type="BOOLEAN"></column>
+      		<column name="role_id" type="INTEGER"></column>
+      	</createTable>
+      	<createTable tableName="roles">
+      		<column name="id" type="INTEGER" autoIncrement="true">
+      			<constraints primaryKey="true" nullable="false" primaryKeyName="pkey_roles"/>
+      		</column>
+      		<column name="name" type="VARCHAR(30)"></column>
+      	</createTable>
+      	<addForeignKeyConstraint constraintName="fkey_role" referencedTableName="roles" baseColumnNames="role_id" baseTableName="users" referencedColumnNames="id"/>
+      	<addUniqueConstraint columnNames="email" tableName="users"></addUniqueConstraint>
+      </changeSet>
+      <changeSet id="1.1" author="ykotsiuba">
+      	<createTable tableName="classrooms">
+      		<column name="id" type="INTEGER" autoIncrement="true">
+      			<constraints primaryKey="true" nullable="false" primaryKeyName="pkey_classrooms"/>
+      		</column>
+      		<column name="name" type="VARCHAR(30)"></column>
+      		<column name="owner_id" type="INTEGER"></column>
+      	</createTable>
+      	<createTable tableName="classrooms_teachers">
+      		<column name="id" type="INTEGER" autoIncrement="true">
+      			<constraints primaryKey="true" nullable="false" primaryKeyName="pkey_teachers"/>
+      		</column>
+      		<column name="teacher_id" type="INTEGER"></column>
+      		<column name="classroom_id" type="INTEGER"></column>
+      		</createTable>
+      		<createTable tableName="classrooms_students">
+      		<column name="id" type="INTEGER" autoIncrement="true">
+      			<constraints primaryKey="true" nullable="false" primaryKeyName="pkey_students"/>
+      		</column>
+      		<column name="student_id" type="INTEGER"></column>
+      		<column name="classroom_id" type="INTEGER"></column>
+      		</createTable>
+      		<addForeignKeyConstraint constraintName="fkey_owner" referencedTableName="users" baseColumnNames="owner_id" baseTableName="classrooms" referencedColumnNames="id"/>
+      		<addForeignKeyConstraint constraintName="fkey_teacher_classroom" referencedTableName="users" baseColumnNames="teacher_id" baseTableName="classrooms_teachers" referencedColumnNames="id"/>
+      	<addForeignKeyConstraint constraintName="fkey_classroom_teacher" referencedTableName="classrooms" baseColumnNames="classroom_id" baseTableName="classrooms_teachers" referencedColumnNames="id"/>
+      	<addForeignKeyConstraint constraintName="fkey_student_classroom" referencedTableName="users" baseColumnNames="student_id" baseTableName="classrooms_students" referencedColumnNames="id"/>
+      	<addForeignKeyConstraint constraintName="fkey_classroom_student" referencedTableName="classrooms" baseColumnNames="classroom_id" baseTableName="classrooms_students" referencedColumnNames="id"/>
+      </changeSet>
+
+ </databaseChangeLog> 
