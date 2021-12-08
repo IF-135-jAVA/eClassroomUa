@@ -1,7 +1,10 @@
 package com.softserwe.betterlearningroom.model;
 
+import lombok.Data;
+
 import java.util.List;
 
+@Data
 public class Classroom {
 
     private Long classroomId;

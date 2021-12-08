@@ -1,2 +1,4 @@
-package com.softserwe.betterlearningroom.model;public class Announcment {
+package com.softserwe.betterlearningroom.model;
+
+public class Announcment {
 }

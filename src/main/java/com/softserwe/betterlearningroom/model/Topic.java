@@ -1,2 +1,4 @@
-package com.softserwe.betterlearningroom.model;public class Topic {
+package com.softserwe.betterlearningroom.model;
+
+public class Topic {
 }
