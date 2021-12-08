@@ -1,4 +1,4 @@
-package com.softserwe.betterlearningroom.controller;
+package com.softserve.betterlearningroom.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;

@@ -1,4 +1,4 @@
-package com.softserwe.betterlearningroom.service;
+package com.softserve.betterlearningroom.service;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;

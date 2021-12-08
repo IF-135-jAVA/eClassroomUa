@@ -1,4 +1,4 @@
-package com.softserwe.betterlearningroom.dao;
+package com.softserve.betterlearningroom.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
