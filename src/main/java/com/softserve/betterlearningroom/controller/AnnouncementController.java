@@ -46,5 +46,4 @@ public class AnnouncementController {
         return ResponseEntity.ok().build();
     }
 
-
 }
