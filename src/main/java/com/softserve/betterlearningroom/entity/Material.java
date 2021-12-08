@@ -1,7 +1,5 @@
-package com.softserve.betterlearningroom.model;
+package com.softserve.betterlearningroom.entity;
 
-
-import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;

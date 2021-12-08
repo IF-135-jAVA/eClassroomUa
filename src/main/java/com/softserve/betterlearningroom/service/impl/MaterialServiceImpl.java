@@ -1,56 +1,83 @@
 package com.softserve.betterlearningroom.service.impl;
 
+import com.softserve.betterlearningroom.converter.MaterialConverter;
 import com.softserve.betterlearningroom.dao.MaterialDao;
-import com.softserve.betterlearningroom.model.Material;
-import com.softserve.betterlearningroom.model.MaterialType;
+import com.softserve.betterlearningroom.dto.MaterialDTO;
+import com.softserve.betterlearningroom.entity.Material;
+import com.softserve.betterlearningroom.entity.MaterialType;
 import com.softserve.betterlearningroom.service.MaterialService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 
 //TODO: Exception handle
 @Service
 public class MaterialServiceImpl implements MaterialService {
 
-    private MaterialDao materialDao;
+    private final MaterialDao materialDao;
+    private MaterialConverter materialConverter;
 
-    @Override
-    public Material getMaterialById(Long id) {
-        return materialDao.getById(id).stream().findFirst().get();
+    @Autowired
+    public MaterialServiceImpl(MaterialDao materialDao, MaterialConverter materialConverter) {
+        this.materialDao = materialDao;
+        this.materialConverter = materialConverter;
     }
 
     @Override
-    public Material getFirstMaterialByName(String name) {
-        return materialDao.getAllByName(name).stream().findFirst().get();
+    public MaterialDTO getMaterialById(Long id) {
+        return materialConverter.materialToMaterialDTO(materialDao.getById(id));
     }
 
     @Override
-    public List<? extends Material> getAllMaterialsByName(String name) {
-        return materialDao.getAllByName(name);
+    public MaterialDTO getFirstMaterialByName(String name, Long classroomId) {
+        return materialConverter.materialToMaterialDTO(materialDao.getAllByName(classroomId, name).stream().findFirst().orElse(null));
     }
 
     @Override
-    public List<? extends Material> getMaterialsByClassroom(Long classroomId) {
-        return materialDao.getAllByClassroom(classroomId);
+    public List<? extends MaterialDTO> getAllMaterialsByName(String name, Long classroomId) {
+        List<MaterialDTO> materials = new LinkedList<>();
+        for (Material m: materialDao.getAllByName(classroomId, name)) {
+            materials.add(materialConverter.materialToMaterialDTO(m));
+        }
+        return materials;
     }
 
     @Override
-    public List<? extends Material> getMaterialsByType(Long classroomId, MaterialType materialType) {
-        return materialDao.getAllByType(classroomId, materialType);
+    public List<? extends MaterialDTO> getMaterialsByClassroom(Long classroomId) {
+        List<MaterialDTO> materials = new LinkedList<>();
+        for (Material m: materialDao.getAllByClassroom(classroomId)) {
+            materials.add(materialConverter.materialToMaterialDTO(m));
+        }
+        return materials;
     }
 
     @Override
-    public List<? extends Material> getMaterialsByTopic(Long classroomId, Long topicId) {
-        return materialDao.getAllByTopic(classroomId, topicId);
+    public List<? extends MaterialDTO> getMaterialsByType(Long classroomId, MaterialType materialType) {
+        List<MaterialDTO> materials = new LinkedList<>();
+        for (Material m: materialDao.getAllByType(classroomId, materialType)) {
+            materials.add(materialConverter.materialToMaterialDTO(m));
+        }
+        return materials;
     }
 
     @Override
-    public void addMaterial(Material material) {
-        materialDao.addMaterial(material);
+    public List<? extends MaterialDTO> getMaterialsByTopic(Long classroomId, Long topicId) {
+        List<MaterialDTO> materials = new LinkedList<>();
+        for (Material m: materialDao.getAllByTopic(classroomId, topicId)) {
+            materials.add(materialConverter.materialToMaterialDTO(m));
+        }
+        return materials;
     }
 
     @Override
-    public void updateMaterial(Material material) {
-        materialDao.updateMaterial(material);
+    public void addMaterial(MaterialDTO material, Long topicId) {
+        materialDao.addMaterial(materialConverter.materialDTOToMaterial(material), topicId);
+    }
+
+    @Override
+    public void updateMaterial(MaterialDTO material) {
+        materialDao.updateMaterial(materialConverter.materialDTOToMaterial(material));
     }
 }

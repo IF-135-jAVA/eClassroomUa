@@ -1,50 +1,77 @@
 package com.softserve.betterlearningroom.dao;
 
 import com.softserve.betterlearningroom.mapper.LevelRowMapper;
-import com.softserve.betterlearningroom.model.Criterion;
-import com.softserve.betterlearningroom.model.Level;
+import com.softserve.betterlearningroom.entity.Criterion;
+import com.softserve.betterlearningroom.entity.Level;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.util.List;
 
 @Component
+@PropertySource("classpath:levelQuery.properties")
 public class LevelDao {
-    private JdbcTemplate jdbcTemplate;
+
+    private NamedParameterJdbcTemplate jdbcTemplate;
+
+    @Value("${get.all}")
+    private String getAllQuery;
+
+    @Value("${add.new}")
+    private String addQuery;
+
+    @Value("${update}")
+    private String updateQuery;
+
+    @Value("${remove}")
+    private String removeQuery;
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
-        jdbcTemplate = new JdbcTemplate(dataSource);
+        jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
     public List<Level> getAllLevels(Long criterionId) {
-        return jdbcTemplate.query("SELECT * FROM levels where criterionid=?", new Object[] { criterionId }, new LevelRowMapper());
+        return jdbcTemplate.query(getAllQuery, new MapSqlParameterSource("criterionid", criterionId), new LevelRowMapper());
     }
 
     public List<Level> getAllLevels(Criterion criterion) {
-        return jdbcTemplate.query("SELECT * FROM levels where criterionid=?", new Object[] { criterion.getId() }, new LevelRowMapper());
+        return getAllLevels(criterion.getId());
     }
 
-    public boolean addLevel(Level level, Long criterionId) {
-        return jdbcTemplate.update("INSERT INTO levels (title, description, makr, criterionid) VALUES (?, ?, ?, ?)", level.getTitle(), level.getDescription(), level.getMark(), criterionId) == 1;
+    public int addLevel(Level level, Long criterionId) {
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("criterionid", criterionId);
+        param.addValue("description", level.getDescription());
+        param.addValue("title", level.getTitle());
+        param.addValue("mark", level.getMark());
+        return jdbcTemplate.update(addQuery, param);
     }
 
-    public boolean addLevel(Level level, Criterion criterion) {
-        return jdbcTemplate.update("INSERT INTO levels (title, description, makr, criterionid) VALUES (?, ?, ?, ?)", level.getTitle(), level.getDescription(), level.getMark(), criterion.getId()) == 1;
+    public int addLevel(Level level, Criterion criterion) {
+        return addLevel(level, criterion.getId());
     }
 
-    public boolean updateLevel(Level level) {
-        return jdbcTemplate.update("UPDATE levels SET title=?, description=?, makr=? WHERE criterionid=?", level.getTitle(), level.getDescription(), level.getMark(), level.getId()) == 1;
+    public int updateLevel(Level level) {
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("levelid", level.getId());
+        param.addValue("description", level.getDescription());
+        param.addValue("title", level.getTitle());
+        param.addValue("mark", level.getMark());
+        return jdbcTemplate.update(updateQuery, param);
     }
 
-    public boolean removeLevel(Long levelId) {
-        return jdbcTemplate.update("DELETE FROM levels WHERE levelid=?", levelId) == 1;
+    public int removeLevel(Long levelId) {
+        return jdbcTemplate.update(removeQuery, new MapSqlParameterSource("leveid", levelId));
     }
 
-    public boolean removeLevel(Level level) {
-        return jdbcTemplate.update("DELETE FROM levels WHERE levelid=?", level.getId()) == 1;
+    public int removeLevel(Level level) {
+        return removeLevel(level.getId());
     }
 
 }

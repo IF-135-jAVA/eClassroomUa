@@ -1,4 +1,4 @@
-package com.softserve.betterlearningroom.model;
+package com.softserve.betterlearningroom.entity;
 
 import lombok.*;
 

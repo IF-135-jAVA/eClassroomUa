@@ -1,69 +1,78 @@
 package com.softserve.betterlearningroom.dao;
 
 import com.softserve.betterlearningroom.mapper.CriterionRowMapper;
-import com.softserve.betterlearningroom.model.Criterion;
-import com.softserve.betterlearningroom.model.Level;
-import com.softserve.betterlearningroom.model.Material;
+import com.softserve.betterlearningroom.entity.Criterion;
+import com.softserve.betterlearningroom.entity.Level;
+import com.softserve.betterlearningroom.entity.Material;
+import com.softserve.betterlearningroom.mapper.LevelRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.util.List;
 
 @Component
+@PropertySource("classpath:criterionQuery.properties")
 public class CriterionDao {
 
-    private JdbcTemplate jdbcTemplate;
+    private NamedParameterJdbcTemplate jdbcTemplate;
 
-    private LevelDao levelDao;
+    @Value("${get.all}")
+    private String getAllQuery;
+
+    @Value("${add.new}")
+    private String addQuery;
+
+    @Value("${update}")
+    private String updateQuery;
+
+    @Value("${remove}")
+    private String removeQuery;
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
-        jdbcTemplate = new JdbcTemplate(dataSource);
+        jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
     public List<Criterion> getAllCriterions(Long materialId) {
-        return jdbcTemplate.query("SELECT * FROM criterions where materialid=?", new Object[] { materialId }, new CriterionRowMapper());
+        return jdbcTemplate.query(getAllQuery, new MapSqlParameterSource("materialid", materialId), new CriterionRowMapper());
     }
 
     public List<Criterion> getAllCriterions(Material material) {
-        return jdbcTemplate.query("SELECT * FROM criterions where materialid=?", new Object[] { material.getId() }, new CriterionRowMapper());
+        return getAllCriterions(material.getId());
     }
 
-    public boolean addCriterion(Criterion criterion, Material material) {
-        for (Level level : criterion.getLevels()) {
-            levelDao.addLevel(level, criterion);
-        }
-        return jdbcTemplate.update("INSERT INTO criterions (title, description, materialid) VALUES (?, ?, ?)", criterion.getTitle(), criterion.getDescription(), material.getId()) == 1;
+    public int addCriterion(Criterion criterion, Long materialId) {
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("materialid", materialId);
+        param.addValue("description", criterion.getDescription());
+        param.addValue("title", criterion.getTitle());
+        return jdbcTemplate.update(addQuery, param);
     }
 
-    public boolean addCriterion(Criterion criterion, Long materialId) {
-        for (Level level : criterion.getLevels()) {
-            levelDao.addLevel(level, criterion);
-        }
-        return jdbcTemplate.update("INSERT INTO criterions (title, description, materialid) VALUES (?, ?, ?)", criterion.getTitle(), criterion.getDescription(), materialId) == 1;
+    public int addCriterion(Criterion criterion, Material material) {
+        return addCriterion(criterion, material.getId());
     }
 
-    public boolean updateCriterion(Criterion criterion) {
-        for (Level level : criterion.getLevels()) {
-            levelDao.updateLevel(level);
-        }
-        return jdbcTemplate.update("UPDATE criterions SET title=?, description=? WHERE criterionid=?", criterion.getTitle(), criterion.getDescription(), criterion.getId()) == 1;
+    public int updateCriterion(Criterion criterion) {
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue("criterionid", criterion.getId());
+        param.addValue("description", criterion.getDescription());
+        param.addValue("title", criterion.getTitle());
+        return jdbcTemplate.update(updateQuery, param);
     }
 
-    public boolean removeCriterion(Long criterionId) {
-        for (Level level : levelDao.getAllLevels(criterionId)) {
-            levelDao.removeLevel(level);
-        }
-        return jdbcTemplate.update("DELETE FROM criterions WHERE criterionid=?", criterionId) == 1;
+    public int removeCriterion(Long criterionId) {
+        return jdbcTemplate.update(removeQuery, new MapSqlParameterSource("criterionid", criterionId));
     }
 
-    public boolean removeCriterion(Criterion criterion) {
-        for (Level level : criterion.getLevels()) {
-            levelDao.removeLevel(level);
-        }
-        return jdbcTemplate.update("DELETE FROM criterions WHERE criterionid=?", criterion.getId()) == 1;
+    public int removeCriterion(Criterion criterion) {
+        return removeCriterion(criterion.getId());
     }
 
 }

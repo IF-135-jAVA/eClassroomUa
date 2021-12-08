@@ -1,8 +1,9 @@
-package com.softserve.betterlearningroom.model;
+package com.softserve.betterlearningroom.entity;
 
+import java.util.List;
 import java.util.Objects;
 
-public class Level {
+public class Criterion {
 
     private Long id;
 
@@ -10,16 +11,23 @@ public class Level {
 
     private String description;
 
-    private Integer mark;
+    private List<Level> levels;
 
-    public Level(Long id, String title, String description, Integer mark) {
+    public Criterion() { }
+
+    public Criterion(Long id, String title, String description, List<Level> levels) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.mark = mark;
+        this.levels = levels;
     }
 
-    public Level() {
+    public List<Level> getLevels() {
+        return levels;
+    }
+
+    public void setLevels(List<Level> levels) {
+        this.levels = levels;
     }
 
     public Long getId() {
@@ -46,37 +54,29 @@ public class Level {
         this.description = description;
     }
 
-    public Integer getMark() {
-        return mark;
-    }
-
-    public void setMark(Integer mark) {
-        this.mark = mark;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Level level = (Level) o;
-        return getId().equals(level.getId()) &&
-                getTitle().equals(level.getTitle()) &&
-                Objects.equals(getDescription(), level.getDescription()) &&
-                getMark().equals(level.getMark());
+        Criterion criterion = (Criterion) o;
+        return getId().equals(criterion.getId()) &&
+                getTitle().equals(criterion.getTitle()) &&
+                Objects.equals(getDescription(), criterion.getDescription()) &&
+                Objects.equals(getLevels(), criterion.getLevels());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getDescription(), getMark());
+        return Objects.hash(getId(), getTitle(), getDescription(), getLevels());
     }
 
     @Override
     public String toString() {
-        return "Level{" +
+        return "Criterion{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", mark=" + mark +
+                ", levels=" + levels +
                 '}';
     }
 }

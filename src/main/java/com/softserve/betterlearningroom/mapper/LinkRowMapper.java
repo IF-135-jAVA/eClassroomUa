@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.mapper;
 
-import com.softserve.betterlearningroom.model.Link;
+import com.softserve.betterlearningroom.entity.Link;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

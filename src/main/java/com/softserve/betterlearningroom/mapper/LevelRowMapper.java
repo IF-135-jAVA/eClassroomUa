@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.mapper;
 
-import com.softserve.betterlearningroom.model.Level;
+import com.softserve.betterlearningroom.entity.Level;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -12,6 +12,6 @@ public class LevelRowMapper implements RowMapper<Level> {
         return new Level(rs.getLong("levelId"),
                 rs.getString("title"),
                 rs.getString("description"),
-                rs.getInt("makr"));
+                rs.getInt("mark"));
     }
 }

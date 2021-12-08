@@ -1,4 +1,4 @@
-package com.softserve.betterlearningroom.model;
+package com.softserve.betterlearningroom.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,15 +1,9 @@
-package com.softserve.betterlearningroom.model;
+package com.softserve.betterlearningroom.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-/*@Builder
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-@EqualsAndHashCode*/
 public class Assignment extends Material {
 
     private LocalDateTime startDate;
