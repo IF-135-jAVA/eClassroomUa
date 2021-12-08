@@ -47,9 +47,9 @@ public class CommentController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("{id}")
-    public List<Comment> readAll() {
-        List<Comment> comments = commentService.readAll();
-        return comments.isEmpty() ? new ArrayList<>() : comments;
-    }
+//    @GetMapping("{id}")
+//    public List<Comment> readAll() {
+//        List<Comment> comments = commentService.readAll();
+//        return comments.isEmpty() ? new ArrayList<>() : comments;
+//    }
 }

@@ -24,7 +24,7 @@ public class AnnouncementService {
         return announcements.isEmpty() ? new ArrayList<>() : announcements;
     }
     public Announcement readById(long id) {
-        List<Announcement> result = announcementDAO.readById(id);
+        List<Announcement> result = (List<Announcement>) announcementDAO.readById(id);
 
         return result.isEmpty() ? null : result.get(0);
     }
