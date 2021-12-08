@@ -1,10 +1,8 @@
-package com.softserwe.betterlearningroom.user;
+package com.softserwe.betterlearningroom.dao;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
 
 import java.util.Optional;
 
@@ -12,14 +10,9 @@ import javax.sql.DataSource;
 
 import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -38,28 +31,22 @@ import com.softserve.betterlearningroom.dao.impl.UserDaoImpl;
 import com.softserve.betterlearningroom.entity.User;
 import com.softserve.betterlearningroom.mapper.UserRowMapper;
 
+
 public class UserDaoTest {
 
-	/*
-	 * @Mock public NamedParameterJdbcTemplate template; public UserRowMapper
-	 * userMapper;
-	 * 
-	 * @InjectMocks public UserDaoImpl userDao;
-	 * 
-	 * @BeforeEach public void init() { MockitoAnnotations.initMocks(this);
-	 * userMapper = new UserRowMapper(); userDao = new UserDaoImpl(template,
-	 * userMapper); }
-	 */
-
+	@Autowired
+	private DataSource dataSource = new EmbeddedDatabaseBuilder()
+			.setType(EmbeddedDatabaseType.H2)
+			.addScript("classpath:db/schema.sql")
+			.addScript("classpath:db/test-data.sql")
+			.build();
 	
-	@SuppressWarnings("unchecked")
 	@Test
 	public void findByIdTest() {
-		NamedParameterJdbcTemplate template = mock(NamedParameterJdbcTemplate.class);
+		NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 		UserRowMapper userMapper = new UserRowMapper();
 		UserDao userDao = new UserDaoImpl(template, userMapper);
 		User user = new User(1, "Keanu", "Reeves", "1234", "Keanu@gmail.com", true);
-		Mockito.when(template.queryForObject(Mockito.anyString(),  Mockito.any(MapSqlParameterSource.class), Mockito.any(RowMapper.class))).thenReturn(user);
 		assertEquals(Optional.of(user), userDao.findById(1));
 		// assertEquals("Keanu@gmail.com", userDao.findById(1).get().getEmail());
 	}
