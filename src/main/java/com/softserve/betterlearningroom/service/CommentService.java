@@ -27,7 +27,7 @@ public class CommentService {
         return comments.isEmpty() ? new ArrayList<>() : comments;
     }
     public Comment readById(long id) {
-        List<Comment> result = commentDAO.readById(id);
+        List<Comment> result = (List<Comment>) commentDAO.readById(id);
         return result.isEmpty() ? null : result.get(0);
     }
 
