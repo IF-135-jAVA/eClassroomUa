@@ -1,4 +1,6 @@
-package com.softserve.betterlearningroom;
+package com.softserve.betterlearningroom.dto;
+
+import com.softserve.betterlearningroom.entity.Comment;
 
 import java.util.List;
 import java.util.Objects;

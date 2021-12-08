@@ -1,5 +1,6 @@
-package com.softserve.betterlearningroom;
+package com.softserve.betterlearningroom.dao;
 
+import com.softserve.betterlearningroom.entity.Announcement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -42,7 +43,7 @@ public class AnnouncementDAO {
         jdbcTemplate.update(sql, parameterSource);
     }
 
-    public void update(long id, Announcement updateAnnouncement) {
+    public void update( Announcement updateAnnouncement) {
         String sql = "UPDATE Announcement SET text=:text, comments=:comments";
         BeanPropertySqlParameterSource parameterSource =
                 new BeanPropertySqlParameterSource(updateAnnouncement);

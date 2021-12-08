@@ -1,5 +1,6 @@
-package com.softserve.betterlearningroom;
+package com.softserve.betterlearningroom.dao;
 
+import com.softserve.betterlearningroom.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -39,7 +40,7 @@ public class CommentDAO {
         jdbcTemplate.update(sql, parameterSource);
     }
 
-    public void update(long id, Comment updateComment) {
+    public void update( Comment updateComment) {
         String sql = "UPDATE Comment SET author=:author, text=:text, date=:date";
         BeanPropertySqlParameterSource parameterSource =
                 new BeanPropertySqlParameterSource(updateComment);

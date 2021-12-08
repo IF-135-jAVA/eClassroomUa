@@ -1,15 +1,17 @@
-package com.softserve.betterlearningroom;
+package com.softserve.betterlearningroom.dto;
+
+import com.softserve.betterlearningroom.entity.User;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Comment {
+public class CommentDTO {
     private long id;
     private User author;
     private String text;
     private LocalDateTime date;
 
-    public Comment() {
+    public CommentDTO() {
     }
 
     public long getId() {
@@ -48,7 +50,7 @@ public class Comment {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Comment comment = (Comment) o;
+        CommentDTO comment = (CommentDTO) o;
         return id == comment.id &&
                 Objects.equals(text, comment.text) &&
                 Objects.equals(date, comment.date);

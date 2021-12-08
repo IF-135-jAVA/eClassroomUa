@@ -1,4 +1,4 @@
-package com.softserve.betterlearningroom;
+package com.softserve.betterlearningroom.entity;
 
 import java.util.List;
 import java.util.Objects;
