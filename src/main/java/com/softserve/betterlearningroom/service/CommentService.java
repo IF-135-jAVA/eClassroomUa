@@ -1,54 +1,54 @@
 package com.softserve.betterlearningroom.service;
 
-import com.softserve.betterlearningroom.dao.AnnouncementDAO;
 import com.softserve.betterlearningroom.dao.CommentDAO;
+import com.softserve.betterlearningroom.dto.AnnouncementDTO;
+import com.softserve.betterlearningroom.dto.CommentDTO;
 import com.softserve.betterlearningroom.entity.Announcement;
 import com.softserve.betterlearningroom.entity.Comment;
+import com.softserve.betterlearningroom.mapper.AnnouncementMapper;
+import com.softserve.betterlearningroom.mapper.CommentMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class CommentService {
     private CommentDAO commentDAO;
+    private CommentMapper commentMapper;
 
-    public void create(Comment comment) {
-        comment.setText(comment.getText());
-        comment.setAuthor(comment.getAuthor());
-        comment.setDate(LocalDateTime.now());
-        commentDAO.create(comment);
-    }
-    public List<Comment> readAll() {
-        List<Comment> comments = commentDAO.readAll();
-        return comments.isEmpty() ? new ArrayList<>() : comments;
-    }
-    public Comment readById(long id) {
-        List<Comment> result = (List<Comment>) commentDAO.readById(id);
-        return result.isEmpty() ? null : result.get(0);
+    public void create(CommentDTO commentDTO) {
+        commentDAO.create(commentMapper.commentDTOToComment(commentDTO));
     }
 
-    public void update(Comment comment, long id) {
-        Comment oldComment = readById(id);
-        if (oldComment != null) {
-            oldComment.setText(comment.getText());
-            oldComment.setAuthor(comment.getAuthor());
-            commentDAO.update(oldComment);
-        }
+    public List<CommentDTO> readAll() {
+        return commentDAO.readAll().stream()
+                .map(CommentMapper::commentToCommentDTO)
+                .collect(Collectors.toList());
     }
+
+
+
+    public CommentDTO readById(long id) {
+        Comment comment = commentDAO.readById(id);
+
+        return commentMapper.commentToCommentDTO(comment);
+    }
+
+
+    public void update(CommentDTO commentDTO, long id) {
+        commentDAO.update(commentMapper.commentDTOToComment(commentDTO));
+    }
+
 
     public void delete(long id) {
-       Comment comment = readById(id);
-        if (comment != null) {
-
-           commentDAO.delete(comment.getId());
-
+        CommentDTO commentDTO = readById(id);
+            commentDAO.delete(commentDTO.getId());
         }
 
     }
-}
-
 

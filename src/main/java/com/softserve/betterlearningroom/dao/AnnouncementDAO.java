@@ -4,6 +4,7 @@ import com.softserve.betterlearningroom.entity.Announcement;
 import liquibase.pro.packaged.S;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+@PropertySource(value = "classpath:/announcement_queries.properties")
 public class AnnouncementDAO {
 
 
@@ -51,22 +53,35 @@ public class AnnouncementDAO {
 
 
     public void create(Announcement announcement) {
-        BeanPropertySqlParameterSource parameterSource =
-                new BeanPropertySqlParameterSource(announcement);
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("text", announcement.getText())
+                       .addValue("comments", announcement.getComments());
+
         jdbcTemplate.update(save, parameterSource);
     }
 
     public void update(Announcement updateAnnouncement) {
-       BeanPropertySqlParameterSource parameterSource =
+        BeanPropertySqlParameterSource parameterSource =
                 new BeanPropertySqlParameterSource(updateAnnouncement);
         jdbcTemplate.update(edit, parameterSource);
     }
 
 
     public void delete(long id) {
-       SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
+        SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
         jdbcTemplate.update(remove, parameterSource);
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
 

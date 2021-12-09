@@ -1,8 +1,10 @@
 package com.softserve.betterlearningroom.controller;
 
 
-import com.softserve.betterlearningroom.entity.Comment;
+import com.softserve.betterlearningroom.dto.CommentDTO;
+
 import com.softserve.betterlearningroom.service.CommentService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 @RestController
@@ -24,35 +26,35 @@ public class CommentController {
     private CommentService commentService;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody Comment comment) {
-        commentService.create(comment);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> create(@RequestBody CommentDTO commentDTO){
+        commentService.create(commentDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Comment> readById(@PathVariable long id) {
-        Comment result = commentService.readById(id);
-        if(result == null) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(result);
+    @GetMapping
+    public ResponseEntity<List<CommentDTO>> readAll() {
+        List<CommentDTO> comments = commentService.readAll();
+        return new ResponseEntity<>(comments, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CommentDTO> readById(
+            @PathVariable int id) {
+        CommentDTO commentDTO = commentService.readById(id);
+        return ResponseEntity.ok().body(commentDTO);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<?> update(@PathVariable long id, @RequestBody Comment comment) {
-        if (commentService.readById(id) == null) return ResponseEntity.notFound().build();
-        commentService.update(comment, id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> update(@PathVariable long id, @RequestBody CommentDTO commentDTO) {
+        commentService.update(commentDTO, id);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> delete(@PathVariable long id) {
-        if(commentService.readById(id) == null) return ResponseEntity.notFound().build();
         commentService.delete(id);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
-    public List<Comment> readAll() {
-        List<Comment> comments = commentService.readAll();
-        return comments.isEmpty() ? new ArrayList<>() : comments;
-    }
 }
+

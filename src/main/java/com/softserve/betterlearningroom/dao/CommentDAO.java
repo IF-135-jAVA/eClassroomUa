@@ -1,5 +1,6 @@
 package com.softserve.betterlearningroom.dao;
 
+import com.softserve.betterlearningroom.entity.Announcement;
 import com.softserve.betterlearningroom.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-@PropertySource(value = "classpath:/user_queries.properties")
+@PropertySource(value = "classpath:/comment_queries.properties")
 public class CommentDAO {
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -50,7 +51,11 @@ public class CommentDAO {
 
 
     public void create(Comment comment) {
-       BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(comment);
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("text", comment.getText())
+                .addValue("author", comment.getAuthor())
+                .addValue("date", comment.getDate());
+
         jdbcTemplate.update(save, parameterSource);
     }
 
