@@ -1,11 +1,11 @@
 package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.dao.CommentDAO;
-import com.softserve.betterlearningroom.dto.AnnouncementDTO;
+
 import com.softserve.betterlearningroom.dto.CommentDTO;
-import com.softserve.betterlearningroom.entity.Announcement;
+
 import com.softserve.betterlearningroom.entity.Comment;
-import com.softserve.betterlearningroom.mapper.AnnouncementMapper;
+
 import com.softserve.betterlearningroom.mapper.CommentMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
