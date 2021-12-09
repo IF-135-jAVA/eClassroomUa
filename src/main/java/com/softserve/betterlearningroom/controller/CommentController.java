@@ -1,22 +1,25 @@
 package com.softserve.betterlearningroom.controller;
 
-import com.softserve.betterlearningroom.entity.Announcement;
+
 import com.softserve.betterlearningroom.entity.Comment;
-import com.softserve.betterlearningroom.dao.CommentDAO;
-import com.softserve.betterlearningroom.service.AnnouncementService;
 import com.softserve.betterlearningroom.service.CommentService;
-import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/comments")
+@RequestMapping("/api/comments")
 public class CommentController {
     private CommentService commentService;
 
@@ -47,9 +50,9 @@ public class CommentController {
         return ResponseEntity.ok().build();
     }
 
-//    @GetMapping("{id}")
-//    public List<Comment> readAll() {
-//        List<Comment> comments = commentService.readAll();
-//        return comments.isEmpty() ? new ArrayList<>() : comments;
-//    }
+    @GetMapping
+    public List<Comment> readAll() {
+        List<Comment> comments = commentService.readAll();
+        return comments.isEmpty() ? new ArrayList<>() : comments;
+    }
 }

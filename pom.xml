@@ -32,7 +32,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
-		</dependency>                                                                           
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -52,11 +52,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-<<<<<<< HEAD
-		
-=======
 
->>>>>>> f05419957dbd0ed80155600aa73f3f5feba57eb4
 		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
@@ -67,15 +63,12 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-<<<<<<< HEAD
-		    <groupId>com.h2database</groupId>
-		    <artifactId>h2</artifactId>
-=======
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
->>>>>>> f05419957dbd0ed80155600aa73f3f5feba57eb4
 		</dependency>
 	</dependencies>
+
+
 
 	<build>
 		<plugins>

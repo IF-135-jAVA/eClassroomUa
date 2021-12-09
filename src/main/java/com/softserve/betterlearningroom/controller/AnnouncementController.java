@@ -1,21 +1,25 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.entity.Announcement;
-import com.softserve.betterlearningroom.dao.AnnouncementDAO;
 import com.softserve.betterlearningroom.entity.Comment;
 import com.softserve.betterlearningroom.service.AnnouncementService;
-import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/announcements")
+@RequestMapping("/api/announcements")
 public class AnnouncementController {
     private AnnouncementService announcementService;
 
@@ -44,6 +48,12 @@ public class AnnouncementController {
         if (announcementService.readById(id) == null) return ResponseEntity.notFound().build();
         announcementService.delete(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping
+    public List<Announcement> readAll() {
+        List<Announcement> announcements = announcementService.readAll();
+        return announcements.isEmpty() ? new ArrayList<>() : announcements;
     }
 
 }
