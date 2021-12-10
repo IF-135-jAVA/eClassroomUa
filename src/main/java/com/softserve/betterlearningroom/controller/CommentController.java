@@ -31,7 +31,7 @@ public class CommentController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("/api/classroom/{classroomsId}/comments")
     public ResponseEntity<List<CommentDTO>> readAll() {
         List<CommentDTO> comments = commentService.readAll();
         return new ResponseEntity<>(comments, HttpStatus.OK);

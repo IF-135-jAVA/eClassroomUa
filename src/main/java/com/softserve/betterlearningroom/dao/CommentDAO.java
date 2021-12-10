@@ -23,19 +23,19 @@ public class CommentDAO {
     public CommentDAO(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-    @Value("SELECT id, author, text, date FROM Comment")
+    @Value("${find.all}")
     private String getAll;
 
-    @Value("SELECT id, author, text, date FROM Comment WHERE id=:id")
+    @Value("${find.by_id }")
     private String getById;
 
-    @Value("INSERT INTO Comment (author, text, date) VALUES (:author, :text, :date)")
+    @Value("${save}")
     private String save;
 
-    @Value( "UPDATE Comment SET author=:author, text=:text, date=:date")
+    @Value( "${update}")
     private String edit;
 
-    @Value("DELETE FROM comment WHERE id=:id")
+    @Value("${remove}")
     private String remove;
 
     public List<Comment> readAll() {

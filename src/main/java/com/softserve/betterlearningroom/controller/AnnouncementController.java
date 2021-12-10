@@ -32,7 +32,7 @@ public class AnnouncementController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("/api/classroom/{classroomsId}/announcements")
     public ResponseEntity<List<AnnouncementDTO>> readAll() {
         List<AnnouncementDTO> announcements = announcementService.readAll();
         return new ResponseEntity<>(announcements, HttpStatus.OK);

@@ -26,19 +26,19 @@ public class AnnouncementDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Value("SELECT id, text, comments FROM Announcement")
+    @Value ("${find.all}")
     private String getAll;
 
-    @Value("SELECT id, text, comments FROM Announcement WHERE id=:id")
+    @Value("${find.by_id}")
     private String getById;
 
-    @Value("INSERT INTO Announcement (text, comments) VALUES (:text, :comments)")
+    @Value("${save}")
     private String save;
 
-    @Value("UPDATE Announcement SET text=:text, comments=:comments")
+    @Value("${update}")
     private String edit;
 
-    @Value("DELETE FROM announcement WHERE id=:id")
+    @Value("${remove}")
     private String remove;
 
     public List<Announcement> readAll() {

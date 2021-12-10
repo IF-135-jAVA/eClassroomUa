@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
-@PropertySource(value = "classpath:/announcement_queries.properties")
+@PropertySource(value = "classpath:/user_queries.properties")
 public class UserDaoImpl implements UserDao {
 	
 	private final NamedParameterJdbcTemplate template;
