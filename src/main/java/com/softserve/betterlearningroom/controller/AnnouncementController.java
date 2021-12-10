@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/announcements")
+@RequestMapping("/api/classrooms/{classroomId}/announcements")
 public class AnnouncementController {
     private AnnouncementService announcementService;
 
@@ -32,7 +32,7 @@ public class AnnouncementController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/api/classroom/{classroomsId}/announcements")
+    @GetMapping
     public ResponseEntity<List<AnnouncementDTO>> readAll() {
         List<AnnouncementDTO> announcements = announcementService.readAll();
         return new ResponseEntity<>(announcements, HttpStatus.OK);

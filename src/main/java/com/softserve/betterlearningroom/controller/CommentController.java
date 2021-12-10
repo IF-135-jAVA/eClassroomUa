@@ -21,7 +21,8 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/comments")
+@RequestMapping("/api/classrooms/{classroomId}/comments")
+
 public class CommentController {
     private CommentService commentService;
 
@@ -31,7 +32,7 @@ public class CommentController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/api/classroom/{classroomsId}/comments")
+    @GetMapping
     public ResponseEntity<List<CommentDTO>> readAll() {
         List<CommentDTO> comments = commentService.readAll();
         return new ResponseEntity<>(comments, HttpStatus.OK);

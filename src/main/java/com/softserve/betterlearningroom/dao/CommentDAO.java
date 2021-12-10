@@ -23,16 +23,17 @@ public class CommentDAO {
     public CommentDAO(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
     @Value("${find.all}")
     private String getAll;
 
-    @Value("${find.by_id }")
+    @Value("${find.by_id}")
     private String getById;
 
     @Value("${save}")
     private String save;
 
-    @Value( "${update}")
+    @Value("${update}")
     private String edit;
 
     @Value("${remove}")
@@ -44,7 +45,7 @@ public class CommentDAO {
 
 
     public Comment readById(long id) {
-       SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
+        SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
         return jdbcTemplate.queryForObject(getById, parameterSource,
                 BeanPropertyRowMapper.newInstance(Comment.class));
     }
@@ -59,8 +60,8 @@ public class CommentDAO {
         jdbcTemplate.update(save, parameterSource);
     }
 
-    public void update( Comment updateComment) {
-       BeanPropertySqlParameterSource parameterSource =
+    public void update(Comment updateComment) {
+        BeanPropertySqlParameterSource parameterSource =
                 new BeanPropertySqlParameterSource(updateComment);
         jdbcTemplate.update(edit, parameterSource);
     }
