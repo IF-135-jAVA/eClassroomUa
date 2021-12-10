@@ -21,51 +21,46 @@ import com.softserve.betterlearningroom.service.CustomUserDetailsService;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-	
+
 	@Autowired
 	CustomUserDetailsService userDetailsService;
-	
+
 	@Autowired
 	JwtFilter jwtFilter;
-	
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService);
 	}
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-        	.cors()
-        	.and()
-        	.httpBasic().disable()
-        	.csrf().disable()
-        	.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        	.and()
-        		.authorizeRequests()
-        		.antMatchers("/api/auth/login").not().fullyAuthenticated()
-        		.anyRequest().authenticated()
-        	.and()
-        		.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+		http.cors().and().httpBasic().disable().csrf().disable().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+				.antMatchers("/api/auth/login").permitAll().anyRequest().authenticated().and()
+				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 	}
-	
-	@Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
-	/*
-	 * @Bean public WebMvcConfigurer corsConfigurer() { return new
-	 * WebMvcConfigurer() {
-	 * 
-	 * @Override public void addCorsMappings(CorsRegistry registry) {
-	 * registry.addMapping("/**") .allowedOrigins("*") .allowedHeaders("*")
-	 * .exposedHeaders("*") .allowedMethods("*"); } }; }
-	 */
-	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**").allowedOrigins("*").allowedHeaders("*").exposedHeaders("*")
+						.allowedMethods("*");
+			}
+		};
+	}
+
 	@Override
 	@Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 }
