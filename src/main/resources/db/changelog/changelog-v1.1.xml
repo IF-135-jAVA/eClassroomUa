@@ -21,7 +21,7 @@
       		<column name="lastname" value="Reeves"></column>
       		<column name="enabled" value="true"></column>
       		<column name="email" value="Keanu@gmail.com"></column>
-      		<column name="password" value="1234"></column>
+      		<column name="password" value="$2a$04$MzVXtd4o0y4DOlyHMMLMDeE4/eezrsT5Xad.2lmGr/NkCpwBgvn3e"></column>
       		<column name="role_id" value="1"></column>
       	</insert>
       	<insert tableName="users">

@@ -11,9 +11,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.softserve.betterlearningroom.configuration.jwt.JwtFilter;
 import com.softserve.betterlearningroom.service.CustomUserDetailsService;
 
 @Configuration
@@ -22,6 +24,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	CustomUserDetailsService userDetailsService;
+	
+	@Autowired
+	JwtFilter jwtFilter;
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -38,8 +43,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         	.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         	.and()
         		.authorizeRequests()
-        		.antMatchers("/api/login").permitAll()
-        		.anyRequest().authenticated();
+        		.antMatchers("/api/auth/login").not().fullyAuthenticated()
+        		.anyRequest().authenticated()
+        	.and()
+        		.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	@Bean
@@ -47,19 +54,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")
-				.allowedOrigins("*")
-				.allowedHeaders("*")
-				.exposedHeaders("*")
-				.allowedMethods("*");
-			}
-		};
-	}
+	/*
+	 * @Bean public WebMvcConfigurer corsConfigurer() { return new
+	 * WebMvcConfigurer() {
+	 * 
+	 * @Override public void addCorsMappings(CorsRegistry registry) {
+	 * registry.addMapping("/**") .allowedOrigins("*") .allowedHeaders("*")
+	 * .exposedHeaders("*") .allowedMethods("*"); } }; }
+	 */
 	
 	@Override
 	@Bean

@@ -13,7 +13,7 @@
       		</column>
       		<column name="firstname" type="VARCHAR(30)"></column>
       		<column name="lastname" type="VARCHAR(30)"></column>
-      		<column name="password" type="VARCHAR(30)"></column>
+      		<column name="password" type="VARCHAR(80)"></column>
       		<column name="email" type="VARCHAR(30)"></column>
       		<column name="enabled" type="BOOLEAN"></column>
       		<column name="role_id" type="INTEGER"></column>

@@ -1,4 +1,4 @@
-package com.softserve.betterlearningroom.configuration;
+package com.softserve.betterlearningroom.configuration.jwt;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -25,7 +25,7 @@ public class JwtProvider {
 	
 	public String generateToken(String login) {
         Date now = new Date();
-		Date expired = Date.from(LocalDate.now().plusDays(15).atStartOfDay(ZoneId.systemDefault()).toInstant());
+		Date expired = Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
         return Jwts.builder()
                 .setSubject(login)
                 .setIssuedAt(now)
