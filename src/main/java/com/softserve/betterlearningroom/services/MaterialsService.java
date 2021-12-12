@@ -1,19 +1,22 @@
 package com.softserve.betterlearningroom.services;
 
+import com.softserve.betterlearningroom.dto.MaterialsDTO;
 import com.softserve.betterlearningroom.entity.Materials;
-import com.softserve.betterlearningroom.repository.MaterialsRepository;
+import com.softserve.betterlearningroom.repository.MaterialsDAO;
 import org.apache.commons.validator.UrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Works with materials.
  */
-public class MaterialService {
+@Service
+public class MaterialsService {
 
     @Autowired
-    private MaterialsRepository materialsRepository;
+    private MaterialsDAO materialsDAO;
 
     /**
      * Validates URL string.
@@ -28,13 +31,64 @@ public class MaterialService {
     }
 
     public Materials findById(Integer id) {
-        return materialsRepository.readById(id);
+
+        return materialsDAO.findById(id).orElseThrow(() -> new RuntimeException("material by id is not saved"));
     }
-    public List<Materials> findAll(){
-        return materialsRepository.getAll();
+
+    public Materials findByTitle(String title) {
+        return materialsDAO.findByTitle(title).orElseThrow(() -> new RuntimeException("material didn't find"));
     }
-   // public MaterialsRepository delete(Materials materials){
+
+    public int removeById(Integer id) {
+
+        return materialsDAO.removeById(id);
+    }
+
+    public int removeByTitle(String title) {
+
+        return materialsDAO.removeByTitle(title);
+    }
 
 
+    public List<Materials> findAll() {
+
+        return materialsDAO.findAll();
+    }
+
+    public void save(MaterialsDTO materialsDTO) {
+
+        materialsDAO.save(toEntity(materialsDTO));
+    }
+
+    public void update(MaterialsDTO materialsDTO) {
+
+        materialsDAO.update(toEntity(materialsDTO));
+    }
+
+    public Materials toEntity(MaterialsDTO materialsDTO) {
+        Materials materials = new Materials();
+        materials.builder()
+                .text(materialsDTO.getText())
+                .title(materialsDTO.getTitle())
+                .startDate((java.sql.Date) materialsDTO.getStartDate())
+                .dueDate((java.sql.Date) materialsDTO.getDueDate())
+                .answer(materialsDTO.getAnswer())
+                .task(materialsDTO.getTask());
+        return materials;
+
+    }
+
+    public MaterialsDTO toDTO(Materials materials) {
+        MaterialsDTO materialsDTO = new MaterialsDTO();
+        materialsDTO.builder()
+                .text(materials.getText())
+                .title(materials.getTitle())
+                .startDate(materials.getStartDate())
+                .dueDate(materials.getDueDate())
+                .answer(materials.getAnswer())
+                .task(materials.getTask());
+        return materialsDTO;
+
+    }
 
 }

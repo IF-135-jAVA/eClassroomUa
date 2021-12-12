@@ -1,22 +1,30 @@
-package com.softserwe.betterlearningroom.dto;
+package com.softserve.betterlearningroom.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class TopicDTO {
     /**
      * Topic identifier.
      */
     @NotNull
-    private int id;
+    private Integer id;
     /**
      * Name of material.
      */
     private String title;
     /**
-     * Filling material.
+     * List of classrooms.
      */
-    private List<ClassroomDTO> classroomDTOList;
+    private ClassroomDTO classroomDTO;
     /**
      * List of materials.
      */

@@ -1,40 +1,37 @@
-package com.softserwe.betterlearningroom.entity;
+package com.softserve.betterlearningroom.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Calendar;
+import java.sql.Date;
 
 @Entity
 @Table(name = "materials_table")
 @Data
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class Materials {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    @Column
     private String title;
 
-    @Column
     private String text;
 
-    @Column
-    private Calendar startData;
+    private Date startDate;
 
-    @Column
-    private Calendar dueDate;
+    private Date dueDate;
 
-    @Column
     private String formURL;
 
-    @Column
     private String task;
 
-    @Column
     private String answer;
 
 }

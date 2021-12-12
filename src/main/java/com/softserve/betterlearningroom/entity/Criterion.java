@@ -1,5 +1,7 @@
 package com.softserve.betterlearningroom.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -7,22 +9,24 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "criterions_table")
+@Table(name = "criterion_table")
 @Data
 @NoArgsConstructor
-public class Criterions {
+@AllArgsConstructor
+@Builder
+public class Criterion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column
     private String title;
 
-    @Column
     private String description;
 
+    private Integer materialId;
+
     @OneToMany
-    private List<Level> levels;
+    private List<Level> level;
 
 
 }
