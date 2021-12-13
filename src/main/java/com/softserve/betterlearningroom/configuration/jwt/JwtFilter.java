@@ -24,33 +24,34 @@ import lombok.AllArgsConstructor;
 @Component
 @AllArgsConstructor
 public class JwtFilter extends GenericFilterBean {
-	
+
 	private CustomUserDetailsService userDetailsService;
 	private JwtProvider jwtProvider;
-	
+
 	public static final String AUTHORIZATION = "Authorization";
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		String token = getTokenFromRequest((HttpServletRequest) request); 
+		String token = getTokenFromRequest((HttpServletRequest) request);
 		if (token != null && jwtProvider.validateToken(token)) {
-            String userLogin = jwtProvider.getLogin(token);
-            Role role = Role.valueOf(jwtProvider.getRole(token));
-            CustomUserDetails customUserDetails = userDetailsService.loadUserByUsername(userLogin);
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(customUserDetails, null, role.getGrantedAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(auth);
-        }
+			String userLogin = jwtProvider.getLogin(token);
+			Role role = Role.valueOf(jwtProvider.getRole(token));
+			CustomUserDetails customUserDetails = userDetailsService.loadUserByUsername(userLogin);
+			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(customUserDetails, null,
+					role.getGrantedAuthorities());
+			SecurityContextHolder.getContext().setAuthentication(auth);
+		}
 		chain.doFilter(request, response);
-		
+
 	}
-	
+
 	private String getTokenFromRequest(HttpServletRequest request) {
-        String bearer = request.getHeader(AUTHORIZATION);
-        if (hasText(bearer) && bearer.startsWith("Bearer ")) {
-            return bearer.substring(7);
-        }
-        return null;
-    }
+		String bearer = request.getHeader(AUTHORIZATION);
+		if (hasText(bearer) && bearer.startsWith("Bearer ")) {
+			return bearer.substring(7);
+		}
+		return null;
+	}
 
 }
