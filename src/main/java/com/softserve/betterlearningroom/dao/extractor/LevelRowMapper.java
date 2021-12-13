@@ -1,4 +1,4 @@
-package com.softserve.betterlearningroom.mapper;
+package com.softserve.betterlearningroom.dao.extractor;
 
 import com.softserve.betterlearningroom.entity.Level;
 import org.springframework.jdbc.core.RowMapper;

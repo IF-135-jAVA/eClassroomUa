@@ -1,18 +1,16 @@
 package com.softserve.betterlearningroom.entity;
 
-import lombok.*;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class Task extends Assignment {
 
     private String task;

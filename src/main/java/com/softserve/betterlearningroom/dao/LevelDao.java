@@ -1,19 +1,19 @@
 package com.softserve.betterlearningroom.dao;
 
-import com.softserve.betterlearningroom.mapper.LevelRowMapper;
+import com.softserve.betterlearningroom.dao.extractor.LevelRowMapper;
 import com.softserve.betterlearningroom.entity.Criterion;
 import com.softserve.betterlearningroom.entity.Level;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.util.List;
 
-@Component
+@Repository
+@RequiredArgsConstructor
 @PropertySource("classpath:levelQuery.properties")
 public class LevelDao {
 
@@ -30,11 +30,6 @@ public class LevelDao {
 
     @Value("${remove}")
     private String removeQuery;
-
-    @Autowired
-    public void setDataSource(DataSource dataSource) {
-        jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-    }
 
     public List<Level> getAllLevels(Long criterionId) {
         return jdbcTemplate.query(getAllQuery, new MapSqlParameterSource("criterionid", criterionId), new LevelRowMapper());

@@ -1,4 +1,4 @@
-package com.softserve.betterlearningroom.mapper;
+package com.softserve.betterlearningroom.dao.extractor;
 
 import com.softserve.betterlearningroom.dao.CriterionDao;
 import com.softserve.betterlearningroom.dao.LinkDao;
@@ -21,15 +21,15 @@ public class MaterialRowMapper implements ResultSetExtractor<List<Material>> {
 
     @Override
     public List<Material> extractData(ResultSet rs) throws SQLException, DataAccessException {
-        Map<Long, Material> map = new HashMap<>();
+        Map<Long, Material> materialMap = new HashMap<>();
         while (rs.next()) {
             Long materialId = rs.getLong("materialid");
-            Material material = map.get(materialId);
+            Material material = materialMap.get(materialId);
             MaterialType type = valueOf(rs.getString("materialType"));
             if(material == null){
                 switch (type){
                     case QUESTIONS:
-                        material = new Questions();
+                        material = new Material();
                         material.setStartDate(rs.getDate("startdate").toLocalDate().atStartOfDay());
                         material.setDueDate(rs.getDate("duedate").toLocalDate().atStartOfDay());
                         material.setMaxScore(rs.getByte("maxScore"));
@@ -50,15 +50,16 @@ public class MaterialRowMapper implements ResultSetExtractor<List<Material>> {
                         break;
                     case MATERIAL:
                         material = new Material();
+                        break;
                 }
                 material.setId(materialId);
                 material.setText(rs.getString("materialtext"));
                 material.setMaterialType(type);
-                map.put(materialId, material);
+                materialMap.put(materialId, material);
             }
             List<Link> links = material.getUrls();
             if(links == null){
-                links = new LinkedList<Link>();
+                links = new LinkedList<>();
                 material.setUrls(links);
             }
             Link link = new Link();
@@ -69,7 +70,7 @@ public class MaterialRowMapper implements ResultSetExtractor<List<Material>> {
             if(type == QUESTIONS){
                 List<Question> questions = material.getQuestions();
                 if(questions == null){
-                    questions = new LinkedList<Question>();
+                    questions = new LinkedList<>();
                     material.setQuestions(questions);
                 }
                 Question question = new Question();
@@ -80,7 +81,7 @@ public class MaterialRowMapper implements ResultSetExtractor<List<Material>> {
             if(type != MATERIAL){
                 List<Criterion> criterions = material.getCriterions();
                 if(criterions == null){
-                    criterions = new LinkedList<Criterion>();
+                    criterions = new LinkedList<>();
                     material.setCriterions(criterions);
                 }
                 Criterion criterion = new Criterion();
@@ -101,6 +102,6 @@ public class MaterialRowMapper implements ResultSetExtractor<List<Material>> {
                 levels.add(level);
             }
         }
-        return new LinkedList<Material>(map.values());
+        return new LinkedList<Material>(materialMap.values());
     }
 }

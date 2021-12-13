@@ -1,14 +1,14 @@
 package com.softserve.betterlearningroom.entity;
 
-import lombok.*;
-
-import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 @ToString
 @EqualsAndHashCode
 public class Level {

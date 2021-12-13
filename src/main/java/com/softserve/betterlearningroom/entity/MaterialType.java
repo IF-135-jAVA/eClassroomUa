@@ -1,5 +1,11 @@
 package com.softserve.betterlearningroom.entity;
 
 public enum MaterialType {
-    TASK, TEST, QUESTIONS, MATERIAL
+    TASK("TASK"), TEST("TEST"), QUESTIONS("QUESTIONS"), MATERIAL("MATERIAL");
+
+    private String name;
+
+    MaterialType(String name) {
+        this.name = name;
+    }
 }

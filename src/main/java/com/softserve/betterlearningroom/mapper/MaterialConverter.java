@@ -1,30 +1,16 @@
-package com.softserve.betterlearningroom.converter;
+package com.softserve.betterlearningroom.mapper;
 
 import com.softserve.betterlearningroom.dto.MaterialDTO;
-import com.softserve.betterlearningroom.dto.QuestionsDTO;
-import com.softserve.betterlearningroom.dto.TaskDTO;
-import com.softserve.betterlearningroom.dto.TestDTO;
 import com.softserve.betterlearningroom.entity.Material;
-import com.softserve.betterlearningroom.entity.Questions;
 import com.softserve.betterlearningroom.entity.Task;
 import com.softserve.betterlearningroom.entity.Test;
-import lombok.*;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MaterialConverter {
 
     public MaterialDTO materialToMaterialDTO(Material material){
-        MaterialDTO materialDTO;
-        switch (material.getMaterialType()){
-            case TEST: materialDTO = new TestDTO();
-                break;
-            case TASK: materialDTO = new TaskDTO();
-                break;
-            case QUESTIONS: materialDTO = new QuestionsDTO();
-                break;
-            default: materialDTO = new MaterialDTO();
-        }
+        MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setCriterions(material.getCriterions());
         materialDTO.setDueDate(material.getDueDate());
         materialDTO.setStartDate(material.getStartDate());
@@ -46,8 +32,6 @@ public class MaterialConverter {
             case TEST: material = new Test();
                 break;
             case TASK: material = new Task();
-                break;
-            case QUESTIONS: material = new Questions();
                 break;
             default: material = new Material();
         }

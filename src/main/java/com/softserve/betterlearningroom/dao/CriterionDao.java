@@ -1,22 +1,20 @@
 package com.softserve.betterlearningroom.dao;
 
-import com.softserve.betterlearningroom.mapper.CriterionRowMapper;
+import com.softserve.betterlearningroom.dao.extractor.CriterionRowMapper;
 import com.softserve.betterlearningroom.entity.Criterion;
-import com.softserve.betterlearningroom.entity.Level;
 import com.softserve.betterlearningroom.entity.Material;
-import com.softserve.betterlearningroom.mapper.LevelRowMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.util.List;
 
-@Component
+@Repository
+@RequiredArgsConstructor
 @PropertySource("classpath:criterionQuery.properties")
 public class CriterionDao {
 
@@ -34,15 +32,9 @@ public class CriterionDao {
     @Value("${remove}")
     private String removeQuery;
 
-    @Autowired
-    public void setDataSource(DataSource dataSource) {
-        jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-    }
-
     public List<Criterion> getAllCriterions(Long materialId) {
         return jdbcTemplate.query(getAllQuery, new MapSqlParameterSource("materialid", materialId), new CriterionRowMapper());
     }
-
     public List<Criterion> getAllCriterions(Material material) {
         return getAllCriterions(material.getId());
     }

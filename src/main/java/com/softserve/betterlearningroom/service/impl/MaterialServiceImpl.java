@@ -1,29 +1,23 @@
 package com.softserve.betterlearningroom.service.impl;
 
-import com.softserve.betterlearningroom.converter.MaterialConverter;
+import com.softserve.betterlearningroom.mapper.MaterialConverter;
 import com.softserve.betterlearningroom.dao.MaterialDao;
 import com.softserve.betterlearningroom.dto.MaterialDTO;
-import com.softserve.betterlearningroom.entity.Material;
 import com.softserve.betterlearningroom.entity.MaterialType;
 import com.softserve.betterlearningroom.service.MaterialService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 //TODO: Exception handle
 @Service
+@AllArgsConstructor
 public class MaterialServiceImpl implements MaterialService {
 
     private final MaterialDao materialDao;
-    private MaterialConverter materialConverter;
-
-    @Autowired
-    public MaterialServiceImpl(MaterialDao materialDao, MaterialConverter materialConverter) {
-        this.materialDao = materialDao;
-        this.materialConverter = materialConverter;
-    }
+    private final MaterialConverter materialConverter;
 
     @Override
     public MaterialDTO getMaterialById(Long id) {
@@ -36,38 +30,30 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     @Override
-    public List<? extends MaterialDTO> getAllMaterialsByName(String name, Long classroomId) {
-        List<MaterialDTO> materials = new LinkedList<>();
-        for (Material m: materialDao.getAllByName(classroomId, name)) {
-            materials.add(materialConverter.materialToMaterialDTO(m));
-        }
+    public List<MaterialDTO> getAllMaterialsByName(String name, Long classroomId) {
+        List<MaterialDTO> materials = new ArrayList<>();
+        materialDao.getAllByName(classroomId, name).forEach(m -> materials.add(materialConverter.materialToMaterialDTO(m)));
         return materials;
     }
 
     @Override
-    public List<? extends MaterialDTO> getMaterialsByClassroom(Long classroomId) {
-        List<MaterialDTO> materials = new LinkedList<>();
-        for (Material m: materialDao.getAllByClassroom(classroomId)) {
-            materials.add(materialConverter.materialToMaterialDTO(m));
-        }
+    public List<MaterialDTO> getMaterialsByClassroom(Long classroomId) {
+        List<MaterialDTO> materials = new ArrayList<>();
+        materialDao.getAllByClassroom(classroomId).forEach(m -> materials.add(materialConverter.materialToMaterialDTO(m)));
         return materials;
     }
 
     @Override
-    public List<? extends MaterialDTO> getMaterialsByType(Long classroomId, MaterialType materialType) {
-        List<MaterialDTO> materials = new LinkedList<>();
-        for (Material m: materialDao.getAllByType(classroomId, materialType)) {
-            materials.add(materialConverter.materialToMaterialDTO(m));
-        }
+    public List<MaterialDTO> getMaterialsByType(Long classroomId, MaterialType materialType) {
+        List<MaterialDTO> materials = new ArrayList<>();
+        materialDao.getAllByType(classroomId, materialType).forEach(m -> materials.add(materialConverter.materialToMaterialDTO(m)));
         return materials;
     }
 
     @Override
-    public List<? extends MaterialDTO> getMaterialsByTopic(Long classroomId, Long topicId) {
-        List<MaterialDTO> materials = new LinkedList<>();
-        for (Material m: materialDao.getAllByTopic(classroomId, topicId)) {
-            materials.add(materialConverter.materialToMaterialDTO(m));
-        }
+    public List<MaterialDTO> getMaterialsByTopic(Long classroomId, Long topicId) {
+        List<MaterialDTO> materials = new ArrayList<>();
+        materialDao.getAllByTopic(classroomId, topicId).forEach(m -> materials.add(materialConverter.materialToMaterialDTO(m)));
         return materials;
     }
 

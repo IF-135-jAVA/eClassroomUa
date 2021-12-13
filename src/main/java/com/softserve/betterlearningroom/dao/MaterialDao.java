@@ -1,21 +1,19 @@
 package com.softserve.betterlearningroom.dao;
 
 import com.softserve.betterlearningroom.entity.*;
-import com.softserve.betterlearningroom.mapper.CriterionRowMapper;
-import com.softserve.betterlearningroom.mapper.MaterialRowMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.softserve.betterlearningroom.dao.extractor.MaterialRowMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+@Repository
+@RequiredArgsConstructor
 @PropertySource("classpath:materialQuery.properties")
 public class MaterialDao {
 
@@ -36,20 +34,15 @@ public class MaterialDao {
     @Value("${remove}")
     private String removeQuery;
 
-    @Autowired
-    public void setDataSource(DataSource dataSource) {
-        jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-    }
-
     public Material getById(Long materialId) {
         return jdbcTemplate.query(getByIdQuery, new MapSqlParameterSource("materialid", materialId), new MaterialRowMapper()).stream().findFirst().orElse(null);
     }
 
-    public List<Material> getAllByClassroom(Long classroomId) { // TODO: Change materialId to classroomId in Query
+    public List<Material> getAllByClassroom(Long classroomId) {
         return jdbcTemplate.query(getAllQuery, new MapSqlParameterSource("materialid", classroomId), new MaterialRowMapper());
     }
 
-    public List<Material> getAllByTopic(Long classroomId, Long topicId) { // TODO: change getId() to getTopicId()
+    public List<Material> getAllByTopic(Long classroomId, Long topicId) {
         return getAllByClassroom(classroomId).stream()
                 .filter(material -> material.getId() == topicId)
                 .collect(Collectors.toList());
@@ -72,7 +65,6 @@ public class MaterialDao {
     public int addMaterial(Material material, Long topicId) {
         MapSqlParameterSource param = new MapSqlParameterSource();
         MaterialType type = material.getMaterialType();
-        //param.addValue("topicid", topicId); TODO: use topicId
         param.addValue("materialType", type);
         param.addValue("materialtext", material.getText());
         switch(type){

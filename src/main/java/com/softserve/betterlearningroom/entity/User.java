@@ -1,8 +1,11 @@
 package com.softserve.betterlearningroom.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

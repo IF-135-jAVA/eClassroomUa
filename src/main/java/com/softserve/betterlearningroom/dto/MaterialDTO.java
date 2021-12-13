@@ -1,17 +1,22 @@
 package com.softserve.betterlearningroom.dto;
 
-import com.softserve.betterlearningroom.entity.*;
-import lombok.*;
+import com.softserve.betterlearningroom.entity.Criterion;
+import com.softserve.betterlearningroom.entity.Link;
+import com.softserve.betterlearningroom.entity.MaterialType;
+import com.softserve.betterlearningroom.entity.Question;
+import com.softserve.betterlearningroom.entity.User;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 @ToString
 @EqualsAndHashCode
 public class MaterialDTO {
@@ -26,51 +31,19 @@ public class MaterialDTO {
 
     private List<Link> urls;
 
-    public LocalDateTime getStartDate() {
-        return null;
-    }
+    private LocalDateTime startDate;
 
-    public void setStartDate(LocalDateTime startDate) { }
+    private LocalDateTime dueDate;
 
-    public LocalDateTime getDueDate() {
-        return null;
-    }
+    private List<Criterion> criterions;
 
-    public void setDueDate(LocalDateTime dueDate) { }
+    private List<User> students;
 
-    public List<Criterion> getCriterions() {
-        return null;
-    }
+    private int maxScore;
 
-    public void setCriterions(List<Criterion> criterions) { }
+    private String task;
 
-    public List<User> getStudents() {
-        return null;
-    }
+    private String url;
 
-    public void setStudents(List<User> students) { }
-
-    public int getMaxScore() {
-        return 0;
-    }
-
-    public void setMaxScore(int maxScore) { }
-
-    public List<Question> getQuestions() {
-        return null;
-    }
-
-    public void setQuestions(List<Question> questions) { }
-
-    public String getTask() {
-        return null;
-    }
-
-    public void setTask(String task) { }
-
-    public String getUrl() {
-        return null;
-    }
-
-    public void setUrl(String url) { }
+    private List<Question> questions;
 }

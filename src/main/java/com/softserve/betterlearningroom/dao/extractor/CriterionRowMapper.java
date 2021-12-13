@@ -1,4 +1,4 @@
-package com.softserve.betterlearningroom.mapper;
+package com.softserve.betterlearningroom.dao.extractor;
 
 import com.softserve.betterlearningroom.dao.LevelDao;
 import com.softserve.betterlearningroom.entity.Criterion;
@@ -19,20 +19,20 @@ public class CriterionRowMapper implements ResultSetExtractor<List<Criterion>> {
 
     @Override
     public List<Criterion> extractData(ResultSet rs) throws SQLException, DataAccessException {
-        Map<Long, Criterion> map = new HashMap<>();
+        Map<Long, Criterion> criterionMap = new HashMap<>();
         while (rs.next()) {
             Long criterionId = rs.getLong("criterionid");
-            Criterion criterion = map.get(criterionId);
+            Criterion criterion = criterionMap.get(criterionId);
             if(criterion == null){
                 criterion = new Criterion();
                 criterion.setId(criterionId);
                 criterion.setDescription(rs.getString("description"));
                 criterion.setTitle(rs.getString("title"));
-                map.put(criterionId, criterion);
+                criterionMap.put(criterionId, criterion);
             }
             List<Level> levels = criterion.getLevels();
             if(levels == null){
-                levels = new LinkedList<Level>();
+                levels = new LinkedList<>();
                 criterion.setLevels(levels);
             }
             Level level = new Level();
@@ -42,6 +42,6 @@ public class CriterionRowMapper implements ResultSetExtractor<List<Criterion>> {
             level.setMark(rs.getInt("mark"));
             levels.add(level);
         }
-        return new LinkedList<Criterion>(map.values());
+        return new LinkedList<>(criterionMap.values());
     }
 }
