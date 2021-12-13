@@ -9,17 +9,14 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
-import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.softserve.betterlearningroom.entity.CustomUserDetails;
+import com.softserve.betterlearningroom.entity.roles.Role;
 import com.softserve.betterlearningroom.service.CustomUserDetailsService;
 
 import lombok.AllArgsConstructor;
@@ -39,8 +36,9 @@ public class JwtFilter extends GenericFilterBean {
 		String token = getTokenFromRequest((HttpServletRequest) request); 
 		if (token != null && jwtProvider.validateToken(token)) {
             String userLogin = jwtProvider.getLogin(token);
+            Role role = Role.valueOf(jwtProvider.getRole(token));
             CustomUserDetails customUserDetails = userDetailsService.loadUserByUsername(userLogin);
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
+            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(customUserDetails, null, role.getGrantedAuthorities());
             SecurityContextHolder.getContext().setAuthentication(auth);
         }
 		chain.doFilter(request, response);

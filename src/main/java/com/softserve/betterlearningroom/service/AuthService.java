@@ -1,15 +1,16 @@
 package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.dto.UserDTO;
-import com.softserve.betterlearningroom.entity.AuthRequest;
-import com.softserve.betterlearningroom.entity.User;
+import com.softserve.betterlearningroom.entity.request.AuthRequest;
+import com.softserve.betterlearningroom.entity.request.SaveUserRequest;
+import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
 
 public interface AuthService {
 	
-	String login(AuthRequest request);
+	String login(AuthRequest request, String userRole);
 	
-	UserDTO saveUser(User user);
+	UserDTO saveUser(SaveUserRequest request) throws UserAlreadyExistsException;
 	
-	UserDTO updateUser(User user);
+	UserDTO updateUser(SaveUserRequest request, int id);
 
 }
