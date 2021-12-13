@@ -2,23 +2,18 @@ package com.softserve.betterlearningroom.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User{
+@ToString
+@EqualsAndHashCode
+public class Question {
 
-	private int id;
-	
-	private String firstName;
+    private Long id;
 
-	private String lastName; 
-	
-	private String password;
-	
-	private String email;
-
-	private boolean enabled;
-
+    private String question;
 }
