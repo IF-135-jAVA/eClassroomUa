@@ -92,10 +92,12 @@ public class UserDaoImpl implements UserDao {
 				.addValue("lastname", user.getLastName())
 				.addValue("email", user.getEmail())
 				.addValue("password", user.getPassword())
-				.addValue("enabled", user.isEnabled());
+				.addValue("enabled", user.isEnabled())
+				.addValue("id", user.getId());
 
 		template.update(update, params);
 
 	}
+	
 
 }
