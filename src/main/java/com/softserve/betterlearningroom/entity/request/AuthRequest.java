@@ -1,4 +1,4 @@
-package com.softserve.betterlearningroom.entity;
+package com.softserve.betterlearningroom.entity.request;
 
 import lombok.Data;
 

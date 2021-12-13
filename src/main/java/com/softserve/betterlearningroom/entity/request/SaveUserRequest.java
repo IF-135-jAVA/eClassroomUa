@@ -1,4 +1,4 @@
-package com.softserve.betterlearningroom.entity;
+package com.softserve.betterlearningroom.entity.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User{
-
-	private int id;
+public class SaveUserRequest {
 	
 	private String firstName;
 

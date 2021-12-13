@@ -41,6 +41,9 @@ public class UserDaoImpl implements UserDao {
 	@Value("${update}")
 	private String update;
 	
+	@Value("${set.role}")
+	private String setRole;
+	
 	@Override
 	public List<User> findAll() {
 		return template.query(findAllUsers, rowMapper);
@@ -92,9 +95,22 @@ public class UserDaoImpl implements UserDao {
 				.addValue("lastname", user.getLastName())
 				.addValue("email", user.getEmail())
 				.addValue("password", user.getPassword())
-				.addValue("enabled", user.isEnabled());
+				.addValue("enabled", user.isEnabled())
+				.addValue("id", user.getId());
 
 		template.update(update, params);
+
+	}
+	
+	@Override
+	public void setRole(int userId, int roleId) {
+
+		MapSqlParameterSource params = new MapSqlParameterSource();
+
+		params.addValue("id", userId)
+				.addValue("role_id", roleId);
+
+		template.update(setRole, params);
 
 	}
 
