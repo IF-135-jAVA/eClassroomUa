@@ -2,6 +2,8 @@ package com.softserve.betterlearningroom.controller;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +37,7 @@ public class AuthController {
 	}
 	
 	@PostMapping("/registration")
-	public ResponseEntity<?> registration(@RequestBody SaveUserRequest request){
+	public ResponseEntity<?> registration(@RequestBody @Valid SaveUserRequest request){
 		try {
 			UserDTO savedUser = authService.saveUser(request);
 			URI location = ServletUriComponentsBuilder.fromCurrentRequest()
