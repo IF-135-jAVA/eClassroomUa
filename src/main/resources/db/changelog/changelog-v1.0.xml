@@ -13,10 +13,9 @@
       		</column>
       		<column name="firstname" type="VARCHAR(30)"></column>
       		<column name="lastname" type="VARCHAR(30)"></column>
-      		<column name="password" type="VARCHAR(30)"></column>
+      		<column name="password" type="VARCHAR(80)"></column>
       		<column name="email" type="VARCHAR(30)"></column>
       		<column name="enabled" type="BOOLEAN"></column>
-      		<column name="role_id" type="INTEGER"></column>
       	</createTable>
       	<createTable tableName="roles">
       		<column name="id" type="INTEGER" autoIncrement="true">
@@ -24,7 +23,6 @@
       		</column>
       		<column name="name" type="VARCHAR(30)"></column>
       	</createTable>
-      	<addForeignKeyConstraint constraintName="fkey_role" referencedTableName="roles" baseColumnNames="role_id" baseTableName="users" referencedColumnNames="id"/>
       	<addUniqueConstraint columnNames="email" tableName="users"></addUniqueConstraint>
       </changeSet>
       <changeSet id="1.1" author="ykotsiuba">
