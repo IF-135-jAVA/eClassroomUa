@@ -3,7 +3,7 @@ package com.softserve.betterlearningroom.entity.request;
 import lombok.Data;
 
 @Data
-public class AuthRequest {	
+public class AuthRequest {
 	private String login;
-    private String password;
+	private String password;
 }
