@@ -1,4 +1,4 @@
-package com.softserwe.betterlearningroom;
+package com.softserve.betterlearningroom;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
