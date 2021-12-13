@@ -41,9 +41,6 @@ public class UserDaoImpl implements UserDao {
 	@Value("${update}")
 	private String update;
 	
-	@Value("${set.role}")
-	private String setRole;
-	
 	@Override
 	public List<User> findAll() {
 		return template.query(findAllUsers, rowMapper);
