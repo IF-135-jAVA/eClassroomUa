@@ -31,10 +31,8 @@ public class DefaultAuthService implements AuthService{
 		Role role = null;
 		switch(userRole) {
 			case("student"): role = Role.STUDENT;
-			userDao.setRole(user.getId(), 2);
 			break;
 			case("teacher"): role = Role.TEACHER;
-			userDao.setRole(user.getId(), 1);
 			break;
 		}
 		return jwtProvider.generateToken(user.getEmail(), role);

@@ -102,16 +102,5 @@ public class UserDaoImpl implements UserDao {
 
 	}
 	
-	@Override
-	public void setRole(int userId, int roleId) {
-
-		MapSqlParameterSource params = new MapSqlParameterSource();
-
-		params.addValue("id", userId)
-				.addValue("role_id", roleId);
-
-		template.update(setRole, params);
-
-	}
 
 }
