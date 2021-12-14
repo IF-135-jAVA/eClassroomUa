@@ -1,21 +1,32 @@
 package com.softserve.betterlearningroom.repository;
 
 import com.softserve.betterlearningroom.entity.Criterion;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
+
+@RequiredArgsConstructor
+@PropertySource("classpath:criterionQuery.properties")
 public class CriterionDAO {
 
+    private NamedParameterJdbcTemplate jdbcTemplate;
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public CriterionDAO(NamedParameterJdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Value("$save")
     private String saveQuery;
@@ -38,18 +49,16 @@ public class CriterionDAO {
     @Value("$findByTitle")
     private String findByTitleQuery;
 
-
-    public int save(Criterion criterion) {
-        return jdbcTemplate.update(saveQuery,
-                criterion.getId(), criterion.getTitle());
+    public void save(Criterion criterion) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("title", criterion.getTitle())
+                .addValue("description", criterion.getDescription());
     }
 
-
-    public int update(Criterion criterion) {
-        return jdbcTemplate.update(updateQuery,
-                criterion.getTitle(), criterion.getId());
+    public void update(Criterion criterion) {
+        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(criterion);
+        jdbcTemplate.update(updateQuery, parameterSource);
     }
-
 
     public List<Criterion> findAll() {
         return jdbcTemplate.query(findAllQuery,
@@ -58,25 +67,20 @@ public class CriterionDAO {
 
 
     public Optional<Criterion> findById(Integer id) {
-        try {
-            Criterion criterion = jdbcTemplate.queryForObject(findByIdQuery,
-                    BeanPropertyRowMapper.newInstance(Criterion.class), id);
+        SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
+        return Optional.ofNullable(jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
+                    BeanPropertyRowMapper.newInstance(Criterion.class)));
 
-            return Optional.of(criterion);
-        } catch (IncorrectResultSizeDataAccessException e) {
-            return null;
-        }
     }
 
 
-    public int removeById(Integer id) {
-
-        return jdbcTemplate.update(removeByIdQuery, id);
+    public void removeById(Integer id) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
+        jdbcTemplate.update(removeByIdQuery, parameterSource);
     }
 
 
     public Optional<List<Criterion>> findByTitle(String title) {
-
         return Optional.of(jdbcTemplate.query(findByTitleQuery, BeanPropertyRowMapper.newInstance(Criterion.class)));
     }
 

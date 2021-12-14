@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TopicService {
@@ -25,9 +26,9 @@ public class TopicService {
     }
 
 
-    public List<Topic> findAll() {
+    public List<TopicDTO> findAll() {
 
-        return topicDAO.findAll();
+        return topicDAO.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public void save(TopicDTO topicDTO) {

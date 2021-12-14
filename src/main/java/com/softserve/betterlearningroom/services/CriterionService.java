@@ -3,32 +3,32 @@ package com.softserve.betterlearningroom.services;
 import com.softserve.betterlearningroom.dto.CriterionDTO;
 import com.softserve.betterlearningroom.entity.Criterion;
 import com.softserve.betterlearningroom.repository.CriterionDAO;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CriterionService {
 
-    @Autowired
+@Autowired
     private CriterionDAO criterionDAO;
 
     public Criterion findById(Integer id) {
 
-        return criterionDAO.findById(id).orElseThrow(() -> new RuntimeException("criterion by id is not saved"));
+        return criterionDAO.findById(id).orElseThrow(() -> new RuntimeException("criterion didn't find"));
     }
 
-    public int removeById(Integer id) {
+    public void removeById(Integer id) {
 
-        return criterionDAO.removeById(id);
+       criterionDAO.removeById(id);
     }
 
 
-    public List<Criterion> findAll() {
+    public List<CriterionDTO> findAll() {
 
-        return criterionDAO.findAll();
+        return criterionDAO.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public void save(CriterionDTO criterionDTO) {

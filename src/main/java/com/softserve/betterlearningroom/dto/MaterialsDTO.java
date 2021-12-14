@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class MaterialsDTO {
     /**
      * Material identifier.
      */
-    @NotNull
+
     private Integer id;
     /**
      * Name of material.

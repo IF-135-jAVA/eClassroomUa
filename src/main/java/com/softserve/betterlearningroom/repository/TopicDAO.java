@@ -1,8 +1,9 @@
 package com.softserve.betterlearningroom.repository;
 
 import com.softserve.betterlearningroom.entity.Topic;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,9 +13,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
+@PropertySource("classpath:topicQuery.properties")
 public class TopicDAO {
 
-    @Autowired
+
     private JdbcTemplate jdbcTemplate;
 
     @Value("$save")

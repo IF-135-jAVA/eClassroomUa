@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LevelService {
@@ -17,7 +18,7 @@ public class LevelService {
 
     public Level findById(Integer id) {
 
-        return levelDAO.findById(id).orElseThrow(() -> new RuntimeException("level by id is not saved"));
+        return levelDAO.findById(id).orElseThrow(() -> new RuntimeException("level didn't find"));
     }
 
     public int removeById(Integer id) {
@@ -26,9 +27,9 @@ public class LevelService {
     }
 
 
-    public List<Level> findAll() {
+    public List<LevelDTO> findAll() {
 
-        return levelDAO.findAll();
+        return levelDAO.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public void save(LevelDTO levelDTO) {
