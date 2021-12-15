@@ -1,11 +1,11 @@
 package com.softserve.betterlearningroom.dao;
 
-import com.softserve.betterlearningroom.dao.extractor.LinkRowMapper;
 import com.softserve.betterlearningroom.entity.Link;
 import com.softserve.betterlearningroom.entity.Material;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -32,7 +32,7 @@ public class LinkDao {
     private String removeQuery;
 
     public List<Link> getAllLinks(Long materialId) {
-        return jdbcTemplate.query(getAllQuery, new MapSqlParameterSource("materialid", materialId), new LinkRowMapper());
+        return jdbcTemplate.query(getAllQuery, new MapSqlParameterSource("materialid", materialId), BeanPropertyRowMapper.newInstance(Link.class));
     }
 
     public List<Link> getAllLinks(Material material) {

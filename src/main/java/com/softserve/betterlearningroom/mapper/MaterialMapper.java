@@ -22,6 +22,8 @@ public class MaterialConverter {
         materialDTO.setTitle(material.getTitle());
         materialDTO.setText(material.getText());
         materialDTO.setId(material.getId());
+        materialDTO.setTopicId(material.getTopicId());
+        materialDTO.setClassroomId(material.getClassroomId());
         materialDTO.setMaterialType(material.getMaterialType());
         return materialDTO;
     }
@@ -42,11 +44,13 @@ public class MaterialConverter {
         material.setQuestions(materialDTO.getQuestions());
         material.setTask(materialDTO.getTask());
         material.setUrl(materialDTO.getUrl());
-        material.setUrls(material.getUrls());
-        material.setTitle(material.getTitle());
-        material.setText(material.getText());
-        material.setId(material.getId());
-        material.setMaterialType(material.getMaterialType());
+        material.setUrls(materialDTO.getUrls());
+        material.setTitle(materialDTO.getTitle());
+        material.setText(materialDTO.getText());
+        material.setId(materialDTO.getId());
+        material.setTopicId(materialDTO.getTopicId());
+        material.setClassroomId(materialDTO.getClassroomId());
+        material.setMaterialType(materialDTO.getMaterialType());
         return material;
     }
 

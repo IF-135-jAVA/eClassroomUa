@@ -5,6 +5,7 @@ import com.softserve.betterlearningroom.dao.extractor.MaterialRowMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -47,8 +48,6 @@ public class MaterialDao {
                 .filter(material -> material.getId() == topicId)
                 .collect(Collectors.toList());
     }
-
-    //TODO: Create getAllByUser;
 
     public List<Material> getAllByName(Long classroomId, String name) {
         return getAllByClassroom(classroomId).stream()

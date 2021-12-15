@@ -1,11 +1,11 @@
 package com.softserve.betterlearningroom.dao;
 
-import com.softserve.betterlearningroom.dao.extractor.LevelRowMapper;
 import com.softserve.betterlearningroom.entity.Criterion;
 import com.softserve.betterlearningroom.entity.Level;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -32,7 +32,7 @@ public class LevelDao {
     private String removeQuery;
 
     public List<Level> getAllLevels(Long criterionId) {
-        return jdbcTemplate.query(getAllQuery, new MapSqlParameterSource("criterionid", criterionId), new LevelRowMapper());
+        return jdbcTemplate.query(getAllQuery, new MapSqlParameterSource("criterionid", criterionId), BeanPropertyRowMapper.newInstance(Level.class));
     }
 
     public List<Level> getAllLevels(Criterion criterion) {

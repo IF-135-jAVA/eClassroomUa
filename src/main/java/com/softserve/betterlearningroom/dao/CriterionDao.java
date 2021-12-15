@@ -1,6 +1,5 @@
 package com.softserve.betterlearningroom.dao;
 
-import com.softserve.betterlearningroom.dao.extractor.CriterionRowMapper;
 import com.softserve.betterlearningroom.entity.Criterion;
 import com.softserve.betterlearningroom.entity.Material;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +32,7 @@ public class CriterionDao {
     private String removeQuery;
 
     public List<Criterion> getAllCriterions(Long materialId) {
-        return jdbcTemplate.query(getAllQuery, new MapSqlParameterSource("materialid", materialId), new CriterionRowMapper());
+        return jdbcTemplate.query(getAllQuery, new MapSqlParameterSource("materialid", materialId), BeanPropertyRowMapper.newInstance(Criterion.class));
     }
     public List<Criterion> getAllCriterions(Material material) {
         return getAllCriterions(material.getId());
