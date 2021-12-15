@@ -3,6 +3,7 @@ package com.softserve.betterlearningroom.dao;
 import com.softserve.betterlearningroom.entity.Material;
 import com.softserve.betterlearningroom.entity.Question;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -19,17 +20,22 @@ public class QuestionDao {
 
     private NamedParameterJdbcTemplate jdbcTemplate;
 
-    @Value("${get.all}")
+    @Value("${get.all.questions}")
     private String getAllQuery;
 
-    @Value("${add.new}")
+    @Value("${add.new.question}")
     private String addQuery;
 
-    @Value("${update}")
+    @Value("${update.question}")
     private String updateQuery;
 
-    @Value("${remove}")
+    @Value("${remove.question}")
     private String removeQuery;
+
+    @Autowired
+    public QuestionDao(NamedParameterJdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public List<Question> getAllQuestions(Long materialId) {
         return jdbcTemplate.query(getAllQuery, new MapSqlParameterSource("materialid", materialId), BeanPropertyRowMapper.newInstance(Question.class));

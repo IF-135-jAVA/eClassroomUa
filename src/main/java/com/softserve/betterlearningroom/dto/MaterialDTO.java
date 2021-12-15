@@ -45,5 +45,9 @@ public class MaterialDTO {
 
     private String url;
 
+    private Long topicId;
+
+    private Long classroomId;
+
     private List<Question> questions;
 }

@@ -1,4 +1,4 @@
-package com.softserwe.betterlearningroom.user;
+package com.softserve.betterlearningroom.dao;
 //
 //import static org.junit.Assert.assertNotNull;
 //import static org.junit.Assert.assertThat;
@@ -36,7 +36,7 @@ package com.softserwe.betterlearningroom.user;
 //import com.softserve.betterlearningroom.dao.UserDao;
 //import com.softserve.betterlearningroom.dao.impl.UserDaoImpl;
 //import com.softserve.betterlearningroom.entity.User;
-//import com.softserve.betterlearningroom.mapper.UserRowMapper;
+//import com.softserve.betterlearningroom.dao.extractor.UserRowMapper;
 //
 //public class UserDaoTest {
 //

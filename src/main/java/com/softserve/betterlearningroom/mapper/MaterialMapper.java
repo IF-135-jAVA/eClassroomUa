@@ -7,7 +7,7 @@ import com.softserve.betterlearningroom.entity.Test;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MaterialConverter {
+public class MaterialMapper {
 
     public MaterialDTO materialToMaterialDTO(Material material){
         MaterialDTO materialDTO = new MaterialDTO();
