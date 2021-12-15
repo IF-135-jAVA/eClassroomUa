@@ -56,9 +56,10 @@ public class MaterialDao {
     }
 
     public List<Material> getAllByName(Long classroomId, String name) {
-        return getAllByClassroom(classroomId).stream()
+        List<Material> list = getAllByClassroom(classroomId).stream()
                 .filter(material -> material.getTitle().contains(name))
                 .collect(Collectors.toList());
+        return list;
     }
 
     public List<Material> getAllByType(Long classroomId, MaterialType materialType) {
