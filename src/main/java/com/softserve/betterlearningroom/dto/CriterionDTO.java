@@ -15,9 +15,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class CriterionDTO {
-
     /**
-     * Name of material.
+     * Criterion identifier.
+     */
+    private Integer id;
+    /**
+     * Name of criterion.
      */
     private String title;
     /**
@@ -25,8 +28,9 @@ public class CriterionDTO {
      */
     private String description;
     /**
-     * List of levels.
+     * Material indetifier.
      */
+    private Integer materialIdDTO;
 
 
 }

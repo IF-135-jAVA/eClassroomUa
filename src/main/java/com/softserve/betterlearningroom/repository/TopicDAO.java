@@ -41,7 +41,9 @@ public class TopicDAO {
 
     public void save(Topic topic) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("title", topic.getTitle());
+        parameterSource
+                .addValue("classroomId", topic.getClassroomId())
+                .addValue("title", topic.getTitle());
         jdbcTemplate.update(saveQuery, parameterSource);
     }
 
@@ -57,7 +59,7 @@ public class TopicDAO {
 
 
     public Optional<Topic> findById(Integer id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
+        SqlParameterSource parameterSource = new MapSqlParameterSource("topic_id", id);
         return Optional.ofNullable(jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
                 BeanPropertyRowMapper.newInstance(Topic.class)));
 
@@ -65,7 +67,7 @@ public class TopicDAO {
 
 
     public void removeById(Integer id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
+        SqlParameterSource parameterSource = new MapSqlParameterSource("topic_id", id);
         jdbcTemplate.update(removeByIdQuery, parameterSource);
     }
 

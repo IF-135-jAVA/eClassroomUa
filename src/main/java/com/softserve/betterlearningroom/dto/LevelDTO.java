@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * Contains data for level.
  *
@@ -20,7 +18,6 @@ public class LevelDTO {
     /**
      * Level identifier.
      */
-    @NotNull
     private Integer id;
     /**
      * Name of level.
@@ -30,6 +27,10 @@ public class LevelDTO {
      * Description of level.
      */
     private String description;
+    /**
+     * Criterion identifier.
+     */
+    private Integer criterionId;
     /**
      * Mark for level.
      */

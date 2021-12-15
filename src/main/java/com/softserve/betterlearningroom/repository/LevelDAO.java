@@ -39,8 +39,12 @@ public class LevelDAO {
 
     public void save(Level level) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("title", level.getTitle())
-                .addValue("description", level.getDescription());
+        parameterSource
+                .addValue("levelId", level.getId())
+                .addValue("title", level.getTitle())
+                .addValue("description", level.getDescription())
+                .addValue("criterionId", level.getCriterionId())
+                .addValue("mark", level.getMark());
         jdbcTemplate.update(saveQuery, parameterSource);
     }
 
@@ -56,13 +60,13 @@ public class LevelDAO {
 
 
     public Optional<Level> findById(Integer id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
+        SqlParameterSource parameterSource = new MapSqlParameterSource("levelId", id);
         return Optional.ofNullable(jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
                 BeanPropertyRowMapper.newInstance(Level.class)));
     }
 
         public void removeById (Integer id){
-            SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
+            SqlParameterSource parameterSource = new MapSqlParameterSource("levelId", id);
             jdbcTemplate.update(removeByIdQuery, parameterSource);
         }
 

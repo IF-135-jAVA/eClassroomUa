@@ -41,8 +41,9 @@ public class CriterionController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createCriterion(@Valid @RequestBody CriterionDTO criterionDTO) {
+    public ResponseEntity createCriterion(@Valid @RequestBody CriterionDTO criterionDTO) {
         criterionService.save(criterionDTO);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     /**
@@ -50,8 +51,9 @@ public class CriterionController {
      */
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable("id") final int id, @RequestBody final CriterionDTO criterionDTO) {
+    public ResponseEntity<?> update(@PathVariable("id") final int id, @RequestBody final CriterionDTO criterionDTO) {
         criterionService.update(criterionDTO);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     /**

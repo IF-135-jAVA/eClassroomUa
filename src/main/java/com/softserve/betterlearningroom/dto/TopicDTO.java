@@ -4,9 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.NotNull;
-import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,7 +12,6 @@ public class TopicDTO {
     /**
      * Topic identifier.
      */
-    @NotNull
     private Integer id;
     /**
      * Name of material.
@@ -24,9 +20,6 @@ public class TopicDTO {
     /**
      * List of classrooms.
      */
-    private ClassroomDTO classroomDTO;
-    /**
-     * List of materials.
-     */
-    private List<MaterialsDTO> materialsDTO;
+    private Integer classroomId;
+
 }

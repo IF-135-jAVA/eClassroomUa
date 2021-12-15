@@ -22,13 +22,11 @@ public class LevelController {
     /**
      * get all level
      */
-
     @GetMapping
     public ResponseEntity<List<LevelDTO>> getAll() {
         List<LevelDTO> level = levelService.findAll();
         return ResponseEntity.ok().body(level);
     }
-
     /**
      * get level by id
      */
@@ -37,31 +35,31 @@ public class LevelController {
         Level level = levelService.findById(levelId);
         return ResponseEntity.ok().body(level);
     }
-
     /**
      * create level
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createLevel(@Valid @RequestBody LevelDTO levelDTO) {
+    public ResponseEntity<?> createLevel(@Valid @RequestBody LevelDTO levelDTO) {
         levelService.save(levelDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
     /**
      * update table by id
      */
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable("id") final int id, @RequestBody final LevelDTO levelDTO) {
+    public ResponseEntity<?> update(@PathVariable("id") final int id, @RequestBody final LevelDTO levelDTO) {
         levelService.update(levelDTO);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
-
     /**
      * delete by id
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable final int id) {
+
         levelService.removeById(id);
     }
 

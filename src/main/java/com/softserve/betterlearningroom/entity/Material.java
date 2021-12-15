@@ -11,7 +11,7 @@ import java.sql.Date;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class Materials {
+public class Material {
 
     private Integer id;
 

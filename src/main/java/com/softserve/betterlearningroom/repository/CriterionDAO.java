@@ -41,7 +41,10 @@ public class CriterionDAO {
 
     public void save(Criterion criterion) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("title", criterion.getTitle())
+        parameterSource
+                .addValue("criterionid", criterion.getId())
+                .addValue("materialid", criterion.getMaterialId())
+                .addValue("title", criterion.getTitle())
                 .addValue("description", criterion.getDescription());
         jdbcTemplate.update(saveQuery, parameterSource);
     }
@@ -60,7 +63,7 @@ public class CriterionDAO {
 
 
     public Optional<Criterion> findById(Integer id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
+        SqlParameterSource parameterSource = new MapSqlParameterSource("criterionid", id);
         return Optional.ofNullable(jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
                     BeanPropertyRowMapper.newInstance(Criterion.class)));
 
@@ -68,7 +71,7 @@ public class CriterionDAO {
 
 
     public void removeById(Integer id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
+        SqlParameterSource parameterSource = new MapSqlParameterSource("criterionid", id);
         jdbcTemplate.update(removeByIdQuery, parameterSource);
     }
 

@@ -39,6 +39,8 @@ public class LevelService {
 
     public Level toEntity(LevelDTO levelDTO) {
         return Level.builder()
+                .id(levelDTO.getId())
+                .criterionId(levelDTO.getCriterionId())
                 .title(levelDTO.getTitle())
                 .description(levelDTO.getDescription())
                 .build();
@@ -47,6 +49,8 @@ public class LevelService {
 
     public LevelDTO toDTO(Level level) {
         return  LevelDTO.builder()
+                .id(level.getId())
+                .criterionId(level.getCriterionId())
                 .title(level.getTitle())
                 .description(level.getDescription())
                 .build();

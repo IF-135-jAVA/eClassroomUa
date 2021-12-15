@@ -18,7 +18,7 @@ public class Level {
 
     private String description;
 
-    private Integer CriterionId;
+    private Integer criterionId;
 
     private int mark;
 

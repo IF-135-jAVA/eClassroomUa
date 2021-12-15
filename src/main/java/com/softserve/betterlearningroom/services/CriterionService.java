@@ -41,6 +41,8 @@ public class CriterionService {
 
     public Criterion toEntity(CriterionDTO criterionDTO) {
         return Criterion.builder()
+                .id(criterionDTO.getId())
+                .materialId(criterionDTO.getMaterialIdDTO())
                 .title(criterionDTO.getTitle())
                 .description(criterionDTO.getDescription())
                 .build();

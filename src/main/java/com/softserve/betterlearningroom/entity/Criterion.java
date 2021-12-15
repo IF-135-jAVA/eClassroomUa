@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Criterion {
 
-    private int criterionId;
+    private int id;
 
     private String title;
 

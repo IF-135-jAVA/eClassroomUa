@@ -41,16 +41,18 @@ public class TopicController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createTopic(@Valid @RequestBody TopicDTO topicDTO) {
+    public ResponseEntity<?> createTopic(@Valid @RequestBody TopicDTO topicDTO) {
         topicService.save(topicDTO);
+       return new ResponseEntity<>(HttpStatus.CREATED);
     }
     /**
      * update table by id
      */
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable("id") final int id, @RequestBody final TopicDTO topicDTO) {
+    public ResponseEntity<?> update(@PathVariable("id") final int id, @RequestBody final TopicDTO topicDTO) {
         topicService.update(topicDTO);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
     /**
      *
