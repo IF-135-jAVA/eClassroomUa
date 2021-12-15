@@ -46,13 +46,7 @@ public class MaterialDao {
     }
 
     public List<Material> getAllByClassroom(Long classroomId) {
-        List<Material> list = jdbcTemplate.query(getAllQuery, new MapSqlParameterSource("topicid", classroomId), new MaterialRowMapper());
-        System.out.println(list);
-        list = list.stream()
-                .filter(material -> material.getTitle().contains("title!"))
-                .collect(Collectors.toList());
-        System.out.println(list);
-        return list;
+        return jdbcTemplate.query(getAllQuery, new MapSqlParameterSource("topicid", classroomId), new MaterialRowMapper());
     }
 
     public List<Material> getAllByTopic(Long classroomId, Long topicId) {
