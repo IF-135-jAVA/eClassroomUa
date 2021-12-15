@@ -2,8 +2,6 @@ package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.AnnouncementDTO;
 
-import com.softserve.betterlearningroom.entity.Announcement;
-
 import com.softserve.betterlearningroom.service.AnnouncementService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,7 +55,6 @@ public class AnnouncementController {
        return ResponseEntity.ok().build();
 
     }
-
 }
 
 

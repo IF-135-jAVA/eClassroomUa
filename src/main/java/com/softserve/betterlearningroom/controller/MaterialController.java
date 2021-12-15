@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/classrooms/{classroom_id}/topics/{topic_id}/materials")
+@RequestMapping("/api/classrooms/{classroomId}/topics/{topicId}/materials")
 public class MaterialController {
 
     private final MaterialService materialService;
@@ -33,14 +33,14 @@ public class MaterialController {
     }
 
     @GetMapping
-    private ResponseEntity<List<? extends MaterialDTO>> findAllMaterials(@PathVariable Long classroom_id){
-        return ResponseEntity.ok().body(materialService.getMaterialsByClassroom(classroom_id));
+    private ResponseEntity<List<? extends MaterialDTO>> findAllMaterials(@PathVariable Long classroomId){
+        return ResponseEntity.ok().body(materialService.getMaterialsByClassroom(classroomId));
     }
 
     @PostMapping
-    private ResponseEntity<?> createMaterial(@RequestBody MaterialDTO material, @PathVariable Long topic_id){
-        materialService.addMaterial(material, topic_id);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    private ResponseEntity<MaterialDTO> createMaterial(@RequestBody MaterialDTO material, @PathVariable Long topicId){
+        materialService.addMaterial(material, topicId);
+        return new ResponseEntity<>(materialService.addMaterial(material, topicId),HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
