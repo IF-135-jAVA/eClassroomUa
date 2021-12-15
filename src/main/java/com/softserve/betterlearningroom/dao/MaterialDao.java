@@ -59,7 +59,6 @@ public class MaterialDao {
         List<Material> list = getAllByClassroom(classroomId).stream()
                 .filter(material -> material.getTitle().contains(name))
                 .collect(Collectors.toList());
-        System.out.println(list.toString());
         return list;
     }
 
