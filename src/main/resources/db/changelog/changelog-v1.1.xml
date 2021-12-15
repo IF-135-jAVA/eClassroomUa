@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<databaseChangeLog 
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"  
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+  xmlns:pro="http://www.liquibase.org/xml/ns/pro"  
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd
+      http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.5.xsd">
+      
+      <changeSet id="1" author="ykotsiuba">
+      	<insert tableName="roles">
+      		<column name="name" value="TEACHER"></column>
+      	</insert>
+      	<insert tableName="roles">
+      		<column name="name" value="STUDENT"></column>
+      	</insert>
+      </changeSet>
+      
+      <changeSet id="1.1" author="ykotsiuba">
+      	<insert tableName="users">
+      		<column name="firstname" value="Keanu"></column>
+      		<column name="lastname" value="Reeves"></column>
+      		<column name="enabled" value="true"></column>
+      		<column name="email" value="Keanu@gmail.com"></column>
+      		<column name="password" value="$2a$04$MzVXtd4o0y4DOlyHMMLMDeE4/eezrsT5Xad.2lmGr/NkCpwBgvn3e"></column>
+      	</insert>
+      	<insert tableName="users">
+      		<column name="firstname" value="Steve"></column>
+      		<column name="lastname" value="Jobs"></column>
+      		<column name="enabled" value="true"></column>
+      		<column name="email" value="sjobs@gmail.com"></column>
+      	</insert>
+      	<insert tableName="users">
+      		<column name="firstname" value="Yurii"></column>
+      		<column name="lastname" value="Kotsiuba"></column>
+      		<column name="enabled" value="true"></column>
+      		<column name="email" value="ykotsiuba@gmail.com"></column>
+      		<column name="password" value="1234"></column>
+      	</insert>
+      	<insert tableName="users">
+      		<column name="firstname" value="Olha"></column>
+      		<column name="lastname" value="Suriadova"></column>
+      		<column name="enabled" value="true"></column>
+      		<column name="email" value="osuriadova@gmail.com"></column>
+      		<column name="password" value="1234"></column>
+      	</insert>
+      	<insert tableName="users">
+      		<column name="firstname" value="Bohdan"></column>
+      		<column name="lastname" value="Belei"></column>
+      		<column name="enabled" value="true"></column>
+      		<column name="email" value="bbelei@gmail.com"></column>
+      		<column name="password" value="1234"></column>
+      	</insert>
+      </changeSet>
+      <changeSet id="1.3" author="ykotsiuba">
+      	<insert tableName="classrooms">
+      		<column name="name" value="Math"></column>
+      		<column name="owner_id" value="1"></column>
+      	</insert>
+      	<insert tableName="classrooms">
+      		<column name="name" value="Physics"></column>
+      		<column name="owner_id" value="2"></column>
+      	</insert>
+      	<insert tableName="classrooms_teachers">
+      		<column name="teacher_id" value="1"></column>
+      		<column name="classroom_id" value="1"></column>
+      	</insert>
+      	<insert tableName="classrooms_teachers">
+      		<column name="teacher_id" value="1"></column>
+      		<column name="classroom_id" value="2"></column>
+      	</insert>
+      	<insert tableName="classrooms_teachers">
+      		<column name="teacher_id" value="2"></column>
+      		<column name="classroom_id" value="2"></column>
+      	</insert>
+      	<insert tableName="classrooms_students">
+      		<column name="student_id" value="3"></column>
+      		<column name="classroom_id" value="1"></column>
+      	</insert>
+      	<insert tableName="classrooms_students">
+      		<column name="student_id" value="4"></column>
+      		<column name="classroom_id" value="1"></column>
+      	</insert>
+      	<insert tableName="classrooms_students">
+      		<column name="student_id" value="5"></column>
+      		<column name="classroom_id" value="1"></column>
+      	</insert>
+      	<insert tableName="classrooms_students">
+      		<column name="student_id" value="3"></column>
+      		<column name="classroom_id" value="2"></column>
+      	</insert>
+      	<insert tableName="classrooms_students">
+      		<column name="student_id" value="4"></column>
+      		<column name="classroom_id" value="2"></column>
+      	</insert>
+      	<insert tableName="classrooms_students">
+      		<column name="student_id" value="5"></column>
+      		<column name="classroom_id" value="2"></column>
+      	</insert>
+      </changeSet>
+ </databaseChangeLog> 
