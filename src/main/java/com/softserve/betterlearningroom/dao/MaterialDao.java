@@ -3,13 +3,14 @@ package com.softserve.betterlearningroom.dao;
 import com.softserve.betterlearningroom.entity.*;
 import com.softserve.betterlearningroom.dao.extractor.MaterialRowMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,39 +21,52 @@ public class MaterialDao {
 
     private NamedParameterJdbcTemplate jdbcTemplate;
 
-    @Value("${get.all}")
+    @Value("${get.all.materials}")
     private String getAllQuery;
 
-    @Value("${get.by.id}")
+    @Value("${get.by.id.material}")
     private String getByIdQuery;
 
-    @Value("${add.new}")
+    @Value("${add.new.material}")
     private String addQuery;
 
-    @Value("${update}")
+    @Value("${update.material}")
     private String updateQuery;
 
-    @Value("${remove}")
+    @Value("${remove.material}")
     private String removeQuery;
+
+    @Autowired
+    public MaterialDao(NamedParameterJdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public Material getById(Long materialId) {
         return jdbcTemplate.query(getByIdQuery, new MapSqlParameterSource("materialid", materialId), new MaterialRowMapper()).stream().findFirst().orElse(null);
     }
 
     public List<Material> getAllByClassroom(Long classroomId) {
-        return jdbcTemplate.query(getAllQuery, new MapSqlParameterSource("materialid", classroomId), new MaterialRowMapper());
+        List<Material> list = jdbcTemplate.query(getAllQuery, new MapSqlParameterSource("topicid", classroomId), new MaterialRowMapper());
+        System.out.println(list);
+        list = list.stream()
+                .filter(material -> material.getTitle().contains("title!"))
+                .collect(Collectors.toList());
+        System.out.println(list);
+        return list;
     }
 
     public List<Material> getAllByTopic(Long classroomId, Long topicId) {
         return getAllByClassroom(classroomId).stream()
-                .filter(material -> material.getId() == topicId)
+                .filter(material -> material.getId().equals(topicId))
                 .collect(Collectors.toList());
     }
 
     public List<Material> getAllByName(Long classroomId, String name) {
-        return getAllByClassroom(classroomId).stream()
-                .filter(material -> material.getText().contains(name))
+        List<Material> list = getAllByClassroom(classroomId).stream()
+                .filter(material -> material.getTitle().contains(name))
                 .collect(Collectors.toList());
+        System.out.println(list.toString());
+        return list;
     }
 
     public List<Material> getAllByType(Long classroomId, MaterialType materialType) {
@@ -61,61 +75,38 @@ public class MaterialDao {
                 .collect(Collectors.toList());
     }
 
-    public int addMaterial(Material material, Long topicId) {
+    public Material addMaterial(Material material, Long topicId) {
         MapSqlParameterSource param = new MapSqlParameterSource();
         MaterialType type = material.getMaterialType();
-        param.addValue("materialType", type);
+        param.addValue("materialtype", type.name());
         param.addValue("materialtext", material.getText());
-        switch(type){
-            case QUESTIONS:
-                param.addValue("startdate", material.getStartDate().toLocalDate());
-                param.addValue("duedate", material.getDueDate().toLocalDate());
-                param.addValue("maxScore", material.getMaxScore());
-                break;
-            case TASK:
-                param.addValue("startdate", material.getStartDate().toLocalDate());
-                param.addValue("duedate", material.getDueDate().toLocalDate());
-                param.addValue("maxScore", material.getMaxScore());
-                param.addValue("task", material.getTask());
-                break;
-            case TEST:
-                param.addValue("startdate", material.getStartDate().toLocalDate());
-                param.addValue("duedate", material.getDueDate().toLocalDate());
-                param.addValue("maxScore", material.getMaxScore());
-                param.addValue("testUrl", material.getUrl());
-                break;
-
-        }
-        return jdbcTemplate.update(addQuery, param);
+        param.addValue("startdate", material.getStartDate().toLocalDate());
+        param.addValue("duedate", material.getDueDate().toLocalDate());
+        param.addValue("maxscore", material.getMaxScore());
+        param.addValue("task", material.getTask());
+        param.addValue("testurl", material.getUrl());
+        param.addValue("title", material.getTitle());
+        param.addValue("topicid", material.getTopicId());
+        jdbcTemplate.update(addQuery, param);
+        return getAllByName(material.getClassroomId(), material.getTitle())
+                .stream()
+                .findFirst().orElse(null);
     }
 
-    public int updateMaterial(Material material) {
+    public Material updateMaterial(Material material) {
         MapSqlParameterSource param = new MapSqlParameterSource();
         MaterialType type = material.getMaterialType();
         param.addValue("materialid", material.getId());
         param.addValue("materialtext", material.getText());
-        param.addValue("materialType", type);
-        switch(type){
-            case QUESTIONS:
-                param.addValue("startdate", material.getStartDate().toLocalDate());
-                param.addValue("duedate", material.getDueDate().toLocalDate());
-                param.addValue("maxScore", material.getMaxScore());
-                break;
-            case TASK:
-                param.addValue("startdate", material.getStartDate().toLocalDate());
-                param.addValue("duedate", material.getDueDate().toLocalDate());
-                param.addValue("maxScore", material.getMaxScore());
-                param.addValue("task", material.getTask());
-                break;
-            case TEST:
-                param.addValue("startdate", material.getStartDate().toLocalDate());
-                param.addValue("duedate", material.getDueDate().toLocalDate());
-                param.addValue("maxScore", material.getMaxScore());
-                param.addValue("testUrl", material.getUrl());
-                break;
-
-        }
-        return jdbcTemplate.update(updateQuery, param);
+        param.addValue("materialtype", type.name());
+        param.addValue("startdate", material.getStartDate().toLocalDate());
+        param.addValue("duedate", material.getDueDate().toLocalDate());
+        param.addValue("maxscore", material.getMaxScore());
+        param.addValue("task", material.getTask());
+        param.addValue("testurl", material.getUrl());
+        param.addValue("title", material.getTitle());
+        jdbcTemplate.update(updateQuery, param);
+        return getById(material.getId());
     }
 
     public int removeMaterial(Long materialId) {
