@@ -20,9 +20,9 @@ public class UserAssignmentService {
 
     private UserAssignmentMapper userAssignmentMapper = Mappers.getMapper(UserAssignmentMapper.class);
 
-    public void create(UserAssignmentDto userAssignmentDto) {
+    public long create(UserAssignmentDto userAssignmentDto) {
         userAssignmentDto.setSubmissionDate(LocalDateTime.now());
-        userAssignmentDao.create(userAssignmentMapper.userAssignmentDtoToUserAssignment(userAssignmentDto));
+        return userAssignmentDao.create(userAssignmentMapper.userAssignmentDtoToUserAssignment(userAssignmentDto));
     }
 
     public UserAssignmentDto readById(long id) {

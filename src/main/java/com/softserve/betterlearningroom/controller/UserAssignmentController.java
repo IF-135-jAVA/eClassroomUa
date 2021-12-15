@@ -4,8 +4,16 @@ import com.softserve.betterlearningroom.dto.UserAssignmentDto;
 import com.softserve.betterlearningroom.service.UserAssignmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -16,9 +24,13 @@ public class UserAssignmentController {
     private UserAssignmentService userAssignmentService;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody UserAssignmentDto userAssignmentDto) {
-        userAssignmentService.create(userAssignmentDto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<UserAssignmentDto> create(@RequestBody UserAssignmentDto userAssignmentDto) {
+        long createdDtoId = userAssignmentService.create(userAssignmentDto);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(createdDtoId)
+                .toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @GetMapping("{id}")
@@ -29,10 +41,10 @@ public class UserAssignmentController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<?> update(@PathVariable long id, @RequestBody UserAssignmentDto userAssignmentDto) {
+    public ResponseEntity<UserAssignmentDto> update(@PathVariable long id, @RequestBody UserAssignmentDto userAssignmentDto) {
         if(userAssignmentService.readById(id) == null) return ResponseEntity.notFound().build();
         userAssignmentService.update(userAssignmentDto, id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(userAssignmentService.readById(id));
     }
 
     @GetMapping
