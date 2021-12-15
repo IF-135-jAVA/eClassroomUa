@@ -15,20 +15,19 @@ import java.util.List;
 @RequestMapping("/api/classrooms/topics/materials/criterion")
 public class CriterionController {
 
-
     @Autowired
     private CriterionService criterionService;
+
     /**
      * get all criterion
      */
-        @GetMapping
+    @GetMapping
     public ResponseEntity<List<CriterionDTO>> getAll() {
         List<CriterionDTO> criterion = criterionService.findAll();
-
         return ResponseEntity.ok().body(criterion);
     }
+
     /**
-     *
      * get criterion by id
      */
     @GetMapping("/{id}")
@@ -36,8 +35,8 @@ public class CriterionController {
         Criterion criterion = criterionService.findById(criterionId);
         return ResponseEntity.ok().body(criterion);
     }
+
     /**
-     *
      * create criterion
      */
     @PostMapping
@@ -45,6 +44,7 @@ public class CriterionController {
     public void createCriterion(@Valid @RequestBody CriterionDTO criterionDTO) {
         criterionService.save(criterionDTO);
     }
+
     /**
      * update table by id
      */
@@ -53,14 +53,13 @@ public class CriterionController {
     public void update(@PathVariable("id") final int id, @RequestBody final CriterionDTO criterionDTO) {
         criterionService.update(criterionDTO);
     }
+
     /**
-     *
      * delete by id
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable final int id) {
-
         criterionService.removeById(id);
     }
 

@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/classrooms/topics/materials/level/level")
+@RequestMapping("/api/classrooms/topics/materials/level/")
 public class LevelController {
 
     @Autowired
@@ -26,7 +26,6 @@ public class LevelController {
     @GetMapping
     public ResponseEntity<List<LevelDTO>> getAll() {
         List<LevelDTO> level = levelService.findAll();
-
         return ResponseEntity.ok().body(level);
     }
 
@@ -45,7 +44,6 @@ public class LevelController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void createLevel(@Valid @RequestBody LevelDTO levelDTO) {
-        //System.out.println(level); // Just to inspect values for demo
         levelService.save(levelDTO);
     }
 
@@ -64,7 +62,6 @@ public class LevelController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable final int id) {
-
         levelService.removeById(id);
     }
 

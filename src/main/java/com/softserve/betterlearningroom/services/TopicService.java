@@ -16,44 +16,37 @@ public class TopicService {
     private TopicDAO topicDAO;
 
     public Topic findById(Integer id) {
-
         return topicDAO.findById(id).orElseThrow(() -> new RuntimeException("topic by id is not saved"));
     }
 
-    public int removeById(Integer id) {
-
-        return topicDAO.removeById(id);
+    public void removeById(Integer id) {
+        topicDAO.removeById(id);
     }
 
 
     public List<TopicDTO> findAll() {
-
         return topicDAO.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public void save(TopicDTO topicDTO) {
-
         topicDAO.save(toEntity(topicDTO));
     }
 
     public void update(TopicDTO topicDTO) {
-
         topicDAO.update(toEntity(topicDTO));
     }
 
     public Topic toEntity(TopicDTO topicDTO) {
-        Topic topic = new Topic();
-        topic.builder()
-                .title(topicDTO.getTitle());
-        return topic;
+        return Topic.builder()
+                .title(topicDTO.getTitle())
+                .build();
 
     }
 
     public TopicDTO toDTO(Topic topic) {
-        TopicDTO topicDTO = new TopicDTO();
-        topicDTO.builder()
-                .title(topic.getTitle());
-        return topicDTO;
+        return TopicDTO.builder()
+                .title(topic.getTitle())
+                .build();
 
     }
 

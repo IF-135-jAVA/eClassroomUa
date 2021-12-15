@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Service
 public class CriterionService {
 
-@Autowired
+    @Autowired
     private CriterionDAO criterionDAO;
 
     public Criterion findById(Integer id) {
@@ -22,7 +22,7 @@ public class CriterionService {
 
     public void removeById(Integer id) {
 
-       criterionDAO.removeById(id);
+        criterionDAO.removeById(id);
     }
 
 
@@ -32,32 +32,25 @@ public class CriterionService {
     }
 
     public void save(CriterionDTO criterionDTO) {
-
         criterionDAO.save(toEntity(criterionDTO));
     }
 
     public void update(CriterionDTO criterionDTO) {
-
         criterionDAO.update(toEntity(criterionDTO));
     }
 
     public Criterion toEntity(CriterionDTO criterionDTO) {
-        Criterion criterion = new Criterion();
-        criterion.builder()
+        return Criterion.builder()
                 .title(criterionDTO.getTitle())
-                .description(criterionDTO.getDescription());
-        //todo list?
-        return criterion;
-
+                .description(criterionDTO.getDescription())
+                .build();
     }
 
     public CriterionDTO toDTO(Criterion criterion) {
-        CriterionDTO criterionDTO = new CriterionDTO();
-        criterionDTO.builder()
+        return CriterionDTO.builder()
                 .title(criterion.getTitle())
-                .description(criterion.getDescription());
-        return criterionDTO;
-
+                .description(criterion.getDescription())
+                .build();
     }
 
 }

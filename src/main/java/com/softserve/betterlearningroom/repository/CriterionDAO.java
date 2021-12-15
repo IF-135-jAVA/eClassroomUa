@@ -1,7 +1,6 @@
 package com.softserve.betterlearningroom.repository;
 
 import com.softserve.betterlearningroom.entity.Criterion;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -16,43 +15,35 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-
-@RequiredArgsConstructor
-@PropertySource("classpath:criterionQuery.properties")
+@PropertySource(value = "classpath:criterionQuery.properties")
 public class CriterionDAO {
 
+    @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
-    @Autowired
-    public CriterionDAO(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    @Value("$save")
+    @Value("${criterion.save}")
     private String saveQuery;
 
-    @Value("$update")
+    @Value("${criterion.update}")
     private String updateQuery;
 
-    @Value("$findAll")
+    @Value("${criterion.findAll}")
     private String findAllQuery;
 
-    @Value("$findById")
+    @Value("${criterion.findById}")
     private String findByIdQuery;
 
-    @Value("$removeById")
+    @Value("${criterion.removeById}")
     private String removeByIdQuery;
 
-    @Value("$removeByTitle")
-    private String removeByTitleQuery;
-
-    @Value("$findByTitle")
+    @Value("${criterion.findByTitle}")
     private String findByTitleQuery;
 
     public void save(Criterion criterion) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("title", criterion.getTitle())
                 .addValue("description", criterion.getDescription());
+        jdbcTemplate.update(saveQuery, parameterSource);
     }
 
     public void update(Criterion criterion) {
@@ -63,6 +54,8 @@ public class CriterionDAO {
     public List<Criterion> findAll() {
         return jdbcTemplate.query(findAllQuery,
                 BeanPropertyRowMapper.newInstance(Criterion.class));
+
+
     }
 
 
@@ -81,7 +74,8 @@ public class CriterionDAO {
 
 
     public Optional<List<Criterion>> findByTitle(String title) {
-        return Optional.of(jdbcTemplate.query(findByTitleQuery, BeanPropertyRowMapper.newInstance(Criterion.class)));
+        return Optional.of(jdbcTemplate.query(findByTitleQuery,
+                BeanPropertyRowMapper.newInstance(Criterion.class)));
     }
 
 }

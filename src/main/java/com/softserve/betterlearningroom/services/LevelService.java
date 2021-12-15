@@ -17,47 +17,39 @@ public class LevelService {
     private LevelDAO levelDAO;
 
     public Level findById(Integer id) {
-
         return levelDAO.findById(id).orElseThrow(() -> new RuntimeException("level didn't find"));
     }
 
-    public int removeById(Integer id) {
-
-        return levelDAO.removeById(id);
+    public void removeById(Integer id) {
+        levelDAO.removeById(id);
     }
 
 
     public List<LevelDTO> findAll() {
-
         return levelDAO.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public void save(LevelDTO levelDTO) {
-
         levelDAO.save(toEntity(levelDTO));
     }
 
     public void update(LevelDTO levelDTO) {
-
         levelDAO.update(toEntity(levelDTO));
     }
 
     public Level toEntity(LevelDTO levelDTO) {
-        Level level = new Level();
-        level.builder()
+        return Level.builder()
                 .title(levelDTO.getTitle())
-                .description(levelDTO.getDescription());
-        return level;
+                .description(levelDTO.getDescription())
+                .build();
 
     }
 
     public LevelDTO toDTO(Level level) {
-        LevelDTO levelDTO = new LevelDTO();
-        levelDTO.builder()
+        return  LevelDTO.builder()
                 .title(level.getTitle())
-                .description(level.getDescription());
-        return levelDTO;
-
+                .description(level.getDescription())
+                .build();
     }
 
 

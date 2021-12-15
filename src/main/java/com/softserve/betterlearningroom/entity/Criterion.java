@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -12,7 +11,7 @@ import java.util.List;
 @Builder
 public class Criterion {
 
-    private int id;
+    private int criterionId;
 
     private String title;
 
@@ -21,7 +20,6 @@ public class Criterion {
     private Integer materialId;
 
 
-    private List<Level> level;
 
 
 }

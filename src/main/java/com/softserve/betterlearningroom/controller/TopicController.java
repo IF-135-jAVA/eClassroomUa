@@ -21,11 +21,9 @@ public class TopicController {
     /**
      * get all topic
      */
-
     @GetMapping
     public ResponseEntity<List<TopicDTO>> getAll() {
         List<TopicDTO> topic = topicService.findAll();
-
         return ResponseEntity.ok().body(topic);
     }
     /**
@@ -61,8 +59,6 @@ public class TopicController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable final int id) {
-
-
         topicService.removeById(id);
     }
 }

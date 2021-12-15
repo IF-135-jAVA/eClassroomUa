@@ -1,55 +1,52 @@
 package com.softserve.betterlearningroom.repository;
 
 import com.softserve.betterlearningroom.entity.Level;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-@RequiredArgsConstructor
-@PropertySource("classpath:levelQuery.properties")
+@PropertySource(value = "classpath:levelQuery.properties")
 public class LevelDAO {
 
-    private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private NamedParameterJdbcTemplate jdbcTemplate;
 
-    @Value("$save")
+    @Value("${level.save}")
     private String saveQuery;
 
-    @Value("$update")
+    @Value("${level.update}")
     private String updateQuery;
 
-    @Value("$findAll")
+    @Value("${level.findAll}")
     private String findAllQuery;
 
-    @Value("$findById")
+    @Value("${level.findById}")
     private String findByIdQuery;
 
-    @Value("$removeById")
+    @Value("${level.removeById}")
     private String removeByIdQuery;
 
-    @Value("$removeByTitle")
-    private String removeByTitleQuery;
 
-    @Value("$findByTitle")
-    private String findByTitleQuery;
-
-
-    public int save(Level level) {
-        return jdbcTemplate.update(updateQuery,
-                level.getId(), level.getTitle());
+    public void save(Level level) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("title", level.getTitle())
+                .addValue("description", level.getDescription());
+        jdbcTemplate.update(saveQuery, parameterSource);
     }
 
-
-    public int update(Level level) {
-        return jdbcTemplate.update(updateQuery,
-                level.getTitle(), level.getId());
+    public void update(Level level) {
+        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(level);
+        jdbcTemplate.update(updateQuery, parameterSource);
     }
 
     public List<Level> findAll() {
@@ -57,28 +54,16 @@ public class LevelDAO {
                 BeanPropertyRowMapper.newInstance(Level.class));
     }
 
+
     public Optional<Level> findById(Integer id) {
-        try {
-            Level level = jdbcTemplate.queryForObject(findByIdQuery,
-                    BeanPropertyRowMapper.newInstance(Level.class), id);
-
-            return Optional.of(level);
-        } catch (IncorrectResultSizeDataAccessException e) {
-            return null;
-        }
-    }
-
-
-    public int removeById(Integer id) {
-
-        return jdbcTemplate.update(removeByIdQuery, id);
-    }
-
-
-    public Optional<List<Level>> findByTitle(String title) {
-
-        return Optional.of(jdbcTemplate.query(findByTitleQuery,
+        SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
+        return Optional.ofNullable(jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
                 BeanPropertyRowMapper.newInstance(Level.class)));
     }
+
+        public void removeById (Integer id){
+            SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
+            jdbcTemplate.update(removeByIdQuery, parameterSource);
+        }
 
 }
