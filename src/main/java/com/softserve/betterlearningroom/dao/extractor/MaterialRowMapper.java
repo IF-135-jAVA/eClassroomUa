@@ -42,6 +42,7 @@ public class MaterialRowMapper implements ResultSetExtractor<List<Material>> {
                 material.setId(materialId);
                 material.setText(rs.getString("materialtext"));
                 material.setMaterialType(type);
+                material.setTitle(rs.getString("title"));
                 materialMap.put(materialId, material);
             }
             List<Link> links = material.getUrls();

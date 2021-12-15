@@ -66,4 +66,9 @@ public class MaterialServiceImpl implements MaterialService {
     public MaterialDTO updateMaterial(MaterialDTO material) {
         return materialMapper.materialToMaterialDTO(materialDao.updateMaterial(materialMapper.materialDTOToMaterial(material)));
     }
+
+    @Override
+    public void deleteMaterial(MaterialDTO material) {
+        materialDao.removeMaterial(materialMapper.materialDTOToMaterial(material));
+    }
 }
