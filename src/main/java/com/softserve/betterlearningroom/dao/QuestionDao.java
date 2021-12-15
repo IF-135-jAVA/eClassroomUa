@@ -1,11 +1,12 @@
 package com.softserve.betterlearningroom.dao;
 
-import com.softserve.betterlearningroom.dao.extractor.QuestionRowMapper;
 import com.softserve.betterlearningroom.entity.Material;
 import com.softserve.betterlearningroom.entity.Question;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -19,20 +20,25 @@ public class QuestionDao {
 
     private NamedParameterJdbcTemplate jdbcTemplate;
 
-    @Value("${get.all}")
+    @Value("${get.all.questions}")
     private String getAllQuery;
 
-    @Value("${add.new}")
+    @Value("${add.new.question}")
     private String addQuery;
 
-    @Value("${update}")
+    @Value("${update.question}")
     private String updateQuery;
 
-    @Value("${remove}")
+    @Value("${remove.question}")
     private String removeQuery;
 
+    @Autowired
+    public QuestionDao(NamedParameterJdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     public List<Question> getAllQuestions(Long materialId) {
-        return jdbcTemplate.query(getAllQuery, new MapSqlParameterSource("materialid", materialId), new QuestionRowMapper());
+        return jdbcTemplate.query(getAllQuery, new MapSqlParameterSource("materialid", materialId), BeanPropertyRowMapper.newInstance(Question.class));
     }
 
     public List<Question> getAllQuestions(Material material) {
