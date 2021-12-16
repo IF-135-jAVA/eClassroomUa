@@ -18,5 +18,4 @@ public class Topic {
 
     private Integer classroom_id;
 
-
 }

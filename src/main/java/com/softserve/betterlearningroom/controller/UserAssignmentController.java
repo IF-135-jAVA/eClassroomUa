@@ -24,7 +24,8 @@ public class UserAssignmentController {
     private UserAssignmentService userAssignmentService;
 
     @PostMapping
-    public ResponseEntity<UserAssignmentDto> create(@RequestBody UserAssignmentDto userAssignmentDto) {
+    public ResponseEntity<UserAssignmentDto> create(@RequestBody UserAssignmentDto userAssignmentDto, @PathVariable long materialId) {
+        userAssignmentDto.setMaterialId(materialId);
         long createdDtoId = userAssignmentService.create(userAssignmentDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
