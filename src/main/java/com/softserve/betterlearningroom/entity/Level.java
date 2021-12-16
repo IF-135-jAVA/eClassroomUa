@@ -24,6 +24,5 @@ public class Level {
     private Integer criterionid;
 
     private Integer mark;
-  
-    private Integer mark;
+
 }
