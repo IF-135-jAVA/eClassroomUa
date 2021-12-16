@@ -21,7 +21,7 @@ public class AnnouncementService {
     private AnnouncementMapper announcementMapper;
 
     public void create(AnnouncementDTO announcementDTO) {
-         announcementDAO.create(announcementMapper.announcementDTOToAnnouncement(announcementDTO));
+        announcementDAO.create(announcementMapper.announcementDTOToAnnouncement(announcementDTO));
     }
 
     public List<AnnouncementDTO> readAll() {
@@ -35,20 +35,20 @@ public class AnnouncementService {
     public AnnouncementDTO readById(long id) {
         Announcement announcement = announcementDAO.readById(id);
 
-            return announcementMapper.announcementToAnnouncementDTO(announcement);
-        }
+        return announcementMapper.announcementToAnnouncementDTO(announcement);
+    }
 
 
     public void update(AnnouncementDTO announcementDTO, long id) {
         announcementDAO.update(announcementMapper.announcementDTOToAnnouncement(announcementDTO));
-        }
+    }
 
 
     public void delete(long id) {
         AnnouncementDTO announcementDTO = readById(id);
 
-            announcementDAO.delete(announcementDTO.getId());
-        }
-
+        announcementDAO.delete(announcementDTO.getId());
     }
+
+}
 
