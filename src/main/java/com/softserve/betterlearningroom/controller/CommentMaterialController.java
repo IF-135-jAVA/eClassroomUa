@@ -2,29 +2,20 @@ package com.softserve.betterlearningroom.controller;
 
 
 import com.softserve.betterlearningroom.dto.CommentDTO;
-
-import com.softserve.betterlearningroom.service.CommentService;
+import com.softserve.betterlearningroom.service.CommentMaterialService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/classrooms/{classroomId}/comments")
+@RequestMapping("/api/classrooms/{classroomId}/comments_material")
 
-public class CommentController {
-    private CommentService commentService;
+public class CommentMaterialController {
+    private CommentMaterialService commentService;
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody CommentDTO commentDTO){

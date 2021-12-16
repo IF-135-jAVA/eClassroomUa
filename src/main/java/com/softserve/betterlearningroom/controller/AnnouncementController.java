@@ -39,7 +39,7 @@ public class AnnouncementController {
     @GetMapping("/{id}")
     public ResponseEntity<AnnouncementDTO> readById(
             @PathVariable int id) {
-       AnnouncementDTO announcementDTO = announcementService.readById(id);
+        AnnouncementDTO announcementDTO = announcementService.readById(id);
         return ResponseEntity.ok().body(announcementDTO);
     }
 
@@ -52,15 +52,10 @@ public class AnnouncementController {
     @DeleteMapping("{id}")
     public ResponseEntity<?> delete(@PathVariable long id) {
         announcementService.delete(id);
-       return ResponseEntity.ok().build();
+        return ResponseEntity.ok().build();
 
     }
 }
-
-
-
-
-
 
 
 
