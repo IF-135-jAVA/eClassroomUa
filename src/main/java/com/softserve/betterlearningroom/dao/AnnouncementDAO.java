@@ -25,19 +25,19 @@ public class AnnouncementDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Value ("${find.all}")
+    @Value ("${findAll.Announcements}")
     private String getAll;
 
-    @Value("${find.by_id}")
+    @Value("${findById.Announcement}")
     private String getById;
 
-    @Value("${save}")
+    @Value("${save.Announcement}")
     private String save;
 
-    @Value("${update}")
+    @Value("${update.Announcement}")
     private String edit;
 
-    @Value("${remove}")
+    @Value("${remove.Announcement}")
     private String remove;
 
     public List<Announcement> readAll() {
@@ -53,8 +53,9 @@ public class AnnouncementDAO {
 
     public void create(Announcement announcement) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("text", announcement.getText())
-                       .addValue("comments", announcement.getComments());
+        parameterSource.addValue("course_id",announcement.getCourseId())
+                .addValue("text", announcement.getText());
+
 
         jdbcTemplate.update(save, parameterSource);
     }
@@ -72,7 +73,6 @@ public class AnnouncementDAO {
 
     }
 }
-
 
 
 

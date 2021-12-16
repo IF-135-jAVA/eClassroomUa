@@ -12,9 +12,11 @@ public class CommentMapper {
         CommentDTO commentDTO = new CommentDTO();
         commentDTO.setId(comment.getId());
         commentDTO.setText(comment.getText());
-        commentDTO.setAuthor(comment.getAuthor());
         commentDTO.setDate(comment.getDate());
-
+        commentDTO.setAuthor(comment.getAuthor());
+        commentDTO.setAnnouncement(comment.getAnnouncement());
+        commentDTO.setAssignment(comment.getAssignment());
+        commentDTO.setMaterial(comment.getMaterial());
         return commentDTO;
     }
 
@@ -22,9 +24,11 @@ public class CommentMapper {
         Comment comment = new Comment();
         comment.setId(commentDTO.getId());
         comment.setText(commentDTO.getText());
-        comment.setAuthor(commentDTO.getAuthor());
         comment.setDate(commentDTO.getDate());
-
+        comment.setAuthor(commentDTO.getAuthor());
+        comment.setAnnouncement(commentDTO.getAnnouncement());
+        comment.setAssignment(commentDTO.getAssignment());
+        comment.setMaterial(commentDTO.getMaterial());
         return comment;
     }
 

@@ -46,14 +46,14 @@ public class AuthController {
 	}
 	
 	@PostMapping("/registration")
-	public ResponseEntity<?> registration(@RequestBody @Valid SaveUserRequest request){
+	public ResponseEntity<UserDTO> registration(@RequestBody @Valid SaveUserRequest request){
 		try {
 			UserDTO savedUser = authService.saveUser(request);
 			URI location = ServletUriComponentsBuilder.fromCurrentRequest()
 					.path("/{id}")
 					.buildAndExpand(savedUser.getId())
 					.toUri();
-			return ResponseEntity.created(location).build();
+			return ResponseEntity.created(location).body(savedUser);
 		} catch(UserAlreadyExistsException ex) {
 			return ResponseEntity.badRequest().build();
 		}
