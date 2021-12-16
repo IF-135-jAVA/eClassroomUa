@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,10 +55,9 @@ public class MaterialDao {
     }
 
     public List<Material> getAllByName(Long classroomId, String name) {
-        List<Material> list = getAllByClassroom(classroomId).stream()
+        return getAllByClassroom(classroomId).stream()
                 .filter(material -> material.getTitle().contains(name))
                 .collect(Collectors.toList());
-        return list;
     }
 
     public List<Material> getAllByType(Long classroomId, MaterialType materialType) {
