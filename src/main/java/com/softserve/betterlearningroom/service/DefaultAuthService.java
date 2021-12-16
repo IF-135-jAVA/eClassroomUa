@@ -63,7 +63,6 @@ public class DefaultAuthService implements AuthService{
 		user.setLastName(request.getLastName());
 		user.setPassword(passwordEncoder.encode(request.getPassword()));
 		user.setEnabled(request.isEnabled());
-		userDao.update(user);
 		return userMapper.userToUserDTO(user);
 	}
 
