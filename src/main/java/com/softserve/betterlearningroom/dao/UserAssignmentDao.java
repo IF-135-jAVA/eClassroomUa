@@ -17,21 +17,21 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-@PropertySource("classpath:user_assignment_queries.properties")
+@PropertySource("classpath:/user_assignment_queries.properties")
 public class UserAssignmentDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    @Value("${create}")
+    @Value("${create.user.assignment}")
     private String createQuery;
 
-    @Value("${read.by.id}")
+    @Value("${read.user.assignment.by.id}")
     private String readByIdQuery;
 
-    @Value("${update}")
+    @Value("${update.user.assignment}")
     private String updateQuery;
 
-    @Value("${get.by.assignment}")
+    @Value("${get.user.assignments.by.assignment}")
     private String getByAssignmentQuery;
 
     public long create(UserAssignment userAssignment) {
