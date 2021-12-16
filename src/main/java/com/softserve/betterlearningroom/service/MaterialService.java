@@ -14,9 +14,9 @@ public interface MaterialService {
 
     List<? extends MaterialDTO> getAllMaterialsByName(String name, Long classroomId);
 
-    void addMaterial(MaterialDTO material, Long topicId);
+    MaterialDTO addMaterial(MaterialDTO material, Long topicId);
 
-    void updateMaterial(MaterialDTO material);
+    MaterialDTO updateMaterial(MaterialDTO material);
 
     List<? extends MaterialDTO> getMaterialsByClassroom(Long classroomId);
 
