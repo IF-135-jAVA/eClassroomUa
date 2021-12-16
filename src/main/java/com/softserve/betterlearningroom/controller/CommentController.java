@@ -2,7 +2,7 @@ package com.softserve.betterlearningroom.controller;
 
 
 import com.softserve.betterlearningroom.dto.CommentDTO;
-import com.softserve.betterlearningroom.service.CommentMaterialService;
+import com.softserve.betterlearningroom.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +12,10 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/classrooms/{classroomId}/comments_material")
+@RequestMapping("/api/classrooms/{classroomId}/comments")
 
-public class CommentMaterialController {
-    private CommentMaterialService commentService;
+public class CommentController {
+    private CommentService commentService;
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody CommentDTO commentDTO){

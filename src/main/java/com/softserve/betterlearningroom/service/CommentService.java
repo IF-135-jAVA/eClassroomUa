@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.service;
 
-import com.softserve.betterlearningroom.dao.CommentMaterialDAO;
+import com.softserve.betterlearningroom.dao.CommentDAO;
 import com.softserve.betterlearningroom.dto.CommentDTO;
 import com.softserve.betterlearningroom.entity.Comment;
 import com.softserve.betterlearningroom.mapper.CommentMapper;
@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class
-CommentMaterialService {
-    private CommentMaterialDAO commentDAO;
+CommentService {
+    private CommentDAO commentDAO;
     private CommentMapper commentMapper;
 
     public void create(CommentDTO commentDTO) {

@@ -14,28 +14,28 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-@PropertySource(value = "classpath:/comment_materials_queries.properties")
-public class CommentMaterialDAO {
+@PropertySource(value = "classpath:/comment_queries.properties")
+public class CommentDAO {
     private NamedParameterJdbcTemplate jdbcTemplate;
 
     @Autowired
-    public CommentMaterialDAO(NamedParameterJdbcTemplate jdbcTemplate) {
+    public CommentDAO(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Value("${findAll.Comments.Materials}")
+    @Value("${findAll.Comments}")
     private String getAll;
 
-    @Value("${findById.Comment.Materials}")
+    @Value("${findById.Comment}")
     private String getById;
 
-    @Value("${save.Comment.Materials}")
+    @Value("${save.Comment}")
     private String save;
 
-    @Value("${update.Comment.Materials}")
+    @Value("${update.Comment}")
     private String edit;
 
-    @Value("${remove.Comment.Materials}")
+    @Value("${remove.Comment}")
     private String remove;
 
     public List<Comment> readAll() {
