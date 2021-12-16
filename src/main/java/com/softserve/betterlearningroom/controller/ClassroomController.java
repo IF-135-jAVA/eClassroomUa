@@ -2,7 +2,6 @@ package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.ClassroomDTO;
 import java.util.List;
-
 import com.softserve.betterlearningroom.entity.User;
 import com.softserve.betterlearningroom.service.ClassroomService;
 import lombok.AllArgsConstructor;
@@ -17,25 +16,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("/api/classroom")
+@RequestMapping("/api/classrooms")
 @AllArgsConstructor
 public class ClassroomController {
 
     private ClassroomService classroomService;
 
-    @GetMapping("/{classroomId}")
-    private ResponseEntity<ClassroomDTO> getClassroomById(@PathVariable Long classroomId){
-        return ResponseEntity.ok().body(classroomService.getClassroomById(classroomId));
+    @GetMapping("/{classroom_id}")
+    private ResponseEntity<ClassroomDTO> getClassroomById(@PathVariable Long classroom_id){
+        return ResponseEntity.ok().body(classroomService.getClassroomById(classroom_id));
     }
 
-    @GetMapping("/{classroomId}/owner")
-    private ResponseEntity<User> findClassroomOwnerById(@PathVariable Long classroomId) {
-        return ResponseEntity.ok().body(classroomService.getClassroomOwnerById(classroomId));
+    @GetMapping("/{classroom_id}/user_id")
+    private ResponseEntity<User> findClassroomOwnerById(@PathVariable Long user_id) {
+        return ResponseEntity.ok().body(classroomService.getClassroomOwnerById(user_id));
     }
 
-    @GetMapping("/teachers/classrooms/{classroomId}")
-    public ResponseEntity<List<User>> findClassroomTeachers(@PathVariable Long classroomId) {
-        return ResponseEntity.ok().body(classroomService.getClassroomTeachers(classroomId));
+    @GetMapping("/{classroomId}/teachers")
+    public ResponseEntity<List<User>> findClassroomTeachers(@PathVariable Long classroom_id) {
+        return ResponseEntity.ok().body(classroomService.getClassroomTeachers(classroom_id));
     }
 
     @PostMapping()
@@ -44,9 +43,9 @@ public class ClassroomController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{classroomId}")
-    private ResponseEntity<?> removeClassroom(@PathVariable Long classroomId){
-        classroomService.removeClassroomById(classroomId);
+    @DeleteMapping("/{classroom_id}")
+    private ResponseEntity<?> removeClassroom(@PathVariable Long classroom_id){
+        classroomService.removeClassroomById(classroom_id);
         return ResponseEntity.ok().build();
     }
 }

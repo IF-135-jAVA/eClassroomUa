@@ -17,16 +17,16 @@ public class ClassroomRowMapper implements RowMapper<Classroom>{
     @Override
     public Classroom mapRow(ResultSet rs, int rowNum) throws SQLException {
         Classroom classroom = new Classroom();
-        classroom.setClassroomId(rs.getLong("classroomId"));
-        classroom.setClassroomTitle(rs.getString("classroomTitle"));
-        classroom.setClassroomSession(rs.getString("classroomSession"));
-        classroom.setClassroomDescription(rs.getString("classroomDescription"));
-        classroom.setClassroomCode(rs.getString("classroomCode"));
-        classroom.setClassroomOwner((User) rs.getArray("classroomOwner"));
-        classroom.setClassroomTeachers((List<User>) rs.getArray("classroomTeachers"));
-        classroom.setClassroomStudents((List<User>) rs.getArray("classroomStudents"));
-        classroom.setClassroomTopics((List<Topic>) rs.getArray("classroomTopics"));
-        classroom.setClassroomAnnouncements((List<Announcement>) rs.getArray("classroomAnnouncements"));
+        classroom.setClassroom_id(rs.getLong("classroom_id"));
+        classroom.setTitle(rs.getString("title"));
+        classroom.setSession(rs.getString("session"));
+        classroom.setDescription(rs.getString("description"));
+        classroom.setCode(rs.getString("code"));
+        classroom.setUser_id(rs.getLong("user_id"));
+        classroom.setTeachers((List<User>) rs.getArray("teachers"));
+        classroom.setStudents((List<User>) rs.getArray("students"));
+        classroom.setTopics((List<Topic>) rs.getArray("topics"));
+        classroom.setAnnouncements((List<Announcement>) rs.getArray("announcements"));
 
         return classroom;
     }

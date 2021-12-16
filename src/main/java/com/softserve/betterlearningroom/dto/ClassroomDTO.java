@@ -14,23 +14,23 @@ import java.util.List;
 @NoArgsConstructor
 public class ClassroomDTO {
 
-    private Long classroomId;
+    private Long classroom_id;
 
-    private String classroomTitle;
+    private Long user_id;
 
-    private String classroomSession;
+    private String title;
 
-    private String classroomDescription;
+    private String session;
 
-    private String classroomCode;
+    private String description;
 
-    private User classroomOwner;
+    private String code;
 
-    private List<User> classroomTeachers;
+    private List<User> teachers;
 
-    private List<User> classroomStudents;
+    private List<User> students;
 
-    private List<Topic> classroomTopics;
+    private List<Topic> topics;
 
-    private List<Announcement> classroomAnnouncements;
+    private List<Announcement> announcements;
 }
