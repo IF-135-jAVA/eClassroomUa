@@ -26,6 +26,10 @@ public class Material {
 
     private List<Link> urls;
 
+    private Long topicId;
+
+    private Long classroomId;
+
     public LocalDateTime getStartDate() {
         return null;
     }
