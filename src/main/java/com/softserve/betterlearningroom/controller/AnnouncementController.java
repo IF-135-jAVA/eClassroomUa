@@ -5,6 +5,8 @@ import com.softserve.betterlearningroom.dto.AnnouncementDTO;
 import com.softserve.betterlearningroom.service.AnnouncementService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +25,6 @@ import java.util.List;
 public class AnnouncementController {
     private AnnouncementService announcementService;
 
-
     @PostMapping
     public ResponseEntity<?> create(@RequestBody AnnouncementDTO announcementDTO){
         announcementService.create(announcementDTO);
@@ -39,7 +40,7 @@ public class AnnouncementController {
     @GetMapping("/{id}")
     public ResponseEntity<AnnouncementDTO> readById(
             @PathVariable int id) {
-       AnnouncementDTO announcementDTO = announcementService.readById(id);
+        AnnouncementDTO announcementDTO = announcementService.readById(id);
         return ResponseEntity.ok().body(announcementDTO);
     }
 
@@ -52,15 +53,10 @@ public class AnnouncementController {
     @DeleteMapping("{id}")
     public ResponseEntity<?> delete(@PathVariable long id) {
         announcementService.delete(id);
-       return ResponseEntity.ok().build();
+        return ResponseEntity.ok().build();
 
     }
 }
-
-
-
-
-
 
 
 

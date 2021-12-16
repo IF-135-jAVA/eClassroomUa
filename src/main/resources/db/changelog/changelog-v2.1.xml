@@ -8,7 +8,9 @@
       
       <changeSet id="1" author="ovasylyshyn">
            	<insert tableName="users">
-			<column name="text" type=""></column>
+                <column name="text" type=""></column>
+
+                <column name="text" type=""></column>
 
 
       	</insert>

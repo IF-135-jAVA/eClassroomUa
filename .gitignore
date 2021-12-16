@@ -28,3 +28,5 @@ hs_err_pid*
 .idea
 better-learning-room.iml
 *.iml
+
+src/main/java/com/softserve/betterlearningroom/entity/Topic.java
