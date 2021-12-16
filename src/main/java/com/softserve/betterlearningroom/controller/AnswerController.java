@@ -24,8 +24,8 @@ public class AnswerController {
     private AnswerService answerService;
 
     @PostMapping
-    public ResponseEntity<AnswerDto> create(@RequestBody AnswerDto answerDto, @PathVariable long materialId) {
-        answerDto.setUserAssignmentId(materialId);
+    public ResponseEntity<AnswerDto> create(@RequestBody AnswerDto answerDto, @PathVariable long userAssignmentId) {
+        answerDto.setUserAssignmentId(userAssignmentId);
         long createdDtoId = answerService.create(answerDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
