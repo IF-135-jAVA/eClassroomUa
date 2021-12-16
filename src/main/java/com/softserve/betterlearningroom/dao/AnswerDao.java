@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.dao;
 
-import com.softserve.betterlearningroom.entity.UserAssignment;
+import com.softserve.betterlearningroom.entity.Answer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -17,42 +17,42 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-@PropertySource("classpath:/user_assignment_queries.properties")
-public class UserAssignmentDao {
+@PropertySource("classpath:/answer_queries.properties")
+public class AnswerDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    @Value("${create.user.assignment}")
+    @Value("${create.answer}")
     private String createQuery;
 
-    @Value("${read.user.assignment.by.id}")
+    @Value("${read.answer.by.id}")
     private String readByIdQuery;
 
-    @Value("${update.user.assignment}")
+    @Value("${update.answer}")
     private String updateQuery;
 
-    @Value("${get.user.assignments.by.assignment}")
-    private String getByAssignmentQuery;
+    @Value("${get.answers.by.user.assignment}")
+    private String getByUserAssignmentQuery;
 
-    public long create(UserAssignment userAssignment) {
+    public long create(Answer answer) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(userAssignment);
+        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(answer);
         jdbcTemplate.update(createQuery, parameterSource, keyHolder, new String[]{"id"});
         return keyHolder.getKeyAs(Integer.class);
     }
 
-    public List<UserAssignment> readById(long id) {
+    public List<Answer> readById(long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
-        return jdbcTemplate.query(readByIdQuery, parameterSource, BeanPropertyRowMapper.newInstance(UserAssignment.class));
+        return jdbcTemplate.query(readByIdQuery, parameterSource, BeanPropertyRowMapper.newInstance(Answer.class));
     }
 
-    public void update(UserAssignment userAssignment) {
-        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(userAssignment);
+    public void update(Answer answer) {
+        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(answer);
         jdbcTemplate.update(updateQuery, parameterSource);
     }
 
-    public List<UserAssignment> getByAssignment(long assignmentId) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("assignmentId", assignmentId);
-        return jdbcTemplate.query(getByAssignmentQuery, parameterSource, BeanPropertyRowMapper.newInstance(UserAssignment.class));
+    public List<Answer> getByUserAssignment(long userAssignmentId) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource("userAssignmentId", userAssignmentId);
+        return jdbcTemplate.query(getByUserAssignmentQuery, parameterSource, BeanPropertyRowMapper.newInstance(Answer.class));
     }
 }

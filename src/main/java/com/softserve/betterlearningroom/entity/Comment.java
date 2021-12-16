@@ -12,8 +12,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Comment {
     private long id;
-    private User author;
     private String text;
     private LocalDateTime date;
+    private User author;
+    private Announcement announcement;
+    private Assignment assignment;
+    private Material material;
 
 }

@@ -1,23 +1,19 @@
 package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.dao.CommentDAO;
-
 import com.softserve.betterlearningroom.dto.CommentDTO;
-
 import com.softserve.betterlearningroom.entity.Comment;
-
 import com.softserve.betterlearningroom.mapper.CommentMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class CommentService {
+public class
+CommentService {
     private CommentDAO commentDAO;
     private CommentMapper commentMapper;
 
