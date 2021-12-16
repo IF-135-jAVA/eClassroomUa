@@ -48,14 +48,12 @@ public class MaterialController {
 
     @PostMapping
     private ResponseEntity<MaterialDTO> createMaterial(@RequestBody MaterialDTO material, @PathVariable Long topicId){
-        materialService.addMaterial(material, topicId);
         return new ResponseEntity<>(materialService.addMaterial(material, topicId),HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
-    private ResponseEntity<?> updateMaterial(@RequestBody MaterialDTO material){
-        materialService.updateMaterial(material);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    private ResponseEntity<MaterialDTO> updateMaterial(@RequestBody MaterialDTO material){
+        return new ResponseEntity<>(materialService.updateMaterial(material),HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("{id}")
