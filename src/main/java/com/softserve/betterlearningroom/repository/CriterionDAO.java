@@ -42,8 +42,8 @@ public class CriterionDAO {
     public void save(Criterion criterion) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource
-                .addValue("criterionid", criterion.getId())
-                .addValue("materialid", criterion.getMaterialId())
+                .addValue("criterionid", criterion.getCriterionid())
+                .addValue("materialid", criterion.getMaterialid())
                 .addValue("title", criterion.getTitle())
                 .addValue("description", criterion.getDescription());
         jdbcTemplate.update(saveQuery, parameterSource);

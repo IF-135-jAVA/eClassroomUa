@@ -47,9 +47,9 @@ public class LevelController {
     /**
      * update table by id
      */
-    @PutMapping("/{id}")
+    @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> update(@PathVariable("id") final int id, @RequestBody final LevelDTO levelDTO) {
+    public ResponseEntity<?> update(@RequestBody final LevelDTO levelDTO) {
         levelService.update(levelDTO);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }

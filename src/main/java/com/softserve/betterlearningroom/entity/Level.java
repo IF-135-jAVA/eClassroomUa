@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Level {
 
-    private int id;
+    private int levelid;
 
     private String title;
 
     private String description;
 
-    private Integer criterionId;
+    private Integer criterionid;
 
     private int mark;
 

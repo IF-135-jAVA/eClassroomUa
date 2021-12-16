@@ -42,7 +42,7 @@ public class TopicDAO {
     public void save(Topic topic) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource
-                .addValue("classroomId", topic.getClassroomId())
+                .addValue("classroomId", topic.getClassroom_id())
                 .addValue("title", topic.getTitle());
         jdbcTemplate.update(saveQuery, parameterSource);
     }
@@ -53,7 +53,10 @@ public class TopicDAO {
     }
 
     public List<Topic> findAll() {
-        return jdbcTemplate.query(findAllQuery,
+       List<Topic> list=jdbcTemplate.query(findAllQuery,
+               BeanPropertyRowMapper.newInstance(Topic.class));
+        System.out.println(list);
+       return jdbcTemplate.query(findAllQuery,
                 BeanPropertyRowMapper.newInstance(Topic.class));
     }
 

@@ -38,18 +38,18 @@ public class TopicService {
 
     public Topic toEntity(TopicDTO topicDTO) {
         return Topic.builder()
-                .id(topicDTO.getId())
+                .topic_id(topicDTO.getId())
                 .title(topicDTO.getTitle())
-                .classroomId(topicDTO.getClassroomId())
+                .classroom_id(topicDTO.getClassroomId())
                 .build();
 
     }
 
     public TopicDTO toDTO(Topic topic) {
         return TopicDTO.builder()
-                .id(topic.getId())
+                .id(topic.getTopic_id())
                 .title(topic.getTitle())
-                .classroomId(topic.getClassroomId())
+                .classroomId(topic.getClassroom_id())
                 .build();
 
     }

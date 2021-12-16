@@ -32,17 +32,19 @@ public class CriterionService {
     }
 
     public void save(CriterionDTO criterionDTO) {
+
         criterionDAO.save(toEntity(criterionDTO));
     }
 
     public void update(CriterionDTO criterionDTO) {
+
         criterionDAO.update(toEntity(criterionDTO));
     }
 
     public Criterion toEntity(CriterionDTO criterionDTO) {
         return Criterion.builder()
-                .id(criterionDTO.getId())
-                .materialId(criterionDTO.getMaterialIdDTO())
+                .criterionid(criterionDTO.getId())
+                .materialid(criterionDTO.getMaterialIdDTO())
                 .title(criterionDTO.getTitle())
                 .description(criterionDTO.getDescription())
                 .build();
@@ -50,6 +52,8 @@ public class CriterionService {
 
     public CriterionDTO toDTO(Criterion criterion) {
         return CriterionDTO.builder()
+                .id(criterion.getCriterionid())
+                .materialIdDTO(criterion.getMaterialid())
                 .title(criterion.getTitle())
                 .description(criterion.getDescription())
                 .build();

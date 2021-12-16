@@ -31,7 +31,7 @@ public class TopicController {
      * get topic by id
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Topic> getById(@PathVariable(value = "id") final Integer topicId) {
+    public ResponseEntity<Topic> getById(@PathVariable(value = "topicId") final Integer topicId) {
         Topic topic = topicService.findById(topicId);
         return ResponseEntity.ok().body(topic);
     }
@@ -50,7 +50,7 @@ public class TopicController {
      */
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> update(@PathVariable("id") final int id, @RequestBody final TopicDTO topicDTO) {
+    public ResponseEntity<?> update(@RequestBody final TopicDTO topicDTO) {
         topicService.update(topicDTO);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
@@ -61,6 +61,7 @@ public class TopicController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable final int id) {
+
         topicService.removeById(id);
     }
 }

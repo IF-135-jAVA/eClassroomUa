@@ -11,13 +11,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Criterion {
 
-    private int id;
+    private int criterionid;
 
     private String title;
 
     private String description;
 
-    private Integer materialId;
+    private Integer materialid;
 
 
 
