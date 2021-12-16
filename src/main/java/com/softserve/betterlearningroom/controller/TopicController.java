@@ -2,7 +2,7 @@ package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.TopicDTO;
 import com.softserve.betterlearningroom.entity.Topic;
-import com.softserve.betterlearningroom.services.TopicService;
+import com.softserve.betterlearningroom.service.impl.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +31,8 @@ public class TopicController {
      * get topic by id
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Topic> getById(@PathVariable(value = "topicId") final Integer topicId) {
-        Topic topic = topicService.findById(topicId);
+    public ResponseEntity<Topic> getById(@PathVariable Integer id) {
+        Topic topic = topicService.findById(id);
         return ResponseEntity.ok().body(topic);
     }
     /**

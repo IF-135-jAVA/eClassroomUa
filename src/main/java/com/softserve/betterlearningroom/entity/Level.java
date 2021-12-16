@@ -25,5 +25,5 @@ public class Level {
 
     private Integer mark;
   
-    private Integer mark;
+
 }

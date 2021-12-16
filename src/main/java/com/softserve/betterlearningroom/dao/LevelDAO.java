@@ -1,4 +1,4 @@
-package com.softserve.betterlearningroom.repository;
+package com.softserve.betterlearningroom.dao;
 
 import com.softserve.betterlearningroom.entity.Level;
 import org.springframework.beans.factory.annotation.Autowired;

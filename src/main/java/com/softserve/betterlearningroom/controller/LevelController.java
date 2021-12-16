@@ -3,7 +3,7 @@ package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.LevelDTO;
 import com.softserve.betterlearningroom.entity.Level;
-import com.softserve.betterlearningroom.services.LevelService;
+import com.softserve.betterlearningroom.service.impl.LevelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

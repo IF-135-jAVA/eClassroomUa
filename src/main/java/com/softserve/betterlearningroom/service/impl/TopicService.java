@@ -1,8 +1,8 @@
-package com.softserve.betterlearningroom.services;
+package com.softserve.betterlearningroom.service.impl;
 
 import com.softserve.betterlearningroom.dto.TopicDTO;
 import com.softserve.betterlearningroom.entity.Topic;
-import com.softserve.betterlearningroom.repository.TopicDAO;
+import com.softserve.betterlearningroom.dao.impl.TopicDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

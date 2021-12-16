@@ -1,8 +1,8 @@
-package com.softserve.betterlearningroom.services;
+package com.softserve.betterlearningroom.service.impl;
 
 import com.softserve.betterlearningroom.dto.CriterionDTO;
 import com.softserve.betterlearningroom.entity.Criterion;
-import com.softserve.betterlearningroom.repository.CriterionDAO;
+import com.softserve.betterlearningroom.dao.impl.CriterionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

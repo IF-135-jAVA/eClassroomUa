@@ -1,8 +1,8 @@
-package com.softserve.betterlearningroom.services;
+package com.softserve.betterlearningroom.service.impl;
 
+import com.softserve.betterlearningroom.dao.LevelDAO;
 import com.softserve.betterlearningroom.dto.LevelDTO;
 import com.softserve.betterlearningroom.entity.Level;
-import com.softserve.betterlearningroom.repository.LevelDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

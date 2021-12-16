@@ -17,11 +17,8 @@ import java.util.List;
 @EqualsAndHashCode
 public class Criterion {
 
-<<<<<<< HEAD
+
     private int criterionid;
-=======
-    private Long id;
->>>>>>> 278296fff6ff9a91a1ff442e8335e47e0c528f7d
 
     private String title;
 

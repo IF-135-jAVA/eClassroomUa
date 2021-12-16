@@ -2,7 +2,7 @@ package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.CriterionDTO;
 import com.softserve.betterlearningroom.entity.Criterion;
-import com.softserve.betterlearningroom.services.CriterionService;
+import com.softserve.betterlearningroom.service.impl.CriterionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
