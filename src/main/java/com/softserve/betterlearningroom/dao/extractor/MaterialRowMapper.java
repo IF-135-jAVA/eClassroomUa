@@ -34,6 +34,9 @@ public class MaterialRowMapper implements ResultSetExtractor<List<Material>> {
                         material = new Material();
                         break;
                 }
+                String className = getClass().getSimpleName() + type.name();
+
+
                 material.setTask(rs.getString("task"));
                 material.setUrl(rs.getString("testUrl"));
                 material.setStartDate(rs.getDate("startdate").toLocalDate().atStartOfDay());
