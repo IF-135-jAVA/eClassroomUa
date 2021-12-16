@@ -1,7 +1,7 @@
 package com.softserve.betterlearningroom.dao;
 
 import com.softserve.betterlearningroom.entity.Announcement;
-import liquibase.pro.packaged.S;
+//import liquibase.pro.packaged.S;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
