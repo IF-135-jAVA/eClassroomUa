@@ -17,10 +17,12 @@ import com.softserve.betterlearningroom.dao.UserDao;
 import com.softserve.betterlearningroom.entity.User;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 
 @Repository
 @RequiredArgsConstructor
 @PropertySource(value = "classpath:/user_queries.properties")
+@Log
 public class UserDaoImpl implements UserDao {
 	
 	private final NamedParameterJdbcTemplate template;
@@ -53,7 +55,7 @@ public class UserDaoImpl implements UserDao {
 		try {
 			user = template.queryForObject(findById, param, BeanPropertyRowMapper.newInstance(User.class));
 		} catch (DataAccessException ex) {
-			ex.printStackTrace();
+			String.format("User with id - %d, not found.", id);
 		}
 		return Optional.ofNullable(user);
 	}
@@ -65,7 +67,7 @@ public class UserDaoImpl implements UserDao {
 		try {
 			user = template.queryForObject(findByEmail, param, rowMapper);
 		} catch (DataAccessException ex) {
-			ex.printStackTrace();
+			log.info(String.format("User with email - %s, not found.", email));
 		}
 		return Optional.ofNullable(user);
 	}
