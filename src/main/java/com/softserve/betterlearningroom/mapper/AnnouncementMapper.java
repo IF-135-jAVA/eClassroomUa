@@ -12,6 +12,7 @@ public class AnnouncementMapper {
     public static AnnouncementDTO announcementToAnnouncementDTO(Announcement announcement) {
         AnnouncementDTO announcementDTO = new AnnouncementDTO();
         announcementDTO.setId(announcement.getId());
+        announcementDTO.setCourseId(announcement.getCourseId());
         announcementDTO.setText(announcement.getText());
         announcementDTO.setComments(announcement.getComments());
 
@@ -21,8 +22,9 @@ public class AnnouncementMapper {
     public Announcement announcementDTOToAnnouncement(AnnouncementDTO announcementDTO) {
         Announcement announcement = new Announcement();
         announcement.setId(announcementDTO.getId());
+        announcement.setCourseId(announcementDTO.getCourseId());
         announcement.setText(announcementDTO.getText());
-       announcement.setComments(announcementDTO.getComments());
+        announcement.setComments(announcementDTO.getComments());
 
         return announcement;
     }
