@@ -1,6 +1,7 @@
 package com.softserve.betterlearningroom.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -11,15 +12,20 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @ToString
 @EqualsAndHashCode
 public class Criterion {
 
-    private Long id;
+
+    private int criterionid;
 
     private String title;
 
     private String description;
 
+    private Integer materialid;
+
     private List<Level> levels;
+   
 }
