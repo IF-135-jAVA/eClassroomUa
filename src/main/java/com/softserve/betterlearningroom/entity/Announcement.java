@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Announcement {
     private long id;
-    private Classroom courseId;
+    private Classroom course_id;
     private String text;
     private List<Comment> comments;
 
