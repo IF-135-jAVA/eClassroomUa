@@ -1,6 +1,5 @@
 package com.softserve.betterlearningroom.dao;
 
-import com.softserve.betterlearningroom.entity.Announcement;
 import com.softserve.betterlearningroom.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,19 +23,19 @@ public class CommentDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Value("${find.all}")
+    @Value("${findAll.Comments}")
     private String getAll;
 
-    @Value("${find.by_id}")
+    @Value("${findById.Comment}")
     private String getById;
 
-    @Value("${save}")
+    @Value("${save.Comment}")
     private String save;
 
-    @Value("${update}")
+    @Value("${update.Comment}")
     private String edit;
 
-    @Value("${remove}")
+    @Value("${remove.Comment}")
     private String remove;
 
     public List<Comment> readAll() {
@@ -53,12 +52,14 @@ public class CommentDAO {
 
     public void create(Comment comment) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("text", comment.getText())
-                .addValue("author", comment.getAuthor())
+        parameterSource.addValue("author_id", comment.getAuthor_id())
+                .addValue("material_id", comment.getMaterial_id())
+                .addValue("text", comment.getText())
                 .addValue("date", comment.getDate());
 
         jdbcTemplate.update(save, parameterSource);
     }
+    
 
     public void update(Comment updateComment) {
         BeanPropertySqlParameterSource parameterSource =

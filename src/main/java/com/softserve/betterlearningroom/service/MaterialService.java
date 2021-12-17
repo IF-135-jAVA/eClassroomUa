@@ -18,11 +18,13 @@ public interface MaterialService {
 
     MaterialDTO updateMaterial(MaterialDTO material);
 
-    List<? extends MaterialDTO> getMaterialsByClassroom(Long classroomId);
+    void deleteMaterial(MaterialDTO material);
 
-    List<? extends MaterialDTO> getMaterialsByType(Long classroomId, MaterialType materialType);
+    List<MaterialDTO> getMaterialsByClassroom(Long classroomId);
 
-    List<? extends MaterialDTO> getMaterialsByTopic(Long classroomId, Long topicId);
+    List<MaterialDTO> getMaterialsByType(Long classroomId, MaterialType materialType);
+
+    List<MaterialDTO> getMaterialsByTopic(Long classroomId, Long topicId);
 
     //TODO: getMaterialsByUser;
 }

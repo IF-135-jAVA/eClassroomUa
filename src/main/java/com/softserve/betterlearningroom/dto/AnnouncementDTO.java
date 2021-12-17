@@ -1,5 +1,6 @@
 package com.softserve.betterlearningroom.dto;
 
+import com.softserve.betterlearningroom.entity.Classroom;
 import com.softserve.betterlearningroom.entity.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,11 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnnouncementDTO {
-
     private long id;
-
+    private Classroom course_id;
     private String text;
-
     private List<Comment> comments;
-
 }
