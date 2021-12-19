@@ -11,12 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(
-        allowCredentials = "true",
-        origins = "http://localhost:4200",
-        allowedHeaders = "*",
-        methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PUT}
-)
 @AllArgsConstructor
 @RequestMapping("/api/classrooms/{classroomId}/comments")
 
