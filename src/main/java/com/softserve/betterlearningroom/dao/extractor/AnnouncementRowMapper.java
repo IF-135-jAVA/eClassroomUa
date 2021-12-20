@@ -17,10 +17,11 @@ public class AnnouncementRowMapper implements RowMapper<Announcement> {
     @Override
     public Announcement mapRow(ResultSet rs, int rowNum) throws SQLException {
         Announcement announcement = new Announcement();
-        announcement.setId(rs.getInt("id"));
-        announcement.setCourse_id((Classroom) rs.getObject("course_id"));
+        announcement.setId(rs.getLong("id"));
+        announcement.setCourse_id(rs.getLong("course_id"));
         announcement.setText(rs.getString("text"));
         announcement.setComments((List<Comment>) rs.getArray("comments"));
+
 
         return announcement;
     }

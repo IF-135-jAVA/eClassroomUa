@@ -30,7 +30,7 @@ public class AnnouncementController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AnnouncementDTO> readById(
-            @PathVariable int id) {
+            @PathVariable long id) {
        AnnouncementDTO announcementDTO = announcementService.readById(id);
         return ResponseEntity.ok().body(announcementDTO);
     }

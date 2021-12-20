@@ -31,7 +31,7 @@ public class CommentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CommentDTO> readById(
-            @PathVariable int id) {
+            @PathVariable long id) {
         CommentDTO commentDTO = commentService.readById(id);
         return ResponseEntity.ok().body(commentDTO);
     }
