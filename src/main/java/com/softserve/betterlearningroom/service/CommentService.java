@@ -36,15 +36,21 @@ CommentService {
     }
 
 
-    public void updateMaterialComments(CommentDTO commentDTO, long id) {
-        commentDAO.updateMaterialComments(commentMapper.commentDTOToComment(commentDTO));
-    }
 
+    public void updateMaterialComments(CommentDTO commentDTO, long id) {
+        CommentDTO oldCommentDTO = readByIdMaterialComments(id);
+        if(oldCommentDTO != null) {
+            oldCommentDTO.setText(commentDTO.getText());
+            commentDAO.updateMaterialComments(commentMapper.commentDTOToComment(oldCommentDTO));
+        }
+    }
 
     public void deleteMaterialComments(long id) {
         CommentDTO commentDTO = readByIdMaterialComments(id);
             commentDAO.deleteMaterialComments(commentDTO.getId());
         }
+
+
 
 
 
@@ -68,10 +74,14 @@ CommentService {
     }
 
 
-    public void updateAnnouncementComments(CommentDTO commentDTO, long id) {
-        commentDAO.updateAnnouncementComments(commentMapper.commentDTOToComment(commentDTO));
-    }
 
+    public void updateAnnouncementComments(CommentDTO commentDTO, long id) {
+        CommentDTO oldCommentDTO = readByIdAnnouncementComments(id);
+        if(oldCommentDTO != null) {
+            oldCommentDTO.setText(commentDTO.getText());
+            commentDAO.updateAnnouncementComments(commentMapper.commentDTOToComment(oldCommentDTO));
+        }
+    }
 
     public void deleteAnnouncementComments(long id) {
         CommentDTO commentDTO = readByIdAnnouncementComments(id);

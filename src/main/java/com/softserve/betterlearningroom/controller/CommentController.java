@@ -38,10 +38,13 @@ public class CommentController {
     }
 
     @PutMapping("/materialComments/{id}")
-    public ResponseEntity<?> updateMaterialComments(@PathVariable long id, @RequestBody CommentDTO commentDTO) {
+    public ResponseEntity<CommentDTO> updateMaterialComments(@PathVariable long id, @RequestBody CommentDTO commentDTO) {
+        if(commentService.readByIdMaterialComments(id) == null) return ResponseEntity.notFound().build();
         commentService.updateMaterialComments(commentDTO, id);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return ResponseEntity.ok(commentService.readByIdMaterialComments(id));
     }
+
+
 
     @DeleteMapping("/materialComments/{id}")
     public ResponseEntity<?> deleteMaterialComments(@PathVariable long id) {
@@ -72,10 +75,12 @@ public class CommentController {
         return ResponseEntity.ok().body(commentDTO);
     }
 
+
     @PutMapping("/announcementComments/{id}")
-    public ResponseEntity<?> updateAnnouncementComments(@PathVariable long id, @RequestBody CommentDTO commentDTO) {
+    public ResponseEntity<CommentDTO> updateAnnouncementComments(@PathVariable long id, @RequestBody CommentDTO commentDTO) {
+        if(commentService.readByIdAnnouncementComments(id) == null) return ResponseEntity.notFound().build();
         commentService.updateAnnouncementComments(commentDTO, id);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return ResponseEntity.ok(commentService.readByIdAnnouncementComments(id));
     }
 
     @DeleteMapping("/announcementComments/{id}")

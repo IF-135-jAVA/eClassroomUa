@@ -111,6 +111,7 @@ public class CommentDAO {
                 .addValue("text", comment.getText())
                 .addValue("date", comment.getDate());
 
+
         jdbcTemplate.update(saveAnnouncementComments, parameterSource);
     }
 

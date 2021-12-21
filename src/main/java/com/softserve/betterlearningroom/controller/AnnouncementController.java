@@ -35,12 +35,6 @@ public class AnnouncementController {
         return ResponseEntity.ok().body(announcementDTO);
     }
 
-//    @PutMapping("{id}")
-//    public ResponseEntity<?> update(@PathVariable long id, @RequestBody AnnouncementDTO announcementDTO) {
-//        announcementService.update(id, announcementDTO);
-//        return new ResponseEntity<>(HttpStatus.ACCEPTED);
-//    }
-
 
 
     @PutMapping("{id}")
