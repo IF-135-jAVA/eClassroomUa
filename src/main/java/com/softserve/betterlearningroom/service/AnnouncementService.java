@@ -39,10 +39,14 @@ public class AnnouncementService {
     }
 
 
-    public void update(AnnouncementDTO announcementDTO, long id) {
-        announcementDAO.update(announcementMapper.announcementDTOToAnnouncement(announcementDTO));
-    }
 
+    public void update(AnnouncementDTO announcementDTO, long id) {
+        AnnouncementDTO oldAnnouncementDTO = readById(id);
+        if(oldAnnouncementDTO != null) {
+            oldAnnouncementDTO.setText(announcementDTO.getText());
+            announcementDAO.update(announcementMapper.announcementDTOToAnnouncement(oldAnnouncementDTO));
+        }
+    }
 
     public void delete(long id) {
         AnnouncementDTO announcementDTO = readById(id);

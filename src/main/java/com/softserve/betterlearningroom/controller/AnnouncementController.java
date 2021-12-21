@@ -35,11 +35,21 @@ public class AnnouncementController {
         return ResponseEntity.ok().body(announcementDTO);
     }
 
+//    @PutMapping("{id}")
+//    public ResponseEntity<?> update(@PathVariable long id, @RequestBody AnnouncementDTO announcementDTO) {
+//        announcementService.update(id, announcementDTO);
+//        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+//    }
+
+
+
     @PutMapping("{id}")
-    public ResponseEntity<?> update(@PathVariable long id, @RequestBody AnnouncementDTO announcementDTO) {
+    public ResponseEntity<AnnouncementDTO> update(@PathVariable long id, @RequestBody AnnouncementDTO announcementDTO) {
+        if(announcementService.readById(id) == null) return ResponseEntity.notFound().build();
         announcementService.update(announcementDTO, id);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return ResponseEntity.ok(announcementService.readById(id));
     }
+
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> delete(@PathVariable long id) {

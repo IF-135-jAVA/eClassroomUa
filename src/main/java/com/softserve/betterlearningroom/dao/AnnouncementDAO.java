@@ -25,7 +25,7 @@ public class AnnouncementDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Value ("${findAll.Announcements}")
+    @Value("${findAll.Announcements}")
     private String getAll;
 
     @Value("${findById.Announcement}")
@@ -53,9 +53,8 @@ public class AnnouncementDAO {
 
     public void create(Announcement announcement) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("course_id",announcement.getCourse_id())
+        parameterSource.addValue("course_id", announcement.getCourse_id())
                 .addValue("text", announcement.getText());
-
 
         jdbcTemplate.update(save, parameterSource);
     }
@@ -65,6 +64,8 @@ public class AnnouncementDAO {
                 new BeanPropertySqlParameterSource(updateAnnouncement);
         jdbcTemplate.update(edit, parameterSource);
     }
+
+
 
 
     public void delete(long id) {
