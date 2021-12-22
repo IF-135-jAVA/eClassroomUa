@@ -11,13 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnnouncementDTO {
-
     private long id;
-
-    private Classroom courseId;
-
+    private Classroom course_id;
     private String text;
-
     private List<Comment> comments;
-
 }

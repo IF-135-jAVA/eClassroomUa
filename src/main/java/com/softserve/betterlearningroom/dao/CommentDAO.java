@@ -52,8 +52,8 @@ public class CommentDAO {
 
     public void create(Comment comment) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("author_id", comment.getAuthor())
-                .addValue("material_id", comment.getMaterial())
+        parameterSource.addValue("author_id", comment.getAuthor_id())
+                .addValue("material_id", comment.getMaterial_id())
                 .addValue("text", comment.getText())
                 .addValue("date", comment.getDate());
 

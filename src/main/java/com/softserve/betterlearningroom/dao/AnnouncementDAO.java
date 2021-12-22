@@ -53,7 +53,7 @@ public class AnnouncementDAO {
 
     public void create(Announcement announcement) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("course_id",announcement.getCourseId())
+        parameterSource.addValue("course_id",announcement.getCourse_id())
                 .addValue("text", announcement.getText());
 
 
