@@ -1,7 +1,6 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.TopicDTO;
-import com.softserve.betterlearningroom.entity.Topic;
 import com.softserve.betterlearningroom.service.impl.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/classrooms/topic/")
+@RequestMapping("classrooms/{classroomId}/topics/")
 public class TopicController {
 
     @Autowired
@@ -31,9 +30,9 @@ public class TopicController {
      * get topic by id
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Topic> getById(@PathVariable Integer id) {
-        Topic topic = topicService.findById(id);
-        return ResponseEntity.ok().body(topic);
+    public ResponseEntity<TopicDTO> getById(@PathVariable Integer id) {
+        TopicDTO topicDTO = topicService.findById(id);
+        return ResponseEntity.ok().body(topicDTO);
     }
     /**
      *

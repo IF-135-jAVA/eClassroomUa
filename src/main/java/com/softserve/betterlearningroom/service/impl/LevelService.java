@@ -16,8 +16,8 @@ public class LevelService {
     @Autowired
     private LevelDAO levelDAO;
 
-    public Level findById(Integer id) {
-        return levelDAO.findById(id).orElseThrow(() -> new RuntimeException("level didn't find"));
+    public LevelDTO findById(Integer id) {
+        return toDTO(levelDAO.findById(id).orElseThrow(() -> new RuntimeException("level didn't find")));
     }
 
     public void removeById(Integer id) {
@@ -43,6 +43,7 @@ public class LevelService {
                 .criterionid(levelDTO.getCriterionId())
                 .title(levelDTO.getTitle())
                 .description(levelDTO.getDescription())
+                .mark(levelDTO.getMark())
                 .build();
 
     }
@@ -53,6 +54,7 @@ public class LevelService {
                 .criterionId(level.getCriterionid())
                 .title(level.getTitle())
                 .description(level.getDescription())
+                .mark(level.getMark())
                 .build();
     }
 

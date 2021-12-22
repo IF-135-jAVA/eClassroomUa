@@ -15,9 +15,9 @@ public class CriterionService {
     @Autowired
     private CriterionDAO criterionDAO;
 
-    public Criterion findById(Integer id) {
+    public CriterionDTO findById(Integer id) {
 
-        return criterionDAO.findById(id).orElseThrow(() -> new RuntimeException("criterion didn't find"));
+        return toDTO(criterionDAO.findById(id).orElseThrow(() -> new RuntimeException("criterion didn't find")));
     }
 
     public void removeById(Integer id) {

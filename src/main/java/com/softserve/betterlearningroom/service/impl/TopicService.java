@@ -15,8 +15,8 @@ public class TopicService {
     @Autowired
     private TopicDAO topicDAO;
 
-    public Topic findById(Integer id) {
-        return topicDAO.findById(id).orElseThrow(() -> new RuntimeException("topic by id is not saved"));
+    public TopicDTO findById(Integer id) {
+        return toDTO(topicDAO.findById(id).orElseThrow(() -> new RuntimeException("topic by id is not saved")));
     }
 
     public void removeById(Integer id) {
