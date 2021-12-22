@@ -28,13 +28,19 @@ public class AnnouncementController {
         return new ResponseEntity<>(announcements, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<AnnouncementDTO> readById(
-            @PathVariable long id) {
-       AnnouncementDTO announcementDTO = announcementService.readById(id);
-        return ResponseEntity.ok().body(announcementDTO);
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<AnnouncementDTO> readById(
+//            @PathVariable long id) {
+//       AnnouncementDTO announcementDTO = announcementService.readById(id);
+//        return ResponseEntity.ok().body(announcementDTO);
+//    }
 
+    @GetMapping("{id}")
+    public ResponseEntity<AnnouncementDTO> readById(@PathVariable long id) {
+        AnnouncementDTO result = announcementService.readById(id);
+        if(result == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(result);
+    }
 
 
     @PutMapping("{id}")

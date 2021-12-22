@@ -24,108 +24,70 @@ public class CommentDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Value("${findAll.materialComments}")
-    private String getAllMaterialComments;
+
+    @Value("${findById.Comment}")
+    private String getByIdComments;
+
+    @Value("${save.Comment}")
+    private String saveComments;
+
+    @Value("${update.Comment}")
+    private String editComments;
+
+    @Value("${remove.Comment}")
+    private String removeComments;
 
     @Value("${findById.materialComment}")
     private String getByIdMaterialComments;
 
-    @Value("${save.materialComment}")
-    private String saveMaterialComments;
+    @Value("${findById.announcementComment}")
+    private String getByIdAnnouncementComments;
 
-    @Value("${update.materialComment}")
-    private String editMaterialComments;
+    @Value("${findById.userAssignmentComment}")
+    private String getByIdUserAssignmentComments;
 
-    @Value("${remove.materialComment}")
-    private String removeMaterialComments;
-
-
-    public List<Comment> readAllMaterialComments() {
-        return jdbcTemplate.query(getAllMaterialComments, BeanPropertyRowMapper.newInstance(Comment.class));
-    }
-
-
-    public Comment readByIdMaterialComments(long id) {
+    public List<Comment> readByIdComments(long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
-        return jdbcTemplate.queryForObject(getByIdMaterialComments, parameterSource,
-                BeanPropertyRowMapper.newInstance(Comment.class));
+        return jdbcTemplate.query(getByIdComments, parameterSource, BeanPropertyRowMapper.newInstance(Comment.class));
     }
 
-
-    public void createMaterialComments(Comment comment) {
+    public void createComments(Comment comment) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("author_id", comment.getAuthor_id())
                 .addValue("material_id", comment.getMaterial_id())
                 .addValue("text", comment.getText())
-                .addValue("date", comment.getDate());
-
-        jdbcTemplate.update(saveMaterialComments, parameterSource);
-    }
-
-
-    public void updateMaterialComments(Comment updateComment) {
-        BeanPropertySqlParameterSource parameterSource =
-                new BeanPropertySqlParameterSource(updateComment);
-        jdbcTemplate.update(editMaterialComments, parameterSource);
-    }
-
-    public void deleteMaterialComments(long id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
-        jdbcTemplate.update(removeMaterialComments, parameterSource);
-
-    }
-
-    @Value("${findAll.announcementComments}")
-    private String getAllAnnouncementComments;
-
-    @Value("${findById.announcementComment}")
-    private String getByIdAnnouncementComments;
-
-    @Value("${save.announcementComment}")
-    private String saveAnnouncementComments;
-
-    @Value("${update.announcementComment}")
-    private String editAnnouncementComments;
-
-    @Value("${remove.announcementComment}")
-    private String removeAnnouncementComments;
-
-
-
-    public List<Comment> readAllAnnouncementComments() {
-        return jdbcTemplate.query(getAllAnnouncementComments, BeanPropertyRowMapper.newInstance(Comment.class));
-    }
-
-
-    public Comment readByIdAnnouncementComments(long id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
-        return jdbcTemplate.queryForObject(getByIdAnnouncementComments, parameterSource,
-                BeanPropertyRowMapper.newInstance(Comment.class));
-    }
-
-
-    public void createAnnouncementComments(Comment comment) {
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("author_id", comment.getAuthor_id())
+                .addValue("date", comment.getDate())
                 .addValue("announcement_id", comment.getAnnouncement_id())
-                .addValue("text", comment.getText())
-                .addValue("date", comment.getDate());
+                .addValue("user_assignment_id", comment.getUser_assignment_id());
 
-
-        jdbcTemplate.update(saveAnnouncementComments, parameterSource);
+        jdbcTemplate.update(saveComments, parameterSource);
     }
 
 
-    public void updateAnnouncementComments(Comment updateComment) {
+    public void updateComments(Comment updateComment) {
         BeanPropertySqlParameterSource parameterSource =
                 new BeanPropertySqlParameterSource(updateComment);
-        jdbcTemplate.update(editAnnouncementComments, parameterSource);
+        jdbcTemplate.update(editComments, parameterSource);
     }
 
-    public void deleteAnnouncementComments(long id) {
+    public void deleteComments(long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
-        jdbcTemplate.update(removeAnnouncementComments, parameterSource);
+        jdbcTemplate.update(removeComments, parameterSource);
 
     }
+    public List<Comment> readByIdMaterialComments(long materialCommentsId) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource("materialCommentsId", materialCommentsId);
+        return jdbcTemplate.query(getByIdMaterialComments, parameterSource, BeanPropertyRowMapper.newInstance(Comment.class));
+    }
 
-}
+    public List<Comment> readByIdAnnouncementComments(long announcementCommentsId) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource("announcementCommentsId", announcementCommentsId);
+        return jdbcTemplate.query(getByIdAnnouncementComments, parameterSource, BeanPropertyRowMapper.newInstance(Comment.class));
+    }
+
+    public List<Comment> readByIdUserAssignmentComments(long userAssignmentCommentsId) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource("userAssignmentCommentsId", userAssignmentCommentsId);
+        return jdbcTemplate.query(getByIdUserAssignmentComments, parameterSource, BeanPropertyRowMapper.newInstance(Comment.class));
+    }
+
+    }

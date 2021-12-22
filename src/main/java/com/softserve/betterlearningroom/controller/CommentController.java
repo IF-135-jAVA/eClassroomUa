@@ -17,77 +17,46 @@ import java.util.List;
 public class CommentController {
     private CommentService commentService;
 
+    @GetMapping("/materials/{materialId}/materialComments/{id}")
+    public ResponseEntity<CommentDTO> readByIdComments(
+            @PathVariable long id) {
+        CommentDTO result = commentService.readByIdComments(id);
+        if(result==null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(result);
+    }
+
     @PostMapping("/materialComments")
-    public ResponseEntity<?> createMaterialComments(@RequestBody CommentDTO commentDTO){
-        commentService.createMaterialComments(commentDTO);
+    public ResponseEntity<?> createComments(@RequestBody CommentDTO commentDTO) {
+        commentService.createComments(commentDTO);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @GetMapping("/materialComments")
-    public ResponseEntity<List<CommentDTO>> readAllMaterialComments() {
-        List<CommentDTO> comments = commentService.readAllMaterialComments();
-        return new ResponseEntity<>(comments, HttpStatus.OK);
-    }
-
-    @GetMapping("/materialComments/{id}")
-    public ResponseEntity<CommentDTO> readByIdMaterialComments(
-            @PathVariable long id) {
-        CommentDTO commentDTO = commentService.readByIdMaterialComments(id);
-        return ResponseEntity.ok().body(commentDTO);
     }
 
     @PutMapping("/materialComments/{id}")
-    public ResponseEntity<CommentDTO> updateMaterialComments(@PathVariable long id, @RequestBody CommentDTO commentDTO) {
-        if(commentService.readByIdMaterialComments(id) == null) return ResponseEntity.notFound().build();
-        commentService.updateMaterialComments(commentDTO, id);
-        return ResponseEntity.ok(commentService.readByIdMaterialComments(id));
+    public ResponseEntity<CommentDTO> updateComments(@PathVariable long id, @RequestBody CommentDTO commentDTO) {
+        if (commentService.readByIdComments(id) == null) return ResponseEntity.notFound().build();
+        commentService.updateComments(commentDTO, id);
+        return ResponseEntity.ok(commentService.readByIdComments(id));
     }
-
-
 
     @DeleteMapping("/materialComments/{id}")
-    public ResponseEntity<?> deleteMaterialComments(@PathVariable long id) {
-        commentService.deleteMaterialComments(id);
+    public ResponseEntity<?> deleteComments(@PathVariable long id) {
+        commentService.deleteComments(id);
         return ResponseEntity.ok().build();
     }
 
-
-
-
-
-    @PostMapping("/announcementComments")
-    public ResponseEntity<?> createAnnouncementComments(@RequestBody CommentDTO commentDTO){
-        commentService.createAnnouncementComments(commentDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @GetMapping("/materials/{materialId}/materialComments")
+    public ResponseEntity<List<CommentDTO>> readByIdMaterialComments(@PathVariable long materialId) {
+        return ResponseEntity.ok(commentService.readByIdMaterialComments(materialId));
     }
 
-    @GetMapping("/announcementComments")
-    public ResponseEntity<List<CommentDTO>> readAllAnnouncementComments() {
-        List<CommentDTO> comments = commentService.readAllAnnouncementComments();
-        return new ResponseEntity<>(comments, HttpStatus.OK);
+    @GetMapping("/announcements/{announcementId}/announcementComments")
+    public ResponseEntity<List<CommentDTO>> readByIdAnnouncementComments(@PathVariable long announcementId) {
+        return ResponseEntity.ok(commentService.readByIdAnnouncementComments(announcementId));
     }
 
-    @GetMapping("/announcementComments/{id}")
-    public ResponseEntity<CommentDTO> readByIdAnnouncementComments(
-            @PathVariable long id) {
-        CommentDTO commentDTO = commentService.readByIdAnnouncementComments(id);
-        return ResponseEntity.ok().body(commentDTO);
+    @GetMapping("/user-assignments/{userAssignmentId}/userAssignmentComments")
+    public ResponseEntity<List<CommentDTO>> readByIdUserAssignmentComments(@PathVariable long userAssignmentId) {
+        return ResponseEntity.ok(commentService.readByIdUserAssignmentComments(userAssignmentId));
     }
-
-
-    @PutMapping("/announcementComments/{id}")
-    public ResponseEntity<CommentDTO> updateAnnouncementComments(@PathVariable long id, @RequestBody CommentDTO commentDTO) {
-        if(commentService.readByIdAnnouncementComments(id) == null) return ResponseEntity.notFound().build();
-        commentService.updateAnnouncementComments(commentDTO, id);
-        return ResponseEntity.ok(commentService.readByIdAnnouncementComments(id));
-    }
-
-    @DeleteMapping("/announcementComments/{id}")
-    public ResponseEntity<?> deleteAnnouncementComments(@PathVariable long id) {
-        commentService.deleteAnnouncementComments(id);
-        return ResponseEntity.ok().build();
-    }
-
 }
-

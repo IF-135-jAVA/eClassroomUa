@@ -17,76 +17,46 @@ CommentService {
     private CommentDAO commentDAO;
     private CommentMapper commentMapper;
 
-    public void createMaterialComments(CommentDTO commentDTO) {
-        commentDAO.createMaterialComments(commentMapper.commentDTOToComment(commentDTO));
+
+    public CommentDTO readByIdComments(long id) {
+        List<Comment> result = commentDAO.readByIdComments(id);
+
+        return result.isEmpty() ? null : commentMapper.commentToCommentDTO(result.get(0));
+
     }
 
-    public List<CommentDTO> readAllMaterialComments() {
-        return commentDAO.readAllMaterialComments().stream()
-                .map(CommentMapper::commentToCommentDTO)
-                .collect(Collectors.toList());
+    public void createComments(CommentDTO commentDTO) {
+        commentDAO.createComments(commentMapper.commentDTOToComment(commentDTO));
     }
 
-
-
-    public CommentDTO readByIdMaterialComments(long id) {
-        Comment comment = commentDAO.readByIdMaterialComments(id);
-
-        return commentMapper.commentToCommentDTO(comment);
-    }
-
-
-
-    public void updateMaterialComments(CommentDTO commentDTO, long id) {
-        CommentDTO oldCommentDTO = readByIdMaterialComments(id);
+    public void updateComments(CommentDTO commentDTO, long id) {
+        CommentDTO oldCommentDTO = readByIdComments(id);
         if(oldCommentDTO != null) {
             oldCommentDTO.setText(commentDTO.getText());
-            commentDAO.updateMaterialComments(commentMapper.commentDTOToComment(oldCommentDTO));
+            commentDAO.updateComments(commentMapper.commentDTOToComment(oldCommentDTO));
         }
     }
-
-    public void deleteMaterialComments(long id) {
-        CommentDTO commentDTO = readByIdMaterialComments(id);
-            commentDAO.deleteMaterialComments(commentDTO.getId());
+    public void deleteComments(long id) {
+        CommentDTO commentDTO = readByIdComments(id);
+            commentDAO.deleteComments(commentDTO.getId());
         }
 
-
-
-
-
-
-    public void createAnnouncementComments(CommentDTO commentDTO) {
-        commentDAO.createAnnouncementComments(commentMapper.commentDTOToComment(commentDTO));
-    }
-
-    public List<CommentDTO> readAllAnnouncementComments() {
-        return commentDAO.readAllAnnouncementComments().stream()
-                .map(CommentMapper::commentToCommentDTO)
+    public List<CommentDTO> readByIdMaterialComments(long materialCommentsId) {
+        return commentDAO.readByIdMaterialComments(materialCommentsId)
+                .stream()
+                .map(commentMapper::commentToCommentDTO)
                 .collect(Collectors.toList());
     }
-
-
-
-    public CommentDTO readByIdAnnouncementComments(long id) {
-        Comment comment = commentDAO.readByIdAnnouncementComments(id);
-
-        return commentMapper.commentToCommentDTO(comment);
+    public List<CommentDTO> readByIdAnnouncementComments(long announcementCommentsId) {
+        return commentDAO.readByIdAnnouncementComments(announcementCommentsId)
+                .stream()
+                .map(commentMapper::commentToCommentDTO)
+                .collect(Collectors.toList());
     }
-
-
-
-    public void updateAnnouncementComments(CommentDTO commentDTO, long id) {
-        CommentDTO oldCommentDTO = readByIdAnnouncementComments(id);
-        if(oldCommentDTO != null) {
-            oldCommentDTO.setText(commentDTO.getText());
-            commentDAO.updateAnnouncementComments(commentMapper.commentDTOToComment(oldCommentDTO));
-        }
+    public List<CommentDTO> readByIdUserAssignmentComments(long userAssignmentCommentsId) {
+        return commentDAO.readByIdUserAssignmentComments(userAssignmentCommentsId)
+                .stream()
+                .map(commentMapper::commentToCommentDTO)
+                .collect(Collectors.toList());
     }
-
-    public void deleteAnnouncementComments(long id) {
-        CommentDTO commentDTO = readByIdAnnouncementComments(id);
-        commentDAO.deleteAnnouncementComments(commentDTO.getId());
-    }
-
-    }
-
+}
