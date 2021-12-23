@@ -55,7 +55,7 @@ public class UserDaoImpl implements UserDao {
 		try {
 			user = template.queryForObject(findById, param, BeanPropertyRowMapper.newInstance(User.class));
 		} catch (DataAccessException ex) {
-			String.format("User with id - %d, not found.", id);
+			log.info(String.format("User with id - %d, not found.", id));
 		}
 		return Optional.ofNullable(user);
 	}
