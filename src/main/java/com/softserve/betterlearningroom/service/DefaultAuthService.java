@@ -40,9 +40,6 @@ public class DefaultAuthService implements AuthService{
 
 	@Override
 	public UserDTO saveUser(SaveUserRequest request) throws UserAlreadyExistsException {
-		if(userDao.findByEmail(request.getEmail()).isPresent()) {
-			throw new UserAlreadyExistsException(String.format("User with email - %s already exists", request.getEmail()));
-		}
 		User user = new User();
 		user.setEmail(request.getEmail());
 		user.setFirstName(request.getFirstName());
@@ -68,3 +65,4 @@ public class DefaultAuthService implements AuthService{
 	}
 
 }
+

@@ -11,12 +11,14 @@
       		<column name="id" type="INTEGER" autoIncrement="true">
       			<constraints primaryKey="true" nullable="false" primaryKeyName="pkey_announcement"/>
       		</column>
+			<column name="course_id" type="int"></column>
+
       		<column name="text" type="VARCHAR(30)"></column>
 
       	</createTable>
 
       	<addForeignKeyConstraint constraintName="fkey_course" referencedTableName="announcement"
-								 baseColumnNames="courseId" baseTableName="classrooms" referencedColumnNames="id"/>
+								 baseColumnNames="course_id" baseTableName="classrooms" referencedColumnNames="id"/>
 
 
       </changeSet>
