@@ -2,7 +2,6 @@ package com.softserve.betterlearningroom.mapper;
 
 
 import com.softserve.betterlearningroom.dto.CommentDTO;
-
 import com.softserve.betterlearningroom.entity.Comment;
 import org.springframework.stereotype.Component;
 

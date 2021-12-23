@@ -16,8 +16,6 @@ import java.util.List;
 @Repository
 @PropertySource(value = "classpath:/announcement_queries.properties")
 public class AnnouncementDAO {
-
-
     private NamedParameterJdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -44,7 +42,6 @@ public class AnnouncementDAO {
         return jdbcTemplate.query(getAll, BeanPropertyRowMapper.newInstance(Announcement.class));
     }
 
-
     public List<Announcement> readById(long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
         return jdbcTemplate.query(getById, parameterSource, BeanPropertyRowMapper.newInstance(Announcement.class));
@@ -54,7 +51,6 @@ public class AnnouncementDAO {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("courseId", announcement.getCourseId())
                 .addValue("text", announcement.getText());
-
         jdbcTemplate.update(save, parameterSource);
     }
 
@@ -64,13 +60,9 @@ public class AnnouncementDAO {
         jdbcTemplate.update(edit, parameterSource);
     }
 
-
-
-
     public void delete(long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
         jdbcTemplate.update(remove, parameterSource);
-
     }
 }
 

@@ -1,7 +1,6 @@
 package com.softserve.betterlearningroom.dao;
 
 import com.softserve.betterlearningroom.entity.Comment;
-import com.softserve.betterlearningroom.entity.UserAssignment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -23,7 +22,6 @@ public class CommentDAO {
     public CommentDAO(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
 
     @Value("${findById.Comment}")
     private String getByIdComments;
@@ -63,7 +61,6 @@ public class CommentDAO {
         jdbcTemplate.update(saveComments, parameterSource);
     }
 
-
     public void updateComments(Comment updateComment) {
         BeanPropertySqlParameterSource parameterSource =
                 new BeanPropertySqlParameterSource(updateComment);
@@ -73,8 +70,8 @@ public class CommentDAO {
     public void deleteComments(long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
         jdbcTemplate.update(removeComments, parameterSource);
-
     }
+
     public List<Comment> readByIdMaterialComments(long materialCommentsId) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("materialCommentsId", materialCommentsId);
         return jdbcTemplate.query(getByIdMaterialComments, parameterSource, BeanPropertyRowMapper.newInstance(Comment.class));
@@ -90,4 +87,4 @@ public class CommentDAO {
         return jdbcTemplate.query(getByIdUserAssignmentComments, parameterSource, BeanPropertyRowMapper.newInstance(Comment.class));
     }
 
-    }
+}

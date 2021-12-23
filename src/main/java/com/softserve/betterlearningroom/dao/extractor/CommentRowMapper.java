@@ -3,10 +3,9 @@ package com.softserve.betterlearningroom.dao.extractor;
 import com.softserve.betterlearningroom.entity.*;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
+
 
 @Component
 public class CommentRowMapper implements RowMapper<Comment> {

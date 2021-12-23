@@ -6,8 +6,14 @@ import com.softserve.betterlearningroom.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 @RestController
@@ -18,17 +24,15 @@ public class CommentController {
     private CommentService commentService;
 
     @GetMapping("/materials/{materialId}/materialComments/{id}")
-    public ResponseEntity<CommentDTO> readByIdComments(
-            @PathVariable long id) {
+    public ResponseEntity<CommentDTO> readByIdComments(@PathVariable long id) {
         CommentDTO result = commentService.readByIdComments(id);
         if(result==null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(result);
     }
 
     @PostMapping("/materialComments")
-    public ResponseEntity<?> createComments(@RequestBody CommentDTO commentDTO) {
+    public ResponseEntity<CommentDTO> createComments(@RequestBody CommentDTO commentDTO) {
         commentService.createComments(commentDTO);
-
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -40,7 +44,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/materialComments/{id}")
-    public ResponseEntity<?> deleteComments(@PathVariable long id) {
+    public ResponseEntity<CommentDTO> deleteComments(@PathVariable long id) {
         commentService.deleteComments(id);
         return ResponseEntity.ok().build();
     }

@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.dto;
 
-import com.softserve.betterlearningroom.entity.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
