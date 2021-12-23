@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/classrooms/{classroomId}")
@@ -23,27 +24,28 @@ import java.util.List;
 public class CommentController {
     private CommentService commentService;
 
-    @GetMapping("/materials/{materialId}/materialComments/{id}")
+    @GetMapping("/comments/{id}")
+
     public ResponseEntity<CommentDTO> readByIdComments(@PathVariable long id) {
         CommentDTO result = commentService.readByIdComments(id);
         if(result==null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/materialComments")
+    @PostMapping("/comments")
     public ResponseEntity<CommentDTO> createComments(@RequestBody CommentDTO commentDTO) {
         commentService.createComments(commentDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/materialComments/{id}")
+    @PutMapping("/comments/{id}")
     public ResponseEntity<CommentDTO> updateComments(@PathVariable long id, @RequestBody CommentDTO commentDTO) {
         if (commentService.readByIdComments(id) == null) return ResponseEntity.notFound().build();
         commentService.updateComments(commentDTO, id);
         return ResponseEntity.ok(commentService.readByIdComments(id));
     }
 
-    @DeleteMapping("/materialComments/{id}")
+    @DeleteMapping("/comments/{id}")
     public ResponseEntity<CommentDTO> deleteComments(@PathVariable long id) {
         commentService.deleteComments(id);
         return ResponseEntity.ok().build();
