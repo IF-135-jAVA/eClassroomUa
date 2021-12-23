@@ -14,9 +14,9 @@ public class CommentDTO {
     private long id;
     private String text;
     private LocalDateTime date;
-    private long author_id;
-    private long announcement_id;
-    private long user_assignment_id;
-    private long material_id;
+    private long authorId;
+    private long announcementId;
+    private long userAssignmentId;
+    private long materialId;
 
 }

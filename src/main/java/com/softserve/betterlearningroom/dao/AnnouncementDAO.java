@@ -44,11 +44,6 @@ public class AnnouncementDAO {
         return jdbcTemplate.query(getAll, BeanPropertyRowMapper.newInstance(Announcement.class));
     }
 
-//    public Announcement readById(long id) {
-//        SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
-//        return jdbcTemplate.queryForObject(getById, parameterSource,
-//                BeanPropertyRowMapper.newInstance(Announcement.class));
-//    }
 
     public List<Announcement> readById(long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
@@ -57,7 +52,7 @@ public class AnnouncementDAO {
 
     public void create(Announcement announcement) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("course_id", announcement.getCourse_id())
+        parameterSource.addValue("courseId", announcement.getCourseId())
                 .addValue("text", announcement.getText());
 
         jdbcTemplate.update(save, parameterSource);

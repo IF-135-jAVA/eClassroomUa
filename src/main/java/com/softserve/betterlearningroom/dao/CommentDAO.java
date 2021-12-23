@@ -53,12 +53,12 @@ public class CommentDAO {
 
     public void createComments(Comment comment) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("author_id", comment.getAuthor_id())
-                .addValue("material_id", comment.getMaterial_id())
+        parameterSource.addValue("authorId", comment.getAuthorId())
+                .addValue("materialId", comment.getMaterialId())
                 .addValue("text", comment.getText())
                 .addValue("date", comment.getDate())
-                .addValue("announcement_id", comment.getAnnouncement_id())
-                .addValue("user_assignment_id", comment.getUser_assignment_id());
+                .addValue("announcementId", comment.getAnnouncementId())
+                .addValue("userAssignmentId", comment.getUserAssignmentId());
 
         jdbcTemplate.update(saveComments, parameterSource);
     }

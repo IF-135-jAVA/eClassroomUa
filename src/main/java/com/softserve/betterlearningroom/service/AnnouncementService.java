@@ -32,12 +32,6 @@ public class AnnouncementService {
 
 
 
-//    public AnnouncementDTO readById(long id) {
-//        Announcement announcement = announcementDAO.readById(id);
-//
-//        return announcementMapper.announcementToAnnouncementDTO(announcement);
-//    }
-
     public AnnouncementDTO readById(long id) {
         List<Announcement> result = announcementDAO.readById(id);
         return result.isEmpty() ? null : announcementMapper.announcementToAnnouncementDTO(result.get(0));

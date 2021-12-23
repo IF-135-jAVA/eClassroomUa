@@ -16,10 +16,10 @@ public class CommentRowMapper implements RowMapper<Comment> {
         Comment comment = new Comment();
         comment.setId(rs.getLong("id"));
         comment.setText(rs.getString("text"));
-        comment.setAuthor_id(rs.getLong("author_id"));
-        comment.setAnnouncement_id(rs.getLong("announcement_id"));
-        comment.setUser_assignment_id(rs.getLong("user_assignment_id"));
-        comment.setMaterial_id(rs.getLong("material_id"));
+        comment.setAuthorId(rs.getLong("authorId"));
+        comment.setAnnouncementId(rs.getLong("announcementId"));
+        comment.setUserAssignmentId(rs.getLong("userAssignmentId"));
+        comment.setMaterialId(rs.getLong("materialId"));
         comment.setDate(rs.getDate("date").toLocalDate().atStartOfDay());
 
         return comment;

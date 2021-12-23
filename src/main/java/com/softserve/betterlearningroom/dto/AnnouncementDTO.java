@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class AnnouncementDTO {
     private long id;
-    private long course_id;
+    private long courseId;
     private String text;
     private List<Comment> comments;
 }
