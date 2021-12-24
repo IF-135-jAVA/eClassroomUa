@@ -43,7 +43,7 @@ public class CriterionService {
 
     public Criterion toEntity(CriterionDTO criterionDTO) {
         return Criterion.builder()
-                .criterionid(criterionDTO.getId())
+                .criterion_id(criterionDTO.getId())
                 .materialid(criterionDTO.getMaterialIdDTO())
                 .title(criterionDTO.getTitle())
                 .description(criterionDTO.getDescription())
@@ -52,7 +52,7 @@ public class CriterionService {
 
     public CriterionDTO toDTO(Criterion criterion) {
         return CriterionDTO.builder()
-                .id(criterion.getCriterionid())
+                .id(criterion.getCriterion_id())
                 .materialIdDTO(criterion.getMaterialid())
                 .title(criterion.getTitle())
                 .description(criterion.getDescription())

@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("classrooms/{classroomId}/topics/")
+@RequestMapping("/api/classrooms/{classroomId}/topics")
 public class TopicController {
 
     @Autowired
@@ -47,7 +47,7 @@ public class TopicController {
     /**
      * update table by id
      */
-    @PutMapping("/{id}")
+    @PutMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> update(@RequestBody final TopicDTO topicDTO) {
         topicService.update(topicDTO);

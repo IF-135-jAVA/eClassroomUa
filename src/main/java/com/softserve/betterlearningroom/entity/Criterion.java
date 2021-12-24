@@ -18,7 +18,7 @@ import java.util.List;
 public class Criterion {
 
 
-    private int criterionid;
+    private int criterion_id;
 
     private String title;
 

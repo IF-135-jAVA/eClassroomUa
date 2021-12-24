@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("classrooms/{classroomId}/topics/{topicId}/materials/{materialId}/criterions{criterionId}/level")
+@RequestMapping("/api/classrooms/{classroomId}/topics/{topicId}/materials/{materialId}/criterions/{criterionId}/level")
 public class LevelController {
 
     @Autowired

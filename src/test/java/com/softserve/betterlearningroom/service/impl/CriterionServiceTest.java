@@ -1,5 +1,4 @@
 package com.softserve.betterlearningroom.service.impl;
-
 import com.softserve.betterlearningroom.dao.impl.CriterionDAO;
 import com.softserve.betterlearningroom.dto.CriterionDTO;
 import com.softserve.betterlearningroom.entity.Criterion;
@@ -11,8 +10,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -40,13 +41,12 @@ class CriterionServiceTest {
                 .description("desc")
                 .build();
         expectedCriterion = Criterion.builder()
-                .criterionid(12)
+                .criterion_id(12)
                 .materialid(4)
                 .title("title")
                 .description("desc")
                 .build();
     }
-
 
     @Test
     void shouldSaveCriterionDTO() {
@@ -58,8 +58,19 @@ class CriterionServiceTest {
     }
 
     @Test
-    void shouldFindById() {
+    void  shouldFindAll(){
+        List<Criterion> listExpected = new ArrayList<Criterion>();
+        listExpected.add(expectedCriterion);
+        List<CriterionDTO> listToDtolistExpected = listExpected.stream().map(criterionService::toDTO).collect(Collectors.toList());
+        when(criterionDAO.findAll()).thenReturn(listExpected);
 
+        List<CriterionDTO> listActual = criterionService.findAll();
+
+        Assertions.assertEquals(listActual, listToDtolistExpected );
+    }
+
+    @Test
+    void shouldFindById() {
         when(criterionDAO.findById(12)).thenReturn(Optional.of(expectedCriterion));
 
         CriterionDTO actualCriterionDTO = criterionService.findById(12);
@@ -69,7 +80,6 @@ class CriterionServiceTest {
 
     @Test
     void shouldFindByIdThrowError() {
-
         when(criterionDAO.findById(12)).thenReturn(null);
 
         assertThrows(RuntimeException.class, () -> criterionService.findById(12));

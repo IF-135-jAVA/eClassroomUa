@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-
+//classrooms/{classroomId}/topics/{topicId}/materials/{materialId}/criterions
 @RestController
-@RequestMapping("classrooms/{classroomId}/topics/{topicId}/materials/{materialId}/criterions")
+@RequestMapping("/api/classrooms/{classroomId}/topics/{topicId}/materials/{materialId}/criterions")
 public class CriterionController {
 
     @Autowired
