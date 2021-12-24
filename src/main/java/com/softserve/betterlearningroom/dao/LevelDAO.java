@@ -40,10 +40,10 @@ public class LevelDAO {
     public void save(Level level) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource
-                .addValue("level_Id", level.getLevel_id())
+                .addValue("level_Id", level.getLevelId())
                 .addValue("title", level.getTitle())
                 .addValue("description", level.getDescription())
-                .addValue("criterion_Id", level.getCriterion_id())
+                .addValue("criterion_Id", level.getCriterionId())
                 .addValue("mark", level.getMark());
         jdbcTemplate.update(saveQuery, parameterSource);
     }

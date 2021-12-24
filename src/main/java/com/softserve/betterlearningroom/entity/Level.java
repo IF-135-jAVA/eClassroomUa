@@ -15,13 +15,13 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class Level {
 
-    private int level_id;
+    private int levelId;
 
     private String title;
 
     private String description;
 
-    private Integer criterion_id;
+    private Integer criterionId;
 
     private Integer mark;
   

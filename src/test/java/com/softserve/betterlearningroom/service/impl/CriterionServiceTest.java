@@ -41,8 +41,8 @@ class CriterionServiceTest {
                 .description("desc")
                 .build();
         expectedCriterion = Criterion.builder()
-                .criterion_id(12)
-                .materialid(4)
+                .criterionId(12)
+                .materialId(4)
                 .title("title")
                 .description("desc")
                 .build();

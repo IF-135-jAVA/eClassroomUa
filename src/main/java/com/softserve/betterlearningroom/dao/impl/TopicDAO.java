@@ -42,7 +42,7 @@ public class TopicDAO {
     public void save(Topic topic) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource
-                .addValue("classroomId", topic.getClassroom_id())
+                .addValue("classroomId", topic.getClassroomId())
                 .addValue("title", topic.getTitle());
         jdbcTemplate.update(saveQuery, parameterSource);
     }
