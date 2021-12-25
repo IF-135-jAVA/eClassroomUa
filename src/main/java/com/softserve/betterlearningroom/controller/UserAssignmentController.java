@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,6 +55,13 @@ public class UserAssignmentController {
         if(userAssignmentService.readById(id) == null) return ResponseEntity.notFound().build();
         userAssignmentService.update(userAssignmentDto, id);
         return ResponseEntity.ok(userAssignmentService.readById(id));
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<UserAssignmentDto> delete(@PathVariable long id) {
+        if(userAssignmentService.readById(id) == null) return ResponseEntity.notFound().build();
+        userAssignmentService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping

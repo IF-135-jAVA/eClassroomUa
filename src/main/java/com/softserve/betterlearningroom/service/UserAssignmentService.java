@@ -22,6 +22,7 @@ public class UserAssignmentService {
 
     public long create(UserAssignmentDto userAssignmentDto) {
         userAssignmentDto.setSubmissionDate(LocalDateTime.now());
+        userAssignmentDto.setEnabled(true);
         return userAssignmentDao.create(userAssignmentMapper.userAssignmentDtoToUserAssignment(userAssignmentDto));
     }
 
@@ -37,6 +38,14 @@ public class UserAssignmentService {
             oldUserAssignmentDto.setGrade(userAssignmentDto.getGrade());
             oldUserAssignmentDto.setFeedback(userAssignmentDto.getFeedback());
             userAssignmentDao.update(userAssignmentMapper.userAssignmentDtoToUserAssignment(oldUserAssignmentDto));
+        }
+    }
+
+    public void delete(long id) {
+        UserAssignmentDto userAssignmentDto = readById(id);
+        if(userAssignmentDto != null) {
+            userAssignmentDto.setEnabled(false);
+            userAssignmentDao.update(userAssignmentMapper.userAssignmentDtoToUserAssignment(userAssignmentDto));
         }
     }
 
