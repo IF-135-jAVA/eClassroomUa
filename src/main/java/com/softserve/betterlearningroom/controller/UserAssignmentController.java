@@ -4,14 +4,12 @@ import com.softserve.betterlearningroom.dto.UserAssignmentDto;
 import com.softserve.betterlearningroom.service.UserAssignmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -19,12 +17,13 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@CrossOrigin(
-        allowCredentials = "true",
-        origins = "http://localhost:4200",
-        allowedHeaders = "*",
-        methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PUT}
-)
+//@CrossOrigin(
+//        allowCredentials = "true",
+//        origins = "http://localhost:4200",
+//        allowedHeaders = "*",
+//        methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PUT}
+//)
+// TODO: 25.12.2021 let's change URL to api/materials/{materialId}/assignments
 @RequestMapping("/api/classrooms/{classroomId}/materials/{materialId}/user-assignments")
 @AllArgsConstructor
 public class UserAssignmentController {
@@ -45,13 +44,17 @@ public class UserAssignmentController {
     @GetMapping("{id}")
     public ResponseEntity<UserAssignmentDto> readById(@PathVariable long id) {
         UserAssignmentDto result = userAssignmentService.readById(id);
-        if(result == null) return ResponseEntity.notFound().build();
+        // TODO: 25.12.2021 always add curly braces to your statements
+        if (result == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(result);
     }
 
     @PutMapping("{id}")
     public ResponseEntity<UserAssignmentDto> update(@PathVariable long id, @RequestBody UserAssignmentDto userAssignmentDto) {
-        if(userAssignmentService.readById(id) == null) return ResponseEntity.notFound().build();
+        // TODO: 25.12.2021 this is obsolete check, you probably don't need it
+        if (userAssignmentService.readById(id) == null) return ResponseEntity.notFound().build();
         userAssignmentService.update(userAssignmentDto, id);
         return ResponseEntity.ok(userAssignmentService.readById(id));
     }

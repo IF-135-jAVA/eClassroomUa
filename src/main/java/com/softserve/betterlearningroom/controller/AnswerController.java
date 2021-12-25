@@ -4,14 +4,12 @@ import com.softserve.betterlearningroom.dto.AnswerDto;
 import com.softserve.betterlearningroom.service.AnswerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -19,12 +17,14 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@CrossOrigin(
-        allowCredentials = "true",
-        origins = "http://localhost:4200",
-        allowedHeaders = "*",
-        methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PUT}
-)
+// TODO: 25.12.2021 we have global CORS config, please remove it
+//@CrossOrigin(
+//        allowCredentials = "true",
+//        origins = "http://localhost:4200",
+//        allowedHeaders = "*",
+//        methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PUT}
+//)
+// TODO: 25.12.2021 URL is too long, think how to change it...something like api/assignments/{assignmentId}/answers should be better
 @RequestMapping("/api/classrooms/{classroomId}/materials/{materialId}/user-assignments/{userAssignmentId}/answers")
 @AllArgsConstructor
 public class AnswerController {
@@ -39,19 +39,20 @@ public class AnswerController {
                 .path("/{id}")
                 .buildAndExpand(createdDtoId)
                 .toUri();
+        // TODO: 25.12.2021 It's better to return created object instead of location
         return ResponseEntity.created(location).build();
     }
 
     @GetMapping("{id}")
     public ResponseEntity<AnswerDto> readById(@PathVariable long id) {
         AnswerDto result = answerService.readById(id);
-        if(result == null) return ResponseEntity.notFound().build();
+        if (result == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(result);
     }
 
     @PutMapping("{id}")
     public ResponseEntity<AnswerDto> update(@PathVariable long id, @RequestBody AnswerDto answerDto) {
-        if(answerService.readById(id) == null) return ResponseEntity.notFound().build();
+        if (answerService.readById(id) == null) return ResponseEntity.notFound().build();
         answerService.update(answerDto, id);
         return ResponseEntity.ok(answerService.readById(id));
     }
