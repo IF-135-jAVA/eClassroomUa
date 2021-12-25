@@ -16,7 +16,8 @@ import java.util.stream.Collectors;
 @Repository
 @RequiredArgsConstructor
 @PropertySource("classpath:materialQuery.properties")
-public class MaterialDao {
+public class
+MaterialDao {
 
     private NamedParameterJdbcTemplate jdbcTemplate;
 
