@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.controller;
 
-import com.softserve.betterlearningroom.dto.AnswerDto;
+import com.softserve.betterlearningroom.dto.AnswerDTO;
 import com.softserve.betterlearningroom.service.AnswerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +32,7 @@ public class AnswerController {
     private AnswerService answerService;
 
     @PostMapping
-    public ResponseEntity<AnswerDto> create(@RequestBody AnswerDto answerDto, @PathVariable long userAssignmentId) {
+    public ResponseEntity<AnswerDTO> create(@RequestBody AnswerDTO answerDto, @PathVariable long userAssignmentId) {
         answerDto.setUserAssignmentId(userAssignmentId);
         long createdDtoId = answerService.create(answerDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -43,21 +43,21 @@ public class AnswerController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<AnswerDto> readById(@PathVariable long id) {
-        AnswerDto result = answerService.readById(id);
+    public ResponseEntity<AnswerDTO> readById(@PathVariable long id) {
+        AnswerDTO result = answerService.readById(id);
         if(result == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(result);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<AnswerDto> update(@PathVariable long id, @RequestBody AnswerDto answerDto) {
+    public ResponseEntity<AnswerDTO> update(@PathVariable long id, @RequestBody AnswerDTO answerDto) {
         if(answerService.readById(id) == null) return ResponseEntity.notFound().build();
         answerService.update(answerDto, id);
         return ResponseEntity.ok(answerService.readById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<AnswerDto>> getByUserAssignment(@PathVariable long userAssignmentId) {
+    public ResponseEntity<List<AnswerDTO>> getByUserAssignment(@PathVariable long userAssignmentId) {
         return ResponseEntity.ok(answerService.getByUserAssignment(userAssignmentId));
     }
 }

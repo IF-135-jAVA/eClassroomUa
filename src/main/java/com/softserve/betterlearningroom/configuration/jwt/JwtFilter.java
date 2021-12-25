@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
 import com.softserve.betterlearningroom.entity.CustomUserDetails;
-import com.softserve.betterlearningroom.entity.roles.Role;
+import com.softserve.betterlearningroom.entity.roles.Roles;
 import com.softserve.betterlearningroom.service.CustomUserDetailsService;
 
 import lombok.AllArgsConstructor;
@@ -37,10 +37,10 @@ public class JwtFilter extends GenericFilterBean {
 		if(hasText(token)) {
 			if (jwtProvider.validateToken(token)) {
 				String userLogin = jwtProvider.getLogin(token);
-				Role role = Role.valueOf(jwtProvider.getRole(token));
+				Roles roles = Roles.valueOf(jwtProvider.getRole(token));
 				CustomUserDetails customUserDetails = userDetailsService.loadUserByUsername(userLogin);
 				UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(customUserDetails, null,
-						role.getGrantedAuthorities());
+						roles.getGrantedAuthorities());
 				SecurityContextHolder.getContext().setAuthentication(auth);
 			}
 		}

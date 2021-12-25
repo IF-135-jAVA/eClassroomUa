@@ -38,6 +38,6 @@ public class ClassroomService {
 
     public void removeClassroomById(Long classroom_id){
         ClassroomDTO classroomDTO = getClassroomById(classroom_id);
-        classroomDAO.removeClassroomById(classroomDTO.getClassroom_id());
+        classroomDAO.removeClassroomById(classroomDTO.getClassroomId());
     }
 }

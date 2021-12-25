@@ -1,7 +1,7 @@
 package com.softserve.betterlearningroom.dao;
 
 import com.softserve.betterlearningroom.entity.Announcement;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -14,62 +14,59 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-@PropertySource(value = "classpath:/announcement_queries.properties")
+@PropertySource(value = "classpath:/db/announcements/announcement_queries.properties")
+@AllArgsConstructor
 public class AnnouncementDAO {
 
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    private NamedParameterJdbcTemplate jdbcTemplate;
 
-    @Autowired
-    public AnnouncementDAO(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    @Value ("${findAll.Announcements}")
+    @Value("${find.all.announcements}")
     private String getAll;
 
-    @Value("${findById.Announcement}")
+    @Value("${find.by.id.announcement}")
     private String getById;
 
-    @Value("${save.Announcement}")
+    @Value("${save.announcement}")
     private String save;
 
-    @Value("${update.Announcement}")
+    @Value("${update.announcement}")
     private String edit;
 
-    @Value("${remove.Announcement}")
+    @Value("${remove.announcement}")
     private String remove;
 
     public List<Announcement> readAll() {
-        return jdbcTemplate.query(getAll, BeanPropertyRowMapper.newInstance(Announcement.class));
+        return namedParameterJdbcTemplate.query(getAll, BeanPropertyRowMapper.newInstance(Announcement.class));
     }
 
     public Announcement readById(long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
-        return jdbcTemplate.queryForObject(getById, parameterSource,
+        return namedParameterJdbcTemplate.queryForObject(getById, parameterSource,
                 BeanPropertyRowMapper.newInstance(Announcement.class));
     }
 
 
     public void create(Announcement announcement) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("course_id",announcement.getCourse_id())
+        parameterSource.addValue("course_id", announcement.getCourseId())
                 .addValue("text", announcement.getText());
 
 
-        jdbcTemplate.update(save, parameterSource);
+        namedParameterJdbcTemplate.update(save, parameterSource);
     }
 
     public void update(Announcement updateAnnouncement) {
         BeanPropertySqlParameterSource parameterSource =
                 new BeanPropertySqlParameterSource(updateAnnouncement);
-        jdbcTemplate.update(edit, parameterSource);
+        namedParameterJdbcTemplate.update(edit, parameterSource);
     }
 
 
     public void delete(long id) {
+        // TODO: 25.12.2021 we don't delete from DB, we just archive it
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
-        jdbcTemplate.update(remove, parameterSource);
+        namedParameterJdbcTemplate.update(remove, parameterSource);
 
     }
 }

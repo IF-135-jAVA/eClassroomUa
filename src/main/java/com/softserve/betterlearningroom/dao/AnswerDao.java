@@ -17,7 +17,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-@PropertySource("classpath:/answer_queries.properties")
+@PropertySource("classpath:/db/answers/answer_queries.properties")
 public class AnswerDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -38,6 +38,7 @@ public class AnswerDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(answer);
         jdbcTemplate.update(createQuery, parameterSource, keyHolder, new String[]{"id"});
+        // TODO: 25.12.2021 please, return created object
         return keyHolder.getKeyAs(Integer.class);
     }
 
@@ -49,6 +50,7 @@ public class AnswerDao {
     public void update(Answer answer) {
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(answer);
         jdbcTemplate.update(updateQuery, parameterSource);
+        // TODO: 25.12.2021 please, return updated object
     }
 
     public List<Answer> getByUserAssignment(long userAssignmentId) {

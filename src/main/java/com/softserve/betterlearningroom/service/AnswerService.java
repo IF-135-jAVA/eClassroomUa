@@ -1,7 +1,7 @@
 package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.dao.AnswerDao;
-import com.softserve.betterlearningroom.dto.AnswerDto;
+import com.softserve.betterlearningroom.dto.AnswerDTO;
 import com.softserve.betterlearningroom.entity.Answer;
 import com.softserve.betterlearningroom.mapper.AnswerMapper;
 import lombok.RequiredArgsConstructor;
@@ -19,24 +19,24 @@ public class AnswerService {
 
     private AnswerMapper answerMapper = Mappers.getMapper(AnswerMapper.class);
 
-    public long create(AnswerDto answerDto) {
+    public long create(AnswerDTO answerDto) {
         return answerDao.create(answerMapper.answerDtoToAnswer(answerDto));
     }
 
-    public AnswerDto readById(long id) {
+    public AnswerDTO readById(long id) {
         List<Answer> result = answerDao.readById(id);
         return result.isEmpty() ? null : answerMapper.answerToAnswerDto(result.get(0));
     }
 
-    public void update(AnswerDto answerDto, long id) {
-        AnswerDto oldAnswerDto = readById(id);
-        if(oldAnswerDto != null) {
-            oldAnswerDto.setText(answerDto.getText());
-            answerDao.update(answerMapper.answerDtoToAnswer(oldAnswerDto));
+    public void update(AnswerDTO answerDto, long id) {
+        AnswerDTO oldAnswerDTO = readById(id);
+        if(oldAnswerDTO != null) {
+            oldAnswerDTO.setText(answerDto.getText());
+            answerDao.update(answerMapper.answerDtoToAnswer(oldAnswerDTO));
         }
     }
 
-    public List<AnswerDto> getByUserAssignment(long userAssignmentId) {
+    public List<AnswerDTO> getByUserAssignment(long userAssignmentId) {
         return answerDao.getByUserAssignment(userAssignmentId)
                 .stream()
                 .map(answerMapper::answerToAnswerDto)

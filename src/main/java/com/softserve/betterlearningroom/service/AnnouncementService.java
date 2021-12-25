@@ -30,14 +30,11 @@ public class AnnouncementService {
                 .collect(Collectors.toList());
     }
 
-
-
     public AnnouncementDTO readById(long id) {
         Announcement announcement = announcementDAO.readById(id);
 
         return announcementMapper.announcementToAnnouncementDTO(announcement);
     }
-
 
     public void update(AnnouncementDTO announcementDTO, long id) {
         announcementDAO.update(announcementMapper.announcementDTOToAnnouncement(announcementDTO));

@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public enum Permission {
+public enum Permissions {
 	
 	USER_READ("user:read"),
 	USER_WRITE("user:write"),
@@ -13,10 +13,10 @@ public enum Permission {
 	CLASSROOM_WRITE("classroom:write"),
 	TOPIC_READ("topic:read"),
 	TOPIC_WRITE("topic:write"),
-	ASIGNMENT_READ("asignment:read"),
-	ASIGNMENT_WRITE("asignment:wite"),
-	USERASIGNMENT_READ("userasignment:read"),
-	USERASIGNMENT_WRITE("userasignment:write"),
+	ASSIGNMENT_READ("assignment:read"),
+	ASSIGNMENT_WRITE("assignment:wite"),
+	USER_ASSIGNMENT_READ("user_assignment:read"),
+	USER_ASSIGNMENT_WRITE("user_assignment:write"),
 	COMMENT_READ("comment:read"),
 	COMMENT_WRITE("comment:write"),
 	CRITERION_READ("criterion:read"),

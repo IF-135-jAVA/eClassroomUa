@@ -1,7 +1,7 @@
 package com.softserve.betterlearningroom.dao.impl;
 
 import com.softserve.betterlearningroom.entity.Topic;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -15,10 +15,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@PropertySource(value = "classpath:/topicQuery.properties")
+@PropertySource(value = "classpath:/db/topics/topicQuery.properties")
+@AllArgsConstructor
 public class TopicDAO {
 
-    @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
     @Value("${topic.save}")
@@ -42,7 +42,7 @@ public class TopicDAO {
     public void save(Topic topic) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource
-                .addValue("classroomId", topic.getClassroom_id())
+                .addValue("classroomId", topic.getClassroomId())
                 .addValue("title", topic.getTitle());
         jdbcTemplate.update(saveQuery, parameterSource);
     }
@@ -53,10 +53,10 @@ public class TopicDAO {
     }
 
     public List<Topic> findAll() {
-       List<Topic> list=jdbcTemplate.query(findAllQuery,
-               BeanPropertyRowMapper.newInstance(Topic.class));
+        List<Topic> list = jdbcTemplate.query(findAllQuery,
+                BeanPropertyRowMapper.newInstance(Topic.class));
         System.out.println(list);
-       return jdbcTemplate.query(findAllQuery,
+        return jdbcTemplate.query(findAllQuery,
                 BeanPropertyRowMapper.newInstance(Topic.class));
     }
 

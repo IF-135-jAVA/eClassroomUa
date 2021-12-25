@@ -3,11 +3,9 @@ package com.softserve.betterlearningroom.dao;
 import com.softserve.betterlearningroom.entity.Classroom;
 import com.softserve.betterlearningroom.entity.User;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -17,12 +15,12 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-@PropertySource(value = "classpath:/classroomQuery.properties")
+@PropertySource(value = "classpath:/db/classrooms/classroomQuery.properties")
 public class ClassroomDAO {
 
     private final NamedParameterJdbcTemplate jdbcParameterTemplate;
 
-    @Value("${getClassroomById}")
+    @Value("${get.by.id}")
     private String getClassroomById;
 
     @Value("${getClassroomTeachers}")
@@ -54,17 +52,19 @@ public class ClassroomDAO {
 
     public void createClassroom(Classroom classroom){
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("classroom_id", classroom.getClassroom_id())
-                .addValue("user_id", classroom.getUser_id())
+        params.addValue("classroom_id", classroom.getClassroomId())
+                .addValue("user_id", classroom.getUserId())
                 .addValue("title", classroom.getTitle())
                 .addValue("session", classroom.getSession())
                 .addValue("description", classroom.getDescription())
                 .addValue("code", classroom.getCode());
         jdbcParameterTemplate.update(createClassroom, params);
+        // TODO: 25.12.2021 please, return created object
     }
 
     public  void removeClassroomById(Long classroom_id){
         SqlParameterSource parameterSource = new MapSqlParameterSource("classroom_id", classroom_id);
+        // TODO: 25.12.2021 we don't remove from DB, we just archive it
         jdbcParameterTemplate.update(removeClassroom, parameterSource);
 
     }

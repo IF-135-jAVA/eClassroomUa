@@ -12,8 +12,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class
-CommentService {
+public class CommentService {
     private CommentDAO commentDAO;
     private CommentMapper commentMapper;
 
@@ -26,7 +25,6 @@ CommentService {
                 .map(CommentMapper::commentToCommentDTO)
                 .collect(Collectors.toList());
     }
-
 
 
     public CommentDTO readById(long id) {
@@ -43,8 +41,8 @@ CommentService {
 
     public void delete(long id) {
         CommentDTO commentDTO = readById(id);
-            commentDAO.delete(commentDTO.getId());
-        }
-
+        commentDAO.delete(commentDTO.getId());
     }
+
+}
 

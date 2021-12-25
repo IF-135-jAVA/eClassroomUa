@@ -17,12 +17,12 @@ public class ClassroomRowMapper implements RowMapper<Classroom>{
     @Override
     public Classroom mapRow(ResultSet rs, int rowNum) throws SQLException {
         Classroom classroom = new Classroom();
-        classroom.setClassroom_id(rs.getLong("classroom_id"));
+        classroom.setClassroomId(rs.getLong("classroom_id"));
         classroom.setTitle(rs.getString("title"));
         classroom.setSession(rs.getString("session"));
         classroom.setDescription(rs.getString("description"));
         classroom.setCode(rs.getString("code"));
-        classroom.setUser_id(rs.getLong("user_id"));
+        classroom.setUserId(rs.getLong("user_id"));
         classroom.setTeachers((List<User>) rs.getArray("teachers"));
         classroom.setStudents((List<User>) rs.getArray("students"));
         classroom.setTopics((List<Topic>) rs.getArray("topics"));

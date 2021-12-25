@@ -32,7 +32,7 @@ public class UserAssignmentService {
 
     public void update(UserAssignmentDto userAssignmentDto, long id) {
         UserAssignmentDto oldUserAssignmentDto = readById(id);
-        if(oldUserAssignmentDto != null) {
+        if (oldUserAssignmentDto != null) {
             oldUserAssignmentDto.setAssignmentStatus(userAssignmentDto.getAssignmentStatus());
             oldUserAssignmentDto.setGrade(userAssignmentDto.getGrade());
             oldUserAssignmentDto.setFeedback(userAssignmentDto.getFeedback());

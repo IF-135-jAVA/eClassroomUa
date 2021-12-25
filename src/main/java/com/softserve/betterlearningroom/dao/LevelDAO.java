@@ -1,7 +1,7 @@
 package com.softserve.betterlearningroom.dao;
 
 import com.softserve.betterlearningroom.entity.Level;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -15,10 +15,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@PropertySource(value = "classpath:levelQuery.properties")
+@PropertySource(value = "classpath:db/levels/levelQuery.properties")
+@AllArgsConstructor
 public class LevelDAO {
 
-    @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
     @Value("${level.save}")
@@ -57,6 +57,7 @@ public class LevelDAO {
         return jdbcTemplate.query(findAllQuery,
                 BeanPropertyRowMapper.newInstance(Level.class));
     }
+    // TODO: 25.12.2021 only 1 line between methods
 
 
     public Optional<Level> findById(Integer id) {
@@ -65,9 +66,9 @@ public class LevelDAO {
                 BeanPropertyRowMapper.newInstance(Level.class)));
     }
 
-        public void removeById (Integer id){
-            SqlParameterSource parameterSource = new MapSqlParameterSource("levelId", id);
-            jdbcTemplate.update(removeByIdQuery, parameterSource);
-        }
+    public void removeById(Integer id) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource("levelId", id);
+        jdbcTemplate.update(removeByIdQuery, parameterSource);
+    }
 
 }

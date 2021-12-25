@@ -1,7 +1,7 @@
 package com.softserve.betterlearningroom.dao.impl;
 
 import com.softserve.betterlearningroom.entity.Criterion;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -15,10 +15,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@PropertySource(value = "classpath:criterionQuery.properties")
+@PropertySource(value = "classpath:db/criterion/criterionQuery.properties")
+@AllArgsConstructor
 public class CriterionDAO {
 
-    @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
     @Value("${criterion.save}")
@@ -42,8 +42,8 @@ public class CriterionDAO {
     public void save(Criterion criterion) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource
-                .addValue("criterionid", criterion.getCriterionid())
-                .addValue("materialid", criterion.getMaterialid())
+                .addValue("criterionid", criterion.getCriterionId())
+                .addValue("materialid", criterion.getMaterialId())
                 .addValue("title", criterion.getTitle())
                 .addValue("description", criterion.getDescription());
         jdbcTemplate.update(saveQuery, parameterSource);

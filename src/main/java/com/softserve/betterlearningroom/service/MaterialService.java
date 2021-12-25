@@ -1,7 +1,6 @@
 package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.dto.MaterialDTO;
-import com.softserve.betterlearningroom.entity.Material;
 import com.softserve.betterlearningroom.entity.MaterialType;
 
 import java.util.List;

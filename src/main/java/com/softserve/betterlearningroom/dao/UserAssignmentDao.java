@@ -17,7 +17,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-@PropertySource("classpath:/user_assignment_queries.properties")
+@PropertySource("classpath:/db/assignments/user_assignment_queries.properties")
 public class UserAssignmentDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;

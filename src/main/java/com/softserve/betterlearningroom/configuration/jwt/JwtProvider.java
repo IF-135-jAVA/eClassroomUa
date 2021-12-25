@@ -7,7 +7,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.softserve.betterlearningroom.entity.roles.Role;
+import com.softserve.betterlearningroom.entity.roles.Roles;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -25,14 +25,14 @@ public class JwtProvider {
 	@Value("$(jwt.secret)")
 	private String jwtSecret;
 	
-	public String generateToken(String login, Role role) {
+	public String generateToken(String login, Roles roles) {
         Date now = new Date();
 		Date expired = Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
         return Jwts.builder()
                 .setSubject(login)
                 .setIssuedAt(now)
                 .setNotBefore(now)
-                .claim("role", role)
+                .claim("role", roles)
                 .setExpiration(expired)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();

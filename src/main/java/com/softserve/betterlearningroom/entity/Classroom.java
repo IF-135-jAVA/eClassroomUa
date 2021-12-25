@@ -11,9 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 public class Classroom {
 
-    private Long classroom_id;
+    private Long classroomId;
 
-    private Long user_id;
+    private Long userId;
 
     private String title;
 
