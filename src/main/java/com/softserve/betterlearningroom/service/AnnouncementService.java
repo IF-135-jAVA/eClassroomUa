@@ -19,9 +19,10 @@ public class AnnouncementService {
         announcementDAO.create(announcementMapper.announcementDTOToAnnouncement(announcementDTO));
     }
 
-    public List<AnnouncementDTO> readAll() {
-        return announcementDAO.readAll().stream()
-                .map(AnnouncementMapper::announcementToAnnouncementDTO)
+    public List<AnnouncementDTO> readByCourseId(long courseId) {
+        return announcementDAO.readByCourseId(courseId)
+                .stream()
+                .map(announcementMapper::announcementToAnnouncementDTO)
                 .collect(Collectors.toList());
     }
 
@@ -42,6 +43,5 @@ public class AnnouncementService {
         AnnouncementDTO announcementDTO = readById(id);
         announcementDAO.delete(announcementDTO.getId());
     }
-
 }
 

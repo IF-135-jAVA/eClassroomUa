@@ -29,27 +29,30 @@ public class AnnouncementController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AnnouncementDTO>> readAll() {
-        List<AnnouncementDTO> announcements = announcementService.readAll();
-        return new ResponseEntity<>(announcements, HttpStatus.OK);
+    public ResponseEntity<List<AnnouncementDTO>> readByCourseId(@PathVariable long classroomId) {
+        return ResponseEntity.ok(announcementService.readByCourseId(classroomId));
     }
+
     @GetMapping("{id}")
     public ResponseEntity<AnnouncementDTO> readById(@PathVariable long id) {
         AnnouncementDTO result = announcementService.readById(id);
         if (result == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(result);
     }
+
     @PutMapping("{id}")
     public ResponseEntity<AnnouncementDTO> update(@PathVariable long id, @RequestBody AnnouncementDTO announcementDTO) {
         if (announcementService.readById(id) == null) return ResponseEntity.notFound().build();
         announcementService.update(announcementDTO, id);
         return ResponseEntity.ok(announcementService.readById(id));
     }
+
     @DeleteMapping("{id}")
     public ResponseEntity<AnnouncementDTO> delete(@PathVariable long id) {
         announcementService.delete(id);
         return ResponseEntity.ok().build();
     }
+
 }
 
 

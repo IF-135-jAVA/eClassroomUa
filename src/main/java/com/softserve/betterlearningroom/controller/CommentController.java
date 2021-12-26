@@ -38,6 +38,8 @@ public class CommentController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+
+
     @PutMapping("/comments/{id}")
     public ResponseEntity<CommentDTO> updateComments(@PathVariable long id, @RequestBody CommentDTO commentDTO) {
         if (commentService.readByIdComments(id) == null) return ResponseEntity.notFound().build();
@@ -64,5 +66,10 @@ public class CommentController {
     @GetMapping("/user-assignments/{userAssignmentId}/userAssignmentComments")
     public ResponseEntity<List<CommentDTO>> readByIdUserAssignmentComments(@PathVariable long userAssignmentId) {
         return ResponseEntity.ok(commentService.readByIdUserAssignmentComments(userAssignmentId));
+    }
+
+    @GetMapping("/users/{userId}/comments")
+    public ResponseEntity<List<CommentDTO>> readByIdAuthorId(@PathVariable long userId) {
+        return ResponseEntity.ok(commentService.readByIdAuthorId(userId));
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AnnouncementMapper {
 
-    public static AnnouncementDTO announcementToAnnouncementDTO(Announcement announcement) {
+    public AnnouncementDTO announcementToAnnouncementDTO(Announcement announcement) {
         AnnouncementDTO announcementDTO = new AnnouncementDTO();
         announcementDTO.setId(announcement.getId());
         announcementDTO.setCourseId(announcement.getCourseId());

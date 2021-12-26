@@ -15,55 +15,61 @@ import java.util.List;
 
 @Repository
 @PropertySource(value = "classpath:/announcement_queries.properties")
+//@PropertySource(value = "classpath:/db/announcements/announcement_queries.properties")
 public class AnnouncementDAO {
-    private NamedParameterJdbcTemplate jdbcTemplate;
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Autowired
-    public AnnouncementDAO(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public AnnouncementDAO(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    @Value("${findAll.Announcements}")
-    private String getAll;
+//    @Value("${findAll.announcements}")
+//    private String getAll;
 
-    @Value("${findById.Announcement}")
+    @Value("${findById.announcement}")
     private String getById;
 
-    @Value("${save.Announcement}")
+    @Value("${save.announcement}")
     private String save;
 
-    @Value("${update.Announcement}")
+    @Value("${update.announcement}")
     private String edit;
 
-    @Value("${remove.Announcement}")
+    @Value("${remove.announcement}")
     private String remove;
 
-    public List<Announcement> readAll() {
-        return jdbcTemplate.query(getAll, BeanPropertyRowMapper.newInstance(Announcement.class));
+    @Value("${findBy.courseId}")
+    private String getByCourseId;
+
+    public List<Announcement> readByCourseId(long courseId) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource("courseId", courseId);
+        return namedParameterJdbcTemplate.query(getByCourseId, parameterSource, BeanPropertyRowMapper.newInstance(Announcement.class));
     }
 
     public List<Announcement> readById(long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
-        return jdbcTemplate.query(getById, parameterSource, BeanPropertyRowMapper.newInstance(Announcement.class));
+        return namedParameterJdbcTemplate.query(getById, parameterSource, BeanPropertyRowMapper.newInstance(Announcement.class));
     }
 
     public void create(Announcement announcement) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("courseId", announcement.getCourseId())
                 .addValue("text", announcement.getText());
-        jdbcTemplate.update(save, parameterSource);
+        namedParameterJdbcTemplate.update(save, parameterSource);
     }
 
     public void update(Announcement updateAnnouncement) {
         BeanPropertySqlParameterSource parameterSource =
                 new BeanPropertySqlParameterSource(updateAnnouncement);
-        jdbcTemplate.update(edit, parameterSource);
+        namedParameterJdbcTemplate.update(edit, parameterSource);
     }
 
     public void delete(long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
-        jdbcTemplate.update(remove, parameterSource);
+        namedParameterJdbcTemplate.update(remove, parameterSource);
     }
+
 }
 
 

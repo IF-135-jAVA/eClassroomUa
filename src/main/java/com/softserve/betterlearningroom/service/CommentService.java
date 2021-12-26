@@ -12,8 +12,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class
-CommentService {
+public class CommentService {
     private CommentDAO commentDAO;
     private CommentMapper commentMapper;
 
@@ -56,6 +55,13 @@ CommentService {
 
     public List<CommentDTO> readByIdUserAssignmentComments(long userAssignmentCommentsId) {
         return commentDAO.readByIdUserAssignmentComments(userAssignmentCommentsId)
+                .stream()
+                .map(commentMapper::commentToCommentDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<CommentDTO> readByIdAuthorId(long authorId) {
+        return commentDAO.readByIdAuthorId(authorId)
                 .stream()
                 .map(commentMapper::commentToCommentDTO)
                 .collect(Collectors.toList());
