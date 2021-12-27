@@ -4,12 +4,14 @@ import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import com.softserve.betterlearningroom.dao.extractor.UserRowMapper;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
+@Import(UserRowMapper.class)
 public class TestDBConfiguration {
 	
 	@Bean
@@ -31,9 +33,6 @@ public class TestDBConfiguration {
 		return new NamedParameterJdbcTemplate(postgresDataSource());
 	}
 	
-	@Bean 
-	public UserRowMapper userMapper() {
-		return new UserRowMapper();
-	}
+	
 
 }

@@ -38,9 +38,12 @@ public class UserServiceTest {
 	
 	@Test
 	public void whenUserIdIsProvided_thenReturnCorrectUser() {
+		//Given
 		User user = new User(1, "Keanu", "Reeves", "1234", "Keanu@gmail.com", true);
 		given(userDao.findById(1)).willReturn(Optional.of(user));
+		//when
 		UserDTO userDTO = userService.findById(1);
+		//then
 		assertNotNull(userDTO);
 		assertEquals(userDTO.getEmail() , "Keanu@gmail.com");
 	}
