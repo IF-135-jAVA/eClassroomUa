@@ -1,8 +1,7 @@
 package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.dao.UserAssignmentDao;
-import com.softserve.betterlearningroom.dto.UserAssignmentDto;
-import com.softserve.betterlearningroom.entity.UserAssignment;
+import com.softserve.betterlearningroom.dto.UserAssignmentDTO;
 import com.softserve.betterlearningroom.mapper.UserAssignmentMapper;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
@@ -20,39 +19,34 @@ public class UserAssignmentService {
 
     private UserAssignmentMapper userAssignmentMapper = Mappers.getMapper(UserAssignmentMapper.class);
 
-    public long create(UserAssignmentDto userAssignmentDto) {
-        userAssignmentDto.setSubmissionDate(LocalDateTime.now());
-        userAssignmentDto.setEnabled(true);
-        return userAssignmentDao.create(userAssignmentMapper.userAssignmentDtoToUserAssignment(userAssignmentDto));
+    public UserAssignmentDTO create(UserAssignmentDTO userAssignmentDTO) {
+        userAssignmentDTO.setSubmissionDate(LocalDateTime.now());
+        userAssignmentDTO.setEnabled(true);
+        return userAssignmentMapper.userAssignmentToUserAssignmentDTO(
+                userAssignmentDao.create(userAssignmentMapper.userAssignmentDTOToUserAssignment(userAssignmentDTO)));
     }
 
-    public UserAssignmentDto readById(long id) {
-        List<UserAssignment> result = userAssignmentDao.readById(id);
-        return result.isEmpty() ? null : userAssignmentMapper.userAssignmentToUserAssignmentDto(result.get(0));
+    public UserAssignmentDTO readById(long id) {
+        return userAssignmentMapper.userAssignmentToUserAssignmentDTO(userAssignmentDao.readById(id));
     }
 
-    public void update(UserAssignmentDto userAssignmentDto, long id) {
-        UserAssignmentDto oldUserAssignmentDto = readById(id);
-        if(oldUserAssignmentDto != null) {
-            oldUserAssignmentDto.setAssignmentStatus(userAssignmentDto.getAssignmentStatus());
-            oldUserAssignmentDto.setGrade(userAssignmentDto.getGrade());
-            oldUserAssignmentDto.setFeedback(userAssignmentDto.getFeedback());
-            userAssignmentDao.update(userAssignmentMapper.userAssignmentDtoToUserAssignment(oldUserAssignmentDto));
-        }
+    public UserAssignmentDTO update(UserAssignmentDTO userAssignmentDTO, long id) {
+        UserAssignmentDTO oldUserAssignmentDTO = readById(id);
+        oldUserAssignmentDTO.setAssignmentStatus(userAssignmentDTO.getAssignmentStatus());
+        oldUserAssignmentDTO.setGrade(userAssignmentDTO.getGrade());
+        oldUserAssignmentDTO.setFeedback(userAssignmentDTO.getFeedback());
+        return userAssignmentMapper.userAssignmentToUserAssignmentDTO(
+                userAssignmentDao.update(userAssignmentMapper.userAssignmentDTOToUserAssignment(oldUserAssignmentDTO)));
     }
 
     public void delete(long id) {
-        UserAssignmentDto userAssignmentDto = readById(id);
-        if(userAssignmentDto != null) {
-            userAssignmentDto.setEnabled(false);
-            userAssignmentDao.update(userAssignmentMapper.userAssignmentDtoToUserAssignment(userAssignmentDto));
-        }
+        userAssignmentDao.delete(id);
     }
 
-    public List<UserAssignmentDto> getByAssignment(long assignmentId) {
+    public List<UserAssignmentDTO> getByAssignment(long assignmentId) {
         return userAssignmentDao.getByAssignment(assignmentId)
                 .stream()
-                .map(userAssignmentMapper::userAssignmentToUserAssignmentDto)
+                .map(userAssignmentMapper::userAssignmentToUserAssignmentDTO)
                 .collect(Collectors.toList());
     }
 }
