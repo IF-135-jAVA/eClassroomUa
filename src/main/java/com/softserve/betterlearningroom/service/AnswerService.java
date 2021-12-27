@@ -1,8 +1,7 @@
 package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.dao.AnswerDao;
-import com.softserve.betterlearningroom.dto.AnswerDto;
-import com.softserve.betterlearningroom.entity.Answer;
+import com.softserve.betterlearningroom.dto.AnswerDTO;
 import com.softserve.betterlearningroom.mapper.AnswerMapper;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
@@ -19,27 +18,26 @@ public class AnswerService {
 
     private AnswerMapper answerMapper = Mappers.getMapper(AnswerMapper.class);
 
-    public long create(AnswerDto answerDto) {
-        return answerDao.create(answerMapper.answerDtoToAnswer(answerDto));
+    public AnswerDTO create(AnswerDTO answerDTO) {
+        return answerMapper.answerToAnswerDTO(
+                answerDao.create(answerMapper.answerDTOToAnswer(answerDTO)));
     }
 
-    public AnswerDto readById(long id) {
-        List<Answer> result = answerDao.readById(id);
-        return result.isEmpty() ? null : answerMapper.answerToAnswerDto(result.get(0));
+    public AnswerDTO readById(long id) {
+        return answerMapper.answerToAnswerDTO(answerDao.readById(id));
     }
 
-    public void update(AnswerDto answerDto, long id) {
-        AnswerDto oldAnswerDto = readById(id);
-        if(oldAnswerDto != null) {
-            oldAnswerDto.setText(answerDto.getText());
-            answerDao.update(answerMapper.answerDtoToAnswer(oldAnswerDto));
-        }
+    public AnswerDTO update(AnswerDTO answerDTO, long id) {
+        AnswerDTO oldAnswerDTO = readById(id);
+        oldAnswerDTO.setText(answerDTO.getText());
+        return answerMapper.answerToAnswerDTO(
+                answerDao.update(answerMapper.answerDTOToAnswer(oldAnswerDTO)));
     }
 
-    public List<AnswerDto> getByUserAssignment(long userAssignmentId) {
+    public List<AnswerDTO> getByUserAssignment(long userAssignmentId) {
         return answerDao.getByUserAssignment(userAssignmentId)
                 .stream()
-                .map(answerMapper::answerToAnswerDto)
+                .map(answerMapper::answerToAnswerDTO)
                 .collect(Collectors.toList());
     }
 }

@@ -17,7 +17,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-@PropertySource("classpath:/answer_queries.properties")
+@PropertySource("classpath:/db/answers/answer_queries.properties")
 public class AnswerDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -34,21 +34,22 @@ public class AnswerDao {
     @Value("${get.answers.by.user.assignment}")
     private String getByUserAssignmentQuery;
 
-    public long create(Answer answer) {
+    public Answer create(Answer answer) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(answer);
         jdbcTemplate.update(createQuery, parameterSource, keyHolder, new String[]{"id"});
-        return keyHolder.getKeyAs(Integer.class);
+        return readById(keyHolder.getKeyAs(Integer.class));
     }
 
-    public List<Answer> readById(long id) {
+    public Answer readById(long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
-        return jdbcTemplate.query(readByIdQuery, parameterSource, BeanPropertyRowMapper.newInstance(Answer.class));
+        return jdbcTemplate.queryForObject(readByIdQuery, parameterSource, BeanPropertyRowMapper.newInstance(Answer.class));
     }
 
-    public void update(Answer answer) {
+    public Answer update(Answer answer) {
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(answer);
         jdbcTemplate.update(updateQuery, parameterSource);
+        return readById(answer.getId());
     }
 
     public List<Answer> getByUserAssignment(long userAssignmentId) {
