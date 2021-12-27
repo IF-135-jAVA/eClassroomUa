@@ -65,9 +65,9 @@ public class LevelDAO {
                 BeanPropertyRowMapper.newInstance(Level.class)));
     }
 
-        public void removeById (Integer id){
-            SqlParameterSource parameterSource = new MapSqlParameterSource("level_Id", id);
-            jdbcTemplate.update(removeByIdQuery, parameterSource);
-        }
+    public void removeById(Integer id) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource("level_Id", id);
+        jdbcTemplate.update(removeByIdQuery, parameterSource);
+    }
 
 }
