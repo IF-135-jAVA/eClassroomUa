@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,12 @@ public class AnswerController {
     @PutMapping("{id}")
     public ResponseEntity<AnswerDTO> update(@PathVariable long id, @RequestBody AnswerDTO answerDTO) {
         return ResponseEntity.ok(answerService.update(answerDTO, id));
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<AnswerDTO> delete(@PathVariable long id) {
+        answerService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping

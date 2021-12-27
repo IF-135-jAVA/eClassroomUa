@@ -31,6 +31,9 @@ public class AnswerDao {
     @Value("${update.answer}")
     private String updateQuery;
 
+    @Value("${delete.answer}")
+    private String deleteQuery;
+
     @Value("${get.answers.by.user.assignment}")
     private String getByUserAssignmentQuery;
 
@@ -50,6 +53,12 @@ public class AnswerDao {
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(answer);
         jdbcTemplate.update(updateQuery, parameterSource);
         return readById(answer.getId());
+    }
+
+    public void delete(long id) {
+        readById(id);
+        SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
+        jdbcTemplate.update(deleteQuery, parameterSource);
     }
 
     public List<Answer> getByUserAssignment(long userAssignmentId) {

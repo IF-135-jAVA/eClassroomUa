@@ -19,6 +19,7 @@ public class AnswerService {
     private AnswerMapper answerMapper = Mappers.getMapper(AnswerMapper.class);
 
     public AnswerDTO create(AnswerDTO answerDTO) {
+        answerDTO.setEnabled(true);
         return answerMapper.answerToAnswerDTO(
                 answerDao.create(answerMapper.answerDTOToAnswer(answerDTO)));
     }
@@ -32,6 +33,10 @@ public class AnswerService {
         oldAnswerDTO.setText(answerDTO.getText());
         return answerMapper.answerToAnswerDTO(
                 answerDao.update(answerMapper.answerDTOToAnswer(oldAnswerDTO)));
+    }
+
+    public void delete(long id) {
+        answerDao.delete(id);
     }
 
     public List<AnswerDTO> getByUserAssignment(long userAssignmentId) {
