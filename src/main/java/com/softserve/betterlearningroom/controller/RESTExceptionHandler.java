@@ -41,7 +41,7 @@ public class RESTExceptionHandler extends ResponseEntityExceptionHandler {
     }
     
     @ExceptionHandler({ UsernameNotFoundException.class })
-    protected ResponseEntity<Object> handleUserNotFoundException(UserAlreadyExistsException ex,
+    protected ResponseEntity<Object> handleUserNotFoundException(UsernameNotFoundException ex,
             WebRequest request) {
         List<String> details = new ArrayList<String>();
         details.add(ex.getMessage());
