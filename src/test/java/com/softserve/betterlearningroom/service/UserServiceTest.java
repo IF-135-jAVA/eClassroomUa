@@ -1,14 +1,9 @@
 package com.softserve.betterlearningroom.service;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.BDDMockito.given;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
+import com.softserve.betterlearningroom.dao.UserDAO;
+import com.softserve.betterlearningroom.dto.UserDTO;
+import com.softserve.betterlearningroom.entity.User;
+import com.softserve.betterlearningroom.mapper.UserMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,16 +12,20 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.softserve.betterlearningroom.dao.UserDao;
-import com.softserve.betterlearningroom.dto.UserDTO;
-import com.softserve.betterlearningroom.entity.User;
-import com.softserve.betterlearningroom.mapper.UserMapper;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.BDDMockito.given;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
 	
 	@Mock
-	private UserDao userDao;
+	private UserDAO userDao;
 	
 	private DefaultUserService userService;
 	

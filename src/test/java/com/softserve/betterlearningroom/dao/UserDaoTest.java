@@ -1,25 +1,24 @@
 package com.softserve.betterlearningroom.dao;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Optional;
-
+import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
+import com.softserve.betterlearningroom.dao.impl.UserDAOImpl;
+import com.softserve.betterlearningroom.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
-import com.softserve.betterlearningroom.dao.impl.UserDaoImpl;
-import com.softserve.betterlearningroom.entity.User;
+import java.util.Optional;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {TestDBConfiguration.class, UserDaoImpl.class})
+@SpringBootTest(classes = {TestDBConfiguration.class, UserDAOImpl.class})
 public class UserDaoTest {
 	
 	@Autowired
-	UserDao userDao;
+	UserDAO userDao;
 	
 	@Test
 	public void whenUserIdIsProvided_thenReturnCorrectUser() {
