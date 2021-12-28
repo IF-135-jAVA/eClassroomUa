@@ -1,17 +1,16 @@
 package com.softserve.betterlearningroom.configuration;
 
-import javax.sql.DataSource;
-
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.zaxxer.hikari.HikariDataSource;
+import javax.sql.DataSource;
 
 @Configuration
 public class DBConfiguration {
-	
-	@Bean
-	public DataSource postgresDataSource() {
+
+    @Bean
+    public DataSource postgresDataSource() {
         final HikariDataSource dataSource = new HikariDataSource();
 
         dataSource.setDriverClassName("org.postgresql.Driver");
@@ -23,5 +22,4 @@ public class DBConfiguration {
 
         return dataSource;
     }
-
 }
