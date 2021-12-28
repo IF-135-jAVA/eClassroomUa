@@ -12,15 +12,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserDTO {
-	
-	private int id;
-	
-	private String firstName;
 
-	private String lastName; 
-	
-	private String email;
+    private int id;
 
-	private boolean enabled;
+    private String firstName;
+
+    private String lastName;
+
+    private String email;
+
+    private boolean enabled;
 
 }
