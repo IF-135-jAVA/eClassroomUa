@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+
 import java.util.List;
 
 
@@ -25,10 +26,9 @@ public class CommentController {
     private CommentService commentService;
 
     @GetMapping("/comments/{id}")
-
     public ResponseEntity<CommentDTO> readByIdComments(@PathVariable long id) {
         CommentDTO result = commentService.readByIdComments(id);
-        if(result==null) return ResponseEntity.notFound().build();
+        if (result == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(result);
     }
 
@@ -37,8 +37,6 @@ public class CommentController {
         commentService.createComments(commentDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
-
 
     @PutMapping("/comments/{id}")
     public ResponseEntity<CommentDTO> updateComments(@PathVariable long id, @RequestBody CommentDTO commentDTO) {

@@ -24,9 +24,6 @@ public class AnnouncementDAO {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-//    @Value("${findAll.announcements}")
-//    private String getAll;
-
     @Value("${findById.announcement}")
     private String getById;
 
@@ -52,7 +49,7 @@ public class AnnouncementDAO {
         return namedParameterJdbcTemplate.query(getById, parameterSource, BeanPropertyRowMapper.newInstance(Announcement.class));
     }
 
-    public void create(Announcement announcement) {
+       public void create(Announcement announcement) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("courseId", announcement.getCourseId())
                 .addValue("text", announcement.getText());
