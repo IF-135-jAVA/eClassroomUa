@@ -1,32 +1,27 @@
 package com.softserve.betterlearningroom.service;
 
+import com.softserve.betterlearningroom.BeLeRoApplication;
 import com.softserve.betterlearningroom.dao.CommentDAO;
-import com.softserve.betterlearningroom.dto.CommentDTO;
-import com.softserve.betterlearningroom.entity.Comment;
 import com.softserve.betterlearningroom.mapper.CommentMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.given;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+//@SpringBootConfiguration(BeLeRoApplication.class)
 
-@RunWith(SpringRunner.class)
 //@ExtendWith(MockitoExtension.class)
 //@SpringBootTest(classes = {TestDBConfiguration.class, CommentDAO.class})
 //@TestPropertySource(properties = {"classpath:/resourses/comment_queries.properties"})
 
 
-public class CommentServiceTest {
+public class CommentControllerIntegTest {
 
     @Mock
     private CommentDAO commentDAO;
