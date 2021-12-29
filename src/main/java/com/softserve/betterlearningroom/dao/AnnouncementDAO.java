@@ -14,8 +14,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-@PropertySource(value = "classpath:/announcement_queries.properties")
 //@PropertySource(value = "classpath:/db/announcements/announcement_queries.properties")
+@PropertySource(value = "classpath:/db/announcements/announcement_queries.properties")
 public class AnnouncementDAO {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 

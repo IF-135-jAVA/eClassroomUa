@@ -14,8 +14,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-@PropertySource(value = "classpath:/comment_queries.properties")
 //@PropertySource(value = "classpath:/db/comments/comment_queries.properties")
+@PropertySource(value = "classpath:/db/comments/comment_queries.properties")
 public class CommentDAO {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 

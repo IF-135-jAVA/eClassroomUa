@@ -5,7 +5,7 @@ import com.softserve.betterlearningroom.dao.CommentDAO;
 import com.softserve.betterlearningroom.mapper.CommentMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+//import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
 //@SpringBootConfiguration(BeLeRoApplication.class)
 
 //@ExtendWith(MockitoExtension.class)
