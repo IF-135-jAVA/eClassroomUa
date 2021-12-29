@@ -20,37 +20,33 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/classrooms/{classroomId}")
+//@RequestMapping("/api/classrooms/{classroomId}")
+@RequestMapping("/api")
 
 public class CommentController {
     private CommentService commentService;
 
     @GetMapping("/comments/{id}")
     public ResponseEntity<CommentDTO> readByIdComments(@PathVariable long id) {
-        CommentDTO result = commentService.readByIdComments(id);
-        if (result == null) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(commentService.readByIdComments(id));
     }
 
-    @PostMapping("/comments")
-    public ResponseEntity<CommentDTO> createComments(@RequestBody CommentDTO commentDTO) {
-        commentService.createComments(commentDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @PostMapping("/users/{userId}/comments")
+    public ResponseEntity<CommentDTO> createComments(@RequestBody CommentDTO commentDTO, @PathVariable long userId) {
+        commentDTO.setAuthorId(userId);
+        return new ResponseEntity<>(commentService.createComments(commentDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/comments/{id}")
     public ResponseEntity<CommentDTO> updateComments(@PathVariable long id, @RequestBody CommentDTO commentDTO) {
-        if (commentService.readByIdComments(id) == null) return ResponseEntity.notFound().build();
-        commentService.updateComments(commentDTO, id);
-        return ResponseEntity.ok(commentService.readByIdComments(id));
+        return ResponseEntity.ok(commentService.updateComments(commentDTO, id));
     }
 
     @DeleteMapping("/comments/{id}")
     public ResponseEntity<CommentDTO> deleteComments(@PathVariable long id) {
         commentService.deleteComments(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
-
     @GetMapping("/materials/{materialId}/materialComments")
     public ResponseEntity<List<CommentDTO>> readByIdMaterialComments(@PathVariable long materialId) {
         return ResponseEntity.ok(commentService.readByIdMaterialComments(materialId));

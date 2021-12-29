@@ -15,7 +15,7 @@ public class AnnouncementMapper {
         announcementDTO.setCourseId(announcement.getCourseId());
         announcementDTO.setText(announcement.getText());
         announcementDTO.setComments(announcement.getComments());
-
+        announcementDTO.setEnabled(announcement.isEnabled());
         return announcementDTO;
     }
 
@@ -25,7 +25,7 @@ public class AnnouncementMapper {
         announcement.setCourseId(announcementDTO.getCourseId());
         announcement.setText(announcementDTO.getText());
         announcement.setComments(announcementDTO.getComments());
-
+        announcement.setEnabled(announcementDTO.isEnabled());
         return announcement;
     }
 

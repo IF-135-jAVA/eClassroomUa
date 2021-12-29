@@ -9,6 +9,8 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -48,30 +50,28 @@ public class CommentDAO {
     @Value("${findBy.authorId}")
     private String getByAuthorId;
 
-    public List<Comment> readByIdComments(long id) {
+
+    public Comment readByIdComments(long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
-        return namedParameterJdbcTemplate.query(getByIdComments, parameterSource, BeanPropertyRowMapper.newInstance(Comment.class));
+        return namedParameterJdbcTemplate.queryForObject(getByIdComments, parameterSource, BeanPropertyRowMapper.newInstance(Comment.class));
     }
 
-    public void createComments(Comment comment) {
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue("authorId", comment.getAuthorId())
-                .addValue("materialId", comment.getMaterialId())
-                .addValue("text", comment.getText())
-                .addValue("date", comment.getDate())
-                .addValue("announcementId", comment.getAnnouncementId())
-                .addValue("userAssignmentId", comment.getUserAssignmentId());
-
-        namedParameterJdbcTemplate.update(saveComments, parameterSource);
+    public Comment createComments (Comment comment) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(comment);
+        namedParameterJdbcTemplate.update(saveComments, parameterSource, keyHolder, new String[]{"id"});
+        return readByIdComments(keyHolder.getKeyAs(Integer.class));
     }
 
-    public void updateComments(Comment updateComment) {
+    public Comment updateComments (Comment updateComment) {
         BeanPropertySqlParameterSource parameterSource =
                 new BeanPropertySqlParameterSource(updateComment);
         namedParameterJdbcTemplate.update(editComments, parameterSource);
+        return readByIdComments(updateComment.getId());
     }
 
     public void deleteComments(long id) {
+        readByIdComments(id);
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
         namedParameterJdbcTemplate.update(removeComments, parameterSource);
     }

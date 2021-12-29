@@ -15,5 +15,5 @@ public class Announcement {
     private long courseId;
     private String text;
     private List<Comment> comments;
-
+    private boolean enabled;
 }

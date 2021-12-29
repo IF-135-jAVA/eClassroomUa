@@ -16,8 +16,11 @@ public class AnnouncementService {
     private AnnouncementDAO announcementDAO;
     private AnnouncementMapper announcementMapper;
 
-    public void create(AnnouncementDTO announcementDTO) {
-        announcementDAO.create(announcementMapper.announcementDTOToAnnouncement(announcementDTO));
+    public AnnouncementDTO create(AnnouncementDTO announcementDTO) {
+        announcementDTO.setText(announcementDTO.getText());
+        announcementDTO.setEnabled(true);
+        return announcementMapper.announcementToAnnouncementDTO(
+                announcementDAO.create(announcementMapper.announcementDTOToAnnouncement(announcementDTO)));
     }
 
     public List<AnnouncementDTO> readByCourseId(long courseId) {
@@ -28,21 +31,30 @@ public class AnnouncementService {
     }
 
     public AnnouncementDTO readById(long id) {
-        List<Announcement> result = announcementDAO.readById(id);
-        return result.isEmpty() ? null : announcementMapper.announcementToAnnouncementDTO(result.get(0));
+        return announcementMapper.announcementToAnnouncementDTO(announcementDAO.readById(id));
     }
 
-    public void update(AnnouncementDTO announcementDTO, long id) {
+    public AnnouncementDTO update(AnnouncementDTO announcementDTO, long id) {
         AnnouncementDTO oldAnnouncementDTO = readById(id);
-        if (oldAnnouncementDTO != null) {
-            oldAnnouncementDTO.setText(announcementDTO.getText());
-            announcementDAO.update(announcementMapper.announcementDTOToAnnouncement(oldAnnouncementDTO));
-        }
+        oldAnnouncementDTO.setText(announcementDTO.getText());
+        return announcementMapper.announcementToAnnouncementDTO(
+                announcementDAO.update(announcementMapper.announcementDTOToAnnouncement(oldAnnouncementDTO)));
     }
 
     public void delete(long id) {
-        AnnouncementDTO announcementDTO = readById(id);
-        announcementDAO.delete(announcementDTO.getId());
+        announcementDAO.delete(id);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 

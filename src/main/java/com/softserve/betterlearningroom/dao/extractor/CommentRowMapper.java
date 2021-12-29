@@ -20,7 +20,7 @@ public class CommentRowMapper implements RowMapper<Comment> {
         comment.setUserAssignmentId(rs.getLong("userAssignmentId"));
         comment.setMaterialId(rs.getLong("materialId"));
         comment.setDate(rs.getDate("date").toLocalDate().atStartOfDay());
-
+        comment.setEnabled(rs.getBoolean("enabled"));
         return comment;
     }
 }

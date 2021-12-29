@@ -7,6 +7,7 @@ import com.softserve.betterlearningroom.mapper.CommentMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,27 +17,27 @@ public class CommentService {
     private CommentDAO commentDAO;
     private CommentMapper commentMapper;
 
-
     public CommentDTO readByIdComments(long id) {
-        List<Comment> result = commentDAO.readByIdComments(id);
-        return result.isEmpty() ? null : commentMapper.commentToCommentDTO(result.get(0));
+        return commentMapper.commentToCommentDTO(commentDAO.readByIdComments(id));
     }
 
-    public void createComments(CommentDTO commentDTO) {
-        commentDAO.createComments(commentMapper.commentDTOToComment(commentDTO));
+    public CommentDTO createComments(CommentDTO commentDTO) {
+        commentDTO.setText(commentDTO.getText());
+        commentDTO.setDate(LocalDateTime.now());
+        commentDTO.setEnabled(true);
+        return commentMapper.commentToCommentDTO(
+                commentDAO.createComments(commentMapper.commentDTOToComment(commentDTO)));
     }
 
-    public void updateComments(CommentDTO commentDTO, long id) {
+    public CommentDTO updateComments(CommentDTO commentDTO, long id) {
         CommentDTO oldCommentDTO = readByIdComments(id);
-        if (oldCommentDTO != null) {
-            oldCommentDTO.setText(commentDTO.getText());
-            commentDAO.updateComments(commentMapper.commentDTOToComment(oldCommentDTO));
-        }
+        oldCommentDTO.setText(commentDTO.getText());
+        return commentMapper.commentToCommentDTO(
+                commentDAO.updateComments(commentMapper.commentDTOToComment(oldCommentDTO)));
     }
 
     public void deleteComments(long id) {
-        CommentDTO commentDTO = readByIdComments(id);
-        commentDAO.deleteComments(commentDTO.getId());
+        commentDAO.deleteComments(id);
     }
 
     public List<CommentDTO> readByIdMaterialComments(long materialCommentsId) {

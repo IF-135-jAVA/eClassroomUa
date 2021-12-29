@@ -23,9 +23,9 @@ public class AnnouncementController {
     private AnnouncementService announcementService;
 
     @PostMapping
-    public ResponseEntity<AnnouncementDTO> create(@RequestBody AnnouncementDTO announcementDTO) {
-        announcementService.create(announcementDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<AnnouncementDTO> create(@RequestBody AnnouncementDTO announcementDTO, @PathVariable long classroomId) {
+        announcementDTO.setCourseId(classroomId);
+        return new ResponseEntity<>(announcementService.create(announcementDTO), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -35,22 +35,18 @@ public class AnnouncementController {
 
     @GetMapping("{id}")
     public ResponseEntity<AnnouncementDTO> readById(@PathVariable long id) {
-        AnnouncementDTO result = announcementService.readById(id);
-        if (result == null) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(announcementService.readById(id));
     }
 
     @PutMapping("{id}")
     public ResponseEntity<AnnouncementDTO> update(@PathVariable long id, @RequestBody AnnouncementDTO announcementDTO) {
-        if (announcementService.readById(id) == null) return ResponseEntity.notFound().build();
-        announcementService.update(announcementDTO, id);
-        return ResponseEntity.ok(announcementService.readById(id));
+           return ResponseEntity.ok(announcementService.update(announcementDTO, id));
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<AnnouncementDTO> delete(@PathVariable long id) {
         announcementService.delete(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
 }

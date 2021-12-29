@@ -18,6 +18,7 @@ public class AnnouncementRowMapper implements RowMapper<Announcement> {
         announcement.setCourseId(rs.getLong("courseId"));
         announcement.setText(rs.getString("text"));
         announcement.setComments((List<Comment>) rs.getArray("comments"));
+        announcement.setEnabled(rs.getBoolean("enabled"));
         return announcement;
     }
 }

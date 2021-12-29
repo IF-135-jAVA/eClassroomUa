@@ -18,4 +18,5 @@ public class Comment {
     private long announcementId;
     private long userAssignmentId;
     private long materialId;
+    private boolean enabled;
 }

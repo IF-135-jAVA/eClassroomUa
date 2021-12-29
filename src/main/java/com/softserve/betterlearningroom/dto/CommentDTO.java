@@ -18,5 +18,5 @@ public class CommentDTO {
     private long announcementId;
     private long userAssignmentId;
     private long materialId;
-
+    private boolean enabled;
 }
