@@ -17,7 +17,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-@PropertySource("classpath:/user_assignment_queries.properties")
+@PropertySource("classpath:/db/assignments/user_assignment_queries.properties")
 public class UserAssignmentDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -31,24 +31,34 @@ public class UserAssignmentDao {
     @Value("${update.user.assignment}")
     private String updateQuery;
 
+    @Value("${delete.user.assignment}")
+    private String deleteQuery;
+
     @Value("${get.user.assignments.by.assignment}")
     private String getByAssignmentQuery;
 
-    public long create(UserAssignment userAssignment) {
+    public UserAssignment create(UserAssignment userAssignment) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(userAssignment);
         jdbcTemplate.update(createQuery, parameterSource, keyHolder, new String[]{"id"});
-        return keyHolder.getKeyAs(Integer.class);
+        return readById(keyHolder.getKeyAs(Integer.class));
     }
 
-    public List<UserAssignment> readById(long id) {
+    public UserAssignment readById(long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
-        return jdbcTemplate.query(readByIdQuery, parameterSource, BeanPropertyRowMapper.newInstance(UserAssignment.class));
+        return jdbcTemplate.queryForObject(readByIdQuery, parameterSource, BeanPropertyRowMapper.newInstance(UserAssignment.class));
     }
 
-    public void update(UserAssignment userAssignment) {
+    public UserAssignment update(UserAssignment userAssignment) {
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(userAssignment);
         jdbcTemplate.update(updateQuery, parameterSource);
+        return readById(userAssignment.getId());
+    }
+
+    public void delete(long id) {
+        readById(id);
+        SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
+        jdbcTemplate.update(deleteQuery, parameterSource);
     }
 
     public List<UserAssignment> getByAssignment(long assignmentId) {
