@@ -1,11 +1,11 @@
 package com.softserve.betterlearningroom.controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.softserve.betterlearningroom.BeLeRoApplication;
+import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
+import com.softserve.betterlearningroom.entity.request.AuthRequest;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JacksonJsonParser;
@@ -16,64 +16,63 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import com.softserve.betterlearningroom.BeLeRoApplication;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = BeLeRoApplication.class, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@SpringBootTest(classes = {BeLeRoApplication.class, TestDBConfiguration.class},  webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 public class UserControllerTest {
-	
-	@Autowired
+
+    @Autowired
     private MockMvc mvc;
-	
-	private String token;
-	
-	JacksonJsonParser jsonParser;
-	
-	@Before
-	public void setUp() throws Exception {
-		jsonParser = new JacksonJsonParser();
-		
-		String request = "{\"login\":\"jurok3x@gmail.com\", \"password\":\"yawinpassword\"}";
-		
-		ResultActions result = mvc
-				.perform(post("/api/auth/login?role=teacher")
-				.content(request)
-				.contentType(MediaType.APPLICATION_JSON)
-	    		.accept("text/plain;charset=UTF-8"))
-	        	.andExpect(status().isOk())
-	        	.andExpect(content().contentType("text/plain;charset=UTF-8"));
-		
-		token = "Bearer " + result.andReturn().getResponse().getContentAsString();
-	}
-	
-	
-	@Test
-	public void whenUserIdIsProvided_thenReturnCorrectResponce() throws Exception {
-		ResultActions result = mvc.perform(get("/api/users/1")
-				.contentType(MediaType.APPLICATION_JSON)
-				.header("Authorization", token))
-			.andExpect(status().isOk())
-			.andExpect(content()
-					.contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-		
-		String resultString = result.andReturn().getResponse().getContentAsString();
+    private String token;
+    private JacksonJsonParser jsonParser;
+    private ObjectMapper mapper;
 
-		assertEquals("Comparing emails:", "jurok3x@gmail.com", jsonParser.parseMap(resultString).get("email").toString());
-	}
-	
-	@Test
-	public void whenUserIdIsBad_thenReturnError() throws Exception {
-		mvc.perform(get("/api/users/10")
-				.contentType(MediaType.APPLICATION_JSON)
-				.header("Authorization", token))
-			.andExpect(status().isInternalServerError())
-			.andExpect(content()
-					.contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-	}
+    @Before
+    public void setUp() throws Exception {
+        jsonParser = new JacksonJsonParser();
+        mapper = new ObjectMapper();
+        
+        AuthRequest request = new AuthRequest();
+        request.setLogin("jurok3x@gmail.com");
+        request.setPassword("yawinpassword");
+        
+        String jsonRequestBody = mapper.writeValueAsString(request);
 
+        token = "Bearer " + mvc
+                .perform(post("/api/auth/login?role=teacher")
+                        .content(jsonRequestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept("text/plain;charset=UTF-8"))
+                .andReturn().getResponse().getContentAsString();
+    }
+
+    @Test
+    public void whenUserIdIsProvided_thenReturnCorrectResponce() throws Exception {
+        ResultActions result = mvc
+                .perform(get("/api/users/2")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", token))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+
+        String resultString = result.andReturn().getResponse().getContentAsString();
+
+        assertEquals("Comparing emails:", "jurok3x@gmail.com",
+                jsonParser.parseMap(resultString).get("email").toString());
+    }
+
+    @Test
+    public void whenUserIdIsBad_thenReturnError() throws Exception {
+        mvc.perform(get("/api/users/0")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", token))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+    }
 }
