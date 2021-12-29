@@ -12,6 +12,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -71,18 +73,22 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void save(User user) {
+    public User save(User user) {
         MapSqlParameterSource params = new MapSqlParameterSource();
+        
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
         params.addValue("firstname", user.getFirstName()).addValue("lastname", user.getLastName())
                 .addValue("email", user.getEmail()).addValue("password", user.getPassword())
                 .addValue("enabled", user.isEnabled());
 
-        template.update(save, params);
+        template.update(save, params, keyHolder);
+        user.setId(keyHolder.getKey().intValue());
+        return user;
     }
 
     @Override
-    public void update(User user) {
+    public User update(User user) {
 
         MapSqlParameterSource params = new MapSqlParameterSource();
 
@@ -91,6 +97,8 @@ public class UserDAOImpl implements UserDAO {
                 .addValue("enabled", user.isEnabled()).addValue("id", user.getId());
 
         template.update(update, params);
+        
+        return user;
 
     }
 
