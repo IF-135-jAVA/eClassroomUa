@@ -4,6 +4,8 @@ import com.softserve.betterlearningroom.entity.Answer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.dao.DataRetrievalFailureException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -46,7 +48,11 @@ public class AnswerDao {
 
     public Answer readById(long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
-        return jdbcTemplate.queryForObject(readByIdQuery, parameterSource, BeanPropertyRowMapper.newInstance(Answer.class));
+        try {
+            return jdbcTemplate.queryForObject(readByIdQuery, parameterSource, BeanPropertyRowMapper.newInstance(Answer.class));
+        } catch (EmptyResultDataAccessException e) {
+            throw new DataRetrievalFailureException("Answer with id - " + id + ", not found.");
+        }
     }
 
     public Answer update(Answer answer) {
