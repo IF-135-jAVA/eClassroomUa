@@ -10,6 +10,7 @@ import com.softserve.betterlearningroom.entity.roles.Roles;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
 import com.softserve.betterlearningroom.mapper.UserMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,17 +25,15 @@ public class DefaultAuthService implements AuthService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public String login(AuthRequest request, String userRole) {
-        User user = userDao.findByEmail(request.getLogin()).get();
-        Roles role = null;
-        switch (userRole) {
-        case ("student"):
-            role = Roles.STUDENT;
-            break;
-        case ("teacher"):
-            role = Roles.TEACHER;
-            break;
+    public String login(AuthRequest request, String userRole) throws UsernameNotFoundException{
+        User user = userDao.findByEmail(request.getLogin()).orElseThrow(() -> new UsernameNotFoundException(
+                String.format("User with email - %s, not found", request.getLogin())));
+        if(!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new BadCredentialsException(String.format("Wrong password for user with email - %s", request.getLogin()));
         }
+        Roles role = Roles.valueOf(userRole.toUpperCase().trim());
+        
+        
         return jwtProvider.generateToken(user.getEmail(), role);
     }
 
@@ -46,8 +45,7 @@ public class DefaultAuthService implements AuthService {
         user.setLastName(request.getLastName());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setEnabled(true);
-        userDao.save(user);
-        return userMapper.userToUserDTO(user);
+        return userMapper.userToUserDTO(userDao.save(user));
     }
 
     @Override
@@ -59,7 +57,6 @@ public class DefaultAuthService implements AuthService {
         user.setLastName(request.getLastName());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setEnabled(request.isEnabled());
-        userDao.update(user);
-        return userMapper.userToUserDTO(user);
+        return userMapper.userToUserDTO(userDao.update(user));
     }
 }
