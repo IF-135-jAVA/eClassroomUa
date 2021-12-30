@@ -10,7 +10,9 @@ import com.softserve.betterlearningroom.entity.roles.Roles;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
 import com.softserve.betterlearningroom.mapper.UserMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,20 +27,24 @@ public class DefaultAuthService implements AuthService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public String login(AuthRequest request, String userRole) throws UsernameNotFoundException{
+    public String login(AuthRequest request, String userRole) throws UsernameNotFoundException {
         User user = userDao.findByEmail(request.getLogin()).orElseThrow(() -> new UsernameNotFoundException(
                 String.format("User with email - %s, not found", request.getLogin())));
-        if(!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new BadCredentialsException(String.format("Wrong password for user with email - %s", request.getLogin()));
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new BadCredentialsException(
+                    String.format("Wrong password for user with email - %s", request.getLogin()));
         }
         Roles role = Roles.valueOf(userRole.toUpperCase().trim());
-        
-        
+
         return jwtProvider.generateToken(user.getEmail(), role);
     }
 
     @Override
     public UserDTO saveUser(SaveUserRequest request) throws UserAlreadyExistsException {
+        if (userDao.findByEmail(request.getEmail()).isPresent()) {
+            throw new UserAlreadyExistsException(
+                    String.format("User with email - %s already exists", request.getEmail()));
+        }
         User user = new User();
         user.setEmail(request.getEmail());
         user.setFirstName(request.getFirstName());
@@ -49,9 +55,18 @@ public class DefaultAuthService implements AuthService {
     }
 
     @Override
-    public UserDTO updateUser(SaveUserRequest request, int id) {
+    public UserDTO updateUser(SaveUserRequest request, int id) throws UserAlreadyExistsException {
         User user = userDao.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User with id - %d, not found.", id)));
+
+        if (!SecurityContextHolder.getContext().getAuthentication().getName().equals(user.getEmail())) {
+            throw new AccessDeniedException("You don't have permission to edit this user");
+        }
+
+        if (!user.getEmail().equals(request.getEmail()) && userDao.findByEmail(request.getEmail()).isPresent()) {
+            throw new UserAlreadyExistsException(
+                    String.format("User with email - %s already exists", request.getEmail()));
+        }
         user.setEmail(request.getEmail());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
