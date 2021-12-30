@@ -46,7 +46,7 @@ public class AuthController {
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<UserDTO> updateUser(@RequestBody SaveUserRequest request, @PathVariable int id) {
+    public ResponseEntity<UserDTO> updateUser(@RequestBody @Valid SaveUserRequest request, @PathVariable int id) throws UserAlreadyExistsException {
         UserDTO updatedUser = authService.updateUser(request, id);
         return ResponseEntity.ok().body(updatedUser);
     }
