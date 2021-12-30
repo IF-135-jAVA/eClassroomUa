@@ -3,7 +3,6 @@ package com.softserve.betterlearningroom.dao;
 import com.softserve.betterlearningroom.entity.*;
 import com.softserve.betterlearningroom.dao.extractor.MaterialRowMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -15,10 +14,10 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
-@PropertySource("classpath:materialQuery.properties")
+@PropertySource("classpath:db/materials/materialQuery.properties")
 public class MaterialDao {
 
-    private NamedParameterJdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Value("${get.all.materials}")
     private String getAllQuery;
@@ -35,38 +34,33 @@ public class MaterialDao {
     @Value("${remove.material}")
     private String removeQuery;
 
-    @Autowired
-    public MaterialDao(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public Material readById(Long materialId) {
+        return namedParameterJdbcTemplate.query(getByIdQuery, new MapSqlParameterSource("materialid", materialId), new MaterialRowMapper()).stream().findFirst().orElse(null);
     }
 
-    public Material getById(Long materialId) {
-        return jdbcTemplate.query(getByIdQuery, new MapSqlParameterSource("materialid", materialId), new MaterialRowMapper()).stream().findFirst().orElse(null);
+    public List<Material> readAllByClassroom(Long classroomId) {
+        return namedParameterJdbcTemplate.query(getAllQuery, new MapSqlParameterSource("topicid", classroomId), new MaterialRowMapper());
     }
 
-    public List<Material> getAllByClassroom(Long classroomId) {
-        return jdbcTemplate.query(getAllQuery, new MapSqlParameterSource("topicid", classroomId), new MaterialRowMapper());
-    }
-
-    public List<Material> getAllByTopic(Long classroomId, Long topicId) {
-        return getAllByClassroom(classroomId).stream()
+    public List<Material> readAllByTopic(Long classroomId, Long topicId) {
+        return readAllByClassroom(classroomId).stream()
                 .filter(material -> material.getId().equals(topicId))
                 .collect(Collectors.toList());
     }
 
-    public List<Material> getAllByName(Long classroomId, String name) {
-        return getAllByClassroom(classroomId).stream()
+    public List<Material> readAllByName(Long classroomId, String name) {
+        return readAllByClassroom(classroomId).stream()
                 .filter(material -> material.getTitle().contains(name))
                 .collect(Collectors.toList());
     }
 
-    public List<Material> getAllByType(Long classroomId, MaterialType materialType) {
-        return getAllByClassroom(classroomId).stream()
+    public List<Material> readAllByType(Long classroomId, MaterialType materialType) {
+        return readAllByClassroom(classroomId).stream()
                 .filter(material -> material.getMaterialType().equals(materialType))
                 .collect(Collectors.toList());
     }
 
-    public Material addMaterial(Material material, Long topicId) {
+    public Material create(Material material, Long topicId) {
         MapSqlParameterSource param = new MapSqlParameterSource();
         MaterialType type = material.getMaterialType();
         param.addValue("materialtype", type.name());
@@ -78,13 +72,13 @@ public class MaterialDao {
         param.addValue("testurl", material.getUrl());
         param.addValue("title", material.getTitle());
         param.addValue("topicid", material.getTopicId());
-        jdbcTemplate.update(addQuery, param);
-        return getAllByName(material.getClassroomId(), material.getTitle())
+        namedParameterJdbcTemplate.update(addQuery, param);
+        return readAllByName(material.getClassroomId(), material.getTitle())
                 .stream()
                 .findFirst().orElse(null);
     }
 
-    public Material updateMaterial(Material material) {
+    public Material update(Material material) {
         MapSqlParameterSource param = new MapSqlParameterSource();
         MaterialType type = material.getMaterialType();
         param.addValue("materialid", material.getId());
@@ -96,16 +90,16 @@ public class MaterialDao {
         param.addValue("task", material.getTask());
         param.addValue("testurl", material.getUrl());
         param.addValue("title", material.getTitle());
-        jdbcTemplate.update(updateQuery, param);
-        return getById(material.getId());
+        namedParameterJdbcTemplate.update(updateQuery, param);
+        return readById(material.getId());
     }
 
-    public int removeMaterial(Long materialId) {
-        return jdbcTemplate.update(removeQuery, new MapSqlParameterSource("materialid", materialId));
+    public int delete(Long materialId) {
+        return namedParameterJdbcTemplate.update(removeQuery, new MapSqlParameterSource("materialid", materialId));
     }
 
-    public int removeMaterial(Material material) {
-        return removeMaterial(material.getId());
+    public int delete(Material material) {
+        return delete(material.getId());
     }
 
 }

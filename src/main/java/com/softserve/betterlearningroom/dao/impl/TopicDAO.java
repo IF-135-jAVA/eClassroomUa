@@ -1,6 +1,7 @@
 package com.softserve.betterlearningroom.dao.impl;
 
 import com.softserve.betterlearningroom.entity.Topic;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -15,11 +16,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
 @PropertySource(value = "classpath:/topicQuery.properties")
 public class TopicDAO {
 
-    @Autowired
-    private NamedParameterJdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
     @Value("${topic.save}")
     private String saveQuery;

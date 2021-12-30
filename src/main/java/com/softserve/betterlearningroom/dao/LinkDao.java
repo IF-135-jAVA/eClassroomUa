@@ -15,7 +15,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-@PropertySource("classpath:linkQuery.properties")
+@PropertySource("classpath:db/materials/linkQuery.properties")
 public class LinkDao {
 
     private NamedParameterJdbcTemplate jdbcTemplate;

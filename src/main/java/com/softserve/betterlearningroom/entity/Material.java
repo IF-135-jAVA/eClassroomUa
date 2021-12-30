@@ -30,57 +30,22 @@ public class Material {
 
     private Long classroomId;
 
-    public LocalDateTime getStartDate() {
-        return null;
-    }
+    private LocalDateTime startDate;
 
-    public void setStartDate(LocalDateTime startDate) { }
+    private LocalDateTime dueDate;
 
-    public LocalDateTime getDueDate() {
-        return null;
-    }
+    private List<Criterion> criterions;
 
-    public void setDueDate(LocalDateTime dueDate) { }
+    private List<Question> questions;
 
-    public List<Criterion> getCriterions() {
-        return null;
-    }
+    private List<User> students;
 
-    public void setCriterions(List<Criterion> criterions) { }
+    private int maxScore;
 
-    public List<User> getStudents() {
-        return null;
-    }
+    private String task;
 
-    public void setStudents(List<User> students) { }
+    private String answer;
 
-    public int getMaxScore() {
-        return 0;
-    }
+    private String url;
 
-    public void setMaxScore(int maxScore) { }
-
-    public String getTask() {
-        return null;
-    }
-
-    public void setTask(String task) { }
-
-    public String getAnswer() {
-        return null;
-    }
-
-    public void setAnswer(String answer) { }
-
-    public String getUrl() {
-        return null;
-    }
-
-    public void setUrl(String url) { }
-
-    public List<Question> getQuestions() {
-        return null;
-    }
-
-    public void setQuestions(List<Question> questions) { }
 }

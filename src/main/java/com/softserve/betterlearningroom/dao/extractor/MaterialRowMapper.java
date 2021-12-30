@@ -1,6 +1,11 @@
 package com.softserve.betterlearningroom.dao.extractor;
 
-import com.softserve.betterlearningroom.entity.*;
+import com.softserve.betterlearningroom.entity.Link;
+import com.softserve.betterlearningroom.entity.Material;
+import com.softserve.betterlearningroom.entity.MaterialType;
+import com.softserve.betterlearningroom.entity.Question;
+import com.softserve.betterlearningroom.entity.Task;
+import com.softserve.betterlearningroom.entity.Test;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
@@ -22,7 +27,7 @@ public class MaterialRowMapper implements ResultSetExtractor<List<Material>> {
             Long materialId = rs.getLong("materialid");
             Material material = materialMap.get(materialId);
             MaterialType type = valueOf(rs.getString("materialType"));
-            if(material == null){
+            if (material == null){
                 switch (type){
                     case TEST:
                         material = new Test();
@@ -49,7 +54,7 @@ public class MaterialRowMapper implements ResultSetExtractor<List<Material>> {
                 materialMap.put(materialId, material);
             }
             List<Link> links = material.getUrls();
-            if(links == null){
+            if (links == null){
                 links = new ArrayList<>();
                 material.setUrls(links);
             }
@@ -58,9 +63,9 @@ public class MaterialRowMapper implements ResultSetExtractor<List<Material>> {
             link.setText(rs.getString("linktext"));
             link.setUrl(rs.getString("url"));
             links.add(link);
-            if(type == QUESTIONS){
+            if (type == QUESTIONS){
                 List<Question> questions = material.getQuestions();
-                if(questions == null){
+                if (questions == null){
                     questions = new ArrayList<>();
                     material.setQuestions(questions);
                 }

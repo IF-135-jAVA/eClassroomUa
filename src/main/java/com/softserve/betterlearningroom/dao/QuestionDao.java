@@ -15,7 +15,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-@PropertySource("classpath:questionQuery.properties")
+@PropertySource("classpath:db/materials/questionQuery.properties")
 public class QuestionDao {
 
     private NamedParameterJdbcTemplate jdbcTemplate;
