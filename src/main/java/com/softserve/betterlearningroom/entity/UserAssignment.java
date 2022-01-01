@@ -13,4 +13,5 @@ public class UserAssignment {
     private LocalDateTime submissionDate;
     private int grade;
     private String feedback;
+    private boolean enabled;
 }
