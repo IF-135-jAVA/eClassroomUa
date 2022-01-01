@@ -2,7 +2,7 @@ package com.softserve.betterlearningroom.controller;
 
 
 import com.softserve.betterlearningroom.dto.CommentDTO;
-import com.softserve.betterlearningroom.service.CommentService;
+import com.softserve.betterlearningroom.service.impl.CommentServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,27 +24,27 @@ import java.util.List;
 @RequestMapping("/api")
 
 public class CommentController {
-    private CommentService commentService;
+    private CommentServiceImpl commentService;
 
     @GetMapping("/comments/{id}")
     public ResponseEntity<CommentDTO> readByIdComments(@PathVariable long id) {
-        return ResponseEntity.ok(commentService.readByIdComments(id));
+        return ResponseEntity.ok(commentService.readByIdComment(id));
     }
 
     @PostMapping("/users/{userId}/comments")
     public ResponseEntity<CommentDTO> createComments(@RequestBody CommentDTO commentDTO, @PathVariable long userId) {
         commentDTO.setAuthorId(userId);
-        return new ResponseEntity<>(commentService.createComments(commentDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(commentService.createComment(commentDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/comments/{id}")
     public ResponseEntity<CommentDTO> updateComments(@PathVariable long id, @RequestBody CommentDTO commentDTO) {
-        return ResponseEntity.ok(commentService.updateComments(commentDTO, id));
+        return ResponseEntity.ok(commentService.updateComment(commentDTO, id));
     }
 
     @DeleteMapping("/comments/{id}")
     public ResponseEntity<CommentDTO> deleteComments(@PathVariable long id) {
-        commentService.deleteComments(id);
+        commentService.deleteComment(id);
         return ResponseEntity.noContent().build();
     }
     @GetMapping("/materials/{materialId}/materialComments")

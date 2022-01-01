@@ -15,4 +15,11 @@ public class AnnouncementDTO {
     private String text;
     private List<Comment> comments;
     private boolean enabled;
+
+    public AnnouncementDTO(long id, long courseId, String text, boolean enabled) {
+        this.id = id;
+        this.courseId = courseId;
+        this.text = text;
+        this.enabled = enabled;
+    }
 }

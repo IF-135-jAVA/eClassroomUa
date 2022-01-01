@@ -27,7 +27,9 @@ import java.util.List;
         methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PUT}
 )
 @RequestMapping("/api/classrooms/{classroomId}/topics/{topicId}/materials")
-public class MaterialController {
+public class
+
+MaterialController {
 
     private final MaterialService materialService;
 

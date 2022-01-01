@@ -1,7 +1,9 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.AnnouncementDTO;
+import com.softserve.betterlearningroom.dto.CommentDTO;
 import com.softserve.betterlearningroom.service.AnnouncementService;
+import com.softserve.betterlearningroom.service.impl.AnnouncementServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,12 @@ public class AnnouncementController {
         announcementDTO.setCourseId(classroomId);
         return new ResponseEntity<>(announcementService.create(announcementDTO), HttpStatus.CREATED);
     }
+
+//    @PostMapping
+//    public ResponseEntity<AnnouncementDTO> addComment(@RequestBody CommentDTO commentDTO, @PathVariable long announcementId) {
+//        commentDTO.setAnnouncementId(announcementId);
+//        return new ResponseEntity<>(announcementService.addComment(commentDTO), HttpStatus.CREATED);
+//    }
 
     @GetMapping
     public ResponseEntity<List<AnnouncementDTO>> readByCourseId(@PathVariable long classroomId) {

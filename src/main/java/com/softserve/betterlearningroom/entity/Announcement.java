@@ -16,4 +16,11 @@ public class Announcement {
     private String text;
     private List<Comment> comments;
     private boolean enabled;
+
+    public Announcement(long id, long courseId, String text, boolean enabled) {
+        this.id = id;
+        this.courseId = courseId;
+        this.text = text;
+        this.enabled = enabled;
+    }
 }
