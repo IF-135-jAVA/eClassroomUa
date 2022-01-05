@@ -4,32 +4,45 @@ import com.softserve.betterlearningroom.dao.UserDAO;
 import com.softserve.betterlearningroom.dto.UserDTO;
 import com.softserve.betterlearningroom.entity.User;
 import com.softserve.betterlearningroom.mapper.UserMapper;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(value = { MockitoExtension.class })
 public class UserServiceTest {
 	
+	private static final boolean USER_ENABLED = true;
+
+	private static final String USER_EMAIL = "Keanu@gmail.com";
+
+	private static final String USER_PASSWORD = "1234";
+
+	private static final String USER_LASTNAME = "Reeves";
+
+	private static final String USER_FIRSTNAME = "Keanu";
+
+	private static final int USER_ID = 1;
+
 	@Mock
 	private UserDAO userDao;
 	
 	private DefaultUserService userService;
 	
-	@Before
+	@BeforeEach
 	public void setUp() {
 		UserMapper userMapper = new UserMapper();
 	    userService = new DefaultUserService(userDao, userMapper);
@@ -37,42 +50,43 @@ public class UserServiceTest {
 	
 	@Test
 	public void whenUserIdIsProvided_thenReturnCorrectUser() {
-		//Given
-		User user = new User(1, "Keanu", "Reeves", "1234", "Keanu@gmail.com", true);
-		given(userDao.findById(1)).willReturn(Optional.of(user));
-		//when
-		UserDTO userDTO = userService.findById(1);
-		//then
+		User user = new User(USER_ID, USER_FIRSTNAME, USER_LASTNAME, USER_PASSWORD, USER_EMAIL, USER_ENABLED);
+		given(userDao.findById(USER_ID)).willReturn(Optional.of(user));
+		UserDTO userDTO = userService.findById(USER_ID);
 		assertNotNull(userDTO);
-		assertEquals(userDTO.getEmail() , "Keanu@gmail.com");
+		assertEquals(userDTO.getEmail() , USER_EMAIL);
+		verify(userDao).findById(USER_ID);
 	}
 	
 	@Test
 	public void whenUserEmailIsProvided_thenReturnCorrectUser() {
-		User user = new User(1, "Keanu", "Reeves", "1234", "Keanu@gmail.com", true);
+		User user = new User(USER_ID, USER_FIRSTNAME, USER_LASTNAME, USER_PASSWORD, USER_EMAIL, USER_ENABLED);
 		given(userDao.findByEmail(Mockito.anyString())).willReturn(Optional.of(user));
-		UserDTO userDTO = userService.findByEmail("Keanu@gmail.com");
+		UserDTO userDTO = userService.findByEmail(USER_EMAIL);
 		assertNotNull(userDTO);
-		assertEquals(userDTO.getEmail() , "Keanu@gmail.com");
+		assertEquals(userDTO.getEmail() , USER_EMAIL);
+		verify(userDao).findByEmail(USER_EMAIL);
 	}
 	
 	@Test
 	public void whenUserIsNotFound_thenThrowException() {
 		given(userDao.findById(Mockito.anyInt())).willReturn(Optional.ofNullable(null));
-		assertThrows(UsernameNotFoundException.class, () -> userService.findById(1));
+		assertThrows(UsernameNotFoundException.class, () -> userService.findById(USER_ID));
+		verify(userDao).findById(USER_ID);
 	}
 	
 	@Test
 	public void whenGetAllUsers_thenReturnCorrectList() {
 		List<User> userList = new ArrayList<User>();
-		userList.add(new User(1, "Keanu", "Reeves", "1234", "Keanu@gmail.com", true));
-		userList.add(new User(2, "Yurii", "Kotsiuba", "1234", "jurok3x@gmail.com", true));
-		userList.add(new User(3, "Bob", "Smith", "1234", "bob@gmail.com", true));
-		userList.add(new User(4, "John", "Doe", "1234", "jdoe@gmail.com", true));
+		userList.add(new User(USER_ID, USER_FIRSTNAME, USER_LASTNAME, USER_PASSWORD, USER_EMAIL, USER_ENABLED));
+		userList.add(new User(2, "Yurii", "Kotsiuba", USER_PASSWORD, "jurok3x@gmail.com", USER_ENABLED));
+		userList.add(new User(3, "Bob", "Smith", USER_PASSWORD, "bob@gmail.com", USER_ENABLED));
+		userList.add(new User(4, "John", "Doe", USER_PASSWORD, "jdoe@gmail.com", USER_ENABLED));
 		given(userDao.findAll()).willReturn(userList);
 		List<UserDTO> actualUsers = userService.findAll();
 		assertEquals(4, actualUsers.size());
 		assertEquals("Bob", actualUsers.get(2).getFirstName());
+		verify(userDao).findAll();
 	}
 
 }

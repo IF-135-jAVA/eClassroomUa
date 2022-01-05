@@ -3,17 +3,15 @@ package com.softserve.betterlearningroom.dao;
 import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
 import com.softserve.betterlearningroom.dao.impl.UserDAOImpl;
 import com.softserve.betterlearningroom.entity.User;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = { TestDBConfiguration.class, UserDAOImpl.class })
 public class UserDaoTest {
 
@@ -24,8 +22,9 @@ public class UserDaoTest {
     public void whenUserSaved_thenReturnCorrectUserCountAndFirstname() {
         User user = new User(5, "Alice", "Cooper", "$2a$04$MzVXtd4o0y4DOlyHMMLMDeE4/eezrsT5Xad.2lmGr/NkCpwBgvn3e",
                 "acooper@gmail.com", true);
-        userDao.save(user);
+        User savedUser = userDao.save(user);
         assertEquals(5, userDao.findAll().size());
+        assertNotNull(savedUser.getId());
         assertEquals("Alice", userDao.findById(5).get().getFirstName());
     }
 
