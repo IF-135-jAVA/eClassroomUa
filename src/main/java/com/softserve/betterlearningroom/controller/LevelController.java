@@ -17,13 +17,20 @@ public class LevelController {
 
     @Autowired
     private LevelService levelService;
-
     /**
-     * get all level
+     * get all exist level
      */
     @GetMapping
     public ResponseEntity<List<LevelDTO>> getAll() {
         List<LevelDTO> level = levelService.findAll();
+        return ResponseEntity.ok().body(level);
+    }
+    /**
+     * get deleted levels
+     */
+    @GetMapping("/deleted/{deleted}")
+    public ResponseEntity<List<LevelDTO>> getAllDeleted(@PathVariable String deleted) {
+        List<LevelDTO> level = levelService.findAllDeleted();
         return ResponseEntity.ok().body(level);
     }
     /**

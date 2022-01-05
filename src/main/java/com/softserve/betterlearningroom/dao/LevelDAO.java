@@ -30,6 +30,9 @@ public class LevelDAO {
     @Value("${level.findAll}")
     private String findAllQuery;
 
+    @Value("${level.findAll.deleted}")
+    private String findAllDeletedQuery;
+
     @Value("${level.findById}")
     private String findByIdQuery;
 
@@ -40,10 +43,10 @@ public class LevelDAO {
     public void save(Level level) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource
-                .addValue("level_Id", level.getLevelId())
+                .addValue("level_id", level.getLevelId())
                 .addValue("title", level.getTitle())
                 .addValue("description", level.getDescription())
-                .addValue("criterion_Id", level.getCriterionId())
+                .addValue("criterion_id", level.getCriterionId())
                 .addValue("mark", level.getMark());
         jdbcTemplate.update(saveQuery, parameterSource);
     }
@@ -58,15 +61,20 @@ public class LevelDAO {
                 BeanPropertyRowMapper.newInstance(Level.class));
     }
 
+    public List<Level> findAllDeleted() {
+        return jdbcTemplate.query(findAllDeletedQuery,
+                BeanPropertyRowMapper.newInstance(Level.class));
+    }
+
 
     public Optional<Level> findById(Integer id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("level_Id", id);
+        SqlParameterSource parameterSource = new MapSqlParameterSource("level_id", id);
         return Optional.ofNullable(jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
                 BeanPropertyRowMapper.newInstance(Level.class)));
     }
 
     public void removeById(Integer id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("level_Id", id);
+        SqlParameterSource parameterSource = new MapSqlParameterSource("level_id", id);
         jdbcTemplate.update(removeByIdQuery, parameterSource);
     }
 

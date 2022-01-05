@@ -32,6 +32,11 @@ public class LevelService {
         return levelDAO.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+    public List<LevelDTO> findAllDeleted() {
+
+        return levelDAO.findAllDeleted().stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
     public void save(LevelDTO levelDTO) {
 
         levelDAO.save(toEntity(levelDTO));
