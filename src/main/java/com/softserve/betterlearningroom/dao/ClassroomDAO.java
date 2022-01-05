@@ -31,31 +31,47 @@ public class ClassroomDAO {
     @Value("${getClassroomOwnerById}")
     private String getClassroomOwnerById;
 
+    @Value("${getClassroomsByTeacher}")
+    private String getClassroomsByTeacher;
+
+    @Value("${getClassroomsByStudent}")
+    private String getClassroomsByStudent;
+
     @Value("${createClassroom}")
     private String createClassroom;
 
     @Value("${removeClassroom}")
     private String removeClassroom;
 
-    public Classroom getClassroomById(Long classroom_id){
-        SqlParameterSource parameterSource = new MapSqlParameterSource("classroom_id", classroom_id);
+    public Classroom getClassroomById(Long classroomId){
+        SqlParameterSource parameterSource = new MapSqlParameterSource("classroomId", classroomId);
         return jdbcParameterTemplate.queryForObject(getClassroomById, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class));
     }
 
-    public List<User> getClassroomTeachers(Long classroom_id){
-        SqlParameterSource parameterSource = new MapSqlParameterSource("classroom_id", classroom_id);
+    public List<User> getClassroomTeachers(Long classroomId){
+        SqlParameterSource parameterSource = new MapSqlParameterSource("classroomId", classroomId);
         return jdbcParameterTemplate.query(getClassroomTeachers, parameterSource, BeanPropertyRowMapper.newInstance(User.class));
     }
 
-    public User getClassroomOwnerById(Long user_id){
-        SqlParameterSource parameterSource = new MapSqlParameterSource("user_id", user_id);
+    public User getClassroomOwnerById(Long classroomId){
+        SqlParameterSource parameterSource = new MapSqlParameterSource("classroomId", classroomId);
         return jdbcParameterTemplate.queryForObject(getClassroomOwnerById, parameterSource, BeanPropertyRowMapper.newInstance(User.class));
+    }
+
+    public List<Classroom> getClassroomsByTeacher(Long userId){
+        SqlParameterSource parameterSource = new MapSqlParameterSource("userId", userId);
+        return jdbcParameterTemplate.query(getClassroomsByTeacher, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class));
+    }
+
+    public List<Classroom> getClassroomsByStudent(Long userId){
+        SqlParameterSource parameterSource = new MapSqlParameterSource("userId", userId);
+        return jdbcParameterTemplate.query(getClassroomsByStudent, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class));
     }
 
     public void createClassroom(Classroom classroom){
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("classroom_id", classroom.getClassroom_id())
-                .addValue("user_id", classroom.getUser_id())
+        params.addValue("classroomId", classroom.getClassroomId())
+                .addValue("userId", classroom.getUserId())
                 .addValue("title", classroom.getTitle())
                 .addValue("session", classroom.getSession())
                 .addValue("description", classroom.getDescription())
@@ -63,8 +79,8 @@ public class ClassroomDAO {
         jdbcParameterTemplate.update(createClassroom, params);
     }
 
-    public  void removeClassroomById(Long classroom_id){
-        SqlParameterSource parameterSource = new MapSqlParameterSource("classroom_id", classroom_id);
+    public  void removeClassroomById(Long classroomId){
+        SqlParameterSource parameterSource = new MapSqlParameterSource("classroomId", classroomId);
         jdbcParameterTemplate.update(removeClassroom, parameterSource);
 
     }
