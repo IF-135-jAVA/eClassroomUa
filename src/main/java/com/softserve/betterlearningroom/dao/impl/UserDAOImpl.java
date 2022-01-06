@@ -83,7 +83,11 @@ public class UserDAOImpl implements UserDAO {
                 .addValue("enabled", user.isEnabled());
 
         template.update(save, params, keyHolder);
-        user.setId(keyHolder.getKey().intValue());
+        int userId = 0;
+        if(keyHolder.getKey() != null) {
+            userId = keyHolder.getKey().intValue();
+        }
+        user.setId(userId);
         return user;
     }
 

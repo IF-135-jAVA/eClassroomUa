@@ -55,7 +55,7 @@ public class RESTExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({ BadCredentialsException.class })
     protected ResponseEntity<Object> handleBadCredentialsException(BadCredentialsException ex,
             WebRequest request) {
-        List<String> details = new ArrayList<String>();
+        List<String> details = new ArrayList<>();
         details.add(ex.getMessage());
 
         APIException apiException = new APIException("Bad credentials.", HttpStatus.BAD_REQUEST,

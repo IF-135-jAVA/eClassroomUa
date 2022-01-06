@@ -29,7 +29,5 @@ public class TestDBConfiguration {
 	public NamedParameterJdbcTemplate namedParameterJdbcTemplate() {
 		return new NamedParameterJdbcTemplate(postgresDataSource());
 	}
-	
-	
 
 }
