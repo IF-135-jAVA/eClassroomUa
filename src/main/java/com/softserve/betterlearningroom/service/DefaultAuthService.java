@@ -28,7 +28,7 @@ public class DefaultAuthService implements AuthService {
 
     @Override
     public String login(AuthRequest request, String userRole) throws UsernameNotFoundException {
-        User user = userDao.findByEmail(request.getLogin()).orElseThrow(() -> new UsernameNotFoundException(
+        User user = userDao.findByEmail(request.getLogin()).orElseThrow(() -> new BadCredentialsException(
                 String.format("User with email - %s, not found", request.getLogin())));
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new BadCredentialsException(
