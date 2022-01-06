@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(classes = { TestDBConfiguration.class, UserDAOImpl.class })
 public class UserDaoTest {
@@ -19,31 +18,30 @@ public class UserDaoTest {
     UserDAO userDao;
 
     @Test
-    public void whenUserSaved_thenReturnCorrectUserCountAndFirstname() {
+    void whenUserSaved_thenReturnCorrectUserCountAndFirstname() {
         User user = new User(5, "Alice", "Cooper", "$2a$04$MzVXtd4o0y4DOlyHMMLMDeE4/eezrsT5Xad.2lmGr/NkCpwBgvn3e",
                 "acooper@gmail.com", true);
-        User savedUser = userDao.save(user);
+        userDao.save(user);
         assertEquals(5, userDao.findAll().size());
-        assertNotNull(savedUser.getId());
         assertEquals("Alice", userDao.findById(5).get().getFirstName());
     }
 
     @Test
-    public void whenUserEmailIsProvided_thenReturnCorrectUser() {
+    void whenUserEmailIsProvided_thenReturnCorrectUser() {
         User user = new User(3, "John", "Smith", "$2a$04$MzVXtd4o0y4DOlyHMMLMDeE4/eezrsT5Xad.2lmGr/NkCpwBgvn3e",
                 "jsmith@gmail.com", true);
         assertEquals(Optional.of(user), userDao.findByEmail("jsmith@gmail.com"));
     }
     
     @Test
-    public void whenUserIdIsProvided_thenReturnCorrectUser() {
+    void whenUserIdIsProvided_thenReturnCorrectUser() {
         User user = new User(2, "Yurii", "Kotsiuba", "$2a$04$MzVXtd4o0y4DOlyHMMLMDeE4/eezrsT5Xad.2lmGr/NkCpwBgvn3e",
                 "jurok3x@gmail.com", true);
         assertEquals(Optional.of(user), userDao.findById(2));
     }
 
     @Test
-    public void whenUpdateUser_thenReturnCorrectUserEmail() {
+    void whenUpdateUser_thenReturnCorrectUserEmail() {
         User user = new User(1, "John", "Snow", "$2a$04$MzVXtd4o0y4DOlyHMMLMDeE4/eezrsT5Xad.2lmGr/NkCpwBgvn3e",
                 "snow@gmail.com", true);
         userDao.update(user);

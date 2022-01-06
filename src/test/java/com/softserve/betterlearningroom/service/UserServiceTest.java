@@ -49,35 +49,35 @@ public class UserServiceTest {
 	}
 	
 	@Test
-	public void whenUserIdIsProvided_thenReturnCorrectUser() {
+	void whenUserIdIsProvided_thenReturnCorrectUser() {
 		User user = new User(USER_ID, USER_FIRSTNAME, USER_LASTNAME, USER_PASSWORD, USER_EMAIL, USER_ENABLED);
 		given(userDao.findById(USER_ID)).willReturn(Optional.of(user));
 		UserDTO userDTO = userService.findById(USER_ID);
 		assertNotNull(userDTO);
-		assertEquals(userDTO.getEmail() , USER_EMAIL);
+		assertEquals(USER_EMAIL, userDTO.getEmail());
 		verify(userDao).findById(USER_ID);
 	}
 	
 	@Test
-	public void whenUserEmailIsProvided_thenReturnCorrectUser() {
+	void whenUserEmailIsProvided_thenReturnCorrectUser() {
 		User user = new User(USER_ID, USER_FIRSTNAME, USER_LASTNAME, USER_PASSWORD, USER_EMAIL, USER_ENABLED);
 		given(userDao.findByEmail(Mockito.anyString())).willReturn(Optional.of(user));
 		UserDTO userDTO = userService.findByEmail(USER_EMAIL);
 		assertNotNull(userDTO);
-		assertEquals(userDTO.getEmail() , USER_EMAIL);
+		assertEquals(USER_EMAIL, userDTO.getEmail());
 		verify(userDao).findByEmail(USER_EMAIL);
 	}
 	
 	@Test
-	public void whenUserIsNotFound_thenThrowException() {
+	void whenUserIsNotFound_thenThrowException() {
 		given(userDao.findById(Mockito.anyInt())).willReturn(Optional.ofNullable(null));
 		assertThrows(UsernameNotFoundException.class, () -> userService.findById(USER_ID));
 		verify(userDao).findById(USER_ID);
 	}
 	
 	@Test
-	public void whenGetAllUsers_thenReturnCorrectList() {
-		List<User> userList = new ArrayList<User>();
+	void whenGetAllUsers_thenReturnCorrectList() {
+		List<User> userList = new ArrayList<>();
 		userList.add(new User(USER_ID, USER_FIRSTNAME, USER_LASTNAME, USER_PASSWORD, USER_EMAIL, USER_ENABLED));
 		userList.add(new User(2, "Yurii", "Kotsiuba", USER_PASSWORD, "jurok3x@gmail.com", USER_ENABLED));
 		userList.add(new User(3, "Bob", "Smith", USER_PASSWORD, "bob@gmail.com", USER_ENABLED));
