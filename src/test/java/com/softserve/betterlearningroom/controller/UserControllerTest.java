@@ -50,8 +50,10 @@ public class UserControllerTest {
         mapper = new ObjectMapper();
         UserDTO user = new UserDTO(2, "Yurii", "Kotsiuba", "kotsiuba@gmail.com", true);
         given(userService.findById(Mockito.anyInt())).willReturn(user);
-        ResultActions result = mvc.perform(get("/api/users/2").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+        ResultActions result = mvc.perform(get("/api/users/2")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
 
         String resultString = result.andReturn().getResponse().getContentAsString();
 
