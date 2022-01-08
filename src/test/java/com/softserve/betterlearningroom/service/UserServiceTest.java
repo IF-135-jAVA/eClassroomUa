@@ -4,6 +4,8 @@ import com.softserve.betterlearningroom.dao.UserDAO;
 import com.softserve.betterlearningroom.dto.UserDTO;
 import com.softserve.betterlearningroom.entity.User;
 import com.softserve.betterlearningroom.mapper.UserMapper;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @ExtendWith(value = { MockitoExtension.class })
 public class UserServiceTest {
@@ -41,10 +44,11 @@ public class UserServiceTest {
 	private UserDAO userDao;
 	
 	private DefaultUserService userService;
+	private UserMapper userMapper;
 	
 	@BeforeEach
 	public void setUp() {
-		UserMapper userMapper = new UserMapper();
+		userMapper = new UserMapper();
 	    userService = new DefaultUserService(userDao, userMapper);
 	}
 	
@@ -88,5 +92,10 @@ public class UserServiceTest {
 		assertEquals("Bob", actualUsers.get(2).getFirstName());
 		verify(userDao).findAll();
 	}
+	
+	@AfterEach
+    void tearDown() {
+        verifyNoMoreInteractions(userDao);
+    }
 
 }
