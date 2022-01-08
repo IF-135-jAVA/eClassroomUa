@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = UserController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
 @AutoConfigureMockMvc(addFilters = false)
 @Import(value = { CustomUserDetailsService.class, UserDAOImpl.class, TestDBConfiguration.class, JwtProvider.class })
-public class UserControllerTest {
+class UserControllerTest {
 
     @Autowired
     private MockMvc mvc;
@@ -46,7 +46,7 @@ public class UserControllerTest {
     private ObjectMapper mapper;
 
     @Test
-    public void whenUserIdIsProvided_thenReturnCorrectResponce() throws Exception {
+    void whenUserIdIsProvided_thenReturnCorrectResponce() throws Exception {
         mapper = new ObjectMapper();
         UserDTO user = new UserDTO(2, "Yurii", "Kotsiuba", "kotsiuba@gmail.com", true);
         given(userService.findById(Mockito.anyInt())).willReturn(user);
@@ -62,7 +62,7 @@ public class UserControllerTest {
     }
     
     @Test
-    public void whenUserIdIsBad_thenReturnError() throws Exception {
+    void whenUserIdIsBad_thenReturnError() throws Exception {
         given(userService.findById(Mockito.anyInt())).willThrow(UsernameNotFoundException.class);
         mvc.perform(get("/api/users/0")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -72,7 +72,7 @@ public class UserControllerTest {
     }
     
     @Test
-    public void whenGetAllUsers_thenReturnStatus200() throws Exception {
+    void whenGetAllUsers_thenReturnStatus200() throws Exception {
         List<UserDTO> userList = new ArrayList<>();
         userList.add(new UserDTO(1, "John", "Doe", "jdoe@gmail.com", true));
         userList.add(new UserDTO(2, "Yurii", "Kotsiuba", "kotsiuba@gmail.com", true));

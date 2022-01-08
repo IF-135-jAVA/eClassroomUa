@@ -29,7 +29,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @ExtendWith(value = { MockitoExtension.class })
-public class AuthServiceTest {
+class AuthServiceTest {
     
     @Mock
     private UserDAO userDao;
@@ -42,7 +42,7 @@ public class AuthServiceTest {
     private UserMapper userMapper;
     
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         userMapper = new UserMapper();
         passwordEncoder = new BCryptPasswordEncoder();
         authService = new DefaultAuthService(jwtProvider, userMapper, userDao, passwordEncoder);

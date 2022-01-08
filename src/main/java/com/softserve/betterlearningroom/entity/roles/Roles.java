@@ -43,7 +43,7 @@ public enum Roles {
 
         Set<SimpleGrantedAuthority> userPermissions = getPermissions().stream()
                 .map(permission -> new SimpleGrantedAuthority(permission.getPermission())).collect(Collectors.toSet());
-        userPermissions.add(new SimpleGrantedAuthority(this.name()));
+        userPermissions.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
         return userPermissions;
     }
 

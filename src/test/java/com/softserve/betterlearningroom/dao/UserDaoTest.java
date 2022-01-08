@@ -12,7 +12,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(classes = { TestDBConfiguration.class, UserDAOImpl.class })
-public class UserDaoTest {
+class UserDaoTest {
 
     @Autowired
     UserDAO userDao;

@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @ExtendWith(value = { MockitoExtension.class })
-public class UserServiceTest {
+class UserServiceTest {
 	
 	private static final boolean USER_ENABLED = true;
 
@@ -47,7 +47,7 @@ public class UserServiceTest {
 	private UserMapper userMapper;
 	
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		userMapper = new UserMapper();
 	    userService = new DefaultUserService(userDao, userMapper);
 	}
