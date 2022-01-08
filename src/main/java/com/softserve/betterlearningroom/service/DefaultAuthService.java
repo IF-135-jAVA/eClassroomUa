@@ -34,7 +34,13 @@ public class DefaultAuthService implements AuthService {
             throw new BadCredentialsException(
                     String.format("Wrong password for user with email - %s", request.getLogin()));
         }
-        Roles role = Roles.valueOf(userRole.toUpperCase().trim());
+        Roles role = null;
+        switch(userRole.trim()) {
+            case("student"): role = Roles.STUDENT;
+            break;
+            case("teacher"): role = Roles.TEACHER;
+            break;
+        }
 
         return jwtProvider.generateToken(user.getEmail(), role);
     }
