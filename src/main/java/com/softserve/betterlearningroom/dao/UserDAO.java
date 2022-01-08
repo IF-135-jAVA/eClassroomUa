@@ -13,8 +13,8 @@ public interface UserDAO {
 
     Optional<User> findByEmail(String email);
 
-    void save(User user);
+    User save(User user);
 
-    void update(User user);
+    User update(User user);
 
 }

@@ -11,6 +11,6 @@ public interface AuthService {
 
     UserDTO saveUser(SaveUserRequest request) throws UserAlreadyExistsException;
 
-    UserDTO updateUser(SaveUserRequest request, int id);
+    UserDTO updateUser(SaveUserRequest request, int id) throws UserAlreadyExistsException;
 
 }
