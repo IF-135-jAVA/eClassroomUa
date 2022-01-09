@@ -61,14 +61,12 @@ public class CriterionDAO {
 
     }
 
-
     public Optional<Criterion> findById(Integer id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("criterion_id", id);
         return Optional.ofNullable(jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
-                    BeanPropertyRowMapper.newInstance(Criterion.class)));
+                BeanPropertyRowMapper.newInstance(Criterion.class)));
 
     }
-
 
     public void removeById(Integer id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("criterion_id", id);
