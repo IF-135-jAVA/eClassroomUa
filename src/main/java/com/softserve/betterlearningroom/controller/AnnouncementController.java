@@ -2,7 +2,7 @@ package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.AnnouncementDTO;
 import com.softserve.betterlearningroom.service.AnnouncementService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @AllArgsConstructor
-@Api
 @RequestMapping("/api/classrooms/{classroomId}/announcements")
 public class AnnouncementController {
     private AnnouncementService announcementService;

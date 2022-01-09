@@ -3,6 +3,7 @@ package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.LevelDTO;
 import com.softserve.betterlearningroom.service.impl.LevelService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-
+@SecurityRequirement(name = "bearerAuth")
 @RestController
+//@Api("Levels")
 @RequestMapping("/api/classrooms/{classroomId}/topics/{topicId}/materials/{materialId}/criterions/{criterionId}/level")
 public class LevelController {
 
@@ -20,6 +22,7 @@ public class LevelController {
     /**
      * get all exist level
      */
+    //@ApiOperation("Get list og levels")
     @GetMapping
     public ResponseEntity<List<LevelDTO>> getAll() {
         List<LevelDTO> level = levelService.findAll();
@@ -36,6 +39,7 @@ public class LevelController {
     /**
      * get level by id
      */
+   // @ApiOperation("Find level by id")
     @GetMapping("/{id}")
     public ResponseEntity<LevelDTO> getById(@PathVariable(value = "id") final Integer levelId) {
         LevelDTO levelDTO = levelService.findById(levelId);
@@ -44,6 +48,7 @@ public class LevelController {
     /**
      * create level
      */
+   // @ApiOperation("Create level")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> createLevel(@Valid @RequestBody LevelDTO levelDTO) {
@@ -53,6 +58,7 @@ public class LevelController {
     /**
      * update table by id
      */
+   // @ApiOperation("Change level")
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> update(@RequestBody final LevelDTO levelDTO) {
