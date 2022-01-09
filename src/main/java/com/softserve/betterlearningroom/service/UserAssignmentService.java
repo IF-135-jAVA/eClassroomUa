@@ -21,7 +21,7 @@ public class UserAssignmentService {
     private UserAssignmentMapper userAssignmentMapper = Mappers.getMapper(UserAssignmentMapper.class);
 
     public UserAssignmentDTO create(UserAssignmentDTO userAssignmentDTO) {
-        userAssignmentDTO.setAssignmentStatusId(AssignmentStatus.NOTDONE.getId());
+        userAssignmentDTO.setAssignmentStatusId(AssignmentStatus.TODO.getId());
         userAssignmentDTO.setSubmissionDate(LocalDateTime.now());
         userAssignmentDTO.setEnabled(true);
         return userAssignmentMapper.userAssignmentToUserAssignmentDTO(
