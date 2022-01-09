@@ -1,7 +1,9 @@
 package com.softserve.betterlearningroom.service;
 
+import com.softserve.betterlearningroom.dao.AnswerDao;
 import com.softserve.betterlearningroom.dao.UserAssignmentDao;
 import com.softserve.betterlearningroom.dto.UserAssignmentDTO;
+import com.softserve.betterlearningroom.entity.Answer;
 import com.softserve.betterlearningroom.entity.AssignmentStatus;
 import com.softserve.betterlearningroom.mapper.UserAssignmentMapper;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 public class UserAssignmentService {
 
     private final UserAssignmentDao userAssignmentDao;
+    private final AnswerDao answerDao;
 
     private UserAssignmentMapper userAssignmentMapper = Mappers.getMapper(UserAssignmentMapper.class);
 
@@ -42,6 +45,10 @@ public class UserAssignmentService {
     }
 
     public void delete(long id) {
+        answerDao.getByUserAssignment(id)
+                .stream()
+                .map(Answer::getId)
+                .forEach(answerDao::delete);
         userAssignmentDao.delete(id);
     }
 
