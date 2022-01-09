@@ -46,7 +46,7 @@ public class UserController {
 	@GetMapping("/teacher")
 	@RolesAllowed(value = { "TEACHER" })
 	public ResponseEntity<String>  test2() {
-		return  ResponseEntity.ok().body("teacher get");
+		return  ResponseEntity.ok().body("teacher get" + " " + System.getenv("CLIENT_ID") + " " + System.getenv("CLIENT_SECRET"));
 	}
 	
 	@GetMapping("/classroom")
