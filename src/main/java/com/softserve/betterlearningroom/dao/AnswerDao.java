@@ -48,7 +48,7 @@ public class AnswerDao {
 
     public Answer readById(long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
-        Answer result =  DataAccessUtils.singleResult(jdbcTemplate.query(readByIdQuery, parameterSource, BeanPropertyRowMapper.newInstance(Answer.class)));
+        Answer result = DataAccessUtils.singleResult(jdbcTemplate.query(readByIdQuery, parameterSource, BeanPropertyRowMapper.newInstance(Answer.class)));
         if (result == null) {
             throw new DataRetrievalFailureException("Answer with id - " + id + ", not found.");
         }
