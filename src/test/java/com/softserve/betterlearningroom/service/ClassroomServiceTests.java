@@ -41,6 +41,7 @@ public class ClassroomServiceTests {
 
     @Test
     public void test_getClassroomById() {
+        Classroom classroomMock = Mockito.mock(Classroom.class);
         ClassroomDAO classroomDAO = Mockito.mock(ClassroomDAO.class);
         UserMapper userMapper = Mockito.mock(UserMapper.class);
         ClassroomMapper mapper = new ClassroomMapper();
@@ -59,6 +60,7 @@ public class ClassroomServiceTests {
 
     @Test
     public void test_getClassroomOwnerById() {
+        Classroom classroomMock = Mockito.mock(Classroom.class);
         ClassroomDAO classroomDAO = Mockito.mock(ClassroomDAO.class);
         UserMapper userMapper = Mockito.mock(UserMapper.class);
         ClassroomService classroomService = new ClassroomService(classroomDAO, new ClassroomMapper(), userMapper);
@@ -74,6 +76,7 @@ public class ClassroomServiceTests {
 
     @Test
     public  void test_getClassroomTeachers(){
+        Classroom classroomMock = Mockito.mock(Classroom.class);
         ClassroomDAO classroomDAO = Mockito.mock(ClassroomDAO.class);
         UserMapper userMapper = Mockito.mock(UserMapper.class);
         ClassroomService classroomService = new ClassroomService(classroomDAO, new ClassroomMapper(), userMapper);
@@ -85,6 +88,7 @@ public class ClassroomServiceTests {
 
     @Test
     public void test_createClassroom() {
+        Classroom classroomMock = Mockito.mock(Classroom.class);
         MockDAO mockDAO = new MockDAO(null);
         UserMapper userMapper = Mockito.mock(UserMapper.class);
         ClassroomService classroomService = new ClassroomService(mockDAO, new ClassroomMapper(), userMapper);
@@ -99,6 +103,7 @@ public class ClassroomServiceTests {
     public void test_removeClassroomById(){
         MockDAO mockDAO = new MockDAO(null);
         UserMapper userMapper = Mockito.mock(UserMapper.class);
+        Classroom classroomMock = Mockito.mock(Classroom.class);
         ClassroomService classroomService = new ClassroomService(mockDAO, new ClassroomMapper(), userMapper);
         long classroomId = 1L;
         Classroom classroom = new Classroom();

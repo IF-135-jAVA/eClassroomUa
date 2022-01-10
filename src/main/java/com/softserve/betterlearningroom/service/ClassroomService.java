@@ -41,6 +41,12 @@ public class ClassroomService {
                 .collect(Collectors.toList());
     }
 
+    public List<UserDTO> getClassroomStudents(Long classroomId ) {
+        return classroomDAO.getClassroomStudents(classroomId).stream()
+                .map(userMapper::userToUserDTO)
+                .collect(Collectors.toList());
+    }
+
     public List<ClassroomDTO> getClassroomsByTeacher(Long userId){
         return classroomDAO.getClassroomsByTeacher(userId).stream()
                 .map(classroomMapper::classroomToClassroomDTO)
@@ -51,6 +57,30 @@ public class ClassroomService {
         return classroomDAO.getClassroomsByStudent(userId).stream()
                 .map(classroomMapper::classroomToClassroomDTO)
                 .collect(Collectors.toList());
+    }
+
+    public ClassroomDTO JoinClassroomAsStudent(String code, Long userId){
+        Classroom classroom = classroomDAO.getClassroomByCode(code);
+        if (classroomDAO.getClassroomTeachers(classroom.getClassroomId()).stream().anyMatch(user -> user.getId() == userId)) {
+        }else if(classroomDAO.getClassroomStudents(classroom.getClassroomId()).stream().anyMatch(user -> user.getId() == userId)){
+        }else if(classroomDAO.getClassroomOwnerById(classroom.getClassroomId()).getId() == userId){
+        }else{
+            classroomDAO.JoinClassroomAsStudent(code, userId);
+            return classroomMapper.classroomToClassroomDTO(classroom);
+        }
+        return null;
+    }
+
+    public ClassroomDTO JoinClassroomAsTeacher(String code, Long userId){
+        Classroom classroom = classroomDAO.getClassroomByCode(code);
+        if (classroomDAO.getClassroomStudents(classroom.getClassroomId()).stream().anyMatch(user -> user.getId() == userId)){
+        }else if(classroomDAO.getClassroomTeachers(classroom.getClassroomId()).stream().anyMatch(user -> user.getId() == userId)){
+        }else if(classroomDAO.getClassroomOwnerById(classroom.getClassroomId()).getId() == userId){
+        }else {
+            classroomDAO.JoinClassroomAsTeacher(code, userId);
+            return classroomMapper.classroomToClassroomDTO(classroom);
+        }
+        return null;
     }
 
     public void removeClassroomById(Long classroomId){

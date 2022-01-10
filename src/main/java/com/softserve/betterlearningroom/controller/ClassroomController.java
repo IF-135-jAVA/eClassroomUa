@@ -2,22 +2,23 @@ package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.ClassroomDTO;
 import java.util.List;
-
 import com.softserve.betterlearningroom.dto.UserDTO;
-import com.softserve.betterlearningroom.entity.User;
 import com.softserve.betterlearningroom.service.ClassroomService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.annotation.security.RolesAllowed;
+
 
 @RestController
 @RequestMapping("/api/classrooms")
@@ -41,16 +42,31 @@ public class ClassroomController {
         return ResponseEntity.ok().body(classroomService.getClassroomTeachers(classroomId));
     }
 
+    @GetMapping("/{classroomId}/students")
+    public ResponseEntity<List<UserDTO>> getClassroomStudents(@PathVariable Long classroomId) {
+        return ResponseEntity.ok().body(classroomService.getClassroomStudents(classroomId));
+    }
+
     @GetMapping("/byTeacher/{userId}")
-    @RolesAllowed(value = { "TEACHER" })
     public ResponseEntity<List<ClassroomDTO>> getClassroomsByTeacher(@PathVariable Long userId) {
         return ResponseEntity.ok().body(classroomService.getClassroomsByTeacher(userId));
     }
 
     @GetMapping("/byStudent/{userId}")
-    @RolesAllowed(value = { "STUDENT" })
     public ResponseEntity<List<ClassroomDTO>> getClassroomsByStudent(@PathVariable Long userId) {
         return ResponseEntity.ok().body(classroomService.getClassroomsByStudent(userId));
+    }
+
+    @GetMapping("/asStudent")
+    @ResponseBody
+    public ResponseEntity<ClassroomDTO> JoinClassroomAsStudent(@RequestParam(value = "code", required = true) String code, @RequestParam(value = "userId", required = true) Long userId){
+        return ResponseEntity.ok().body(classroomService.JoinClassroomAsStudent(code, userId));
+    }
+
+    @GetMapping("/asTeacher")
+    @ResponseBody
+    public ResponseEntity<ClassroomDTO> JoinClassroomAsTeacher(@RequestParam(value = "code", required = true) String code, @RequestParam(value = "userId", required = true) Long userId){
+        return ResponseEntity.ok().body(classroomService.JoinClassroomAsTeacher(code, userId));
     }
 
     @PostMapping()
