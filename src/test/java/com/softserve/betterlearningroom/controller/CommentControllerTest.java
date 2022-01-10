@@ -1,4 +1,4 @@
-package com.softserve.betterlearningroom.service;
+package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dao.impl.CommentDAOImpl;
 import com.softserve.betterlearningroom.entity.Comment;
