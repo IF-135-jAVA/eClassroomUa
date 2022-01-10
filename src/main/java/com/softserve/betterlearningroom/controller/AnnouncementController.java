@@ -29,7 +29,7 @@ public class AnnouncementController {
         announcementDTO.setCourseId(classroomId);
         return new ResponseEntity<>(announcementService.create(announcementDTO), HttpStatus.CREATED);
     }
-
+//
 //    @PostMapping
 //    public ResponseEntity<AnnouncementDTO> addComment(@RequestBody CommentDTO commentDTO, @PathVariable long announcementId) {
 //        commentDTO.setAnnouncementId(announcementId);

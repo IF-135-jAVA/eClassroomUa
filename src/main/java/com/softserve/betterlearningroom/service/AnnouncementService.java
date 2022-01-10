@@ -8,7 +8,7 @@ import java.util.List;
 public interface AnnouncementService {
     AnnouncementDTO create(AnnouncementDTO announcementDTO);
 
-    AnnouncementDTO addComment(CommentDTO commentDTO);
+   // AnnouncementDTO addComment(CommentDTO commentDTO);
 
     List<AnnouncementDTO> readByCourseId(long courseId);
 

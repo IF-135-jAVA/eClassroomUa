@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 public class AnnouncementServiceImpl implements AnnouncementService {
     private AnnouncementDAO announcementDAO;
     private AnnouncementMapper announcementMapper;
-    private CommentDAO commentDAO;
-    private CommentMapper commentMapper;
+//    private CommentDAO commentDAO;
+//    private CommentMapper commentMapper;
 
 
     @Override
@@ -32,15 +32,15 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 announcementDAO.create(announcementMapper.announcementDTOToAnnouncement(announcementDTO)));
     }
 
-    @Override
-    public AnnouncementDTO addComment(CommentDTO commentDTO) {
-        commentDAO.createComment(commentMapper.commentDTOToComment(commentDTO));
-        Announcement announcement = announcementDAO.readById(commentDTO.getAnnouncementId());
-        List<Comment> comments = commentDAO.readByIdAnnouncementComments(announcement.getId());
-        AnnouncementDTO announcementDTO = announcementMapper.announcementToAnnouncementDTO(announcement);
-        announcementDTO.setComments(comments);
-        return announcementDTO;
-    }
+//    @Override
+//    public AnnouncementDTO addComment(CommentDTO commentDTO) {
+//        commentDAO.createComment(commentMapper.commentDTOToComment(commentDTO));
+//        Announcement announcement = announcementDAO.readById(commentDTO.getAnnouncementId());
+//        List<Comment> comments = commentDAO.readByIdAnnouncementComments(announcement.getId());
+//        AnnouncementDTO announcementDTO = announcementMapper.announcementToAnnouncementDTO(announcement);
+//        announcementDTO.setComments(comments);
+//        return announcementDTO;
+//    }
 
     @Override
     public List<AnnouncementDTO> readByCourseId(long courseId) {
