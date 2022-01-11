@@ -2,6 +2,8 @@ package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.exception.APIException;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -95,12 +97,22 @@ public class RESTExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiException, apiException.getHttpStatus());
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
+    @ExceptionHandler({ ConstraintViolationException.class, DataIntegrityViolationException.class })
     public ResponseEntity<?> handleConstraintViolationException(Exception ex, WebRequest request) {
         List<String> details = new ArrayList<String>();
         details.add(ex.getMessage());
 
         APIException apiException = new APIException("Constraint Violations.", HttpStatus.BAD_REQUEST,
+                LocalDateTime.now(), details);
+        return new ResponseEntity<>(apiException, apiException.getHttpStatus());
+    }
+
+    @ExceptionHandler(DataRetrievalFailureException.class)
+    public ResponseEntity<?> handleDataRetrievalFailureException(DataRetrievalFailureException ex) {
+        List<String> details = new ArrayList<String>();
+        details.add(ex.getMessage());
+
+        APIException apiException = new APIException("Entity is not found.", HttpStatus.NOT_FOUND,
                 LocalDateTime.now(), details);
         return new ResponseEntity<>(apiException, apiException.getHttpStatus());
     }
