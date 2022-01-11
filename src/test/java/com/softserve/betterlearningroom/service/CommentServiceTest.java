@@ -50,7 +50,6 @@ class CommentServiceTest {
 
     @Mock
     private CommentDAO commentDAO;
-
     private CommentServiceImpl commentService;
     private CommentMapper commentMapper;
 
@@ -77,14 +76,6 @@ class CommentServiceTest {
         CommentDTO commentDTO = commentService.createComment(commentMapper.commentToCommentDTO(comment));
         assertEquals("text1", commentDTO.getText());
     }
-
-    @Test
-    void commentIsNotFoundTest() {
-        given(commentDAO.readByIdComment(Mockito.anyLong())).willReturn(null);
-        assertThrows(DataRetrievalFailureException.class, () -> commentService.readByIdComment(COMMENT_ID));
-        verify(commentDAO).readByIdComment(COMMENT_ID);
-    }
-
 
     @Test
     void readByIdAuthorIdTest() {
@@ -129,7 +120,7 @@ class CommentServiceTest {
     }
 
     @Test
-    void readByIdUserAssignmentCommentsTest()  {
+    void readByIdUserAssignmentCommentsTest() {
         List<Comment> commentList = new ArrayList<Comment>();
         commentList.add(new Comment(COMMENT_ID, COMMENT_TEXT, DATE, AUTHOR_ID, ANNOUNCEMENT_ID, USER_ASSIGNMENT_ID, MATERIAL_ID, COMMENT_ENABLED));
         commentList.add(new Comment(2, "text2", LocalDateTime.now(), 2, 3, 4, 2, COMMENT_ENABLED));
@@ -144,12 +135,19 @@ class CommentServiceTest {
 
     @Test
     void updateCommentsTest() {
-
     }
 
     @Test
     void deleteCommentsTest() {
     }
+
+
+//       @Test
+//    void commentIsNotFoundTest() {
+//        given(commentDAO.readByIdComment(Mockito.anyLong())).willReturn(null);
+//        assertThrows(DataRetrievalFailureException.class, () -> commentService.readByIdComment(COMMENT_ID));
+//        verify(commentDAO).readByIdComment(COMMENT_ID);
+//    }
 
     @AfterEach
     void tearDown() {

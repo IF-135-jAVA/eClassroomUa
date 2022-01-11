@@ -24,7 +24,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentDTO createComment(CommentDTO commentDTO) {
-//        commentDTO.setText(commentDTO.getText());
         commentDTO.setDate(LocalDateTime.now());
         commentDTO.setEnabled(true);
         return commentMapper.commentToCommentDTO(
