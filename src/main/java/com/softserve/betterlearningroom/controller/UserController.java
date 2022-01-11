@@ -1,4 +1,4 @@
-package com.softserve.betterlearningroom.controller;
+ package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.UserDTO;
 import com.softserve.betterlearningroom.service.UserService;

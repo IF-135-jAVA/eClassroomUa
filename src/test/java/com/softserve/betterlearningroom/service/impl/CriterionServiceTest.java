@@ -1,5 +1,6 @@
 package com.softserve.betterlearningroom.service.impl;
 
+import com.softserve.betterlearningroom.mapper.CriterionMapper;
 import com.softserve.betterlearningroom.dao.impl.CriterionDAO;
 import com.softserve.betterlearningroom.dto.CriterionDTO;
 import com.softserve.betterlearningroom.entity.Criterion;
@@ -14,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -33,6 +33,7 @@ class CriterionServiceTest {
 
     private CriterionDTO expectedCriterionDTO;
     private Criterion expectedCriterion;
+
 
     @BeforeEach
     void setUp() {
@@ -56,14 +57,14 @@ class CriterionServiceTest {
 
         criterionService.save(expectedCriterionDTO);
 
-        verify(criterionService).toEntity(eq(expectedCriterionDTO));
+        verify(CriterionMapper.toEntity(eq(expectedCriterionDTO)));
     }
 
     @Test
     void shouldFindAll() {
         List<Criterion> listExpected = new ArrayList<Criterion>();
         listExpected.add(expectedCriterion);
-        List<CriterionDTO> listToDtolistExpected = listExpected.stream().map(criterionService::toDTO).collect(Collectors.toList());
+        List<CriterionDTO> listToDtolistExpected = listExpected.stream().map(CriterionMapper::toDTO).collect(Collectors.toList());
         when(criterionDAO.findAll()).thenReturn(listExpected);
 
         List<CriterionDTO> listActual = criterionService.findAll();
@@ -73,7 +74,7 @@ class CriterionServiceTest {
 
     @Test
     void shouldFindById() {
-        when(criterionDAO.findById(12)).thenReturn(Optional.of(expectedCriterion));
+        when(criterionDAO.findById(12)).thenReturn(expectedCriterion);
 
         CriterionDTO actualCriterionDTO = criterionService.findById(12);
 

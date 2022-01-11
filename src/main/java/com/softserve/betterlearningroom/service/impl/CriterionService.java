@@ -1,8 +1,8 @@
 package com.softserve.betterlearningroom.service.impl;
 
-import com.softserve.betterlearningroom.dto.CriterionDTO;
-import com.softserve.betterlearningroom.entity.Criterion;
+import com.softserve.betterlearningroom.mapper.CriterionMapper;
 import com.softserve.betterlearningroom.dao.impl.CriterionDAO;
+import com.softserve.betterlearningroom.dto.CriterionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class CriterionService {
 
     public CriterionDTO findById(Integer id) {
 
-        return toDTO(criterionDAO.findById(id).orElseThrow(() -> new RuntimeException("criterion didn't find")));
+        return CriterionMapper.toDTO(criterionDAO.findById(id));
     }
 
     public void removeById(Integer id) {
@@ -28,35 +28,20 @@ public class CriterionService {
 
     public List<CriterionDTO> findAll() {
 
-        return criterionDAO.findAll().stream().map(this::toDTO).collect(Collectors.toList());
+        return criterionDAO.findAll().stream().map(CriterionMapper::toDTO).collect(Collectors.toList());
+
     }
 
     public void save(CriterionDTO criterionDTO) {
 
-        criterionDAO.save(toEntity(criterionDTO));
+        criterionDAO.save(CriterionMapper.toEntity(criterionDTO));
     }
 
     public void update(CriterionDTO criterionDTO) {
 
-        criterionDAO.update(toEntity(criterionDTO));
+        criterionDAO.update(CriterionMapper.toEntity(criterionDTO));
     }
 
-    public Criterion toEntity(CriterionDTO criterionDTO) {
-        return Criterion.builder()
-                .criterionId(criterionDTO.getId())
-                .materialId(criterionDTO.getMaterialIdDTO())
-                .title(criterionDTO.getTitle())
-                .description(criterionDTO.getDescription())
-                .build();
-    }
 
-    public CriterionDTO toDTO(Criterion criterion) {
-        return CriterionDTO.builder()
-                .id(criterion.getCriterionId())
-                .materialIdDTO(criterion.getMaterialId())
-                .title(criterion.getTitle())
-                .description(criterion.getDescription())
-                .build();
-    }
 
 }

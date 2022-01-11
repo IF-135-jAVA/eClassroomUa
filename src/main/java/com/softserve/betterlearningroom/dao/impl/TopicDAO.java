@@ -53,9 +53,6 @@ public class TopicDAO {
     }
 
     public List<Topic> findAll() {
-        List<Topic> list = jdbcTemplate.query(findAllQuery,
-                BeanPropertyRowMapper.newInstance(Topic.class));
-        System.out.println(list);
         return jdbcTemplate.query(findAllQuery,
                 BeanPropertyRowMapper.newInstance(Topic.class));
     }

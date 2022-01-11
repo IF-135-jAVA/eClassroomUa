@@ -32,5 +32,4 @@ public class CriterionDTO {
      */
     private Integer materialIdDTO;
 
-
 }

@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -41,12 +42,23 @@ public class RESTExceptionHandler extends ResponseEntityExceptionHandler {
     }
     
     @ExceptionHandler({ UsernameNotFoundException.class })
-    protected ResponseEntity<Object> handleUserNotFoundException(UserAlreadyExistsException ex,
+    protected ResponseEntity<Object> handleUserNotFoundException(UsernameNotFoundException ex,
             WebRequest request) {
         List<String> details = new ArrayList<String>();
         details.add(ex.getMessage());
 
         APIException apiException = new APIException("User not found.", HttpStatus.NOT_FOUND,
+                LocalDateTime.now(), details);
+        return new ResponseEntity<>(apiException, apiException.getHttpStatus());
+    }
+    
+    @ExceptionHandler({ BadCredentialsException.class })
+    protected ResponseEntity<Object> handleBadCredentialsException(BadCredentialsException ex,
+            WebRequest request) {
+        List<String> details = new ArrayList<>();
+        details.add(ex.getMessage());
+
+        APIException apiException = new APIException("Bad credentials.", HttpStatus.BAD_REQUEST,
                 LocalDateTime.now(), details);
         return new ResponseEntity<>(apiException, apiException.getHttpStatus());
     }
