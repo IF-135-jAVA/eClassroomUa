@@ -4,6 +4,7 @@ import com.softserve.betterlearningroom.dao.UserDAO;
 import com.softserve.betterlearningroom.dto.UserDTO;
 import com.softserve.betterlearningroom.entity.User;
 import com.softserve.betterlearningroom.mapper.UserMapper;
+import com.softserve.betterlearningroom.service.impl.UserServiceImpl;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,18 +39,18 @@ class UserServiceTest {
 
 	private static final String USER_FIRSTNAME = "Keanu";
 
-	private static final int USER_ID = 1;
+	private static final Long USER_ID = 1L;
 
 	@Mock
 	private UserDAO userDao;
 	
-	private DefaultUserService userService;
+	private UserServiceImpl userService;
 	private UserMapper userMapper;
 	
 	@BeforeEach
 	void setUp() {
 		userMapper = new UserMapper();
-	    userService = new DefaultUserService(userDao, userMapper);
+	    userService = new UserServiceImpl(userDao, userMapper);
 	}
 	
 	@Test
@@ -74,7 +75,7 @@ class UserServiceTest {
 	
 	@Test
 	void whenUserIsNotFound_thenThrowException() {
-		given(userDao.findById(Mockito.anyInt())).willReturn(Optional.ofNullable(null));
+		given(userDao.findById(Mockito.anyLong())).willReturn(Optional.ofNullable(null));
 		assertThrows(UsernameNotFoundException.class, () -> userService.findById(USER_ID));
 		verify(userDao).findById(USER_ID);
 	}
@@ -83,9 +84,9 @@ class UserServiceTest {
 	void whenGetAllUsers_thenReturnCorrectList() {
 		List<User> userList = new ArrayList<>();
 		userList.add(new User(USER_ID, USER_FIRSTNAME, USER_LASTNAME, USER_PASSWORD, USER_EMAIL, USER_ENABLED));
-		userList.add(new User(2, "Yurii", "Kotsiuba", USER_PASSWORD, "jurok3x@gmail.com", USER_ENABLED));
-		userList.add(new User(3, "Bob", "Smith", USER_PASSWORD, "bob@gmail.com", USER_ENABLED));
-		userList.add(new User(4, "John", "Doe", USER_PASSWORD, "jdoe@gmail.com", USER_ENABLED));
+		userList.add(new User(2L, "Yurii", "Kotsiuba", USER_PASSWORD, "jurok3x@gmail.com", USER_ENABLED));
+		userList.add(new User(3l, "Bob", "Smith", USER_PASSWORD, "bob@gmail.com", USER_ENABLED));
+		userList.add(new User(4l, "John", "Doe", USER_PASSWORD, "jdoe@gmail.com", USER_ENABLED));
 		given(userDao.findAll()).willReturn(userList);
 		List<UserDTO> actualUsers = userService.findAll();
 		assertEquals(4, actualUsers.size());

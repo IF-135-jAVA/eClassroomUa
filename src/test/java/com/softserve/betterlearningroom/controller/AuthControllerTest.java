@@ -8,8 +8,9 @@ import com.softserve.betterlearningroom.dto.UserDTO;
 import com.softserve.betterlearningroom.entity.request.AuthRequest;
 import com.softserve.betterlearningroom.entity.request.SaveUserRequest;
 import com.softserve.betterlearningroom.service.AuthService;
-import com.softserve.betterlearningroom.service.CustomUserDetailsService;
 import com.softserve.betterlearningroom.service.UserService;
+import com.softserve.betterlearningroom.service.impl.CustomUserDetailsService;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -91,13 +92,13 @@ class AuthControllerTest {
         passwordEncoder = new BCryptPasswordEncoder();
         SaveUserRequest saveRequest = getRequest();
         UserDTO user = getUser();
-        given(authService.updateUser(any(SaveUserRequest.class), anyInt())).willReturn(user);
+        given(authService.updateUser(any(SaveUserRequest.class), anyLong())).willReturn(user);
         mvc.perform(put("/api/auth/users/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(saveRequest)))
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-        verify(authService).updateUser(any(SaveUserRequest.class), anyInt());
+        verify(authService).updateUser(any(SaveUserRequest.class), anyLong());
     }
     
     @AfterEach
@@ -107,7 +108,7 @@ class AuthControllerTest {
     
     private UserDTO getUser() {
         UserDTO user = UserDTO.builder()
-                                  .id(1)
+                                  .id(1L)
                                   .email("jdoe@gmail.com")
                                   .firstName("John")
                                   .lastName("Doe")
