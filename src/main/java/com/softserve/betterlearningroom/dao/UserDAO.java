@@ -9,12 +9,12 @@ public interface UserDAO {
 
     List<User> findAll();
 
-    Optional<User> findById(int id);
+    Optional<User> findById(Long id);
 
     Optional<User> findByEmail(String email);
 
-    void save(User user);
+    User save(User user);
 
-    void update(User user);
+    User update(User user);
 
 }

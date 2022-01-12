@@ -1,10 +1,13 @@
 package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.dao.AnswerDao;
+import com.softserve.betterlearningroom.dao.UserAssignmentDao;
 import com.softserve.betterlearningroom.dto.AnswerDTO;
 import com.softserve.betterlearningroom.mapper.AnswerMapper;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +18,17 @@ import java.util.stream.Collectors;
 public class AnswerService {
 
     private final AnswerDao answerDao;
+    private final UserAssignmentDao userAssignmentDao;
 
     private AnswerMapper answerMapper = Mappers.getMapper(AnswerMapper.class);
 
     public AnswerDTO create(AnswerDTO answerDTO) {
+        try {
+            // throws an exception if UserAssignment with the specified id is absent or disabled (deleted)
+            userAssignmentDao.readById(answerDTO.getUserAssignmentId());
+        } catch (DataRetrievalFailureException e) {
+            throw new DataIntegrityViolationException(e.getMessage());
+        }
         answerDTO.setEnabled(true);
         return answerMapper.answerToAnswerDTO(
                 answerDao.create(answerMapper.answerDTOToAnswer(answerDTO)));
