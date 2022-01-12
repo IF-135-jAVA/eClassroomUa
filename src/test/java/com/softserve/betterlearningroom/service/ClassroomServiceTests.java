@@ -1,25 +1,25 @@
-package com.softserve.betterlearningroom.service;
-
-import com.softserve.betterlearningroom.dao.impl.ClassroomDaoImpl;
-import com.softserve.betterlearningroom.dto.ClassroomDTO;
-import com.softserve.betterlearningroom.entity.Classroom;
-import com.softserve.betterlearningroom.entity.User;
-import com.softserve.betterlearningroom.mapper.ClassroomMapper;
-import com.softserve.betterlearningroom.mapper.UserMapper;
-import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-@RunWith(MockitoJUnitRunner.class)
-public class ClassroomServiceTests {
-
+//package com.softserve.betterlearningroom.service;
+//
+//import com.softserve.betterlearningroom.dao.impl.ClassroomDaoImpl;
+//import com.softserve.betterlearningroom.dto.ClassroomDTO;
+//import com.softserve.betterlearningroom.entity.Classroom;
+//import com.softserve.betterlearningroom.entity.User;
+//import com.softserve.betterlearningroom.mapper.ClassroomMapper;
+//import com.softserve.betterlearningroom.mapper.UserMapper;
+//import org.junit.Test;
+//import org.junit.jupiter.api.Assertions;
+//import org.junit.runner.RunWith;
+//import org.mockito.Mockito;
+//import org.mockito.junit.MockitoJUnitRunner;
+//import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+//
+//import java.util.ArrayList;
+//import java.util.List;
+//import java.util.Random;
+//
+//@RunWith(MockitoJUnitRunner.class)
+//public class ClassroomServiceTests {
+//
 //    @Test
 //    public void test_getClassroomById() {
 //        ClassroomDAO classroomDAO = Mockito.mock(ClassroomDAO.class);
@@ -144,4 +144,4 @@ public class ClassroomServiceTests {
 //            classrooms.add(classroom);
 //        }
 //    }
-}
+//}
