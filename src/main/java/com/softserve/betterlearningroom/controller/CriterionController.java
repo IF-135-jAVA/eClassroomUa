@@ -33,7 +33,7 @@ public class CriterionController {
      * get criterion by id
      */
     @GetMapping("/{id}")
-    public ResponseEntity<CriterionDTO> getById(@PathVariable(value = "id") final Integer criterionId) {
+    public ResponseEntity<CriterionDTO> getById(@PathVariable(value = "id") final Long criterionId) {
         CriterionDTO criterionDTO = criterionService.findById(criterionId);
         return ResponseEntity.ok().body(criterionDTO);
     }
@@ -53,8 +53,8 @@ public class CriterionController {
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> update(@RequestBody final CriterionDTO criterionDTO) {
-        criterionService.update(criterionDTO);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+
+        return new ResponseEntity<>(criterionService.update(criterionDTO), HttpStatus.ACCEPTED);
     }
 
     /**
@@ -62,7 +62,7 @@ public class CriterionController {
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable final int id) {
+    public void delete(@PathVariable final Long id) {
         criterionService.removeById(id);
     }
 

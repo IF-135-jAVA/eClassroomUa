@@ -1,5 +1,6 @@
 package com.softserve.betterlearningroom.dao.impl;
 
+import com.softserve.betterlearningroom.dao.CriterionDao;
 import com.softserve.betterlearningroom.entity.Criterion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,8 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@PropertySource(value = "classpath:criterionQuery.properties")
-public class CriterionDAO {
+@PropertySource(value = "classpath:db/criterion/criterionQuery.properties")
+public class CriterionDaoImpl implements CriterionDao {
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -50,9 +51,10 @@ public class CriterionDAO {
         return criterion;
     }
 
-    public void update(Criterion criterion) {
+    public Criterion update(Criterion criterion) {
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(criterion);
         jdbcTemplate.update(updateQuery, parameterSource);
+        return criterion;
     }
 
     public List<Criterion> findAll() {
@@ -62,14 +64,14 @@ public class CriterionDAO {
 
     }
 
-    public Criterion findById(Integer id) {
+    public Criterion findById(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("criterion_id", id);
         return jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
                 BeanPropertyRowMapper.newInstance(Criterion.class));
 
     }
 
-    public void removeById(Integer id) {
+    public void removeById(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("criterion_id", id);
         jdbcTemplate.update(removeByIdQuery, parameterSource);
     }
