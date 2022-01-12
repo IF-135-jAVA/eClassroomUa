@@ -17,5 +17,4 @@ public class Announcement {
     private String text;
     private List<Comment> comments;
     private boolean enabled;
-
 }

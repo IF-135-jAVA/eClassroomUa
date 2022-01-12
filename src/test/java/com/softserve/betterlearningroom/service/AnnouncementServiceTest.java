@@ -10,18 +10,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.dao.DataRetrievalFailureException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -52,7 +47,7 @@ class AnnouncementServiceTest {
     }
 
     @Test
-       void readByIdTest() {
+    void readByIdTest() {
         Announcement announcement = prepareAnnouncementDTO();
         given(announcementDAO.readById(ANNOUNCEMENT_ID)).willReturn(announcement);
         AnnouncementDTO announcementDTO = announcementService.readById(ANNOUNCEMENT_ID);
@@ -70,19 +65,12 @@ class AnnouncementServiceTest {
         assertEquals("text1", announcementDTO.getText());
     }
 
-//    @Test
-//    void announcementIsNotFoundTest() {
-//        given(announcementDAO.readById(Mockito.anyLong())).willReturn(null);
-//        assertThrows(DataRetrievalFailureException.class, () -> announcementService.readById(ANNOUNCEMENT_ID));
-//        verify(announcementDAO).readById(ANNOUNCEMENT_ID);
-//    }
-
 
     @Test
-    void readByCourseId()  {
+    void readByCourseId() {
         List<Announcement> announcementList = new ArrayList<Announcement>();
         announcementList.add(new Announcement(ANNOUNCEMENT_ID, COURSE_ID, ANNOUNCEMENT_TEXT, List.of(), ANNOUNCEMENT_ENABLED));
-        announcementList.add(new Announcement(2, 1, "text2",List.of(), ANNOUNCEMENT_ENABLED));
+        announcementList.add(new Announcement(2, 1, "text2", List.of(), ANNOUNCEMENT_ENABLED));
         announcementList.add(new Announcement(3, 3, "text3", List.of(), ANNOUNCEMENT_ENABLED));
         announcementList.add(new Announcement(4, 2, "text4", List.of(), ANNOUNCEMENT_ENABLED));
         given(announcementDAO.readByCourseId(3)).willReturn(announcementList);

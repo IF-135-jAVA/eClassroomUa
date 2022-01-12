@@ -20,7 +20,6 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-//@RequestMapping("/api/classrooms/{classroomId}")
 @RequestMapping("/api")
 
 public class CommentController {
@@ -47,6 +46,7 @@ public class CommentController {
         commentService.deleteComment(id);
         return ResponseEntity.noContent().build();
     }
+
     @GetMapping("/materials/{materialId}/materialComments")
     public ResponseEntity<List<CommentDTO>> readByIdMaterialComments(@PathVariable long materialId) {
         return ResponseEntity.ok(commentService.readByIdMaterialComments(materialId));

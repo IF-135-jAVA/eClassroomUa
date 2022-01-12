@@ -1,14 +1,13 @@
 package com.softserve.betterlearningroom.dao;
 
 import com.softserve.betterlearningroom.configuration.TestDBConfiguration1;
-
 import com.softserve.betterlearningroom.dao.impl.AnnouncementDAOImpl;
 import com.softserve.betterlearningroom.entity.Announcement;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.annotation.Order;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +21,21 @@ class AnnouncementDAOTest {
     @Autowired
     private AnnouncementDAO announcementDAO;
 
+    @Order(1)
+    @Test
+    void readByIdAnnouncementTest() {
+        Announcement announcement = prepareAnnouncementDTO();
+        assertEquals((announcement), announcementDAO.readById(1));
+    }
+
+    @Order(2)
+    @Test
+    void readByCourseIdAnnouncementTest() {
+        List<Announcement> announcementList = new ArrayList<>();
+        announcementList.add(prepareAnnouncementDTO());
+        assertEquals((announcementList), announcementDAO.readByCourseId(2));
+    }
+
     @Test
     void createAnnouncementTest() {
         Announcement announcement = prepareAnnouncementDTO();
@@ -32,23 +46,11 @@ class AnnouncementDAOTest {
     }
 
     @Test
-    void readByIdAnnouncementTest() {
-        Announcement announcement = prepareAnnouncementDTO();
-        assertEquals((announcement), announcementDAO.readById(1));
-    }
-
-    @Test
-    void readByCourseIdAnnouncementTest() {
-        List<Announcement> announcementList = new ArrayList<>();
-        announcementList.add(prepareAnnouncementDTO());
-        assertEquals((announcementList), announcementDAO.readByCourseId(2));
-    }
-
-    @Test
     void updateAnnouncementTest() {
         Announcement announcement = prepareAnnouncementDTO();
+        announcement.setId(2);
         announcementDAO.update(announcement);
-        assertEquals("text1", announcementDAO.readById(1).getText());
+        assertEquals("text1", announcementDAO.readById(2).getText());
     }
 
     @Test

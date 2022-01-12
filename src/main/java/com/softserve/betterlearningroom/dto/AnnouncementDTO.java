@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.util.List;
+
 @Builder
 @Data
 @AllArgsConstructor
@@ -16,5 +18,4 @@ public class AnnouncementDTO {
     private String text;
     private List<Comment> comments;
     private boolean enabled;
-
-   }
+}

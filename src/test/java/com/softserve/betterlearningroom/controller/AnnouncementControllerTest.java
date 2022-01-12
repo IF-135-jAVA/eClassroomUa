@@ -3,16 +3,10 @@ package com.softserve.betterlearningroom.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.softserve.betterlearningroom.configuration.TestDBConfiguration1;
 import com.softserve.betterlearningroom.configuration.jwt.JwtProvider;
-
-import com.softserve.betterlearningroom.dao.AnnouncementDAO;
 import com.softserve.betterlearningroom.dao.impl.AnnouncementDAOImpl;
 import com.softserve.betterlearningroom.dao.impl.UserDAOImpl;
-
 import com.softserve.betterlearningroom.dto.AnnouncementDTO;
-import com.softserve.betterlearningroom.dto.CommentDTO;
-import com.softserve.betterlearningroom.entity.Announcement;
 import com.softserve.betterlearningroom.service.CustomUserDetailsService;
-
 import com.softserve.betterlearningroom.service.impl.AnnouncementServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -22,12 +16,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +59,6 @@ class AnnouncementControllerTest {
         verify(announcementService).readById(1);
     }
 
-
     @Test
     void createAnnouncementTest() throws Exception {
         mapper = new ObjectMapper();
@@ -101,6 +94,16 @@ class AnnouncementControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    void announcementIsNotFoundTest() throws Exception {
+        given(announcementService.readById(Mockito.anyLong())).willThrow(DataRetrievalFailureException.class);
+        mvc.perform(get("/api/classrooms/1/announcements/0")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+        verify(announcementService).readById(0);
     }
 
 }

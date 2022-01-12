@@ -11,17 +11,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.dao.DataRetrievalFailureException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -141,13 +137,6 @@ class CommentServiceTest {
     void deleteCommentsTest() {
     }
 
-
-//       @Test
-//    void commentIsNotFoundTest() {
-//        given(commentDAO.readByIdComment(Mockito.anyLong())).willReturn(null);
-//        assertThrows(DataRetrievalFailureException.class, () -> commentService.readByIdComment(COMMENT_ID));
-//        verify(commentDAO).readByIdComment(COMMENT_ID);
-//    }
 
     @AfterEach
     void tearDown() {

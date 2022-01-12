@@ -5,9 +5,8 @@ import com.softserve.betterlearningroom.entity.Announcement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.DataRetrievalFailureException;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -19,10 +18,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
 @Repository
 @PropertySource(value = "classpath:/db/announcements/announcement_queries.properties")
 public class AnnouncementDAOImpl implements AnnouncementDAO {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
     @Value("${findById.announcement}")
     private String getById;
     @Value("${save.announcement}")
@@ -48,11 +49,12 @@ public class AnnouncementDAOImpl implements AnnouncementDAO {
     @Override
     public Announcement readById(long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
-        try {
-            return namedParameterJdbcTemplate.queryForObject(getById, parameterSource, BeanPropertyRowMapper.newInstance(Announcement.class));
-        } catch (EmptyResultDataAccessException e) {
+        Announcement result = DataAccessUtils.singleResult(namedParameterJdbcTemplate.query(getById,
+                parameterSource, BeanPropertyRowMapper.newInstance(Announcement.class)));
+        if (result == null) {
             throw new DataRetrievalFailureException("Announcement with id - " + id + ", not found.");
         }
+        return result;
     }
 
     @Override

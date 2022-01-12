@@ -1,22 +1,13 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
 import com.softserve.betterlearningroom.configuration.TestDBConfiguration1;
 import com.softserve.betterlearningroom.configuration.jwt.JwtProvider;
-
-
-import com.softserve.betterlearningroom.dao.CommentDAO;
 import com.softserve.betterlearningroom.dao.impl.CommentDAOImpl;
 import com.softserve.betterlearningroom.dao.impl.UserDAOImpl;
 import com.softserve.betterlearningroom.dto.CommentDTO;
-import com.softserve.betterlearningroom.entity.Comment;
-import com.softserve.betterlearningroom.entity.request.SaveUserRequest;
-import com.softserve.betterlearningroom.service.CommentService;
 import com.softserve.betterlearningroom.service.CustomUserDetailsService;
-
 import com.softserve.betterlearningroom.service.impl.CommentServiceImpl;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +22,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -46,7 +34,6 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 @WebMvcTest(controllers = CommentController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
@@ -74,21 +61,20 @@ class CommentControllerTest {
         verify(commentService).readByIdComment(2);
     }
 
-//    @Test
-//    void commentIsNotFoundTest() throws Exception {
-//        given(commentService.readByIdComment(Mockito.anyLong())).willThrow(DataRetrievalFailureException.class);
-//        mvc.perform(get("/api/comments/0")
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isNotFound())
-//                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-//        verify(commentService).readByIdComment(0);
-//    }
+    @Test
+    void commentIsNotFoundTest() throws Exception {
+        given(commentService.readByIdComment(Mockito.anyLong())).willThrow(DataRetrievalFailureException.class);
+        mvc.perform(get("/api/comments/0")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+        verify(commentService).readByIdComment(0);
+    }
 
-    @Test         //
+    @Test
     void createCommentTest() throws Exception {
         mapper = new ObjectMapper();
-        CommentDTO comment = new CommentDTO(2, "text2", LocalDateTime.now(),
-                3, 3, 4, 2, true);
+        CommentDTO comment = getComment();
         given(commentService.createComment(any(CommentDTO.class))).willReturn(comment);
         mvc.perform(MockMvcRequestBuilders.post("/api/users/3/comments")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -97,11 +83,10 @@ class CommentControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
-    @Test       //
+    @Test
     void updateCommentTest() throws Exception {
         mapper = new ObjectMapper();
-        CommentDTO comment = new CommentDTO(2, "text2", LocalDateTime.now(),
-                3, 3, 4, 2, true);
+        CommentDTO comment = getComment();
         given(commentService.updateComment(any(CommentDTO.class), anyLong())).willReturn(comment);
         mvc.perform(put("/api/comments/2")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -157,5 +142,18 @@ class CommentControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+    }
+
+    private CommentDTO getComment() {
+        CommentDTO comment = CommentDTO.builder()
+                .id(1)
+                .text("text1")
+                .authorId(2)
+                .announcementId(3)
+                .materialId(2)
+                .userAssignmentId(4)
+                .enabled(true)
+                .build();
+        return comment;
     }
 }

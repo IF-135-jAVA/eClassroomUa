@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.DataRetrievalFailureException;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -47,11 +47,12 @@ public class CommentDAOImpl implements CommentDAO {
     @Override
     public Comment readByIdComment(long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
-        try {
-            return namedParameterJdbcTemplate.queryForObject(getByIdComments, parameterSource, BeanPropertyRowMapper.newInstance(Comment.class));
-        } catch (EmptyResultDataAccessException e) {
+        Comment result = DataAccessUtils.singleResult(namedParameterJdbcTemplate.query(getByIdComments,
+                parameterSource, BeanPropertyRowMapper.newInstance(Comment.class)));
+        if (result == null) {
             throw new DataRetrievalFailureException("Comment with id - " + id + ", not found.");
         }
+        return result;
     }
 
     @Override
@@ -101,4 +102,4 @@ public class CommentDAOImpl implements CommentDAO {
         return namedParameterJdbcTemplate.query(getByAuthorId, parameterSource, BeanPropertyRowMapper.newInstance(Comment.class));
     }
 
-   }
+}
