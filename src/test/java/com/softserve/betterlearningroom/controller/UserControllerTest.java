@@ -1,22 +1,17 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
-import com.softserve.betterlearningroom.configuration.jwt.JwtProvider;
-import com.softserve.betterlearningroom.dao.impl.UserDAOImpl;
 import com.softserve.betterlearningroom.dto.UserDTO;
 import com.softserve.betterlearningroom.service.UserService;
-import com.softserve.betterlearningroom.service.impl.CustomUserDetailsService;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,13 +24,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = UserController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
+@WebMvcTest(value = UserController.class, useDefaultFilters = false, includeFilters = {
+		@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = UserController.class) })
 @AutoConfigureMockMvc(addFilters = false)
-@Import(value = { CustomUserDetailsService.class, UserDAOImpl.class, TestDBConfiguration.class, JwtProvider.class })
 class UserControllerTest {
 
     @Autowired
@@ -65,10 +61,10 @@ class UserControllerTest {
     @Test
     void whenUserIdIsBad_thenReturnError() throws Exception {
         given(userService.findById(Mockito.anyLong())).willThrow(UsernameNotFoundException.class);
-        mvc.perform(get("/api/users/0")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+        assertThatThrownBy(() -> mvc.perform(get("/api/users/0")
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))).hasCause(new UsernameNotFoundException(null));
         verify(userService).findById(0L);
     }
     

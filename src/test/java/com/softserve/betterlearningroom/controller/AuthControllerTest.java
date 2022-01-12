@@ -1,24 +1,20 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
-import com.softserve.betterlearningroom.configuration.jwt.JwtProvider;
-import com.softserve.betterlearningroom.dao.impl.UserDAOImpl;
+
 import com.softserve.betterlearningroom.dto.UserDTO;
 import com.softserve.betterlearningroom.entity.request.AuthRequest;
 import com.softserve.betterlearningroom.entity.request.SaveUserRequest;
 import com.softserve.betterlearningroom.service.AuthService;
 import com.softserve.betterlearningroom.service.UserService;
-import com.softserve.betterlearningroom.service.impl.CustomUserDetailsService;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -37,9 +33,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = AuthController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
+@WebMvcTest(value = AuthController.class, useDefaultFilters = false, includeFilters = {
+		@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = AuthController.class) })
 @AutoConfigureMockMvc(addFilters = false)
-@Import(value = { CustomUserDetailsService.class, UserDAOImpl.class, TestDBConfiguration.class, JwtProvider.class })
 class AuthControllerTest {
 
     @Autowired
