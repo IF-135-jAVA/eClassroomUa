@@ -14,6 +14,7 @@ import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/api/classrooms/{classroomId}/topics/{topicId}/materials/{materialId}/criterions")
+
 public class CriterionController {
 
     @Autowired
@@ -42,9 +43,8 @@ public class CriterionController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> create(@Valid @RequestBody CriterionDTO criterionDTO) {
-        criterionService.save(criterionDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<CriterionDTO> create(@Valid @RequestBody CriterionDTO criterionDTO) {
+        return new ResponseEntity<>(criterionService.save(criterionDTO),HttpStatus.CREATED);
     }
 
     /**

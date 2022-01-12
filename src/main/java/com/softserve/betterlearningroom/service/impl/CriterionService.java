@@ -1,8 +1,8 @@
 package com.softserve.betterlearningroom.service.impl;
 
-import com.softserve.betterlearningroom.mapper.CriterionMapper;
 import com.softserve.betterlearningroom.dao.impl.CriterionDAO;
 import com.softserve.betterlearningroom.dto.CriterionDTO;
+import com.softserve.betterlearningroom.mapper.CriterionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,9 +32,9 @@ public class CriterionService {
 
     }
 
-    public void save(CriterionDTO criterionDTO) {
+    public CriterionDTO save(CriterionDTO criterionDTO) {
 
-        criterionDAO.save(CriterionMapper.toEntity(criterionDTO));
+      return CriterionMapper.toDTO(criterionDAO.save(CriterionMapper.toEntity(criterionDTO)));
     }
 
     public void update(CriterionDTO criterionDTO) {

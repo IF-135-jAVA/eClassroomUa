@@ -39,7 +39,7 @@ public class CriterionDAO {
     @Value("${criterion.findByTitle}")
     private String findByTitleQuery;
 
-    public void save(Criterion criterion) {
+    public Criterion save(Criterion criterion) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource
                 .addValue("criterion_id", criterion.getCriterionId())
@@ -47,6 +47,7 @@ public class CriterionDAO {
                 .addValue("title", criterion.getTitle())
                 .addValue("description", criterion.getDescription());
         jdbcTemplate.update(saveQuery, parameterSource);
+        return criterion;
     }
 
     public void update(Criterion criterion) {

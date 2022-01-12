@@ -1,9 +1,7 @@
 package com.softserve.betterlearningroom.configuration;
 
-import com.softserve.betterlearningroom.dao.extractor.UserRowMapper;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
@@ -11,7 +9,6 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import javax.sql.DataSource;
 
 @TestConfiguration
-@Import(UserRowMapper.class)
 public class TestDBConfiguration {
 	
 	@Bean
@@ -19,7 +16,7 @@ public class TestDBConfiguration {
         final DataSource dataSource = new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
                 .addScript("classpath:/db/criterion/schema.sql")
-                //.addScript("classpath:/db/users/test-data.sql")
+                .addScript("classpath:/db/criterion/test-data.sql")
                 .build();
 
         return dataSource;

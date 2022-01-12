@@ -13,7 +13,6 @@ import javax.validation.Valid;
 import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 @RestController
-//@Api("Levels")
 @RequestMapping("/api/classrooms/{classroomId}/topics/{topicId}/materials/{materialId}/criterions/{criterionId}/level")
 public class LevelController {
 

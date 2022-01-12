@@ -1,113 +1,93 @@
 package com.softserve.betterlearningroom.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.softserve.betterlearningroom.dto.CriterionDTO;
+import com.softserve.betterlearningroom.entity.Criterion;
+import com.softserve.betterlearningroom.service.impl.CriterionService;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
-//@Profile("test")
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@AutoConfigureMockMvc
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+
+@WebMvcTest(
+        value = CriterionController.class
+        , useDefaultFilters = false
+        , includeFilters = {
+        @ComponentScan.Filter(
+                type = FilterType.ASSIGNABLE_TYPE,
+                value = CriterionController.class
+        )
+        }
+        )
+
+@AutoConfigureMockMvc(addFilters = false)
 class CriterionControllerTest {
+
     @Autowired
-    private TestRestTemplate template;
-    @Autowired
-    private MockMvc mvc;
-    private String token;
-    @LocalServerPort
-    private int port;
-
-//    @BeforeEach
-//    public void setUp() throws Exception {
-//        JacksonJsonParser jsonParser = new JacksonJsonParser();
-//        ObjectMapper mapper = new ObjectMapper();
-//        AuthRequest request = new AuthRequest();
-//        request.setLogin("jurok3x@gmail.com");
-//        request.setPassword("yawinpassword");
-//
-//        String jsonRequestBody = mapper.writeValueAsString(request);
-//
-//        ResultActions result = mvc
-//                .perform(post("/api/auth/login?role=teacher").content(jsonRequestBody).contentType(MediaType.APPLICATION_JSON)
-//                        .accept("text/plain;charset=UTF-8"));
-//
-//         token = "Bearer " + result.andReturn().getResponse().getContentAsString();
-//    }
-//
-//    private HttpHeaders createHttpHeaders()
-//    {
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.add("Authorization", token);
-//        return headers;
-//    }
-//    private String createURLWithPort(String url)
-//    {
-//
-//        return "http://localhost:" + port + url;
-//    }
-//    @Test
-//    void getAll() {
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.add("Authorization", token);
-//
-//        HttpEntity entity = new HttpEntity<>(null, headers );
-//
-//
-//        ResponseEntity responseEntity = template.exchange(createURLWithPort(
-//                "/api/classrooms/0/topics/0/materials/0/criterions"), HttpMethod.GET, entity, String.class);
-//
-//        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());;
-//    }
-
+    public MockMvc mockMvc;
+    @MockBean
+    private CriterionService criterionService;
+    ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    void getById() {
+    public void testGetById() throws Exception {
+       when(criterionService.findById(1)).thenReturn(expectedCriterionDTO());
 
 
+        MvcResult mvcResult =  mockMvc.perform(get("/api/classrooms/1/topics/1/materials/2/criterions/1")
+               .contentType(MediaType.APPLICATION_JSON))
+               .andExpect(status().isOk())
+               .andReturn();
+      assertEquals(objectMapper.writeValueAsString(expectedCriterionDTO()), mvcResult.getResponse().getContentAsString());
     }
 
+    private CriterionDTO expectedCriterionDTO(){
+        return CriterionDTO.builder()
+                .id(1)
+                .materialIdDTO(2)
+                .title("Use formula")
+                .description("Using wright formula")
+                .build();
+    }
+    private Criterion expectedCriterion(){
+        return Criterion.builder()
+                .criterionId(1)
+                .materialId(2)
+                .title("Use formula")
+                .description("Using wright formula")
+                .build();
+    }
     @Test
-    void create() {
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.add("Authorization", token);
-//        CriterionDTO criterionDTO = CriterionDTO.builder()
-//                .id(12)
-//                .materialIdDTO(4)
-//                .title("title")
-//                .description("desc")
-//                .build();
-//        HttpEntity entity = new HttpEntity<>(criterionDTO, headers );
-//
-//
-//        ResponseEntity responseEntity = template.exchange(createURLWithPort(
-//                "/api/classrooms/0/topics/0/materials/0/criterions"), HttpMethod.GET, entity, String.class);
-//
-//        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());;
+    public void testSave() throws Exception{
+        CriterionDTO criterionDTO = expectedCriterionDTO();
+        //criterionDTO.setId(null);
+
+
+        when(criterionService.save(criterionDTO)).thenReturn(expectedCriterionDTO());
+        MvcResult mvcResult = mockMvc.perform(post("/api/classrooms/1/topics/1/materials/2/criterions")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(criterionDTO)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+       assertEquals(objectMapper.writeValueAsString(expectedCriterionDTO()),
+        mvcResult.getResponse().getContentAsString());
     }
 
-    @Test
-    void update() {
-    }
-//    private HttpEntity getSecuredHTTPEntity (){
-//
-//        ObjectNode loginRequest = mapper.createObjectNode();
-//        loginRequest.put("username","name");
-//        loginRequest.put("password","password");
-//        ValueNodes.JsonNode loginResponse = template.postForObject("/authenticate", loginRequest.toString(), ValueNodes.JsonNode.class);
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-//        headers.add("X-Authorization", "Bearer " + loginResponse.get("token").textValue());
-//        headers.add("Content-Type", "application/json");
-//        return new HttpEntity<>(null, headers);
-//    }
+
+
+
 }
