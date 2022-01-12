@@ -5,7 +5,6 @@ import java.util.List;
 import com.softserve.betterlearningroom.dto.UserDTO;
 import com.softserve.betterlearningroom.service.ClassroomService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,14 +58,14 @@ public class ClassroomController {
 
     @GetMapping("/asStudent")
     @ResponseBody
-    public ResponseEntity<ClassroomDTO> JoinClassroomAsStudent(@RequestParam(value = "code", required = true) String code, @RequestParam(value = "userId", required = true) Long userId){
-        return ResponseEntity.ok().body(classroomService.JoinClassroomAsStudent(code, userId));
+    public ResponseEntity<ClassroomDTO> joinClassroomAsStudent(@RequestParam(value = "code", required = true) String code, @RequestParam(value = "userId", required = true) Long userId){
+        return ResponseEntity.ok().body(classroomService.joinClassroomAsStudent(code, userId));
     }
 
     @GetMapping("/asTeacher")
     @ResponseBody
-    public ResponseEntity<ClassroomDTO> JoinClassroomAsTeacher(@RequestParam(value = "code", required = true) String code, @RequestParam(value = "userId", required = true) Long userId){
-        return ResponseEntity.ok().body(classroomService.JoinClassroomAsTeacher(code, userId));
+    public ResponseEntity<ClassroomDTO> joinClassroomAsTeacher(@RequestParam(value = "code", required = true) String code, @RequestParam(value = "userId", required = true) Long userId){
+        return ResponseEntity.ok().body(classroomService.joinClassroomAsTeacher(code, userId));
     }
 
     @PostMapping()

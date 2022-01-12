@@ -1,5 +1,6 @@
-package com.softserve.betterlearningroom.dao;
+package com.softserve.betterlearningroom.dao.impl;
 
+import com.softserve.betterlearningroom.dao.ClassroomDao;
 import com.softserve.betterlearningroom.entity.Classroom;
 import com.softserve.betterlearningroom.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,8 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-@PropertySource(value = "classpath:/classroomQuery.properties")
-public class ClassroomDAO {
+@PropertySource(value = "classpath:/db/classrooms/classroomQuery.properties")
+public class ClassroomDaoImpl implements ClassroomDao {
 
     private final NamedParameterJdbcTemplate jdbcParameterTemplate;
 
@@ -53,37 +54,44 @@ public class ClassroomDAO {
     @Value("${joinClassroomAsTeacher}")
     private String joinClassroomAsTeacher;
 
+    @Override
     public Classroom getClassroomById(Long classroomId){
         SqlParameterSource parameterSource = new MapSqlParameterSource("classroomId", classroomId);
         return jdbcParameterTemplate.queryForObject(getClassroomById, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class));
     }
 
+    @Override
     public List<User> getClassroomTeachers(Long classroomId){
         SqlParameterSource parameterSource = new MapSqlParameterSource("classroomId", classroomId);
         return jdbcParameterTemplate.query(getClassroomTeachers, parameterSource, BeanPropertyRowMapper.newInstance(User.class));
     }
 
+    @Override
     public List<User> getClassroomStudents(Long classroomId){
         SqlParameterSource parameterSource = new MapSqlParameterSource("classroomId", classroomId);
         return jdbcParameterTemplate.query(getClassroomStudents, parameterSource, BeanPropertyRowMapper.newInstance(User.class));
     }
 
+    @Override
     public User getClassroomOwnerById(Long classroomId){
         SqlParameterSource parameterSource = new MapSqlParameterSource("classroomId", classroomId);
         return jdbcParameterTemplate.queryForObject(getClassroomOwnerById, parameterSource, BeanPropertyRowMapper.newInstance(User.class));
     }
 
+    @Override
     public List<Classroom> getClassroomsByTeacher(Long userId){
         SqlParameterSource parameterSource = new MapSqlParameterSource("userId", userId);
         return jdbcParameterTemplate.query(getClassroomsByTeacher, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class));
     }
 
+    @Override
     public List<Classroom> getClassroomsByStudent(Long userId){
         MapSqlParameterSource parameterSource = new MapSqlParameterSource("userId", userId);
         return jdbcParameterTemplate.query(getClassroomsByStudent, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class));
     }
 
-    public Classroom JoinClassroomAsStudent(String code, Long userId){
+    @Override
+    public Classroom joinClassroomAsStudent(String code, Long userId){
         Classroom classroom = getClassroomByCode(code);
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("classroomId", classroom.getClassroomId());
@@ -92,7 +100,8 @@ public class ClassroomDAO {
         return classroom;
     }
 
-    public Classroom JoinClassroomAsTeacher(String code, Long userId){
+    @Override
+    public Classroom joinClassroomAsTeacher(String code, Long userId){
         Classroom classroom = getClassroomByCode(code);
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("classroomId", classroom.getClassroomId());
@@ -101,22 +110,26 @@ public class ClassroomDAO {
         return classroom;
     }
 
+    @Override
     public void createClassroom(Classroom classroom){
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("classroomId", classroom.getClassroomId())
                 .addValue("userId", classroom.getUserId())
                 .addValue("title", classroom.getTitle())
                 .addValue("session", classroom.getSession())
-                .addValue("description", classroom.getDescription());
+                .addValue("description", classroom.getDescription())
+                .addValue("code", classroom.getCode());
         jdbcParameterTemplate.update(createClassroom, params);
     }
 
+    @Override
     public  void removeClassroomById(Long classroomId){
         SqlParameterSource parameterSource = new MapSqlParameterSource("classroomId", classroomId);
         jdbcParameterTemplate.update(removeClassroom, parameterSource);
 
     }
 
+    @Override
     public Classroom getClassroomByCode(String code){
         SqlParameterSource parameterSource = new MapSqlParameterSource("code", code);
         return jdbcParameterTemplate.queryForObject(getClassroomByCode, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class));

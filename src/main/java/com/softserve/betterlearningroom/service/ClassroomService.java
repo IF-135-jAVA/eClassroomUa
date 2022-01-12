@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.service;
 
-import com.softserve.betterlearningroom.dao.ClassroomDAO;
+import com.softserve.betterlearningroom.dao.impl.ClassroomDaoImpl;
 import com.softserve.betterlearningroom.dto.ClassroomDTO;
 import com.softserve.betterlearningroom.dto.UserDTO;
 import com.softserve.betterlearningroom.entity.Classroom;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ClassroomService {
 
-    private ClassroomDAO classroomDAO;
+    private ClassroomDaoImpl classroomDAO;
     private ClassroomMapper classroomMapper;
     private UserMapper userMapper;
 
@@ -59,25 +59,25 @@ public class ClassroomService {
                 .collect(Collectors.toList());
     }
 
-    public ClassroomDTO JoinClassroomAsStudent(String code, Long userId){
+    public ClassroomDTO joinClassroomAsStudent(String code, Long userId){
         Classroom classroom = classroomDAO.getClassroomByCode(code);
         if (classroomDAO.getClassroomTeachers(classroom.getClassroomId()).stream().anyMatch(user -> user.getId() == userId)) {
         }else if(classroomDAO.getClassroomStudents(classroom.getClassroomId()).stream().anyMatch(user -> user.getId() == userId)){
         }else if(classroomDAO.getClassroomOwnerById(classroom.getClassroomId()).getId() == userId){
         }else{
-            classroomDAO.JoinClassroomAsStudent(code, userId);
+            classroomDAO.joinClassroomAsStudent(code, userId);
             return classroomMapper.classroomToClassroomDTO(classroom);
         }
         return null;
     }
 
-    public ClassroomDTO JoinClassroomAsTeacher(String code, Long userId){
+    public ClassroomDTO joinClassroomAsTeacher(String code, Long userId){
         Classroom classroom = classroomDAO.getClassroomByCode(code);
         if (classroomDAO.getClassroomStudents(classroom.getClassroomId()).stream().anyMatch(user -> user.getId() == userId)){
         }else if(classroomDAO.getClassroomTeachers(classroom.getClassroomId()).stream().anyMatch(user -> user.getId() == userId)){
         }else if(classroomDAO.getClassroomOwnerById(classroom.getClassroomId()).getId() == userId){
         }else {
-            classroomDAO.JoinClassroomAsTeacher(code, userId);
+            classroomDAO.joinClassroomAsTeacher(code, userId);
             return classroomMapper.classroomToClassroomDTO(classroom);
         }
         return null;
