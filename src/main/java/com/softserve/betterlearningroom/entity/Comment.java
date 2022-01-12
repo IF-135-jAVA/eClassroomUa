@@ -14,9 +14,8 @@ public class Comment {
     private long id;
     private String text;
     private LocalDateTime date;
-    private User author;
-    private Announcement announcement;
-    private Assignment assignment;
-    private Material material;
-
+    private long authorId;
+    private long announcementId;
+    private long userAssignmentId;
+    private long materialId;
 }

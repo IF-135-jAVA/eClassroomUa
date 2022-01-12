@@ -1,67 +1,51 @@
 package com.softserve.betterlearningroom.dao;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
+import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
+import com.softserve.betterlearningroom.dao.impl.UserDAOImpl;
+import com.softserve.betterlearningroom.entity.User;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
-import javax.sql.DataSource;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.util.ReflectionTestUtils;
-
-import com.softserve.betterlearningroom.dao.UserDao;
-import com.softserve.betterlearningroom.dao.impl.UserDaoImpl;
-import com.softserve.betterlearningroom.entity.User;
-import com.softserve.betterlearningroom.dao.extractor.UserRowMapper;
-
-public class UserDaoTest {
-
-	/*
-	 * @Mock public NamedParameterJdbcTemplate template; public UserRowMapper
-	 * userMapper;
-	 *
-	 * @InjectMocks public UserDaoImpl userDao;
-	 *
-	 * @BeforeEach public void init() { MockitoAnnotations.initMocks(this);
-	 * userMapper = new UserRowMapper(); userDao = new UserDaoImpl(template,
-	 * userMapper); }
-	 */
-
-
-	@SuppressWarnings("unchecked")
-	@Test
-	public void findByIdTest() {
-		NamedParameterJdbcTemplate template = mock(NamedParameterJdbcTemplate.class);
-		UserRowMapper userMapper = new UserRowMapper();
-		UserDao userDao = new UserDaoImpl(template, userMapper);
-		User user = new User(1, "Keanu", "Reeves", "1234", "Keanu@gmail.com", true);
-		Mockito.when(template.queryForObject(Mockito.anyString(),  Mockito.any(MapSqlParameterSource.class), Mockito.any(RowMapper.class))).thenReturn(user);
-		assertEquals(Optional.of(user), userDao.findById(1));
-		// assertEquals("Keanu@gmail.com", userDao.findById(1).get().getEmail());
-	}
+@SpringBootTest(classes = { TestDBConfiguration.class, UserDAOImpl.class })
+class UserDaoTest {
+//
+//    @Autowired
+//    UserDAO userDao;
+//
+//    @Test
+//    void whenUserSaved_thenReturnCorrectUserCountAndFirstname() {
+//        User user = new User(5, "Alice", "Cooper", "$2a$04$MzVXtd4o0y4DOlyHMMLMDeE4/eezrsT5Xad.2lmGr/NkCpwBgvn3e",
+//                "acooper@gmail.com", true);
+//        userDao.save(user);
+//        assertEquals(5, userDao.findAll().size());
+//        assertEquals("Alice", userDao.findById(5).get().getFirstName());
+//    }
+//
+//    @Test
+//    void whenUserEmailIsProvided_thenReturnCorrectUser() {
+//        User user = new User(3, "John", "Smith", "$2a$04$MzVXtd4o0y4DOlyHMMLMDeE4/eezrsT5Xad.2lmGr/NkCpwBgvn3e",
+//                "jsmith@gmail.com", true);
+//        assertEquals(Optional.of(user), userDao.findByEmail("jsmith@gmail.com"));
+//    }
+//
+//    @Test
+//    void whenUserIdIsProvided_thenReturnCorrectUser() {
+//        User user = new User(2, "Yurii", "Kotsiuba", "$2a$04$MzVXtd4o0y4DOlyHMMLMDeE4/eezrsT5Xad.2lmGr/NkCpwBgvn3e",
+//                "jurok3x@gmail.com", true);
+//        assertEquals(Optional.of(user), userDao.findById(2));
+//    }
+//
+//    @Test
+//    void whenUpdateUser_thenReturnCorrectUserEmail() {
+//        User user = new User(1, "John", "Snow", "$2a$04$MzVXtd4o0y4DOlyHMMLMDeE4/eezrsT5Xad.2lmGr/NkCpwBgvn3e",
+//                "snow@gmail.com", true);
+//        userDao.update(user);
+//        assertEquals("snow@gmail.com", userDao.findById(1).get().getEmail());
+//    }
 
 }

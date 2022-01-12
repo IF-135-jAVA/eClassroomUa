@@ -4,6 +4,8 @@ import com.softserve.betterlearningroom.entity.Answer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.dao.DataRetrievalFailureException;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -17,7 +19,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-@PropertySource("classpath:/answer_queries.properties")
+@PropertySource("classpath:/db/answers/answer_queries.properties")
 public class AnswerDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -31,24 +33,38 @@ public class AnswerDao {
     @Value("${update.answer}")
     private String updateQuery;
 
+    @Value("${delete.answer}")
+    private String deleteQuery;
+
     @Value("${get.answers.by.user.assignment}")
     private String getByUserAssignmentQuery;
 
-    public long create(Answer answer) {
+    public Answer create(Answer answer) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(answer);
         jdbcTemplate.update(createQuery, parameterSource, keyHolder, new String[]{"id"});
-        return keyHolder.getKeyAs(Integer.class);
+        return readById(keyHolder.getKeyAs(Integer.class));
     }
 
-    public List<Answer> readById(long id) {
+    public Answer readById(long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
-        return jdbcTemplate.query(readByIdQuery, parameterSource, BeanPropertyRowMapper.newInstance(Answer.class));
+        Answer result = DataAccessUtils.singleResult(jdbcTemplate.query(readByIdQuery, parameterSource, BeanPropertyRowMapper.newInstance(Answer.class)));
+        if (result == null) {
+            throw new DataRetrievalFailureException("Answer with id - " + id + ", not found.");
+        }
+        return result;
     }
 
-    public void update(Answer answer) {
+    public Answer update(Answer answer) {
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(answer);
         jdbcTemplate.update(updateQuery, parameterSource);
+        return readById(answer.getId());
+    }
+
+    public void delete(long id) {
+        readById(id);
+        SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
+        jdbcTemplate.update(deleteQuery, parameterSource);
     }
 
     public List<Answer> getByUserAssignment(long userAssignmentId) {
