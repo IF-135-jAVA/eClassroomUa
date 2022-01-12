@@ -19,6 +19,7 @@ public class UserRowMapper implements RowMapper<User> {
         user.setEmail(rs.getString("email"));
         user.setPassword(rs.getString("password"));
         user.setEnabled(rs.getBoolean("enabled"));
+        user.setProvider(rs.getString("provider"));
         return user;
     }
 

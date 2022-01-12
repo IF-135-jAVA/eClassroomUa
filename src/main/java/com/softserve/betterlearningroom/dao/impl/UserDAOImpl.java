@@ -80,7 +80,7 @@ public class UserDAOImpl implements UserDAO {
 
         params.addValue("firstname", user.getFirstName()).addValue("lastname", user.getLastName())
                 .addValue("email", user.getEmail()).addValue("password", user.getPassword())
-                .addValue("enabled", user.isEnabled());
+                .addValue("enabled", user.isEnabled()).addValue("provider", user.getProvider());
 
         template.update(save, params, keyHolder);
         Long userId = 0L;
