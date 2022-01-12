@@ -2,7 +2,8 @@ package com.softserve.betterlearningroom.configuration.jwt;
 
 import com.softserve.betterlearningroom.entity.CustomUserDetails;
 import com.softserve.betterlearningroom.entity.roles.Roles;
-import com.softserve.betterlearningroom.service.CustomUserDetailsService;
+import com.softserve.betterlearningroom.service.impl.CustomUserDetailsService;
+
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

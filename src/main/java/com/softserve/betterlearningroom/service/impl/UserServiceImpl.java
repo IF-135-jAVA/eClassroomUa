@@ -1,9 +1,11 @@
-package com.softserve.betterlearningroom.service;
+package com.softserve.betterlearningroom.service.impl;
 
 import com.softserve.betterlearningroom.dao.UserDAO;
 import com.softserve.betterlearningroom.dto.UserDTO;
 import com.softserve.betterlearningroom.entity.User;
 import com.softserve.betterlearningroom.mapper.UserMapper;
+import com.softserve.betterlearningroom.service.UserService;
+
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -13,13 +15,13 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class DefaultUserService implements UserService {
+public class UserServiceImpl implements UserService {
 
     private UserDAO userRepository;
     private UserMapper userMapper;
 
     @Override
-    public UserDTO findById(int id) throws UsernameNotFoundException {
+    public UserDTO findById(Long id) throws UsernameNotFoundException {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User with id - %d, not found", id)));
         return userMapper.userToUserDTO(user);

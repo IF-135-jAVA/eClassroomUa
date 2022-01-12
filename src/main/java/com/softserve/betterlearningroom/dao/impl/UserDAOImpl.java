@@ -49,7 +49,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public Optional<User> findById(int id) {
+    public Optional<User> findById(Long id) {
         SqlParameterSource param = new MapSqlParameterSource("id", id);
         User user = null;
         try {
@@ -83,9 +83,9 @@ public class UserDAOImpl implements UserDAO {
                 .addValue("enabled", user.isEnabled());
 
         template.update(save, params, keyHolder);
-        int userId = 0;
+        Long userId = 0L;
         if(keyHolder.getKey() != null) {
-            userId = keyHolder.getKey().intValue();
+            userId = keyHolder.getKey().longValue();
         }
         user.setId(userId);
         return user;
@@ -93,7 +93,6 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User update(User user) {
-
         MapSqlParameterSource params = new MapSqlParameterSource();
 
         params.addValue("firstname", user.getFirstName()).addValue("lastname", user.getLastName())
@@ -103,7 +102,5 @@ public class UserDAOImpl implements UserDAO {
         template.update(update, params);
         
         return user;
-
     }
-
 }
