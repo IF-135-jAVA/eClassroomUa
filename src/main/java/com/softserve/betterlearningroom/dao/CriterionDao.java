@@ -12,6 +12,10 @@ public interface CriterionDao {
 
     List<Criterion> findAll();
 
+    Criterion findById (Long id);
+
     void removeById(Long id);
+
+    void removeAll();
 
 }
