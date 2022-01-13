@@ -42,24 +42,27 @@ public class CriterionDaoImpl implements CriterionDao {
 
     @Value("${criterion.findByTitle}")
     private String findByTitleQuery;
+
     @Override
 
     public Criterion save(Criterion criterion) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource
                 .addValue("criterion_id", criterion.getCriterionId())
-                .addValue("materialid", criterion.getMaterialId())
+                .addValue("material_id", criterion.getMaterialId())
                 .addValue("title", criterion.getTitle())
                 .addValue("description", criterion.getDescription());
         jdbcTemplate.update(saveQuery, parameterSource);
         return criterion;
     }
+
     @Override
     public Criterion update(Criterion criterion) {
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(criterion);
         jdbcTemplate.update(updateQuery, parameterSource);
         return criterion;
     }
+
     @Override
     public List<Criterion> findAll() {
         return jdbcTemplate.query(findAllQuery,
@@ -67,6 +70,7 @@ public class CriterionDaoImpl implements CriterionDao {
 
 
     }
+
     @Override
     public Criterion findById(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("criterion_id", id);
@@ -74,12 +78,12 @@ public class CriterionDaoImpl implements CriterionDao {
                 BeanPropertyRowMapper.newInstance(Criterion.class));
 
     }
+
     @Override
     public void removeById(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("criterion_id", id);
         jdbcTemplate.update(removeByIdQuery, parameterSource);
     }
-
 
 
     public Optional<List<Criterion>> findByTitle(String title) {

@@ -44,7 +44,8 @@ public class CriterionController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<CriterionDTO> create(@Valid @RequestBody CriterionDTO criterionDTO) {
-        return new ResponseEntity<>(criterionService.save(criterionDTO),HttpStatus.CREATED);
+
+        return new ResponseEntity<>(criterionService.save(criterionDTO), HttpStatus.CREATED);
     }
 
     /**
@@ -63,6 +64,7 @@ public class CriterionController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable final Long id) {
+
         criterionService.removeById(id);
     }
 

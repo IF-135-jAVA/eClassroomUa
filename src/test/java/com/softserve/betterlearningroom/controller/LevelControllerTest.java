@@ -1,8 +1,8 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.softserve.betterlearningroom.dto.CriterionDTO;
-import com.softserve.betterlearningroom.service.impl.CriterionServiceImpl;
+import com.softserve.betterlearningroom.dto.LevelDTO;
+import com.softserve.betterlearningroom.service.impl.LevelServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,79 +16,79 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 @WebMvcTest(
-        value = CriterionController.class
+        value = LevelController.class
         , useDefaultFilters = false
         , includeFilters = {
         @ComponentScan.Filter(
                 type = FilterType.ASSIGNABLE_TYPE,
-                value = CriterionController.class
+                value = LevelController.class
         )
 }
 )
 
 @AutoConfigureMockMvc(addFilters = false)
-class CriterionControllerTest {
+class LevelControllerTest {
 
     @Autowired
     public MockMvc mockMvc;
+
     @MockBean
-    private CriterionServiceImpl criterionServiceImpl;
+    LevelServiceImpl levelServiceImpl;
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    private CriterionDTO testCriterion() {
-        return CriterionDTO.builder()
+    private LevelDTO testLevel() {
+        return LevelDTO.builder()
                 .id(1L)
-                .materialIdDTO(2L)
-                .title("Use formula")
-                .description("Using wright formula")
+                .title("Pythagorean theorem")
+                .description("Write example")
+                .criterionId(2L)
+                .mark(5)
                 .build();
     }
 
     @Test
     void testGetById() throws Exception {
-        when(criterionServiceImpl.findById(1L)).thenReturn(testCriterion());
+        when(levelServiceImpl.findById(1L)).thenReturn(testLevel());
 
-        MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/1/topics/1/materials/2/criterions/1")
+        MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/1/topics/1/materials/2/criterions/1/level/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        assertEquals(objectMapper.writeValueAsString(testCriterion()), mvcResult.getResponse().getContentAsString());
+        assertEquals(objectMapper.writeValueAsString(testLevel()), mvcResult.getResponse().getContentAsString());
     }
 
     @Test
     void testSave() throws Exception {
-        CriterionDTO criterionDTO = testCriterion();
+        LevelDTO LevelDTO = testLevel();
 
-        when(criterionServiceImpl.save(criterionDTO)).thenReturn(testCriterion());
-        MvcResult mvcResult = mockMvc.perform(post("/api/classrooms/1/topics/1/materials/2/criterions")
+        when(levelServiceImpl.save(LevelDTO)).thenReturn(testLevel());
+        MvcResult mvcResult = mockMvc.perform(post("/api/classrooms/1/topics/1/materials/2/criterions/1/level")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(criterionDTO)))
+                .content(objectMapper.writeValueAsBytes(LevelDTO)))
                 .andExpect(status().isCreated())
                 .andReturn();
 
-        assertEquals(objectMapper.writeValueAsString(testCriterion()),
+        assertEquals(objectMapper.writeValueAsString(testLevel()),
                 mvcResult.getResponse().getContentAsString());
     }
 
     @Test
     void testPut() throws Exception {
-        CriterionDTO criterionDTO = testCriterion();
+        LevelDTO LevelDTO = testLevel();
 
-        when(criterionServiceImpl.update(criterionDTO)).thenReturn(testCriterion());
-        MvcResult mvcResult = mockMvc.perform(put("/api/classrooms/1/topics/1/materials/2/criterions")
+        when(levelServiceImpl.update(LevelDTO)).thenReturn(testLevel());
+        MvcResult mvcResult = mockMvc.perform(put("/api/classrooms/1/topics/1/materials/2/criterions/1/level")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(criterionDTO)))
+                .content(objectMapper.writeValueAsBytes(LevelDTO)))
                 .andExpect(status().isAccepted())
                 .andReturn();
+        System.out.println("res" + mvcResult.getResponse().getContentAsString());
 
-        assertEquals(objectMapper.writeValueAsString(testCriterion()),
+        assertEquals(objectMapper.writeValueAsString(testLevel()),
                 mvcResult.getResponse().getContentAsString());
     }
 

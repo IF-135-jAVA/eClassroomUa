@@ -27,8 +27,8 @@ public class TopicController {
         List<TopicDTO> topic = topicServiceImpl.findAll();
         return ResponseEntity.ok().body(topic);
     }
+
     /**
-     *
      * get topic by id
      */
     @GetMapping("/{id}")
@@ -36,27 +36,28 @@ public class TopicController {
         TopicDTO topicDTO = topicServiceImpl.findById(id);
         return ResponseEntity.ok().body(topicDTO);
     }
+
     /**
-     *
      * create topic
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> createTopic(@Valid @RequestBody TopicDTO topicDTO) {
-        topicServiceImpl.save(topicDTO);
-       return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<TopicDTO> createTopic(@Valid @RequestBody TopicDTO topicDTO) {
+
+        return new ResponseEntity<>(topicServiceImpl.save(topicDTO), HttpStatus.CREATED);
     }
+
     /**
      * update table by id
      */
     @PutMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> update(@RequestBody final TopicDTO topicDTO) {
-        topicServiceImpl.update(topicDTO);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+
+        return new ResponseEntity<>(topicServiceImpl.update(topicDTO), HttpStatus.ACCEPTED);
     }
+
     /**
-     *
      * delete by id
      */
     @DeleteMapping("/{id}")

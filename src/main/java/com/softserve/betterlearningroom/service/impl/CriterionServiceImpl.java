@@ -37,7 +37,7 @@ public class CriterionServiceImpl implements CriterionServise {
     @Override
     public CriterionDTO save(CriterionDTO criterionDTO) {
 
-      return CriterionMapper.toDTO(criterionDAOImpl.save(CriterionMapper.toEntity(criterionDTO)));
+        return CriterionMapper.toDTO(criterionDAOImpl.save(CriterionMapper.toEntity(criterionDTO)));
     }
 
     @Override
@@ -45,7 +45,6 @@ public class CriterionServiceImpl implements CriterionServise {
 
         return CriterionMapper.toDTO(criterionDAOImpl.update(CriterionMapper.toEntity(criterionDTO)));
     }
-
 
 
 }

@@ -51,7 +51,7 @@ class CriterionServiceTest {
     }
 
     @Test
-    void testGetById(){
+    void testGetById() {
 
         when(criterionDAOImpl.findById(1L)).thenReturn(expectedCriterion);
 
@@ -63,6 +63,7 @@ class CriterionServiceTest {
         assertEquals(expectedCriterion.getTitle(), byId.getTitle());
         verify(criterionDAOImpl).findById(1L);
     }
+
     @Test
     void testSaveCriterionDTO() {
 

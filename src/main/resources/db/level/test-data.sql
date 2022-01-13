@@ -1,4 +1,4 @@
-MERGE INTO levels (level_id, criterion_id, title, description, mark)
-VALUES (1, 2, 'Pythagorean theorem', 'Write example', 4);
-MERGE INTO levels (level_id, criterion_id, title, description, mark)
-VALUES (2, 3, 'Farm theorem', 'Write example', 5);
+MERGE INTO levels (level_id,  title, description, criterion_id, mark)
+VALUES (1, 'Pythagorean theorem', 'Write example', 3, 4);
+MERGE INTO levels (level_id, title, description, criterion_id, mark)
+VALUES (2, 'Farm theorem', 'Write example', 4, 5);

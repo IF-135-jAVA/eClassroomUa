@@ -18,33 +18,34 @@ class CriterionDaoImplTest {
     private static final long CRITERION_ID = 3;
     private static final String TITLE = "Using wright formula";
     private static final String DESCRIPTION = "Using wright formula";
-    private static final Long MATERIALID = 1L;
+    private static final Long MATERIAL_ID = 1L;
 
     @Autowired
     private CriterionDao criterionDao;
 
 
     @Test
-     void testSaveAndGet(){
-        Criterion expectedCriterion = Criterion.builder()
+    void testSaveAndGet() {
+        Criterion criterionForSave = Criterion.builder()
                 .criterionId(CRITERION_ID)
-                .materialId(MATERIALID)
+                .materialId(MATERIAL_ID)
                 .title(TITLE)
                 .description(DESCRIPTION)
                 .build();
-        criterionDao.save(expectedCriterion);
+        criterionDao.save(criterionForSave);
 
         Criterion byId = criterionDao.findById(CRITERION_ID);
         assertNotNull(byId);
         assertEquals(TITLE, byId.getTitle());
-        assertEquals(DESCRIPTION,byId.getDescription());
-        assertEquals(MATERIALID, byId.getMaterialId());
+        assertEquals(DESCRIPTION, byId.getDescription());
+        assertEquals(MATERIAL_ID, byId.getMaterialId());
     }
+
     @Test
-    void testfindAll(){
+    void testfindAll() {
         Criterion criterionForSave = Criterion.builder()
                 .criterionId(4L)
-                .materialId(MATERIALID)
+                .materialId(MATERIAL_ID)
                 .title(TITLE)
                 .description(DESCRIPTION)
                 .build();
@@ -54,14 +55,15 @@ class CriterionDaoImplTest {
         List<Criterion> expectedCriterions = criterionDao.findAll();
 
         assertEquals(4, expectedCriterions.size());
-        Criterion expectedCriterion = expectedCriterions.stream().filter(criterion -> criterion.getCriterionId()==3L).findFirst().orElse(null);
+        Criterion expectedCriterion = expectedCriterions.stream().filter(criterion -> criterion.getCriterionId() == 3L).findFirst().orElse(null);
         assertNotNull(expectedCriterion);
         assertEquals(TITLE, expectedCriterion.getTitle());
-        assertEquals(DESCRIPTION,expectedCriterion.getDescription());
-        assertEquals(MATERIALID, expectedCriterion.getMaterialId());
+        assertEquals(DESCRIPTION, expectedCriterion.getDescription());
+        assertEquals(MATERIAL_ID, expectedCriterion.getMaterialId());
     }
+
     @Test
-    void testUpdate(){
+    void testUpdate() {
         Criterion criterionForSave = Criterion.builder()
                 .criterionId(1L)
                 .materialId(5L)
@@ -70,15 +72,12 @@ class CriterionDaoImplTest {
                 .build();
         criterionDao.update(criterionForSave);
 
-        Criterion byId = criterionDao.findById(1L);
-        assertNotNull(byId);
-        assertEquals("test title", byId.getTitle());
-        assertEquals("test description", byId.getDescription());
-        assertEquals(5, byId.getMaterialId());
+        Criterion updatedCriterion = criterionDao.findById(1L);
+        assertNotNull(updatedCriterion);
+        assertEquals("test title", updatedCriterion.getTitle());
+        assertEquals("test description", updatedCriterion.getDescription());
+        assertEquals(5, updatedCriterion.getMaterialId());
     }
-
-
-
 
 
 }
