@@ -105,5 +105,4 @@ class AnnouncementControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
         verify(announcementService).readById(0);
     }
-
 }
