@@ -24,5 +24,7 @@ public class User {
     private boolean enabled;
     
     private String provider;
+    
+    private String providerId;
 
 }
