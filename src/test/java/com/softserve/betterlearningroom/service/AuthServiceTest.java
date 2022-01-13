@@ -8,6 +8,8 @@ import com.softserve.betterlearningroom.entity.request.SaveUserRequest;
 import com.softserve.betterlearningroom.entity.roles.Roles;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
 import com.softserve.betterlearningroom.mapper.UserMapper;
+import com.softserve.betterlearningroom.service.impl.AuthServiceImpl;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,14 +40,14 @@ class AuthServiceTest {
     private JwtProvider jwtProvider;
     
     private PasswordEncoder passwordEncoder;  
-    private DefaultAuthService authService;
+    private AuthServiceImpl authService;
     private UserMapper userMapper;
     
     @BeforeEach
     void setUp() {
         userMapper = new UserMapper();
         passwordEncoder = new BCryptPasswordEncoder();
-        authService = new DefaultAuthService(jwtProvider, userMapper, userDao, passwordEncoder);
+        authService = new AuthServiceImpl(jwtProvider, userMapper, userDao, passwordEncoder);
     }
     
     @Test
@@ -79,7 +81,7 @@ class AuthServiceTest {
     @Test
     void whenRegisterUser_ThenReturnRegisteredUser() throws UserAlreadyExistsException {
         User user  = getUser();
-        user.setId(0);
+        user.setId(0L);
         given(userDao.save(any(User.class))).willReturn(user);
         given(userDao.findByEmail(anyString())).willReturn(Optional.empty());
         SaveUserRequest request = getRequest();
@@ -104,7 +106,7 @@ class AuthServiceTest {
     
     private User getUser() {
         User user = User.builder()
-                                  .id(1)
+                                  .id(1L)
                                   .email("jdoe@gmail.com")
                                   .firstName("John")
                                   .lastName("Doe")
