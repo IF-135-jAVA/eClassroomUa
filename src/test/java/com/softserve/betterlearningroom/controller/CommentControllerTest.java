@@ -6,7 +6,6 @@ import com.softserve.betterlearningroom.configuration.jwt.JwtProvider;
 import com.softserve.betterlearningroom.dao.impl.CommentDAOImpl;
 import com.softserve.betterlearningroom.dao.impl.UserDAOImpl;
 import com.softserve.betterlearningroom.dto.CommentDTO;
-//import com.softserve.betterlearningroom.service.CustomUserDetailsService;
 import com.softserve.betterlearningroom.service.impl.CommentServiceImpl;
 import com.softserve.betterlearningroom.service.impl.CustomUserDetailsService;
 import org.junit.jupiter.api.Test;

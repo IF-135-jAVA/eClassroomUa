@@ -2,7 +2,7 @@ package com.softserve.betterlearningroom.controller;
 
 
 import com.softserve.betterlearningroom.dto.CommentDTO;
-import com.softserve.betterlearningroom.service.impl.CommentServiceImpl;
+import com.softserve.betterlearningroom.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ import java.util.List;
 @RequestMapping("/api")
 
 public class CommentController {
-    private CommentServiceImpl commentService;
+    private CommentService commentService;
 
     @GetMapping("/comments/{id}")
     public ResponseEntity<CommentDTO> readByIdComments(@PathVariable long id) {

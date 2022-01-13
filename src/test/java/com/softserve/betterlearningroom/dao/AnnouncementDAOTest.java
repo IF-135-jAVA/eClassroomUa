@@ -6,7 +6,6 @@ import com.softserve.betterlearningroom.entity.Announcement;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.annotation.Order;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +20,12 @@ class AnnouncementDAOTest {
     @Autowired
     private AnnouncementDAO announcementDAO;
 
-    @Order(1)
     @Test
     void readByIdAnnouncementTest() {
         Announcement announcement = prepareAnnouncementDTO();
         assertEquals((announcement), announcementDAO.readById(1));
     }
 
-    @Order(2)
     @Test
     void readByCourseIdAnnouncementTest() {
         List<Announcement> announcementList = new ArrayList<>();
