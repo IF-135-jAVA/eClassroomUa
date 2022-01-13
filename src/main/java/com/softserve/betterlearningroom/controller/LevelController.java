@@ -2,7 +2,7 @@ package com.softserve.betterlearningroom.controller;
 
 
 import com.softserve.betterlearningroom.dto.LevelDTO;
-import com.softserve.betterlearningroom.service.impl.LevelService;
+import com.softserve.betterlearningroom.service.impl.LevelServiceImpl;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,14 +17,14 @@ import java.util.List;
 public class LevelController {
 
     @Autowired
-    private LevelService levelService;
+    private LevelServiceImpl levelServiceImpl;
     /**
      * get all exist level
      */
     //@ApiOperation("Get list og levels")
     @GetMapping
     public ResponseEntity<List<LevelDTO>> getAll() {
-        List<LevelDTO> level = levelService.findAll();
+        List<LevelDTO> level = levelServiceImpl.findAll();
         return ResponseEntity.ok().body(level);
     }
     /**
@@ -32,7 +32,7 @@ public class LevelController {
      */
     @GetMapping("/deleted/{deleted}")
     public ResponseEntity<List<LevelDTO>> getAllDeleted(@PathVariable String deleted) {
-        List<LevelDTO> level = levelService.findAllDeleted();
+        List<LevelDTO> level = levelServiceImpl.findAllDeleted();
         return ResponseEntity.ok().body(level);
     }
     /**
@@ -40,8 +40,8 @@ public class LevelController {
      */
    // @ApiOperation("Find level by id")
     @GetMapping("/{id}")
-    public ResponseEntity<LevelDTO> getById(@PathVariable(value = "id") final Integer levelId) {
-        LevelDTO levelDTO = levelService.findById(levelId);
+    public ResponseEntity<LevelDTO> getById(@PathVariable(value = "id") final Long levelId) {
+        LevelDTO levelDTO = levelServiceImpl.findById(levelId);
         return ResponseEntity.ok().body(levelDTO);
     }
     /**
@@ -51,7 +51,7 @@ public class LevelController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> createLevel(@Valid @RequestBody LevelDTO levelDTO) {
-        levelService.save(levelDTO);
+        levelServiceImpl.save(levelDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     /**
@@ -61,7 +61,7 @@ public class LevelController {
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> update(@RequestBody final LevelDTO levelDTO) {
-        levelService.update(levelDTO);
+        levelServiceImpl.update(levelDTO);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
     /**
@@ -69,9 +69,9 @@ public class LevelController {
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable final int id) {
+    public void delete(@PathVariable final Long id) {
 
-        levelService.removeById(id);
+        levelServiceImpl.removeById(id);
     }
 
 }

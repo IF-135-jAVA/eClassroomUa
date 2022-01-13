@@ -16,6 +16,6 @@ public interface CriterionDao {
 
     void removeById(Long id);
 
-    void removeAll();
+
 
 }

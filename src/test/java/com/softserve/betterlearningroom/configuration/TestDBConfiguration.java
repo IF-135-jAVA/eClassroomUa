@@ -17,6 +17,10 @@ public class TestDBConfiguration {
                 .setType(EmbeddedDatabaseType.H2)
                 .addScript("classpath:/db/criterion/schema.sql")
                 .addScript("classpath:/db/criterion/test-data.sql")
+				.addScript("classpath:/db/level/schema.sql")
+                .addScript("classpath:/db/level/test-data.sql")
+				.addScript("classpath:/db/topic/schema.sql")
+                .addScript("classpath:/db/topic/test-data.sql")
                 .build();
 
         return dataSource;

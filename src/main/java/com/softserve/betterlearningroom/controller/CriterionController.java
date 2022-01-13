@@ -1,7 +1,7 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.CriterionDTO;
-import com.softserve.betterlearningroom.service.impl.CriterionService;
+import com.softserve.betterlearningroom.service.impl.CriterionServiceImpl;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import java.util.List;
 public class CriterionController {
 
     @Autowired
-    private CriterionService criterionService;
+    private CriterionServiceImpl criterionService;
 
     /**
      * get all criterion

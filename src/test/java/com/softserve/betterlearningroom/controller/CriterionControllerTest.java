@@ -2,7 +2,7 @@ package com.softserve.betterlearningroom.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.softserve.betterlearningroom.dto.CriterionDTO;
-import com.softserve.betterlearningroom.service.impl.CriterionService;
+import com.softserve.betterlearningroom.service.impl.CriterionServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -39,13 +39,13 @@ class CriterionControllerTest {
     @Autowired
     public MockMvc mockMvc;
     @MockBean
-    private CriterionService criterionService;
+    private CriterionServiceImpl criterionServiceImpl;
     private ObjectMapper objectMapper = new ObjectMapper();
 
     private CriterionDTO expectedCriterionDTO(){
         return CriterionDTO.builder()
-                .id(1)
-                .materialIdDTO(2)
+                .id(1L)
+                .materialIdDTO(2L)
                 .title("Use formula")
                 .description("Using wright formula")
                 .build();
@@ -53,7 +53,7 @@ class CriterionControllerTest {
 
     @Test
     void testGetById() throws Exception {
-       when(criterionService.findById(1L)).thenReturn(expectedCriterionDTO());
+       when(criterionServiceImpl.findById(1L)).thenReturn(expectedCriterionDTO());
 
         MvcResult mvcResult =  mockMvc.perform(get("/api/classrooms/1/topics/1/materials/2/criterions/1")
                .contentType(MediaType.APPLICATION_JSON))
@@ -66,7 +66,7 @@ class CriterionControllerTest {
     void testSave() throws Exception{
         CriterionDTO criterionDTO = expectedCriterionDTO();
 
-        when(criterionService.save(criterionDTO)).thenReturn(expectedCriterionDTO());
+        when(criterionServiceImpl.save(criterionDTO)).thenReturn(expectedCriterionDTO());
         MvcResult mvcResult = mockMvc.perform(post("/api/classrooms/1/topics/1/materials/2/criterions")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(criterionDTO)))
@@ -81,7 +81,7 @@ class CriterionControllerTest {
     void testPut() throws Exception {
         CriterionDTO criterionDTO = expectedCriterionDTO();
 
-        when(criterionService.update(criterionDTO)).thenReturn(expectedCriterionDTO());
+        when(criterionServiceImpl.update(criterionDTO)).thenReturn(expectedCriterionDTO());
         MvcResult mvcResult = mockMvc.perform(put("/api/classrooms/1/topics/1/materials/2/criterions")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(criterionDTO)))

@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 class CriterionServiceTest {
 
     @InjectMocks
-    private CriterionService criterionService;
+    private CriterionServiceImpl criterionService;
 
     @Mock
     private CriterionDaoImpl criterionDAOImpl;
@@ -37,14 +37,14 @@ class CriterionServiceTest {
     @BeforeEach
     void setUp() {
         expectedCriterionDTO = CriterionDTO.builder()
-                .id(1)
-                .materialIdDTO(2)
+                .id(1L)
+                .materialIdDTO(2L)
                 .title("Using formula")
                 .description("Using wright formula")
                 .build();
         expectedCriterion = Criterion.builder()
-                .criterionId(1)
-                .materialId(2)
+                .criterionId(1L)
+                .materialId(2L)
                 .title("Using formula")
                 .description("Using wright formula")
                 .build();

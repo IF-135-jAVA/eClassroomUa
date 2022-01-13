@@ -18,13 +18,13 @@ import java.util.List;
 public class Criterion {
 
 
-    private int criterionId;
+    private Long criterionId;
 
     private String title;
 
     private String description;
 
-    private Integer materialId;
+    private Long materialId;
 
     private List<Level> levels;
    

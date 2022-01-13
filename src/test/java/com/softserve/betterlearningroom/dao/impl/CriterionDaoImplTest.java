@@ -18,7 +18,7 @@ class CriterionDaoImplTest {
     private static final long CRITERION_ID = 3;
     private static final String TITLE = "Using wright formula";
     private static final String DESCRIPTION = "Using wright formula";
-    private static final int MATERIALID = 1;
+    private static final Long MATERIALID = 1L;
 
     @Autowired
     private CriterionDao criterionDao;
@@ -27,7 +27,7 @@ class CriterionDaoImplTest {
     @Test
      void testSaveAndGet(){
         Criterion expectedCriterion = Criterion.builder()
-                .criterionId((int)CRITERION_ID)
+                .criterionId(CRITERION_ID)
                 .materialId(MATERIALID)
                 .title(TITLE)
                 .description(DESCRIPTION)
@@ -43,7 +43,7 @@ class CriterionDaoImplTest {
     @Test
     void testfindAll(){
         Criterion criterionForSave = Criterion.builder()
-                .criterionId((int)CRITERION_ID)
+                .criterionId(4L)
                 .materialId(MATERIALID)
                 .title(TITLE)
                 .description(DESCRIPTION)
@@ -53,7 +53,7 @@ class CriterionDaoImplTest {
 
         List<Criterion> expectedCriterions = criterionDao.findAll();
 
-        assertEquals(3, expectedCriterions.size());
+        assertEquals(4, expectedCriterions.size());
         Criterion expectedCriterion = expectedCriterions.stream().filter(criterion -> criterion.getCriterionId()==3L).findFirst().orElse(null);
         assertNotNull(expectedCriterion);
         assertEquals(TITLE, expectedCriterion.getTitle());
@@ -63,8 +63,8 @@ class CriterionDaoImplTest {
     @Test
     void testUpdate(){
         Criterion criterionForSave = Criterion.builder()
-                .criterionId(1)
-                .materialId(5)
+                .criterionId(1L)
+                .materialId(5L)
                 .title("test title")
                 .description("test description")
                 .build();

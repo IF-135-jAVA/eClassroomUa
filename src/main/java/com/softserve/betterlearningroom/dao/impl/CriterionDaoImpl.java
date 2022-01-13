@@ -79,13 +79,7 @@ public class CriterionDaoImpl implements CriterionDao {
         SqlParameterSource parameterSource = new MapSqlParameterSource("criterion_id", id);
         jdbcTemplate.update(removeByIdQuery, parameterSource);
     }
-    @Override
-    public void removeAll() {
-        jdbcTemplate.query(removeAllQuery,
-                BeanPropertyRowMapper.newInstance(Criterion.class));
 
-
-    }
 
 
     public Optional<List<Criterion>> findByTitle(String title) {

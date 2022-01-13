@@ -1,7 +1,7 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.TopicDTO;
-import com.softserve.betterlearningroom.service.impl.TopicService;
+import com.softserve.betterlearningroom.service.impl.TopicServiceImpl;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,14 +17,14 @@ import java.util.List;
 public class TopicController {
 
     @Autowired
-    private TopicService topicService;
+    private TopicServiceImpl topicServiceImpl;
 
     /**
      * get all topic
      */
     @GetMapping
     public ResponseEntity<List<TopicDTO>> getAll() {
-        List<TopicDTO> topic = topicService.findAll();
+        List<TopicDTO> topic = topicServiceImpl.findAll();
         return ResponseEntity.ok().body(topic);
     }
     /**
@@ -32,8 +32,8 @@ public class TopicController {
      * get topic by id
      */
     @GetMapping("/{id}")
-    public ResponseEntity<TopicDTO> getById(@PathVariable Integer id) {
-        TopicDTO topicDTO = topicService.findById(id);
+    public ResponseEntity<TopicDTO> getById(@PathVariable Long id) {
+        TopicDTO topicDTO = topicServiceImpl.findById(id);
         return ResponseEntity.ok().body(topicDTO);
     }
     /**
@@ -43,7 +43,7 @@ public class TopicController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> createTopic(@Valid @RequestBody TopicDTO topicDTO) {
-        topicService.save(topicDTO);
+        topicServiceImpl.save(topicDTO);
        return new ResponseEntity<>(HttpStatus.CREATED);
     }
     /**
@@ -52,7 +52,7 @@ public class TopicController {
     @PutMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> update(@RequestBody final TopicDTO topicDTO) {
-        topicService.update(topicDTO);
+        topicServiceImpl.update(topicDTO);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
     /**
@@ -61,8 +61,8 @@ public class TopicController {
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable final int id) {
+    public void delete(@PathVariable final Long id) {
 
-        topicService.removeById(id);
+        topicServiceImpl.removeById(id);
     }
 }
