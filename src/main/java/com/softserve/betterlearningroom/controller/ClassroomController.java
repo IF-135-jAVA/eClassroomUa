@@ -1,7 +1,9 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.ClassroomDTO;
+
 import java.util.List;
+
 import com.softserve.betterlearningroom.dto.UserDTO;
 import com.softserve.betterlearningroom.service.ClassroomService;
 import lombok.AllArgsConstructor;
@@ -17,8 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
-
 @RestController
 @RequestMapping("/api/classrooms")
 @AllArgsConstructor
@@ -27,7 +27,7 @@ public class ClassroomController {
     private ClassroomService classroomService;
 
     @GetMapping("/{classroomId}")
-    public ResponseEntity<ClassroomDTO> getClassroomById(@PathVariable Long classroomId){
+    public ResponseEntity<ClassroomDTO> getClassroomById(@PathVariable Long classroomId) {
         return ResponseEntity.ok().body(classroomService.getClassroomById(classroomId));
     }
 
@@ -58,24 +58,24 @@ public class ClassroomController {
 
     @GetMapping("/asStudent")
     @ResponseBody
-    public ResponseEntity<ClassroomDTO> joinClassroomAsStudent(@RequestParam(value = "code", required = true) String code, @RequestParam(value = "userId", required = true) Long userId){
+    public ResponseEntity<ClassroomDTO> joinClassroomAsStudent(@RequestParam(value = "code", required = true) String code, @RequestParam(value = "userId", required = true) Long userId) {
         return ResponseEntity.ok().body(classroomService.joinClassroomAsStudent(code, userId));
     }
 
     @GetMapping("/asTeacher")
     @ResponseBody
-    public ResponseEntity<ClassroomDTO> joinClassroomAsTeacher(@RequestParam(value = "code", required = true) String code, @RequestParam(value = "userId", required = true) Long userId){
+    public ResponseEntity<ClassroomDTO> joinClassroomAsTeacher(@RequestParam(value = "code", required = true) String code, @RequestParam(value = "userId", required = true) Long userId) {
         return ResponseEntity.ok().body(classroomService.joinClassroomAsTeacher(code, userId));
     }
 
     @PostMapping()
-    public ResponseEntity<?> createClassroom(@RequestBody ClassroomDTO classroomDTO){
+    public ResponseEntity<?> createClassroom(@RequestBody ClassroomDTO classroomDTO) {
         classroomService.createClassroom(classroomDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{classroomId}")
-    public ResponseEntity<?> removeClassroom(@PathVariable Long classroomId){
+    public ResponseEntity<?> removeClassroom(@PathVariable Long classroomId) {
         classroomService.removeClassroomById(classroomId);
         return ResponseEntity.ok().build();
     }

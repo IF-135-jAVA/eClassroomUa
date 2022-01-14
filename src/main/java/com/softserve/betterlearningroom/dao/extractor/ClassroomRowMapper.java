@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Component
-public class ClassroomRowMapper implements RowMapper<Classroom>{
+public class ClassroomRowMapper implements RowMapper<Classroom> {
 
     @Override
     public Classroom mapRow(ResultSet rs, int rowNum) throws SQLException {

@@ -1,4 +1,4 @@
-package com.softserve.betterlearningroom.service;
+package com.softserve.betterlearningroom.service.impl;
 
 import com.softserve.betterlearningroom.dao.UserDAO;
 import com.softserve.betterlearningroom.entity.CustomUserDetails;
