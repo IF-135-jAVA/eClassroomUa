@@ -1,6 +1,7 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.exception.APIException;
+import com.softserve.betterlearningroom.exception.SubmissionNotAllowedException;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DataRetrievalFailureException;
@@ -103,6 +104,16 @@ public class RESTExceptionHandler extends ResponseEntityExceptionHandler {
         details.add(ex.getMessage());
 
         APIException apiException = new APIException("Constraint Violations.", HttpStatus.BAD_REQUEST,
+                LocalDateTime.now(), details);
+        return new ResponseEntity<>(apiException, apiException.getHttpStatus());
+    }
+
+    @ExceptionHandler(SubmissionNotAllowedException.class)
+    public ResponseEntity<?> handleSubmissionNotAllowedException(SubmissionNotAllowedException ex) {
+        List<String> details = new ArrayList<String>();
+        details.add(ex.getMessage());
+
+        APIException apiException = new APIException("Submission is not allowed.", HttpStatus.BAD_REQUEST,
                 LocalDateTime.now(), details);
         return new ResponseEntity<>(apiException, apiException.getHttpStatus());
     }
