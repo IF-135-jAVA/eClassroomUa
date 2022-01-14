@@ -1,8 +1,8 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.CriterionDTO;
-import com.softserve.betterlearningroom.entity.Criterion;
-import com.softserve.betterlearningroom.service.impl.CriterionService;
+import com.softserve.betterlearningroom.service.impl.CriterionServiceImpl;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@SecurityRequirement(name = "bearerAuth")
 @RestController
-@RequestMapping("/api/classrooms/topics/materials/criterion")
+@RequestMapping("/api/classrooms/{classroomId}/topics/{topicId}/materials/{materialId}/criterions")
+
 public class CriterionController {
 
     @Autowired
-    private CriterionService criterionService;
+    private CriterionServiceImpl criterionService;
 
     /**
      * get all criterion
@@ -31,9 +33,9 @@ public class CriterionController {
      * get criterion by id
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Criterion> getById(@PathVariable(value = "id") final Integer criterionId) {
-        Criterion criterion = criterionService.findById(criterionId);
-        return ResponseEntity.ok().body(criterion);
+    public ResponseEntity<CriterionDTO> getById(@PathVariable(value = "id") final Long criterionId) {
+        CriterionDTO criterionDTO = criterionService.findById(criterionId);
+        return ResponseEntity.ok().body(criterionDTO);
     }
 
     /**
@@ -41,9 +43,9 @@ public class CriterionController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> create(@Valid @RequestBody CriterionDTO criterionDTO) {
-        criterionService.save(criterionDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<CriterionDTO> create(@Valid @RequestBody CriterionDTO criterionDTO) {
+
+        return new ResponseEntity<>(criterionService.save(criterionDTO), HttpStatus.CREATED);
     }
 
     /**
@@ -52,8 +54,8 @@ public class CriterionController {
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> update(@RequestBody final CriterionDTO criterionDTO) {
-        criterionService.update(criterionDTO);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+
+        return new ResponseEntity<>(criterionService.update(criterionDTO), HttpStatus.ACCEPTED);
     }
 
     /**
@@ -61,7 +63,8 @@ public class CriterionController {
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable final int id) {
+    public void delete(@PathVariable final Long id) {
+
         criterionService.removeById(id);
     }
 

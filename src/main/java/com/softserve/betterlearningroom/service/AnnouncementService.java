@@ -1,47 +1,18 @@
 package com.softserve.betterlearningroom.service;
 
-import com.softserve.betterlearningroom.dao.AnnouncementDAO;
 import com.softserve.betterlearningroom.dto.AnnouncementDTO;
-import com.softserve.betterlearningroom.entity.Announcement;
-import com.softserve.betterlearningroom.mapper.AnnouncementMapper;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
+
+
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Service
-@AllArgsConstructor
-public class AnnouncementService {
-    private AnnouncementDAO announcementDAO;
-    private AnnouncementMapper announcementMapper;
+public interface AnnouncementService {
+    AnnouncementDTO create(AnnouncementDTO announcementDTO);
 
-    public void create(AnnouncementDTO announcementDTO) {
-        announcementDAO.create(announcementMapper.announcementDTOToAnnouncement(announcementDTO));
-    }
+    List<AnnouncementDTO> readByCourseId(long courseId);
 
-    public List<AnnouncementDTO> readAll() {
-        return announcementDAO.readAll().stream()
-                .map(AnnouncementMapper::announcementToAnnouncementDTO)
-                .collect(Collectors.toList());
-    }
+    AnnouncementDTO readById(long id);
 
-    public AnnouncementDTO readById(long id) {
-        List<Announcement> result = announcementDAO.readById(id);
-        return result.isEmpty() ? null : announcementMapper.announcementToAnnouncementDTO(result.get(0));
-    }
+    AnnouncementDTO update(AnnouncementDTO announcementDTO, long id);
 
-    public void update(AnnouncementDTO announcementDTO, long id) {
-        AnnouncementDTO oldAnnouncementDTO = readById(id);
-        if (oldAnnouncementDTO != null) {
-            oldAnnouncementDTO.setText(announcementDTO.getText());
-            announcementDAO.update(announcementMapper.announcementDTOToAnnouncement(oldAnnouncementDTO));
-        }
-    }
-
-    public void delete(long id) {
-        AnnouncementDTO announcementDTO = readById(id);
-        announcementDAO.delete(announcementDTO.getId());
-    }
-
+    void delete(long id);
 }
-

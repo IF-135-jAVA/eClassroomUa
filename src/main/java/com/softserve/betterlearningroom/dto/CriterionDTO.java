@@ -18,7 +18,7 @@ public class CriterionDTO {
     /**
      * Criterion identifier.
      */
-    private Integer id;
+    private Long id;
     /**
      * Name of criterion.
      */
@@ -30,7 +30,6 @@ public class CriterionDTO {
     /**
      * Material indetifier.
      */
-    private Integer materialIdDTO;
-
+    private Long materialIdDTO;
 
 }
