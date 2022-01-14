@@ -2,8 +2,8 @@ package com.softserve.betterlearningroom.controller;
 
 
 import com.softserve.betterlearningroom.dto.LevelDTO;
-import com.softserve.betterlearningroom.entity.Level;
-import com.softserve.betterlearningroom.service.impl.LevelService;
+import com.softserve.betterlearningroom.service.impl.LevelServiceImpl;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,55 +12,72 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@SecurityRequirement(name = "bearerAuth")
 @RestController
-@RequestMapping("/api/classrooms/topics/materials/level/")
+@RequestMapping("/api/classrooms/{classroomId}/topics/{topicId}/materials/{materialId}/criterions/{criterionId}/level")
 public class LevelController {
 
     @Autowired
-    private LevelService levelService;
+    private LevelServiceImpl levelServiceImpl;
 
     /**
-     * get all level
+     * get all exist level
      */
     @GetMapping
     public ResponseEntity<List<LevelDTO>> getAll() {
-        List<LevelDTO> level = levelService.findAll();
+        List<LevelDTO> level = levelServiceImpl.findAll();
         return ResponseEntity.ok().body(level);
     }
+
+    /**
+     * get deleted levels
+     */
+    @GetMapping("/deleted/{deleted}")
+    public ResponseEntity<List<LevelDTO>> getAllDeleted(@PathVariable String deleted) {
+        List<LevelDTO> level = levelServiceImpl.findAllDeleted();
+        return ResponseEntity.ok().body(level);
+    }
+
     /**
      * get level by id
      */
+    // @ApiOperation("Find level by id")
     @GetMapping("/{id}")
-    public ResponseEntity<Level> getById(@PathVariable(value = "id") final Integer levelId) {
-        Level level = levelService.findById(levelId);
-        return ResponseEntity.ok().body(level);
+    public ResponseEntity<LevelDTO> getById(@PathVariable(value = "id") final Long levelId) {
+        LevelDTO levelDTO = levelServiceImpl.findById(levelId);
+        return ResponseEntity.ok().body(levelDTO);
     }
+
     /**
      * create level
      */
+    // @ApiOperation("Create level")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> createLevel(@Valid @RequestBody LevelDTO levelDTO) {
-        levelService.save(levelDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<LevelDTO> createLevel(@Valid @RequestBody LevelDTO levelDTO) {
+
+        return new ResponseEntity<>(levelServiceImpl.save(levelDTO), HttpStatus.CREATED);
     }
+
     /**
      * update table by id
      */
+
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> update(@RequestBody final LevelDTO levelDTO) {
-        levelService.update(levelDTO);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+
+        return new ResponseEntity<>(levelServiceImpl.update(levelDTO), HttpStatus.ACCEPTED);
     }
+
     /**
      * delete by id
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable final int id) {
+    public void delete(@PathVariable final Long id) {
 
-        levelService.removeById(id);
+        levelServiceImpl.removeById(id);
     }
 
 }
