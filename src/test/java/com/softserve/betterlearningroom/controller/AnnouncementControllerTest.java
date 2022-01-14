@@ -1,7 +1,7 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.softserve.betterlearningroom.configuration.TestDBConfiguration1;
+import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
 import com.softserve.betterlearningroom.configuration.jwt.JwtProvider;
 import com.softserve.betterlearningroom.dao.impl.AnnouncementDAOImpl;
 import com.softserve.betterlearningroom.dao.impl.UserDAOImpl;
@@ -15,6 +15,8 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.http.MediaType;
@@ -36,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = AnnouncementController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
 @AutoConfigureMockMvc(addFilters = false)
-@Import(value = {CustomUserDetailsService.class, UserDAOImpl.class, AnnouncementDAOImpl.class, TestDBConfiguration1.class, JwtProvider.class})
+@Import(value = {CustomUserDetailsService.class, UserDAOImpl.class, AnnouncementDAOImpl.class, TestDBConfiguration.class, JwtProvider.class})
 class AnnouncementControllerTest {
     @Autowired
     private MockMvc mvc;

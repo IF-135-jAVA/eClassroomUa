@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Topic {
 
-    private Integer topic_id;
+    private Long topicId;
 
     private String title;
 
-    private Integer classroom_id;
+    private Long classroomId;
 
 }

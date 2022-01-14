@@ -18,7 +18,7 @@ public class LevelDTO {
     /**
      * Level identifier.
      */
-    private Integer id;
+    private Long id;
     /**
      * Name of level.
      */
@@ -30,7 +30,7 @@ public class LevelDTO {
     /**
      * Criterion identifier.
      */
-    private Integer criterionId;
+    private Long criterionId;
     /**
      * Mark for level.
      */
