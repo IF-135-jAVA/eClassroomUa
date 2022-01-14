@@ -5,6 +5,7 @@ import com.softserve.betterlearningroom.service.AnnouncementService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.web.servlet.SecurityMarker;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
+//@SecurityRequirement(name = "bearerAuth")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/classrooms/{classroomId}/announcements")
@@ -23,33 +25,32 @@ public class AnnouncementController {
     private AnnouncementService announcementService;
 
     @PostMapping
-    public ResponseEntity<AnnouncementDTO> create(@RequestBody AnnouncementDTO announcementDTO) {
-        announcementService.create(announcementDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<AnnouncementDTO> create(@RequestBody AnnouncementDTO announcementDTO, @PathVariable long classroomId) {
+        announcementDTO.setCourseId(classroomId);
+        return new ResponseEntity<>(announcementService.create(announcementDTO), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<AnnouncementDTO>> readAll() {
-        List<AnnouncementDTO> announcements = announcementService.readAll();
-        return new ResponseEntity<>(announcements, HttpStatus.OK);
+    public ResponseEntity<List<AnnouncementDTO>> readByCourseId(@PathVariable long classroomId) {
+        return ResponseEntity.ok(announcementService.readByCourseId(classroomId));
     }
+
     @GetMapping("{id}")
     public ResponseEntity<AnnouncementDTO> readById(@PathVariable long id) {
-        AnnouncementDTO result = announcementService.readById(id);
-        if (result == null) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(result);
-    }
-    @PutMapping("{id}")
-    public ResponseEntity<AnnouncementDTO> update(@PathVariable long id, @RequestBody AnnouncementDTO announcementDTO) {
-        if (announcementService.readById(id) == null) return ResponseEntity.notFound().build();
-        announcementService.update(announcementDTO, id);
         return ResponseEntity.ok(announcementService.readById(id));
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity<AnnouncementDTO> update(@PathVariable long id, @RequestBody AnnouncementDTO announcementDTO) {
+        return ResponseEntity.ok(announcementService.update(announcementDTO, id));
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<AnnouncementDTO> delete(@PathVariable long id) {
         announcementService.delete(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
+
 }
 
 
