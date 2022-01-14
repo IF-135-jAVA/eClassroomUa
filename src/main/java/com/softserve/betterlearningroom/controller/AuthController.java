@@ -1,14 +1,13 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.UserDTO;
-import com.softserve.betterlearningroom.entity.request.AuthRequest;
-import com.softserve.betterlearningroom.entity.request.SaveUserRequest;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
+import com.softserve.betterlearningroom.payload.AuthRequest;
+import com.softserve.betterlearningroom.payload.AuthResponse;
+import com.softserve.betterlearningroom.payload.SaveUserRequest;
 import com.softserve.betterlearningroom.service.AuthService;
 import com.softserve.betterlearningroom.service.UserService;
 import lombok.AllArgsConstructor;
-
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,13 +31,13 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<UserDTO> login(@RequestBody AuthRequest request, @RequestParam String role) {
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request, @RequestParam String role) {
         String token = authService.login(request, role);
         UserDTO user = userService.findByEmail(request.getLogin());
-        return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, "Bearer " + token).body(user);
+        return ResponseEntity.ok().body(new AuthResponse(token, user));
     }
 
-    @PostMapping("/registration")
+    @PostMapping("/signup")
     public ResponseEntity<UserDTO> registration(@RequestBody @Valid SaveUserRequest request) {
         try {
             UserDTO savedUser = authService.saveUser(request);

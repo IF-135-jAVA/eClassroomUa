@@ -1,6 +1,9 @@
-package com.softserve.betterlearningroom.configuration.security;
+package com.softserve.betterlearningroom.configuration;
 
 import com.softserve.betterlearningroom.configuration.jwt.JwtFilter;
+import com.softserve.betterlearningroom.security.HttpCookieOAuth2AuthorizationRequestRepository;
+import com.softserve.betterlearningroom.security.oauth2.handler.OAuth2AuthenticationFailureHandler;
+import com.softserve.betterlearningroom.security.oauth2.handler.OAuth2AuthenticationSuccessHandler;
 import com.softserve.betterlearningroom.service.impl.CustomOAuth2UserService;
 import com.softserve.betterlearningroom.service.impl.CustomUserDetailsService;
 
@@ -31,14 +34,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     
     private final JwtFilter jwtFilter;
     
-    private CustomOAuth2UserService customOAuth2UserService;
+    private final CustomOAuth2UserService customOAuth2UserService;
     
-    private HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
+    private final OAuth2AuthenticationSuccessHandler successHandler;
     
-    @Bean
-    public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
-        return new HttpCookieOAuth2AuthorizationRequestRepository();
-    }
+    private final OAuth2AuthenticationFailureHandler failureHandler;
+    
+    private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -60,19 +62,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
                 .authorizeRequests()
-                    .antMatchers("/api/auth/login", "/api/auth/registration").permitAll()
+                    .antMatchers("/api/auth/login", "/api/auth/registration", "/", "/oauth2/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
                 .oauth2Login()
                     .authorizationEndpoint()
                         .baseUri("/oauth2/authorize")
-                        .authorizationRequestRepository(cookieAuthorizationRequestRepository())
+                        .authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository)
                         .and()
                     .redirectionEndpoint()
-                        .baseUri("/oauth2/callback/*")
-                        
-                .and()
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                        .baseUri("/oauth2/callback/*")        
+                        .and()
+                    .userInfoEndpoint()
+                        .userService(customOAuth2UserService)
+                        .and()
+                    .successHandler(successHandler)
+                    .failureHandler(failureHandler)
+                    .and()
+                    .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

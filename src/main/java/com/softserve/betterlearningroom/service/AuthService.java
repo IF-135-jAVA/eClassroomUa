@@ -1,9 +1,9 @@
 package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.dto.UserDTO;
-import com.softserve.betterlearningroom.entity.request.AuthRequest;
-import com.softserve.betterlearningroom.entity.request.SaveUserRequest;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
+import com.softserve.betterlearningroom.payload.AuthRequest;
+import com.softserve.betterlearningroom.payload.SaveUserRequest;
 
 public interface AuthService {
 

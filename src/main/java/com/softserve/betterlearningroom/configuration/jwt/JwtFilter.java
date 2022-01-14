@@ -1,12 +1,11 @@
 package com.softserve.betterlearningroom.configuration.jwt;
 
-import com.softserve.betterlearningroom.entity.CustomUserDetails;
 import com.softserve.betterlearningroom.entity.roles.Roles;
 import com.softserve.betterlearningroom.service.impl.CustomUserDetailsService;
-
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -36,7 +35,7 @@ public class JwtFilter extends GenericFilterBean {
             if (jwtProvider.validateToken(token)) {
                 String userLogin = jwtProvider.getLogin(token);
                 Roles role = Roles.valueOf(jwtProvider.getRole(token));
-                CustomUserDetails customUserDetails = userDetailsService.loadUserByUsername(userLogin);
+                UserDetails customUserDetails = userDetailsService.loadUserByUsername(userLogin);
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(customUserDetails,
                         null, role.getGrantedAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(auth);
