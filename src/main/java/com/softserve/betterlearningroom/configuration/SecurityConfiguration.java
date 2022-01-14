@@ -1,7 +1,8 @@
 package com.softserve.betterlearningroom.configuration;
 
 import com.softserve.betterlearningroom.configuration.jwt.JwtFilter;
-import com.softserve.betterlearningroom.service.CustomUserDetailsService;
+import com.softserve.betterlearningroom.service.impl.CustomUserDetailsService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

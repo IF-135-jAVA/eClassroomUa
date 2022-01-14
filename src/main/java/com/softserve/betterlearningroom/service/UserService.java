@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UserService {
 
-    UserDTO findById(int id);
+    UserDTO findById(Long id);
 
     UserDTO findByEmail(String email);
 

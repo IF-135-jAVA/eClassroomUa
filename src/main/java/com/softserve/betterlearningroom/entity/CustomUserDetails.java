@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class CustomUserDetails implements UserDetails {
 	
 	private static final long serialVersionUID = 1L;
+	private Long id;
 	private String login;
     private String password;
     private boolean enabled;
@@ -15,10 +16,15 @@ public class CustomUserDetails implements UserDetails {
     
     public static CustomUserDetails userToCustomUserDetails(User user) {
     	CustomUserDetails userDetails = new CustomUserDetails();
+    	userDetails.id = user.getId();
     	userDetails.login = user.getEmail();
     	userDetails.password = user.getPassword();
     	userDetails.enabled = user.isEnabled();
     	return userDetails;
+    }
+    
+    public Long getId() {
+    	return id;
     }
 
 	@Override

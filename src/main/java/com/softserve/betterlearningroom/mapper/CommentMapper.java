@@ -16,6 +16,7 @@ public class CommentMapper {
         commentDTO.setAnnouncementId(comment.getAnnouncementId());
         commentDTO.setUserAssignmentId(comment.getUserAssignmentId());
         commentDTO.setMaterialId(comment.getMaterialId());
+        commentDTO.setEnabled(comment.isEnabled());
         return commentDTO;
     }
 
@@ -28,6 +29,7 @@ public class CommentMapper {
         comment.setAnnouncementId(commentDTO.getAnnouncementId());
         comment.setUserAssignmentId(commentDTO.getUserAssignmentId());
         comment.setMaterialId(commentDTO.getMaterialId());
+        comment.setEnabled(commentDTO.isEnabled());
         return comment;
     }
 

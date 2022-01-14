@@ -9,7 +9,7 @@ public interface UserDAO {
 
     List<User> findAll();
 
-    Optional<User> findById(int id);
+    Optional<User> findById(Long id);
 
     Optional<User> findByEmail(String email);
 
