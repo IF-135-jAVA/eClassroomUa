@@ -1,28 +1,23 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
-import com.softserve.betterlearningroom.configuration.jwt.JwtProvider;
-import com.softserve.betterlearningroom.dao.impl.AnnouncementDAOImpl;
-import com.softserve.betterlearningroom.dao.impl.UserDAOImpl;
 import com.softserve.betterlearningroom.dto.AnnouncementDTO;
 import com.softserve.betterlearningroom.service.impl.AnnouncementServiceImpl;
-import com.softserve.betterlearningroom.service.impl.CustomUserDetailsService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +31,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = AnnouncementController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
+
+@WebMvcTest(value = AnnouncementController.class, useDefaultFilters = false, includeFilters = {
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = AnnouncementController.class)})
 @AutoConfigureMockMvc(addFilters = false)
-@Import(value = {CustomUserDetailsService.class, UserDAOImpl.class, AnnouncementDAOImpl.class, TestDBConfiguration.class, JwtProvider.class})
 class AnnouncementControllerTest {
     @Autowired
     private MockMvc mvc;
@@ -101,10 +97,10 @@ class AnnouncementControllerTest {
     @Test
     void announcementIsNotFoundTest() throws Exception {
         given(announcementService.readById(Mockito.anyLong())).willThrow(DataRetrievalFailureException.class);
-        mvc.perform(get("/api/classrooms/1/announcements/0")
+        assertThatThrownBy(() -> mvc.perform(get("/api/classrooms/1/announcements/0")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-        verify(announcementService).readById(0);
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))).hasCause(new DataRetrievalFailureException(null));
+        verify(announcementService).readById(0L);
     }
 }

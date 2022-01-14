@@ -1,21 +1,16 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
-import com.softserve.betterlearningroom.configuration.jwt.JwtProvider;
-import com.softserve.betterlearningroom.dao.impl.CommentDAOImpl;
-import com.softserve.betterlearningroom.dao.impl.UserDAOImpl;
 import com.softserve.betterlearningroom.dto.CommentDTO;
 import com.softserve.betterlearningroom.service.impl.CommentServiceImpl;
-import com.softserve.betterlearningroom.service.impl.CustomUserDetailsService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -35,9 +31,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = CommentController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
+
+@WebMvcTest(value = CommentController.class, useDefaultFilters = false, includeFilters = {
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = CommentController.class)})
 @AutoConfigureMockMvc(addFilters = false)
-@Import(value = {CustomUserDetailsService.class, UserDAOImpl.class, CommentDAOImpl.class, TestDBConfiguration.class, JwtProvider.class})
 class CommentControllerTest {
     @Autowired
     private MockMvc mvc;
@@ -63,11 +60,11 @@ class CommentControllerTest {
     @Test
     void commentIsNotFoundTest() throws Exception {
         given(commentService.readByIdComment(Mockito.anyLong())).willThrow(DataRetrievalFailureException.class);
-        mvc.perform(get("/api/comments/0")
+        assertThatThrownBy(() -> mvc.perform(get("/api/comments/0")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-        verify(commentService).readByIdComment(0);
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))).hasCause(new DataRetrievalFailureException(null));
+        verify(commentService).readByIdComment(0L);
     }
 
     @Test
