@@ -1,10 +1,13 @@
 package com.softserve.betterlearningroom.service.impl;
 
 import com.softserve.betterlearningroom.dao.AnswerDao;
+import com.softserve.betterlearningroom.dao.MaterialDao;
 import com.softserve.betterlearningroom.dao.UserAssignmentDao;
 import com.softserve.betterlearningroom.dto.UserAssignmentDTO;
 import com.softserve.betterlearningroom.entity.Answer;
 import com.softserve.betterlearningroom.entity.AssignmentStatus;
+import com.softserve.betterlearningroom.entity.Material;
+import com.softserve.betterlearningroom.exception.SubmissionNotAllowedException;
 import com.softserve.betterlearningroom.mapper.UserAssignmentMapper;
 import com.softserve.betterlearningroom.service.UserAssignmentService;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +24,21 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
 
     private final UserAssignmentDao userAssignmentDao;
     private final AnswerDao answerDao;
+    private final MaterialDao materialDao;
 
     private UserAssignmentMapper userAssignmentMapper = Mappers.getMapper(UserAssignmentMapper.class);
 
     @Override
     public UserAssignmentDTO create(UserAssignmentDTO userAssignmentDTO) {
+        Material material = materialDao.getById(userAssignmentDTO.getMaterialId());
+        LocalDateTime dueDate = material.getDueDate();
+        if (dueDate != null && LocalDateTime.now().isAfter(dueDate)) {
+            throw new SubmissionNotAllowedException("Due date for assignment with id - " + material.getId() + " has passed. Due date is " + dueDate + ".");
+        }
         userAssignmentDTO.setAssignmentStatusId(AssignmentStatus.TODO.getId());
-        userAssignmentDTO.setSubmissionDate(LocalDateTime.now());
+        userAssignmentDTO.setSubmissionDate(null);
+        userAssignmentDTO.setGrade(0);
+        userAssignmentDTO.setFeedback(null);
         userAssignmentDTO.setEnabled(true);
         return userAssignmentMapper.userAssignmentToUserAssignmentDTO(
                 userAssignmentDao.create(userAssignmentMapper.userAssignmentDTOToUserAssignment(userAssignmentDTO)));
