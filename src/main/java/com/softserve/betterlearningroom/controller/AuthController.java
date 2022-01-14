@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -51,7 +52,8 @@ public class AuthController {
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<UserDTO> updateUser(@RequestBody SaveUserRequest request, @PathVariable int id) {
+    @PreAuthorize("#id == authentication.principal.id")
+    public ResponseEntity<UserDTO> updateUser(@RequestBody @Valid SaveUserRequest request, @PathVariable Long id) throws UserAlreadyExistsException {
         UserDTO updatedUser = authService.updateUser(request, id);
         return ResponseEntity.ok().body(updatedUser);
     }
