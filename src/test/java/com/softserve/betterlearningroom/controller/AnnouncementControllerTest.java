@@ -1,7 +1,7 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.softserve.betterlearningroom.configuration.TestDBConfiguration1;
+import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
 import com.softserve.betterlearningroom.configuration.jwt.JwtProvider;
 import com.softserve.betterlearningroom.dao.impl.AnnouncementDAOImpl;
 import com.softserve.betterlearningroom.dao.impl.UserDAOImpl;
@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = AnnouncementController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
 @AutoConfigureMockMvc(addFilters = false)
-@Import(value = {CustomUserDetailsService.class, UserDAOImpl.class, AnnouncementDAOImpl.class, TestDBConfiguration1.class, JwtProvider.class})
+@Import(value = {CustomUserDetailsService.class, UserDAOImpl.class, AnnouncementDAOImpl.class, TestDBConfiguration.class, JwtProvider.class})
 class AnnouncementControllerTest {
     @Autowired
     private MockMvc mvc;

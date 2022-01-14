@@ -1,7 +1,7 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.softserve.betterlearningroom.configuration.TestDBConfiguration1;
+import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
 import com.softserve.betterlearningroom.configuration.jwt.JwtProvider;
 import com.softserve.betterlearningroom.dao.impl.CommentDAOImpl;
 import com.softserve.betterlearningroom.dao.impl.UserDAOImpl;
@@ -30,15 +30,14 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 @WebMvcTest(controllers = CommentController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
 @AutoConfigureMockMvc(addFilters = false)
-@Import(value = {CustomUserDetailsService.class, UserDAOImpl.class, CommentDAOImpl.class, TestDBConfiguration1.class, JwtProvider.class})
+@Import(value = {CustomUserDetailsService.class, UserDAOImpl.class, CommentDAOImpl.class, TestDBConfiguration.class, JwtProvider.class})
 class CommentControllerTest {
     @Autowired
     private MockMvc mvc;

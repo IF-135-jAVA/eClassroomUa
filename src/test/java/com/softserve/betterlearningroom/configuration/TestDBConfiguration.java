@@ -21,6 +21,10 @@ public class TestDBConfiguration {
                 .addScript("classpath:/db/level/test-data.sql")
 				.addScript("classpath:/db/topic/schema.sql")
                 .addScript("classpath:/db/topic/test-data.sql")
+				.addScript("classpath:/db/comments/schema.sql")
+				.addScript("classpath:/db/comments/test-data.sql")
+				.addScript("classpath:/db/announcements/schema.sql")
+				.addScript("classpath:/db/announcements/test-data.sql")
                 .build();
 
         return dataSource;
