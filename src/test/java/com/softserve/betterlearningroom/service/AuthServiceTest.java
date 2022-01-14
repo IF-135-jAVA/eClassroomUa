@@ -3,11 +3,11 @@ package com.softserve.betterlearningroom.service;
 import com.softserve.betterlearningroom.configuration.jwt.JwtProvider;
 import com.softserve.betterlearningroom.dao.UserDAO;
 import com.softserve.betterlearningroom.entity.User;
-import com.softserve.betterlearningroom.entity.request.AuthRequest;
-import com.softserve.betterlearningroom.entity.request.SaveUserRequest;
 import com.softserve.betterlearningroom.entity.roles.Roles;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
 import com.softserve.betterlearningroom.mapper.UserMapper;
+import com.softserve.betterlearningroom.payload.AuthRequest;
+import com.softserve.betterlearningroom.payload.SaveUserRequest;
 import com.softserve.betterlearningroom.service.impl.AuthServiceImpl;
 
 import org.junit.jupiter.api.AfterEach;

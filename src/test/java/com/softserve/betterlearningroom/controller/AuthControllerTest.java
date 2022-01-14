@@ -3,8 +3,8 @@ package com.softserve.betterlearningroom.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.softserve.betterlearningroom.dto.UserDTO;
-import com.softserve.betterlearningroom.entity.request.AuthRequest;
-import com.softserve.betterlearningroom.entity.request.SaveUserRequest;
+import com.softserve.betterlearningroom.payload.AuthRequest;
+import com.softserve.betterlearningroom.payload.SaveUserRequest;
 import com.softserve.betterlearningroom.service.AuthService;
 import com.softserve.betterlearningroom.service.UserService;
 import org.junit.jupiter.api.AfterEach;
@@ -15,7 +15,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,7 +29,6 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(value = AuthController.class, useDefaultFilters = false, includeFilters = {
@@ -62,8 +60,7 @@ class AuthControllerTest {
                 .content(mapper.writeValueAsString(authRequest))
                 .param("role", "user"))
         .andExpect(status().isOk())
-        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-        .andExpect(header().exists(HttpHeaders.AUTHORIZATION));
+        .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
         verify(authService).login(any(AuthRequest.class), anyString());
     }
     
@@ -74,7 +71,7 @@ class AuthControllerTest {
         SaveUserRequest saveRequest = getRequest();
         UserDTO user = getUser();
         given(authService.saveUser(any(SaveUserRequest.class))).willReturn(user);
-        mvc.perform(post("/api/auth/registration")
+        mvc.perform(post("/api/auth/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(saveRequest)))
         .andExpect(status().isCreated())

@@ -1,15 +1,18 @@
 package com.softserve.betterlearningroom.service.impl;
 
 import com.softserve.betterlearningroom.dao.UserDAO;
-import com.softserve.betterlearningroom.entity.CustomUserDetails;
 import com.softserve.betterlearningroom.entity.Provider;
 import com.softserve.betterlearningroom.entity.User;
-import com.softserve.betterlearningroom.entity.oauth2.OAuth2UserInfo;
+import com.softserve.betterlearningroom.entity.UserPrincipal;
 import com.softserve.betterlearningroom.exception.OAuth2AuthenticationProcessingException;
+import com.softserve.betterlearningroom.security.oauth2.OAuth2UserInfoFactory;
+import com.softserve.betterlearningroom.security.oauth2.user.OAuth2UserInfo;
+
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -22,10 +25,10 @@ import static org.springframework.util.StringUtils.hasText;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private UserDAO userDAO;
-    private PasswordEncoder passwordEncoder;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
@@ -52,19 +55,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         
         if(userOptional.isPresent()) {
             user = userOptional.get();
+            log.info("Registration is is " + oAuth2UserRequest.getClientRegistration().getRegistrationId());
             
-            if(!user.getProvider().equals(Provider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
+            if(!user.getProvider().equals(Provider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()).name())) {
                 throw new OAuth2AuthenticationProcessingException("Looks like you're signed up with " +
                         user.getProvider() + " account. Please use your " + user.getProvider() +
                         " account to login.");
-            }
-            
+            } 
             user = updateExistingUser(user, oAuth2UserInfo);
         } else {
             user = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
         }
         
-        return CustomUserDetails.userToCustomUserDetails(user, oAuth2User.getAttributes());
+        return UserPrincipal.create(user, oAuth2User.getAttributes());
     }
 
     private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
@@ -75,14 +78,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         user.setFirstName(oAuth2UserInfo.getFirstName());
         user.setLastName(oAuth2UserInfo.getLastName());
         user.setEmail(oAuth2UserInfo.getEmail());
-        user.setPassword(passwordEncoder.encode("oauth_password")); // TODO:ask about this
+        user.setPassword("oauth_password"); // TODO:ask about this
+        log.info("Saving user " + user.toString());
         return userDAO.save(user);
     }
 
     private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
         existingUser.setFirstName(oAuth2UserInfo.getFirstName());
         existingUser.setLastName(oAuth2UserInfo.getLastName());
-        return userDAO.save(existingUser);
+        log.info("Updated user " + existingUser.toString());
+        return userDAO.update(existingUser);
     }
 
 }

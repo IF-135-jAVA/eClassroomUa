@@ -1,4 +1,4 @@
-package com.softserve.betterlearningroom.entity.oauth2;
+package com.softserve.betterlearningroom.security.oauth2.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
