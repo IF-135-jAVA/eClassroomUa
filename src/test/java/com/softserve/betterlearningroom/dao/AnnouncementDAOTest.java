@@ -3,16 +3,17 @@ package com.softserve.betterlearningroom.dao;
 import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
 import com.softserve.betterlearningroom.dao.impl.AnnouncementDAOImpl;
 import com.softserve.betterlearningroom.entity.Announcement;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 
 @SpringBootTest(classes = {TestDBConfiguration.class, AnnouncementDAOImpl.class})
 class AnnouncementDAOTest {
@@ -21,6 +22,7 @@ class AnnouncementDAOTest {
     private AnnouncementDAO announcementDAO;
 
     @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     void readByIdAnnouncementTest() {
         Announcement announcement = prepareAnnouncementDTO();
         assertEquals((announcement), announcementDAO.readById(1));
