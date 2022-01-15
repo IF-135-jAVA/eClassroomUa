@@ -11,6 +11,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import javax.sql.DataSource;
 
 @TestConfiguration
+@Import(UserRowMapper.class)
 public class TestDBConfiguration {
 
     @Bean

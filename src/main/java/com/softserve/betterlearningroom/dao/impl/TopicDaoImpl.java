@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 @PropertySource(value = "classpath:/db/topic/topicQuery.properties")
@@ -72,6 +73,11 @@ public class TopicDaoImpl implements TopicDao {
         return jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
                 BeanPropertyRowMapper.newInstance(Topic.class));
 
+    }
+
+    @Override
+    public List<Topic> findAllByClassroomId(Long classroomId) {
+        return findAll().stream().filter(topic -> topic.getClassroomId().equals(classroomId)).collect(Collectors.toList());
     }
 
     @Override

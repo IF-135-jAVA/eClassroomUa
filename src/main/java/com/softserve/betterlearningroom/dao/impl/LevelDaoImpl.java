@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @PropertySource(value = "classpath:db/level/levelQuery.properties")
@@ -63,6 +64,11 @@ public class LevelDaoImpl implements LevelDao {
     public List<Level> findAll() {
         return jdbcTemplate.query(findAllQuery,
                 BeanPropertyRowMapper.newInstance(Level.class));
+    }
+
+    @Override
+    public List<Level> findAllByCriterionId(Long criterionId) {
+        return findAll().stream().filter(level -> level.getCriterionId().equals(criterionId)).collect(Collectors.toList());
     }
 
     @Override

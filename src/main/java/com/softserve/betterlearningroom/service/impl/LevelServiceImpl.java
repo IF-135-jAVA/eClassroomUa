@@ -35,6 +35,12 @@ public class LevelServiceImpl implements LevelService {
         return levelDaoImpl.findAll().stream().map(LevelMapper::toDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public List<LevelDTO> findAllByCriterionId(Long criterionId) {
+
+        return levelDaoImpl.findAllByCriterionId(criterionId).stream().map(LevelMapper::toDTO).collect(Collectors.toList());
+    }
+
     public List<LevelDTO> findAllDeleted() {
 
         return levelDaoImpl.findAllDeleted().stream().map(LevelMapper::toDTO).collect(Collectors.toList());
