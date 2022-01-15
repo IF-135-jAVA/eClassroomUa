@@ -46,5 +46,13 @@ public class TopicServiceImpl implements TopicService {
         return TopicMapper.toDTO(topicDaoImpl.update(TopicMapper.toEntity(topicDTO)));
     }
 
+    @Override
+    public List<TopicDTO> findAllByClassroomId(Long classroomId) {
+
+        return topicDaoImpl.findAllByClassroom(classroomId).stream().map(TopicMapper::toDTO).collect(Collectors.toList());
+    }
+
+
+
 
 }

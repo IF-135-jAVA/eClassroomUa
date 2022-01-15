@@ -29,9 +29,18 @@ public class TopicController {
     }
 
     /**
+     * get all topic by classroom id
+     */
+    @GetMapping("byClassroomId/{byClassroomId}")
+    public ResponseEntity<List<TopicDTO>> getAllByClassroomId(@PathVariable(value = "byClassroomId") final Long classroomId) {
+        List<TopicDTO> topic = topicServiceImpl.findAllByClassroomId(classroomId);
+        return ResponseEntity.ok().body(topic);
+    }
+
+    /**
      * get topic by id
      */
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<TopicDTO> getById(@PathVariable Long id) {
         TopicDTO topicDTO = topicServiceImpl.findById(id);
         return ResponseEntity.ok().body(topicDTO);

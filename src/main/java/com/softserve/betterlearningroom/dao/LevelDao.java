@@ -16,4 +16,6 @@ public interface LevelDao {
 
     void removeById(Long id);
 
+    List<Level> findAllByCriterionId(Long criterionId);
+
 }

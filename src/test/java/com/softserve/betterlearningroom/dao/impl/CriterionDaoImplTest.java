@@ -6,6 +6,7 @@ import com.softserve.betterlearningroom.entity.Criterion;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ class CriterionDaoImplTest {
 
 
     @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     void testSaveAndGet() {
         Criterion criterionForSave = Criterion.builder()
                 .criterionId(CRITERION_ID)
@@ -54,7 +56,7 @@ class CriterionDaoImplTest {
 
         List<Criterion> expectedCriterions = criterionDao.findAll();
 
-        assertEquals(4, expectedCriterions.size());
+        assertEquals(3, expectedCriterions.size());
         Criterion expectedCriterion = expectedCriterions.stream().filter(criterion -> criterion.getCriterionId() == 3L).findFirst().orElse(null);
         assertNotNull(expectedCriterion);
         assertEquals(TITLE, expectedCriterion.getTitle());

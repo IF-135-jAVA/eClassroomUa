@@ -30,6 +30,15 @@ public class CriterionController {
     }
 
     /**
+     * get all criterion by material id
+     */
+    @GetMapping("/byMaterialId/{byMaterialId}")
+    public ResponseEntity<List<CriterionDTO>> getAllByMaterialId(@PathVariable(value = "byMaterialId") final Long materialId) {
+        List<CriterionDTO> criterion = criterionService.findAllByMaterialId(materialId);
+        return ResponseEntity.ok().body(criterion);
+    }
+
+    /**
      * get criterion by id
      */
     @GetMapping("/{id}")

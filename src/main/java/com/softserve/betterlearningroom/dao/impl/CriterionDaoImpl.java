@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 @PropertySource(value = "classpath:db/criterion/criterionQuery.properties")
@@ -77,6 +78,11 @@ public class CriterionDaoImpl implements CriterionDao {
         return jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
                 BeanPropertyRowMapper.newInstance(Criterion.class));
 
+    }
+
+    @Override
+    public List<Criterion> findByMaterialId(Long materialId){
+       return findAll().stream().filter(criterion ->criterion.getMaterialId().equals(materialId)).collect(Collectors.toList());
     }
 
     @Override

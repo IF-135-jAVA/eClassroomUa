@@ -16,6 +16,8 @@ public interface CriterionDao {
 
     void removeById(Long id);
 
+    List<Criterion> findByMaterialId(Long id);
+
 
 
 }
