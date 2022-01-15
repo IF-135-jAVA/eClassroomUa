@@ -5,7 +5,6 @@ import com.softserve.betterlearningroom.dto.AnnouncementDTO;
 import com.softserve.betterlearningroom.entity.Announcement;
 import com.softserve.betterlearningroom.mapper.AnnouncementMapper;
 import com.softserve.betterlearningroom.service.impl.AnnouncementServiceImpl;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -89,7 +88,7 @@ class AnnouncementServiceTest {
 //    }
 
     @Test
-    void deleteCommentsTest() {
+    void deleteAnnouncementTest() {
         Announcement announcement = prepareAnnouncementDTO();
         announcementService.delete(announcement.getId());
     }
