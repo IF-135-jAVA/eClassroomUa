@@ -1,9 +1,9 @@
 package com.softserve.betterlearningroom.service.impl;
 
-import com.softserve.betterlearningroom.mapper.MaterialMapper;
 import com.softserve.betterlearningroom.dao.MaterialDao;
 import com.softserve.betterlearningroom.dto.MaterialDTO;
 import com.softserve.betterlearningroom.entity.MaterialType;
+import com.softserve.betterlearningroom.mapper.MaterialMapper;
 import com.softserve.betterlearningroom.service.MaterialService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -16,7 +16,7 @@ public class DBConfiguration {
         final HikariDataSource dataSource = new HikariDataSource();
 
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setJdbcUrl("jdbc:postgresql://dtapi.if.ua:5432/javadog");
+        dataSource.setJdbcUrl("jdbc:postgresql://dtapi.if.ua:5432/javadog-test");
         dataSource.setUsername("javadog");
         dataSource.setPassword("5rav_Pe5");
         dataSource.setMaximumPoolSize(20);

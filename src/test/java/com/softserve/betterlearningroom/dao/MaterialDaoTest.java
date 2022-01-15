@@ -1,64 +1,71 @@
 package com.softserve.betterlearningroom.dao;
 
+import com.softserve.betterlearningroom.BeLeRoApplication;
+import com.softserve.betterlearningroom.configuration.DBConfiguration;
 import com.softserve.betterlearningroom.configuration.TestConfig;
-import com.softserve.betterlearningroom.dao.impl.TopicDAO;
-import com.softserve.betterlearningroom.entity.Announcement;
-import com.softserve.betterlearningroom.entity.Classroom;
+import com.softserve.betterlearningroom.dao.impl.MaterialDao;
+import com.softserve.betterlearningroom.entity.Criterion;
 import com.softserve.betterlearningroom.entity.Link;
 import com.softserve.betterlearningroom.entity.Material;
 import com.softserve.betterlearningroom.entity.MaterialType;
-import com.softserve.betterlearningroom.entity.Topic;
+import com.softserve.betterlearningroom.entity.Question;
 import com.softserve.betterlearningroom.entity.User;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Rollback
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {MaterialDao.class, TestConfig.class})
+@SpringBootTest(classes = {MaterialDao.class, BeLeRoApplication.class, TestConfig.class, DBConfiguration.class})
 public class MaterialDaoTest {
-
-    @Autowired
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Autowired
     private MaterialDao materialDao;
 
-    @Autowired
-    private TopicDAO topicDAO;
-
-    @Autowired
-    private ClassroomDAO classroomDAO;
-
     private Material material;
 
-    @BeforeAll
-    static void beforeAll(){
-
+    @Before
+    public void before() {
+        material = new Material(0L, MaterialType.TASK, "title0",
+                "text0", new ArrayList<Link>(), 0L, 0L, LocalDateTime.now(),
+                LocalDateTime.now(), new ArrayList<Criterion>(), new ArrayList<Question>(),
+                new ArrayList<User>(), 12, "task", "", "www.www.www/");
+        materialDao.create(material, material.getTopicId());
     }
 
     @Test
-    @Rollback(true)
+    public void checkSave() {
+        Material testMaterial = new Material(0L, MaterialType.TASK, "title0",
+                "text0", new ArrayList<Link>(), 0L, 0L, LocalDateTime.now(),
+                LocalDateTime.now(), new ArrayList<Criterion>(), new ArrayList<Question>(),
+                new ArrayList<User>(), 12, "task", "", "www.www.www/");
+        materialDao.create(testMaterial, testMaterial.getTopicId());
+        Material newMaterial = materialDao.create(testMaterial, testMaterial.getTopicId());
+        testMaterial.setId(newMaterial.getId());
+        assertEquals(testMaterial, newMaterial);
+    }
+
+    @Test
     public void checkSaveAndFindById() {
-        Classroom classroom = new Classroom(0L, 0L,
-                "title", "session", "description",
-                "code", new ArrayList<User>(), new ArrayList<User>(),
-                new ArrayList<Topic>(), new ArrayList<Announcement>());
-        Topic topic = new Topic(0,"title", 0);
-        material = new Material(0L, MaterialType.TASK, "title0",
-                "text0", new ArrayList<Link>(), 0L, 0L);
-        classroomDAO.createClassroom(classroom);
-        topicDAO.save(topic);
-        materialDao.create(material, material.getTopicId());
-        assertEquals(material, materialDao.readById(material.getId()));
+        material.setId(materialDao.create(material, material.getTopicId()).getId());
+        Material newMaterial = materialDao.readById(material.getId());
+        assertEquals(material, newMaterial);
+    }
+
+    @Test
+    public void checkSaveAndFindByName() {
+        material.setId(materialDao.create(material, material.getTopicId()).getId());
+        Material newMaterial = materialDao.readAllByName(0L, "text0").stream().findFirst().orElse(null);
+        assertEquals(material, newMaterial);
     }
 
 }

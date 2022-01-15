@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -22,6 +23,9 @@ public class ClassroomDAO {
 
     @Value("${getClassroomById}")
     private String getClassroomById;
+
+    @Value("${getClassroomByOwnerId}")
+    private String getClassroomByOwnerId;
 
     @Value("${getClassroomTeachers}")
     private String getClassroomTeachers;
@@ -75,7 +79,9 @@ public class ClassroomDAO {
 
     public List<Classroom> getClassroomsByTeacher(Long userId){
         SqlParameterSource parameterSource = new MapSqlParameterSource("userId", userId);
-        return jdbcParameterTemplate.query(getClassroomsByTeacher, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class));
+        List<Classroom> classrooms = new ArrayList<>(jdbcParameterTemplate.query(getClassroomsByTeacher, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class)));
+        classrooms.addAll(jdbcParameterTemplate.query(getClassroomByOwnerId, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class)));
+        return classrooms;
     }
 
     public List<Classroom> getClassroomsByStudent(Long userId){
@@ -103,8 +109,7 @@ public class ClassroomDAO {
 
     public void createClassroom(Classroom classroom){
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("classroomId", classroom.getClassroomId())
-                .addValue("userId", classroom.getUserId())
+        params.addValue("userId", classroom.getUserId())
                 .addValue("title", classroom.getTitle())
                 .addValue("session", classroom.getSession())
                 .addValue("description", classroom.getDescription());
