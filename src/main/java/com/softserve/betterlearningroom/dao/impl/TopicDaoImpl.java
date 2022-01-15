@@ -76,8 +76,8 @@ public class TopicDaoImpl implements TopicDao {
     }
 
     @Override
-    public List<Topic> findAllByClassroom(Long classroomId) {
-        return findAll().stream().filter(topic -> topic.getTopicId().equals(classroomId)).collect(Collectors.toList());
+    public List<Topic> findAllByClassroomId(Long classroomId) {
+        return findAll().stream().filter(topic -> topic.getClassroomId().equals(classroomId)).collect(Collectors.toList());
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.TopicDTO;
-import com.softserve.betterlearningroom.service.impl.TopicServiceImpl;
+import com.softserve.betterlearningroom.service.TopicService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,14 +17,14 @@ import java.util.List;
 public class TopicController {
 
     @Autowired
-    private TopicServiceImpl topicServiceImpl;
+    private TopicService topicService;
 
     /**
      * get all topic
      */
     @GetMapping
     public ResponseEntity<List<TopicDTO>> getAll() {
-        List<TopicDTO> topic = topicServiceImpl.findAll();
+        List<TopicDTO> topic = topicService.findAll();
         return ResponseEntity.ok().body(topic);
     }
 
@@ -33,7 +33,7 @@ public class TopicController {
      */
     @GetMapping("byClassroomId/{byClassroomId}")
     public ResponseEntity<List<TopicDTO>> getAllByClassroomId(@PathVariable(value = "byClassroomId") final Long classroomId) {
-        List<TopicDTO> topic = topicServiceImpl.findAllByClassroomId(classroomId);
+        List<TopicDTO> topic = topicService .findAllByClassroomId(classroomId);
         return ResponseEntity.ok().body(topic);
     }
 
@@ -42,7 +42,7 @@ public class TopicController {
      */
     @GetMapping("{id}")
     public ResponseEntity<TopicDTO> getById(@PathVariable Long id) {
-        TopicDTO topicDTO = topicServiceImpl.findById(id);
+        TopicDTO topicDTO = topicService.findById(id);
         return ResponseEntity.ok().body(topicDTO);
     }
 
@@ -53,7 +53,7 @@ public class TopicController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<TopicDTO> createTopic(@Valid @RequestBody TopicDTO topicDTO) {
 
-        return new ResponseEntity<>(topicServiceImpl.save(topicDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(topicService.save(topicDTO), HttpStatus.CREATED);
     }
 
     /**
@@ -63,7 +63,7 @@ public class TopicController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> update(@RequestBody final TopicDTO topicDTO) {
 
-        return new ResponseEntity<>(topicServiceImpl.update(topicDTO), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(topicService.update(topicDTO), HttpStatus.ACCEPTED);
     }
 
     /**
@@ -73,6 +73,6 @@ public class TopicController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable final Long id) {
 
-        topicServiceImpl.removeById(id);
+        topicService.removeById(id);
     }
 }

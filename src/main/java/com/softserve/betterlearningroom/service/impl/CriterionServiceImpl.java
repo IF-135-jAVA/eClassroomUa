@@ -49,6 +49,6 @@ public class CriterionServiceImpl implements CriterionServise {
     @Override
     public List<CriterionDTO> findAllByMaterialId(Long materialId){
 
-        return criterionDAOImpl.findByMaterialId(materialId).stream().map(CriterionMapper::toDTO).collect(Collectors.toList());
+        return criterionDAOImpl.findAllByMaterialId(materialId).stream().map(CriterionMapper::toDTO).collect(Collectors.toList());
     }
 }

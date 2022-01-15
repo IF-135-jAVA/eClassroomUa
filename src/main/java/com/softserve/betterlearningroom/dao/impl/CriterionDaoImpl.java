@@ -81,7 +81,7 @@ public class CriterionDaoImpl implements CriterionDao {
     }
 
     @Override
-    public List<Criterion> findByMaterialId(Long materialId){
+    public List<Criterion> findAllByMaterialId(Long materialId){
        return findAll().stream().filter(criterion ->criterion.getMaterialId().equals(materialId)).collect(Collectors.toList());
     }
 
