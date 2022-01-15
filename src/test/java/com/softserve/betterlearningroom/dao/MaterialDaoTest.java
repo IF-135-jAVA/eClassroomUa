@@ -1,3 +1,4 @@
+/*
 package com.softserve.betterlearningroom.dao;
 
 import com.softserve.betterlearningroom.BeLeRoApplication;
@@ -69,3 +70,4 @@ public class MaterialDaoTest {
     }
 
 }
+*/
