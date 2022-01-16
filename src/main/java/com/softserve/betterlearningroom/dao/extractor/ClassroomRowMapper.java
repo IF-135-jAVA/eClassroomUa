@@ -1,4 +1,4 @@
-package com.softserve.betterlearningroom.mapper;
+package com.softserve.betterlearningroom.dao.extractor;
 
 import com.softserve.betterlearningroom.entity.Announcement;
 import com.softserve.betterlearningroom.entity.Classroom;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Component
-public class ClassroomRowMapper implements RowMapper<Classroom>{
+public class ClassroomRowMapper implements RowMapper<Classroom> {
 
     @Override
     public Classroom mapRow(ResultSet rs, int rowNum) throws SQLException {
