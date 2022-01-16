@@ -46,5 +46,4 @@ public enum Roles {
         userPermissions.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
         return userPermissions;
     }
-
 }

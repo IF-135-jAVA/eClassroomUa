@@ -1,10 +1,10 @@
 package com.softserve.betterlearningroom.dto;
 
-
 import com.softserve.betterlearningroom.entity.Announcement;
 import com.softserve.betterlearningroom.entity.Topic;
 import com.softserve.betterlearningroom.entity.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,11 +13,12 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ClassroomDTO {
 
-    private Long classroom_id;
+    private Long classroomId;
 
-    private Long user_id;
+    private Long userId;
 
     private String title;
 
@@ -26,6 +27,8 @@ public class ClassroomDTO {
     private String description;
 
     private String code;
+
+    private User owner;
 
     private List<User> teachers;
 

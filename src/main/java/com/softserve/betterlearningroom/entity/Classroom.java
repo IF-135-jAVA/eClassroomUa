@@ -1,6 +1,7 @@
 package com.softserve.betterlearningroom.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,11 +10,12 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Classroom {
 
-    private Long classroom_id;
+    private Long classroomId;
 
-    private Long user_id;
+    private Long userId;
 
     private String title;
 
@@ -22,6 +24,8 @@ public class Classroom {
     private String description;
 
     private String code;
+
+    private User owner;
 
     private List<User> teachers;
 

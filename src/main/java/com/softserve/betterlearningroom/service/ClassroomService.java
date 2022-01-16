@@ -1,43 +1,29 @@
 package com.softserve.betterlearningroom.service;
 
-import com.softserve.betterlearningroom.dao.ClassroomDAO;
 import com.softserve.betterlearningroom.dto.ClassroomDTO;
-import com.softserve.betterlearningroom.entity.Classroom;
-import com.softserve.betterlearningroom.entity.User;
-import com.softserve.betterlearningroom.mapper.ClassroomMapper;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.softserve.betterlearningroom.dto.UserDTO;
 
 import java.util.List;
 
-@Service
-@AllArgsConstructor
-public class ClassroomService {
+public interface ClassroomService {
 
-    private ClassroomDAO classroomDAO;
-    private ClassroomMapper classroomMapper;
+    ClassroomDTO getClassroomById(Long classroomId);
 
-    public ClassroomDTO getClassroomById(Long classroom_id) {
-        Classroom classroom = classroomDAO.getClassroomById(classroom_id);
-        return classroomMapper.classroomToClassroomDTO(classroom);
-    }
+    ClassroomDTO createClassroom(ClassroomDTO classroomDTO);
 
-    public void createClassroom(ClassroomDTO classroomDTO) {
-        classroomDAO.createClassroom(classroomMapper.classroomDTOToClassroom(classroomDTO));
-    }
+    UserDTO getClassroomOwnerById(Long classroomId);
 
-    public User getClassroomOwnerById(Long user_id) {
+    List<UserDTO> getClassroomTeachers(Long classroomId);
 
-        return classroomDAO.getClassroomOwnerById(user_id);
-    }
+    List<UserDTO> getClassroomStudents(Long classroomId);
 
-    public List<User> getClassroomTeachers(Long classroom_id ) {
+    List<ClassroomDTO> getClassroomsByTeacher(Long userId);
 
-        return classroomDAO.getClassroomTeachers(classroom_id);
-    }
+    List<ClassroomDTO> getClassroomsByStudent(Long userId);
 
-    public void removeClassroomById(Long classroom_id){
-        ClassroomDTO classroomDTO = getClassroomById(classroom_id);
-        classroomDAO.removeClassroomById(classroomDTO.getClassroom_id());
-    }
+    ClassroomDTO joinClassroomAsStudent(String code, Long userId);
+
+    ClassroomDTO joinClassroomAsTeacher(String code, Long userId);
+
+    void removeClassroomById(Long classroomId);
 }
