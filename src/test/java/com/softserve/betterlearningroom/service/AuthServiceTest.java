@@ -3,13 +3,11 @@ package com.softserve.betterlearningroom.service;
 import com.softserve.betterlearningroom.configuration.jwt.JwtProvider;
 import com.softserve.betterlearningroom.dao.UserDAO;
 import com.softserve.betterlearningroom.entity.User;
-import com.softserve.betterlearningroom.entity.roles.Roles;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
 import com.softserve.betterlearningroom.mapper.UserMapper;
 import com.softserve.betterlearningroom.payload.AuthRequest;
 import com.softserve.betterlearningroom.payload.SaveUserRequest;
 import com.softserve.betterlearningroom.service.impl.AuthServiceImpl;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,17 +53,17 @@ class AuthServiceTest {
         User user = getUser();
         AuthRequest request = new AuthRequest("jdoe@gmail.com", "q1234");
         given(userDao.findByEmail(anyString())).willReturn(Optional.of(user));
-        given(jwtProvider.generateToken(anyString(), any(Roles.class))).willReturn("token");
-        assertEquals("token", authService.login(request, "student"));
+        given(jwtProvider.generateToken(user.getEmail(), user.getId(), null)).willReturn("token");
+        assertEquals("token", authService.login(request));
         verify(userDao).findByEmail(anyString());
-        verify(jwtProvider).generateToken(anyString(), any(Roles.class));
+        verify(jwtProvider).generateToken(user.getEmail(), user.getId(), null);
     }
     
     @Test
     void whenUserNotFound_ThenThrowException() {
         AuthRequest request = new AuthRequest("jdoe@gmail.com", "q1234");
         given(userDao.findByEmail(anyString())).willReturn(Optional.empty());
-        assertThrows(BadCredentialsException.class, () -> authService.login(request, "student"));
+        assertThrows(BadCredentialsException.class, () -> authService.login(request));
         verify(userDao).findByEmail(anyString());
     }
     
@@ -74,7 +72,7 @@ class AuthServiceTest {
         User user  = getUser();
         AuthRequest request =  new AuthRequest("jdoe@gmail.com", "wrong_password");
         given(userDao.findByEmail(anyString())).willReturn(Optional.of(user));
-        assertThrows(BadCredentialsException.class, () -> authService.login(request, "student"));
+        assertThrows(BadCredentialsException.class, () -> authService.login(request));
         verify(userDao).findByEmail(anyString());
     }
     
@@ -112,6 +110,7 @@ class AuthServiceTest {
                                   .lastName("Doe")
                                   .password(passwordEncoder.encode("q1234"))
                                   .enabled(true)
+                                  .provider("local")
                                   .build();
         return user;
     }

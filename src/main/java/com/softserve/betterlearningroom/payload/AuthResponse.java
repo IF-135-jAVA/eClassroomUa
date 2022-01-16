@@ -1,7 +1,5 @@
 package com.softserve.betterlearningroom.payload;
 
-import com.softserve.betterlearningroom.dto.UserDTO;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -11,6 +9,6 @@ public class AuthResponse {
     
     private String token;
     
-    private UserDTO user;
+    private String tokenType ;
 
 }
