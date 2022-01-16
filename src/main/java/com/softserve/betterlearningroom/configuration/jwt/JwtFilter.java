@@ -1,12 +1,12 @@
 package com.softserve.betterlearningroom.configuration.jwt;
 
-import com.softserve.betterlearningroom.entity.CustomUserDetails;
 import com.softserve.betterlearningroom.entity.roles.Roles;
 import com.softserve.betterlearningroom.service.impl.CustomUserDetailsService;
-
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import java.io.IOException;
+import java.util.Set;
 
 import static org.springframework.util.StringUtils.hasText;
 
@@ -35,10 +36,13 @@ public class JwtFilter extends GenericFilterBean {
         if (hasText(token)) {
             if (jwtProvider.validateToken(token)) {
                 String userLogin = jwtProvider.getLogin(token);
-                Roles role = Roles.valueOf(jwtProvider.getRole(token));
-                CustomUserDetails customUserDetails = userDetailsService.loadUserByUsername(userLogin);
+                Set<SimpleGrantedAuthority> authorities = null;
+                if(jwtProvider.getRole(token).isPresent()) {
+                    authorities = Roles.valueOf(jwtProvider.getRole(token).get()).getGrantedAuthorities();
+                }
+                UserDetails customUserDetails = userDetailsService.loadUserByUsername(userLogin);
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(customUserDetails,
-                        null, role.getGrantedAuthorities());
+                        null, authorities);
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         }

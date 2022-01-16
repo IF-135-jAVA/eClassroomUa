@@ -2,6 +2,7 @@ package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.MaterialDTO;
 import com.softserve.betterlearningroom.service.MaterialService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/classrooms/{classroomId}/topics/{topicId}/materials")

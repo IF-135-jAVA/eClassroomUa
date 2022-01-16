@@ -1,44 +1,54 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.UserDTO;
-import com.softserve.betterlearningroom.entity.request.AuthRequest;
-import com.softserve.betterlearningroom.entity.request.SaveUserRequest;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
+import com.softserve.betterlearningroom.payload.AuthRequest;
+import com.softserve.betterlearningroom.payload.AuthResponse;
+import com.softserve.betterlearningroom.payload.SaveUserRequest;
 import com.softserve.betterlearningroom.service.AuthService;
-import com.softserve.betterlearningroom.service.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
-
-import org.springframework.http.HttpHeaders;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
 
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/auth")
+@Slf4j
 public class AuthController {
 
     private AuthService authService;
-    private UserService userService;
+    public static final String AUTHORIZATION = "Authorization";
 
     @PostMapping("/login")
-    public ResponseEntity<UserDTO> login(@RequestBody AuthRequest request, @RequestParam String role) {
-        String token = authService.login(request, role);
-        UserDTO user = userService.findByEmail(request.getLogin());
-        return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, "Bearer " + token).body(user);
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
+        String token = authService.login(request);
+        return ResponseEntity.ok().body(new AuthResponse(token, "Bearer"));
+    }
+    
+    @GetMapping("/login/{role}")
+    public ResponseEntity<AuthResponse> setRole(@RequestHeader(value = AUTHORIZATION) String token, @PathVariable String role) {
+        log.info(token);
+        String newToken = authService.setRole(token, role);
+        log.info(newToken);
+        return ResponseEntity.ok().body(new AuthResponse(newToken, "Bearer"));
     }
 
-    @PostMapping("/registration")
+    @PostMapping("/signup")
     public ResponseEntity<UserDTO> registration(@RequestBody @Valid SaveUserRequest request) {
         try {
             UserDTO savedUser = authService.saveUser(request);
