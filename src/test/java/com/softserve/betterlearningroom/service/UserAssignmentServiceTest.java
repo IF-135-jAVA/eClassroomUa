@@ -102,25 +102,25 @@ public class UserAssignmentServiceTest {
     @Test
     public void testCreate() {
         when(userAssignmentDao.create(userAssignment1)).thenReturn(userAssignment1);
-        when(materialDao.getById(MATERIAL_ID)).thenReturn(material);
+        when(materialDao.readById(MATERIAL_ID)).thenReturn(material);
 
         UserAssignmentDTO actual = userAssignmentService.create(userAssignmentDTO1);
 
         verify(userAssignmentDao).create(any(UserAssignment.class));
-        verify(materialDao).getById(anyLong());
+        verify(materialDao).readById(anyLong());
         assertEquals(userAssignmentDTO1, actual);
     }
 
     @Test
     public void testCreateThrowsSubmissionNotAllowedException() {
-        when(materialDao.getById(MATERIAL_ID)).thenReturn(material);
+        when(materialDao.readById(MATERIAL_ID)).thenReturn(material);
         material.setDueDate(DUE_DATE_2);
 
         SubmissionNotAllowedException exception = assertThrows(SubmissionNotAllowedException.class, () -> userAssignmentService.create(userAssignmentDTO1));
 
         assertEquals(EXCEPTION_MESSAGE, exception.getMessage());
         verifyNoInteractions(userAssignmentDao);
-        verify(materialDao).getById(anyLong());
+        verify(materialDao).readById(anyLong());
     }
 
     @Test

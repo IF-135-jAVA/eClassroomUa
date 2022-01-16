@@ -83,7 +83,7 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     private void checkIfSubmissionAllowed(UserAssignment userAssignment) {
-        Material material = materialDao.getById(userAssignment.getMaterialId());
+        Material material = materialDao.readById(userAssignment.getMaterialId());
         LocalDateTime dueDate = material.getDueDate();
         if (dueDate != null && LocalDateTime.now().isAfter(dueDate)) {
             throw new SubmissionNotAllowedException("Due date for assignment with id - " + material.getId() + " has passed. Due date is " + dueDate + ".");

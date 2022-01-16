@@ -94,14 +94,14 @@ public class AnswerServiceTest {
     public void testCreate() {
         when(answerDao.create(answer1)).thenReturn(answer1);
         when(userAssignmentDao.readById(USER_ASSIGNMENT_ID)).thenReturn(userAssignment);
-        when(materialDao.getById(MATERIAL_ID)).thenReturn(material);
+        when(materialDao.readById(MATERIAL_ID)).thenReturn(material);
         when(userAssignmentDao.update(userAssignment)).thenReturn(userAssignment);
 
         AnswerDTO actual = answerService.create(answerDTO1);
 
         verify(answerDao).create(any(Answer.class));
         verify(userAssignmentDao).readById(anyLong());
-        verify(materialDao).getById(anyLong());
+        verify(materialDao).readById(anyLong());
         verify(userAssignmentDao).update(any(UserAssignment.class));
         assertEquals(answerDTO1, actual);
         assertEquals(LocalDateTime.now().withNano(0).withSecond(0), userAssignment.getSubmissionDate().withNano(0).withSecond(0));
@@ -110,7 +110,7 @@ public class AnswerServiceTest {
     @Test
     public void testCreateThrowsSubmissionNotAllowedException() {
         when(userAssignmentDao.readById(USER_ASSIGNMENT_ID)).thenReturn(userAssignment);
-        when(materialDao.getById(MATERIAL_ID)).thenReturn(material);
+        when(materialDao.readById(MATERIAL_ID)).thenReturn(material);
         material.setDueDate(DUE_DATE_2);
 
         SubmissionNotAllowedException exception = assertThrows(SubmissionNotAllowedException.class, () -> answerService.create(answerDTO1));
@@ -118,7 +118,7 @@ public class AnswerServiceTest {
         assertEquals(EXCEPTION_MESSAGE, exception.getMessage());
         verifyNoInteractions(answerDao);
         verify(userAssignmentDao).readById(anyLong());
-        verify(materialDao).getById(anyLong());
+        verify(materialDao).readById(anyLong());
         verify(userAssignmentDao, times(0)).update(any(UserAssignment.class));
     }
 
@@ -137,7 +137,7 @@ public class AnswerServiceTest {
         when(answerDao.update(answer1Updated)).thenReturn(answer1Updated);
         when(answerDao.readById(ID_1)).thenReturn(answer1);
         when(userAssignmentDao.readById(USER_ASSIGNMENT_ID)).thenReturn(userAssignment);
-        when(materialDao.getById(MATERIAL_ID)).thenReturn(material);
+        when(materialDao.readById(MATERIAL_ID)).thenReturn(material);
         when(userAssignmentDao.update(userAssignment)).thenReturn(userAssignment);
 
         AnswerDTO actual = answerService.update(answerDTO2, ID_1);
@@ -145,7 +145,7 @@ public class AnswerServiceTest {
         verify(answerDao).update(any(Answer.class));
         verify(answerDao).readById(anyLong());
         verify(userAssignmentDao).readById(anyLong());
-        verify(materialDao).getById(anyLong());
+        verify(materialDao).readById(anyLong());
         verify(userAssignmentDao).update(any(UserAssignment.class));
         assertEquals(answerDTO1Updated, actual);
         assertEquals(LocalDateTime.now().withNano(0).withSecond(0), userAssignment.getSubmissionDate().withNano(0).withSecond(0));
@@ -155,7 +155,7 @@ public class AnswerServiceTest {
     public void testUpdateThrowsSubmissionNotAllowedException() {
         when(answerDao.readById(ID_1)).thenReturn(answer1);
         when(userAssignmentDao.readById(USER_ASSIGNMENT_ID)).thenReturn(userAssignment);
-        when(materialDao.getById(MATERIAL_ID)).thenReturn(material);
+        when(materialDao.readById(MATERIAL_ID)).thenReturn(material);
         material.setDueDate(DUE_DATE_2);
 
         SubmissionNotAllowedException exception = assertThrows(SubmissionNotAllowedException.class, () -> answerService.update(answerDTO2, ID_1));
@@ -164,7 +164,7 @@ public class AnswerServiceTest {
         verify(answerDao, times(0)).update(any(Answer.class));
         verify(answerDao).readById(anyLong());
         verify(userAssignmentDao).readById(anyLong());
-        verify(materialDao).getById(anyLong());
+        verify(materialDao).readById(anyLong());
         verify(userAssignmentDao, times(0)).update(any(UserAssignment.class));
     }
 
@@ -172,7 +172,7 @@ public class AnswerServiceTest {
     public void testDelete() {
         when(answerDao.readById(ID_1)).thenReturn(answer1);
         when(userAssignmentDao.readById(USER_ASSIGNMENT_ID)).thenReturn(userAssignment);
-        when(materialDao.getById(MATERIAL_ID)).thenReturn(material);
+        when(materialDao.readById(MATERIAL_ID)).thenReturn(material);
         when(userAssignmentDao.update(userAssignment)).thenReturn(userAssignment);
 
         answerService.delete(ID_1);
@@ -180,7 +180,7 @@ public class AnswerServiceTest {
         verify(answerDao).delete(anyLong());
         verify(answerDao).readById(anyLong());
         verify(userAssignmentDao).readById(anyLong());
-        verify(materialDao).getById(anyLong());
+        verify(materialDao).readById(anyLong());
         verify(userAssignmentDao).update(any(UserAssignment.class));
         assertEquals(LocalDateTime.now().withNano(0).withSecond(0), userAssignment.getSubmissionDate().withNano(0).withSecond(0));
     }
@@ -189,7 +189,7 @@ public class AnswerServiceTest {
     public void testDeleteThrowsSubmissionNotAllowedException() {
         when(answerDao.readById(ID_1)).thenReturn(answer1);
         when(userAssignmentDao.readById(USER_ASSIGNMENT_ID)).thenReturn(userAssignment);
-        when(materialDao.getById(MATERIAL_ID)).thenReturn(material);
+        when(materialDao.readById(MATERIAL_ID)).thenReturn(material);
         material.setDueDate(DUE_DATE_2);
 
         SubmissionNotAllowedException exception = assertThrows(SubmissionNotAllowedException.class, () -> answerService.delete(ID_1));
@@ -198,7 +198,7 @@ public class AnswerServiceTest {
         verify(answerDao, times(0)).delete(anyLong());
         verify(answerDao).readById(anyLong());
         verify(userAssignmentDao).readById(anyLong());
-        verify(materialDao).getById(anyLong());
+        verify(materialDao).readById(anyLong());
         verify(userAssignmentDao, times(0)).update(any(UserAssignment.class));
     }
 
