@@ -3,7 +3,10 @@ package com.softserve.betterlearningroom.service.impl;
 import com.softserve.betterlearningroom.configuration.jwt.JwtProvider;
 import com.softserve.betterlearningroom.dao.UserDAO;
 import com.softserve.betterlearningroom.dto.UserDTO;
+import com.softserve.betterlearningroom.entity.CustomUserDetails;
 import com.softserve.betterlearningroom.entity.User;
+
+import com.softserve.betterlearningroom.entity.UserPrincipal;
 import com.softserve.betterlearningroom.entity.roles.Roles;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
 import com.softserve.betterlearningroom.mapper.UserMapper;
@@ -11,13 +14,16 @@ import com.softserve.betterlearningroom.payload.AuthRequest;
 import com.softserve.betterlearningroom.payload.SaveUserRequest;
 import com.softserve.betterlearningroom.service.AuthService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class AuthServiceImpl implements AuthService {
 
     private JwtProvider jwtProvider;
@@ -26,13 +32,18 @@ public class AuthServiceImpl implements AuthService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public String login(AuthRequest request, String userRole) throws UsernameNotFoundException {
+    public String login(AuthRequest request) throws UsernameNotFoundException {
         User user = userDao.findByEmail(request.getLogin()).orElseThrow(() -> new BadCredentialsException(
                 String.format("User with email - %s, not found", request.getLogin())));
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new BadCredentialsException(
                     String.format("Wrong password for user with email - %s", request.getLogin()));
         }
+        return jwtProvider.generateToken(user.getEmail(), user.getId(), null);
+    }
+    
+    @Override
+    public String setRole(String token, String userRole) {
         Roles role = null;
         switch(userRole.trim()) {
             case("student"): role = Roles.STUDENT;
@@ -40,8 +51,9 @@ public class AuthServiceImpl implements AuthService {
             case("teacher"): role = Roles.TEACHER;
             break;
         }
-
-        return jwtProvider.generateToken(user.getEmail(), role);
+        UserPrincipal user = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        log.info("Generating token with role: " + role);
+        return jwtProvider.generateToken(user.getUsername(), user.getId(), role);
     }
 
     @Override

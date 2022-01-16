@@ -7,7 +7,9 @@ import com.softserve.betterlearningroom.payload.SaveUserRequest;
 
 public interface AuthService {
 
-    String login(AuthRequest request, String userRole);
+    String login(AuthRequest request);
+    
+    String setRole(String token, String userRole);
 
     UserDTO saveUser(SaveUserRequest request) throws UserAlreadyExistsException;
 

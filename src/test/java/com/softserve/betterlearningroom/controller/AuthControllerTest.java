@@ -52,7 +52,7 @@ class AuthControllerTest {
     void whenLogin_thenReturnStatus200() throws Exception {
         mapper = new  ObjectMapper();
         UserDTO user = getUser();
-        given(authService.login(any(AuthRequest.class), anyString())).willReturn("token");
+        given(authService.login(any(AuthRequest.class))).willReturn("token");
         given(userService.findByEmail(anyString())).willReturn(user);
         authRequest = new AuthRequest("jdoe@gmail.com", "12345");
         mvc.perform(post("/api/auth/login")
@@ -61,7 +61,7 @@ class AuthControllerTest {
                 .param("role", "user"))
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-        verify(authService).login(any(AuthRequest.class), anyString());
+        verify(authService).login(any(AuthRequest.class));
     }
     
     @Test
