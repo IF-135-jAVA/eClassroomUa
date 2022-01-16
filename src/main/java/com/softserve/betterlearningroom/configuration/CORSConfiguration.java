@@ -21,5 +21,4 @@ public class CORSConfiguration implements WebMvcConfigurer {
             }
         };
     }
-
 }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Optional;
 
 @Component
 @Log
@@ -23,35 +24,43 @@ public class JwtProvider {
     @Value("$(jwt.secret)")
     private String jwtSecret;
 
-    public String generateToken(String login, Roles role) {
+    public String generateToken(String email, Long id, Roles role) {
         Date now = new Date();
         Date expired = Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        log.info("generateToken email = " + email + " id = " + id + " role = " + role);
         return Jwts.builder()
-                .setSubject(login)
+                .setSubject(email)
                 .setIssuedAt(now)
                 .setNotBefore(now)
                 .claim("role", role)
+                .claim("id", id)
                 .setExpiration(expired)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 
     public String getLogin(String token) {
+        log.info("Getting subject... ");
         Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
-
+        log.info("Getting subject " + claims.getSubject());
         return claims.getSubject();
     }
 
     public Date getExpirationDate(String token) {
         Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
-
         return claims.getExpiration();
     }
 
-    public String getRole(String token) {
+    public Optional<String> getRole(String token) {
         Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
-
-        return claims.get("role", String.class);
+        return Optional.ofNullable(claims.get("role", String.class));
+    }
+    
+    public Long getId(String token) {
+        log.info("Getting id... ");
+        Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+        log.info("Getting id " + claims.get("id", Long.class));
+        return claims.get("id", Long.class);
     }
 
     public boolean validateToken(String token) {

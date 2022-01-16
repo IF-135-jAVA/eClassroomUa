@@ -1,6 +1,10 @@
 package com.softserve.betterlearningroom.configuration;
 
 import com.softserve.betterlearningroom.configuration.jwt.JwtFilter;
+import com.softserve.betterlearningroom.security.HttpCookieOAuth2AuthorizationRequestRepository;
+import com.softserve.betterlearningroom.security.oauth2.handler.OAuth2AuthenticationFailureHandler;
+import com.softserve.betterlearningroom.security.oauth2.handler.OAuth2AuthenticationSuccessHandler;
+import com.softserve.betterlearningroom.service.impl.CustomOAuth2UserService;
 import com.softserve.betterlearningroom.service.impl.CustomUserDetailsService;
 
 import lombok.RequiredArgsConstructor;
@@ -27,8 +31,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final CustomUserDetailsService userDetailsService;
-
+    
     private final JwtFilter jwtFilter;
+    
+    private final CustomOAuth2UserService customOAuth2UserService;
+    
+    private final OAuth2AuthenticationSuccessHandler successHandler;
+    
+    private final OAuth2AuthenticationFailureHandler failureHandler;
+    
+    private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -38,18 +50,37 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors().and()
-                .csrf().disable()
-                .httpBasic().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+                .cors()
+                    .and()
+                .csrf()
+                    .disable()
+                .httpBasic()
+                    .disable()
+                .formLogin()
+                    .disable()
+                .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and()
                 .authorizeRequests()
-                .antMatchers("/api/auth/login", "/api/auth/registration","/webjars/**","/swagger-ui/**","/swagger-ui.html","/v3/api-docs/**","/swagger-resources/**","/swagger.json","/v2/api-docs/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                    .antMatchers("/api/auth/login", "/api/auth/registration", "/", "/oauth2/**").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
+                .oauth2Login()
+                    .authorizationEndpoint()
+                        .baseUri("/oauth2/authorize")
+                        .authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository)
+                        .and()
+                    .redirectionEndpoint()
+                        .baseUri("/oauth2/callback/*")        
+                        .and()
+                    .userInfoEndpoint()
+                        .userService(customOAuth2UserService)
+                        .and()
+                    .successHandler(successHandler)
+                    .failureHandler(failureHandler)
+                    .and()
+                    .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
