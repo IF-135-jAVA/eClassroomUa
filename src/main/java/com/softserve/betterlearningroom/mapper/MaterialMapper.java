@@ -2,14 +2,12 @@ package com.softserve.betterlearningroom.mapper;
 
 import com.softserve.betterlearningroom.dto.MaterialDTO;
 import com.softserve.betterlearningroom.entity.Material;
-import com.softserve.betterlearningroom.entity.Task;
-import com.softserve.betterlearningroom.entity.Test;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MaterialMapper {
 
-    public MaterialDTO materialToMaterialDTO(Material material){
+    public MaterialDTO materialToMaterialDTO(Material material) {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setCriterions(material.getCriterions());
         materialDTO.setDueDate(material.getDueDate());
@@ -28,15 +26,8 @@ public class MaterialMapper {
         return materialDTO;
     }
 
-    public Material materialDTOToMaterial(MaterialDTO materialDTO){
-        Material material;
-        switch (materialDTO.getMaterialType()){
-            case TEST: material = new Test();
-                break;
-            case TASK: material = new Task();
-                break;
-            default: material = new Material();
-        }
+    public Material materialDTOToMaterial(MaterialDTO materialDTO) {
+        Material material = new Material();
         material.setCriterions(materialDTO.getCriterions());
         material.setDueDate(materialDTO.getDueDate());
         material.setStartDate(materialDTO.getStartDate());
