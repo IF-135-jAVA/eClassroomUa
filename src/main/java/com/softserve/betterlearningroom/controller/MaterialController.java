@@ -2,56 +2,54 @@ package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.MaterialDTO;
 import com.softserve.betterlearningroom.service.MaterialService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@SecurityRequirement(name = "bearerAuth")
 @RestController
-@CrossOrigin(
-        allowCredentials = "true",
-        origins = "http://localhost:4200",
-        allowedHeaders = "*",
-        methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PUT}
-)
+@RequiredArgsConstructor
 @RequestMapping("/api/classrooms/{classroomId}/topics/{topicId}/materials")
-public class
-
-MaterialController {
+public class MaterialController {
 
     private final MaterialService materialService;
 
-    @Autowired
-    public MaterialController(MaterialService materialService){
-        this.materialService = materialService;
-    }
-
     @GetMapping("{id}")
-    private ResponseEntity<MaterialDTO> findMaterialById(@PathVariable Long id){
+    public ResponseEntity<MaterialDTO> findMaterialById(@PathVariable Long id) {
         return ResponseEntity.ok().body(materialService.getMaterialById(id));
     }
 
-    @GetMapping
-    private ResponseEntity<List<MaterialDTO>> findAllMaterials(@PathVariable Long classroomId){
+    @GetMapping("/byClassroom")
+    public ResponseEntity<List<MaterialDTO>> findAllMaterials(@PathVariable Long classroomId) {
         return ResponseEntity.ok().body(materialService.getMaterialsByClassroom(classroomId));
     }
 
+    @GetMapping
+    public ResponseEntity<List<MaterialDTO>> findMaterialsByTopic(@PathVariable Long classroomId, @PathVariable Long topicId) {
+        return ResponseEntity.ok().body(materialService.getMaterialsByTopic(classroomId, topicId));
+    }
+
     @PostMapping
-    private ResponseEntity<MaterialDTO> createMaterial(@RequestBody MaterialDTO material, @PathVariable Long topicId){
-        return new ResponseEntity<>(materialService.addMaterial(material, topicId),HttpStatus.CREATED);
+    public ResponseEntity<MaterialDTO> createMaterial(@RequestBody MaterialDTO material, @PathVariable Long topicId) {
+        return new ResponseEntity<>(materialService.addMaterial(material, topicId), HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
-    private ResponseEntity<MaterialDTO> updateMaterial(@RequestBody MaterialDTO material){
-        return new ResponseEntity<>(materialService.updateMaterial(material),HttpStatus.ACCEPTED);
+    public ResponseEntity<MaterialDTO> updateMaterial(@RequestBody MaterialDTO material) {
+        return new ResponseEntity<>(materialService.updateMaterial(material), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("{id}")
-    private ResponseEntity<?> deleteMaterial(@RequestBody MaterialDTO material){
+    public ResponseEntity<?> deleteMaterial(@RequestBody MaterialDTO material) {
         materialService.updateMaterial(material);
         return new ResponseEntity<>(HttpStatus.OK);
     }

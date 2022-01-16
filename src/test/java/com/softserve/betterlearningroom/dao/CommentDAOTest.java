@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.annotation.Order;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,8 +24,10 @@ class CommentDAOTest {
     @Autowired
     private CommentDAO commentDAO;
 
-    @Order(1)
+
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     @Test
+    @Order(1)
     void readByIdCommentTest() {
         Comment comment = prepareCommentDTO();
         assertEquals((comment), commentDAO.readByIdComment(2));
@@ -34,8 +37,9 @@ class CommentDAOTest {
         assertEquals((comment), commentDAO.readByIdUserAssignmentComments(4));
     }
 
-    @Order(3)
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     @Test
+    @Order(3)
     void readByAuthorIdCommentTest() {
         List<Comment> commentList = new ArrayList<Comment>();
         commentList.add(prepareCommentDTO());
@@ -45,8 +49,8 @@ class CommentDAOTest {
         assertEquals((commentList), commentDAO.readByIdUserAssignmentComments(4));
     }
 
-    @Order(2)
     @Test
+    @Order(2)
     void createCommentTest() {
         Comment comment = prepareCommentDTO();
         Comment savedComment = commentDAO.createComment(comment);
@@ -58,8 +62,9 @@ class CommentDAOTest {
         assertEquals(2, savedComment.getMaterialId());
     }
 
-    @Order(4)
+
     @Test
+    @Order(4)
     void updateCommentTest() {
         Comment comment = prepareCommentDTO();
         comment.setId(2);
@@ -67,8 +72,9 @@ class CommentDAOTest {
         assertEquals("text1", commentDAO.readByIdComment(2).getText());
     }
 
-    @Order(5)
+
     @Test
+    @Order(5)
     void deleteCommentTest() {
         Comment comment = prepareCommentDTO();
         commentDAO.deleteComment(comment.getId());
