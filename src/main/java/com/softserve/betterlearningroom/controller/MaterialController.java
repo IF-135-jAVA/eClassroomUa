@@ -28,9 +28,14 @@ public class MaterialController {
         return ResponseEntity.ok().body(materialService.getMaterialById(id));
     }
 
-    @GetMapping
+    @GetMapping("/byClassroom")
     public ResponseEntity<List<MaterialDTO>> findAllMaterials(@PathVariable Long classroomId) {
         return ResponseEntity.ok().body(materialService.getMaterialsByClassroom(classroomId));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<MaterialDTO>> findMaterialsByTopic(@PathVariable Long classroomId, @PathVariable Long topicId) {
+        return ResponseEntity.ok().body(materialService.getMaterialsByTopic(classroomId, topicId));
     }
 
     @PostMapping
