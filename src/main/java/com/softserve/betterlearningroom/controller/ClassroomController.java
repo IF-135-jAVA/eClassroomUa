@@ -1,9 +1,8 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.ClassroomDTO;
-import com.softserve.betterlearningroom.entity.User;
-import com.softserve.betterlearningroom.service.ClassroomService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import com.softserve.betterlearningroom.dto.UserDTO;
+import com.softserve.betterlearningroom.service.impl.ClassroomServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,43 +11,62 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(
-        allowCredentials = "true",
-        origins = "http://localhost:4200",
-        allowedHeaders = "*",
-        methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PUT}
-)
-@SecurityRequirement(name = "bearerAuth")
 @RequestMapping("/api/classrooms")
 @AllArgsConstructor
 public class ClassroomController {
 
-    private ClassroomService classroomService;
+    private ClassroomServiceImpl classroomServiceImpl;
 
-    @GetMapping("/{classroom_id}")
-    private ResponseEntity<ClassroomDTO> getClassroomById(@PathVariable Long classroom_id){
-        return ResponseEntity.ok().body(classroomService.getClassroomById(classroom_id));
+    @GetMapping("/{classroomId}")
+    public ResponseEntity<ClassroomDTO> getClassroomById(@PathVariable Long classroomId) {
+        return ResponseEntity.ok().body(classroomServiceImpl.getClassroomById(classroomId));
     }
 
-    @GetMapping("/{classroom_id}/user_id")
-    private ResponseEntity<User> findClassroomOwnerById(@PathVariable Long user_id) {
-        return ResponseEntity.ok().body(classroomService.getClassroomOwnerById(user_id));
+    @GetMapping("{classroomId}/owner")
+    public ResponseEntity<UserDTO> getClassroomOwnerById(@PathVariable Long classroomId) {
+        return ResponseEntity.ok().body(classroomServiceImpl.getClassroomOwnerById(classroomId));
     }
 
     @GetMapping("/{classroomId}/teachers")
-    public ResponseEntity<List<User>> findClassroomTeachers(@PathVariable Long classroom_id) {
-        return ResponseEntity.ok().body(classroomService.getClassroomTeachers(classroom_id));
+    public ResponseEntity<List<UserDTO>> getClassroomTeachers(@PathVariable Long classroomId) {
+        return ResponseEntity.ok().body(classroomServiceImpl.getClassroomTeachers(classroomId));
+    }
+
+    @GetMapping("/{classroomId}/students")
+    public ResponseEntity<List<UserDTO>> getClassroomStudents(@PathVariable Long classroomId) {
+        return ResponseEntity.ok().body(classroomServiceImpl.getClassroomStudents(classroomId));
+    }
+
+    @GetMapping("/byTeacher/{userId}")
+    public ResponseEntity<List<ClassroomDTO>> getClassroomsByTeacher(@PathVariable Long userId) {
+        return ResponseEntity.ok().body(classroomServiceImpl.getClassroomsByTeacher(userId));
+    }
+
+    @GetMapping("/byStudent/{userId}")
+    public ResponseEntity<List<ClassroomDTO>> getClassroomsByStudent(@PathVariable Long userId) {
+        return ResponseEntity.ok().body(classroomServiceImpl.getClassroomsByStudent(userId));
+    }
+
+    @GetMapping("/asStudent")
+    @ResponseBody
+    public ResponseEntity<ClassroomDTO> joinClassroomAsStudent(@RequestParam(value = "code", required = true) String code, @RequestParam(value = "userId", required = true) Long userId) {
+        return ResponseEntity.ok().body(classroomServiceImpl.joinClassroomAsStudent(code, userId));
+    }
+
+    @GetMapping("/asTeacher")
+    @ResponseBody
+    public ResponseEntity<ClassroomDTO> joinClassroomAsTeacher(@RequestParam(value = "code", required = true) String code, @RequestParam(value = "userId", required = true) Long userId) {
+        return ResponseEntity.ok().body(classroomServiceImpl.joinClassroomAsTeacher(code, userId));
     }
 
     @PostMapping()
-    private ResponseEntity<?> createClassroom(@RequestBody ClassroomDTO classroomDTO){
-        classroomService.createClassroom(classroomDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<ClassroomDTO> createClassroom(@RequestBody ClassroomDTO classroomDTO) {
+        return new ResponseEntity<>(classroomServiceImpl.createClassroom(classroomDTO), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{classroom_id}")
-    private ResponseEntity<?> removeClassroom(@PathVariable Long classroom_id){
-        classroomService.removeClassroomById(classroom_id);
+    @DeleteMapping("/{classroomId}")
+    public ResponseEntity<?> removeClassroom(@PathVariable Long classroomId) {
+        classroomServiceImpl.removeClassroomById(classroomId);
         return ResponseEntity.ok().build();
     }
 }
