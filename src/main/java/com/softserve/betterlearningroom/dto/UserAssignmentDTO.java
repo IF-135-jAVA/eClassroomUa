@@ -1,11 +1,15 @@
 package com.softserve.betterlearningroom.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
-public class    UserAssignmentDTO {
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserAssignmentDTO {
     private long id;
     private long materialId;
     private long userId;
