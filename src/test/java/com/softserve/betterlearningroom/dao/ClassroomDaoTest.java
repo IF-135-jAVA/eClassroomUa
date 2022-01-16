@@ -12,10 +12,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @SpringBootTest(classes = {TestDBConfiguration.class, ClassroomDaoImpl.class, UserDAOImpl.class})
-public class ClassroomDaoTest {
+class ClassroomDaoTest {
 
     @Autowired
     ClassroomDaoImpl classroomDaoImpl;
@@ -23,7 +24,7 @@ public class ClassroomDaoTest {
     UserDAOImpl userDaoImpl;
 
     @Test
-    public void testCreateClassroomAndGetClassroomById() {
+    void testCreateClassroomAndGetClassroomById() {
         Classroom classroom = Classroom.builder()
                 .classroomId(5L)
                 .userId(5L)
@@ -44,7 +45,7 @@ public class ClassroomDaoTest {
     }
 
     @Test
-    public void testGetClassroomByCode() {
+    void testGetClassroomByCode() {
         Classroom classroom = Classroom.builder()
                 .classroomId(6L)
                 .userId(6L)
@@ -60,7 +61,7 @@ public class ClassroomDaoTest {
     }
 
     @Test
-    public void testJoinClassroomAsStudent() {
+    void testJoinClassroomAsStudent() {
         Classroom classroom = Classroom.builder()
                 .classroomId(7L)
                 .userId(7L)
@@ -76,7 +77,7 @@ public class ClassroomDaoTest {
     }
 
     @Test
-    public void testJoinClassroomAsTeacher() {
+    void testJoinClassroomAsTeacher() {
         Classroom classroom = Classroom.builder()
                 .classroomId(8L)
                 .userId(8L)
@@ -93,7 +94,7 @@ public class ClassroomDaoTest {
 
 
     @Test
-    public void testGetClassroomOwnerById() {
+    void testGetClassroomOwnerById() {
         Classroom classroom = Classroom.builder()
                 .classroomId(3L)
                 .userId(3L)
@@ -118,7 +119,7 @@ public class ClassroomDaoTest {
     }
 
     @Test
-    public void getClassroomTeachers() {
+    void getClassroomTeachers() {
         Classroom classroom = Classroom.builder()
                 .classroomId(2L)
                 .userId(2L)
@@ -135,7 +136,7 @@ public class ClassroomDaoTest {
                 .password("$2a$04$MzVXtd4o0y4DOlyHMMLMDeE4/eezrsT5Xad.2lmGr/NkCpwBgvn3e")
                 .enabled(true)
                 .build();
-        List<User> teachers = new ArrayList();
+        List<User> teachers = new ArrayList<User>();
         teachers.add(user);
         userDaoImpl.save(user);
         List<User> classroomTeachers = classroomDaoImpl.getClassroomTeachers(classroom.getClassroomId());
@@ -144,7 +145,7 @@ public class ClassroomDaoTest {
     }
 
     @Test
-    public void getClassroomStudents() {
+    void getClassroomStudents() {
         Classroom classroom = Classroom.builder()
                 .classroomId(1L)
                 .userId(1L)
@@ -161,37 +162,11 @@ public class ClassroomDaoTest {
                 .password("$2a$04$MzVXtd4o0y4DOlyHMMLMDeE4/eezrsT5Xad.2lmGr/NkCpwBgvn3e")
                 .enabled(true)
                 .build();
-        List<User> students = new ArrayList();
+        List<User> students = new ArrayList<User>();
         students.add(user);
         userDaoImpl.save(user);
         List<User> classroomStudents = classroomDaoImpl.getClassroomStudents(classroom.getClassroomId());
         assertNotNull(classroomStudents);
         assertEquals(students, classroomStudents);
     }
-
-//    @Test
-//    public void testGetClassroomsByStudent() {
-//        User user = User.builder()
-//                .firstName("Slevin")
-//                .lastName("Kelevra")
-//                .email("slevinkelevra@gmail.com")
-//                .password("$2a$04$MzVXtd4o0y4DOlyHMMLMDeE4/eezrsT5Xad.2lmGr/NkCpwBgvn3e")
-//                .enabled(true)
-//                .build();
-//        userDaoImpl.save(user);
-//        Classroom classroom = Classroom.builder()
-//                .classroomId(1L)
-//                .userId(1L)
-//                .title("Mathematics")
-//                .session("General and overarching topics: collections")
-//                .description("Introductory exposition pertaining to mathematics in general")
-//                .code("9e8gh1t")
-//                .build();
-//        List<Classroom> classrooms = new ArrayList();
-//        classrooms.add(classroom);
-//        classroomDaoImpl.createClassroom(classroom);
-//        List<Classroom> classroomsByStudent = classroomDaoImpl.getClassroomsByStudent(classroom.getUserId());
-//        assertNotNull(classroomsByStudent);
-//        assertEquals(classrooms, classroomsByStudent);
-//    }
 }

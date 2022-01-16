@@ -111,7 +111,7 @@ public class ClassroomDaoImpl implements ClassroomDao {
     }
 
     @Override
-    public void createClassroom(Classroom classroom) {
+    public Classroom createClassroom(Classroom classroom) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("classroomId", classroom.getClassroomId())
                 .addValue("userId", classroom.getUserId())
@@ -120,13 +120,13 @@ public class ClassroomDaoImpl implements ClassroomDao {
                 .addValue("description", classroom.getDescription())
                 .addValue("code", classroom.getCode());
         jdbcParameterTemplate.update(createClassroom, params);
+        return classroom;
     }
 
     @Override
     public void removeClassroomById(Long classroomId) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("classroomId", classroomId);
         jdbcParameterTemplate.update(removeClassroom, parameterSource);
-
     }
 
     @Override

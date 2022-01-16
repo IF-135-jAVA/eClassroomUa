@@ -18,67 +18,67 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ClassroomServiceImpl implements ClassroomService {
 
-    private ClassroomDaoImpl classroomDAO;
+    private ClassroomDaoImpl classroomDaoImpl;
     private ClassroomMapper classroomMapper;
     private UserMapper userMapper;
 
     public ClassroomDTO getClassroomById(Long classroomId) {
-        Classroom classroom = classroomDAO.getClassroomById(classroomId);
+        Classroom classroom = classroomDaoImpl.getClassroomById(classroomId);
         return classroomMapper.classroomToClassroomDTO(classroom);
     }
 
-    public void createClassroom(ClassroomDTO classroomDTO) {
-        classroomDAO.createClassroom(classroomMapper.classroomDTOToClassroom(classroomDTO));
+    public ClassroomDTO createClassroom(ClassroomDTO classroomDTO) {
+        return classroomMapper.classroomToClassroomDTO(classroomDaoImpl.createClassroom(classroomMapper.classroomDTOToClassroom(classroomDTO)));
     }
 
     public UserDTO getClassroomOwnerById(Long classroomId) {
-        User user = classroomDAO.getClassroomOwnerById(classroomId);
+        User user = classroomDaoImpl.getClassroomOwnerById(classroomId);
         return userMapper.userToUserDTO(user);
     }
 
     public List<UserDTO> getClassroomTeachers(Long classroomId) {
-        return classroomDAO.getClassroomTeachers(classroomId).stream()
+        return classroomDaoImpl.getClassroomTeachers(classroomId).stream()
                 .map(userMapper::userToUserDTO)
                 .collect(Collectors.toList());
     }
 
     public List<UserDTO> getClassroomStudents(Long classroomId) {
-        return classroomDAO.getClassroomStudents(classroomId).stream()
+        return classroomDaoImpl.getClassroomStudents(classroomId).stream()
                 .map(userMapper::userToUserDTO)
                 .collect(Collectors.toList());
     }
 
     public List<ClassroomDTO> getClassroomsByTeacher(Long userId) {
-        return classroomDAO.getClassroomsByTeacher(userId).stream()
+        return classroomDaoImpl.getClassroomsByTeacher(userId).stream()
                 .map(classroomMapper::classroomToClassroomDTO)
                 .collect(Collectors.toList());
     }
 
     public List<ClassroomDTO> getClassroomsByStudent(Long userId) {
-        return classroomDAO.getClassroomsByStudent(userId).stream()
+        return classroomDaoImpl.getClassroomsByStudent(userId).stream()
                 .map(classroomMapper::classroomToClassroomDTO)
                 .collect(Collectors.toList());
     }
 
     public ClassroomDTO joinClassroomAsStudent(String code, Long userId) {
-        Classroom classroom = classroomDAO.getClassroomByCode(code);
-        if (classroomDAO.getClassroomTeachers(classroom.getClassroomId()).stream().anyMatch(user -> user.getId() == userId)) {
-        } else if (classroomDAO.getClassroomStudents(classroom.getClassroomId()).stream().anyMatch(user -> user.getId() == userId)) {
-        } else if (classroomDAO.getClassroomOwnerById(classroom.getClassroomId()).getId() == userId) {
+        Classroom classroom = classroomDaoImpl.getClassroomByCode(code);
+        if (classroomDaoImpl.getClassroomTeachers(classroom.getClassroomId()).stream().anyMatch(user -> user.getId() == userId)) {
+        } else if (classroomDaoImpl.getClassroomStudents(classroom.getClassroomId()).stream().anyMatch(user -> user.getId() == userId)) {
+        } else if (classroomDaoImpl.getClassroomOwnerById(classroom.getClassroomId()).getId() == userId) {
         } else {
-            classroomDAO.joinClassroomAsStudent(code, userId);
+            classroomDaoImpl.joinClassroomAsStudent(code, userId);
             return classroomMapper.classroomToClassroomDTO(classroom);
         }
         return null;
     }
 
     public ClassroomDTO joinClassroomAsTeacher(String code, Long userId) {
-        Classroom classroom = classroomDAO.getClassroomByCode(code);
-        if (classroomDAO.getClassroomStudents(classroom.getClassroomId()).stream().anyMatch(user -> user.getId() == userId)) {
-        } else if (classroomDAO.getClassroomTeachers(classroom.getClassroomId()).stream().anyMatch(user -> user.getId() == userId)) {
-        } else if (classroomDAO.getClassroomOwnerById(classroom.getClassroomId()).getId() == userId) {
+        Classroom classroom = classroomDaoImpl.getClassroomByCode(code);
+        if (classroomDaoImpl.getClassroomStudents(classroom.getClassroomId()).stream().anyMatch(user -> user.getId() == userId)) {
+        } else if (classroomDaoImpl.getClassroomTeachers(classroom.getClassroomId()).stream().anyMatch(user -> user.getId() == userId)) {
+        } else if (classroomDaoImpl.getClassroomOwnerById(classroom.getClassroomId()).getId() == userId) {
         } else {
-            classroomDAO.joinClassroomAsTeacher(code, userId);
+            classroomDaoImpl.joinClassroomAsTeacher(code, userId);
             return classroomMapper.classroomToClassroomDTO(classroom);
         }
         return null;
@@ -86,6 +86,6 @@ public class ClassroomServiceImpl implements ClassroomService {
 
     public void removeClassroomById(Long classroomId) {
         ClassroomDTO classroomDTO = getClassroomById(classroomId);
-        classroomDAO.removeClassroomById(classroomDTO.getClassroomId());
+        classroomDaoImpl.removeClassroomById(classroomDTO.getClassroomId());
     }
 }

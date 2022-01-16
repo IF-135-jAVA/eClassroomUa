@@ -9,7 +9,7 @@ public interface ClassroomService {
 
     ClassroomDTO getClassroomById(Long classroomId);
 
-    void createClassroom(ClassroomDTO classroomDTO);
+    ClassroomDTO createClassroom(ClassroomDTO classroomDTO);
 
     UserDTO getClassroomOwnerById(Long classroomId);
 

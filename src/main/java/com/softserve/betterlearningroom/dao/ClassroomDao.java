@@ -23,7 +23,7 @@ public interface ClassroomDao {
 
     Classroom joinClassroomAsTeacher(String code, Long userId);
 
-    void createClassroom(Classroom classroom);
+    Classroom createClassroom(Classroom classroom);
 
     void removeClassroomById(Long classroomId);
 
