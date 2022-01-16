@@ -41,8 +41,8 @@ public class LevelController {
     /**
      * get deleted levels
      */
-    @GetMapping("/deleted/{deleted}")
-    public ResponseEntity<List<LevelDTO>> getAllDeleted(@PathVariable String deleted) {
+    @GetMapping("/deleted/{deleted}") //fix path
+    public ResponseEntity<List<LevelDTO>> getAllDeleted() {
         List<LevelDTO> level = levelServiceImpl.findAllDeleted();
         return ResponseEntity.ok().body(level);
     }

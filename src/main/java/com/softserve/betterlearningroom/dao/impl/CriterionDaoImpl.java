@@ -73,16 +73,16 @@ public class CriterionDaoImpl implements CriterionDao {
     }
 
     @Override
+    public List<Criterion> findAllByMaterialId(Long materialId){
+        return findAll().stream().filter(criterion ->criterion.getMaterialId().equals(materialId)).collect(Collectors.toList());
+    }
+
+    @Override
     public Criterion findById(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("criterion_id", id);
         return jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
                 BeanPropertyRowMapper.newInstance(Criterion.class));
 
-    }
-
-    @Override
-    public List<Criterion> findAllByMaterialId(Long materialId){
-       return findAll().stream().filter(criterion ->criterion.getMaterialId().equals(materialId)).collect(Collectors.toList());
     }
 
     @Override

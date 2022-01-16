@@ -13,7 +13,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 @PropertySource(value = "classpath:db/level/levelQuery.properties")
@@ -39,6 +38,9 @@ public class LevelDaoImpl implements LevelDao {
 
     @Value("${level.removeById}")
     private String removeByIdQuery;
+
+    @Value("${level.findByCriterionId}")
+    private String findByCriterionIdQuery;
 
     @Override
     public Level save(Level level) {
@@ -68,7 +70,10 @@ public class LevelDaoImpl implements LevelDao {
 
     @Override
     public List<Level> findAllByCriterionId(Long criterionId) {
-        return findAll().stream().filter(level -> level.getCriterionId().equals(criterionId)).collect(Collectors.toList());
+        SqlParameterSource parameterSource = new MapSqlParameterSource("criterion_id", criterionId);
+        return jdbcTemplate.query(findByCriterionIdQuery, parameterSource,
+                BeanPropertyRowMapper.newInstance(Level.class));
+
     }
 
     @Override

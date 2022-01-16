@@ -68,16 +68,16 @@ public class TopicDaoImpl implements TopicDao {
     }
 
     @Override
+    public List<Topic> findAllByClassroomId(Long classroomId) {
+        return findAll().stream().filter(topic -> topic.getClassroomId().equals(classroomId)).collect(Collectors.toList());
+    }
+
+    @Override
     public Topic findById(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("topic_id", id);
         return jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
                 BeanPropertyRowMapper.newInstance(Topic.class));
 
-    }
-
-    @Override
-    public List<Topic> findAllByClassroomId(Long classroomId) {
-        return findAll().stream().filter(topic -> topic.getClassroomId().equals(classroomId)).collect(Collectors.toList());
     }
 
     @Override
