@@ -9,12 +9,13 @@ public class ClassroomMapper {
 
     public ClassroomDTO classroomToClassroomDTO(Classroom classroom) {
         ClassroomDTO classroomDTO = new ClassroomDTO();
-        classroomDTO.setClassroom_id(classroom.getClassroom_id());
+        classroomDTO.setClassroomId(classroom.getClassroomId());
+        classroomDTO.setUserId(classroom.getUserId());
         classroomDTO.setTitle(classroom.getTitle());
         classroomDTO.setSession(classroom.getSession());
         classroomDTO.setDescription(classroom.getDescription());
         classroomDTO.setCode(classroom.getCode());
-        classroomDTO.setUser_id(classroom.getUser_id());
+        classroomDTO.setOwner(classroom.getOwner());
         classroomDTO.setTeachers(classroom.getTeachers());
         classroomDTO.setStudents(classroom.getStudents());
         classroomDTO.setTopics(classroom.getTopics());
@@ -26,12 +27,13 @@ public class ClassroomMapper {
 
     public Classroom classroomDTOToClassroom(ClassroomDTO classroomDTO) {
         Classroom classroom = new Classroom();
-        classroom.setClassroom_id(classroomDTO.getClassroom_id());
+        classroom.setClassroomId(classroomDTO.getClassroomId());
+        classroom.setUserId(classroomDTO.getUserId());
         classroom.setTitle(classroomDTO.getTitle());
         classroom.setSession(classroomDTO.getSession());
         classroom.setDescription(classroomDTO.getDescription());
         classroom.setCode(classroomDTO.getCode());
-        classroom.setUser_id(classroomDTO.getUser_id());
+        classroom.setOwner(classroomDTO.getOwner());
         classroom.setTeachers(classroomDTO.getTeachers());
         classroom.setStudents(classroomDTO.getStudents());
         classroom.setTopics(classroomDTO.getTopics());

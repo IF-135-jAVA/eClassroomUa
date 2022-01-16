@@ -1,7 +1,8 @@
 package com.softserve.betterlearningroom.configuration;
 
 import com.softserve.betterlearningroom.configuration.jwt.JwtFilter;
-import com.softserve.betterlearningroom.service.CustomUserDetailsService;
+import com.softserve.betterlearningroom.service.impl.CustomUserDetailsService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +27,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final CustomUserDetailsService userDetailsService;
-    
+
     private final JwtFilter jwtFilter;
 
     @Override
@@ -43,11 +44,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/auth/login", "/api/auth/registration").permitAll()
+                .antMatchers("/api/auth/login", "/api/auth/registration","/webjars/**","/swagger-ui/**","/swagger-ui.html","/v3/api-docs/**","/swagger-resources/**","/swagger.json","/v2/api-docs/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

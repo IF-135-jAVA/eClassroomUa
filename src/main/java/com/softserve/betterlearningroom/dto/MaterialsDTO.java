@@ -11,25 +11,18 @@ import java.util.List;
 /**
  * Contains data for assignment.
  *
- * @author  Igor Tryniak
+ * @author Igor Tryniak
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class MaterialsDTO {
-    /**
-     * Material identifier.
-     */
 
     private Integer id;
-    /**
-     * Name of material.
-     */
+
     private String title;
-    /**
-     * Filling material.
-     */
+
     private String text;
 
     private Date startDate;
@@ -39,10 +32,7 @@ public class MaterialsDTO {
     private String task;
 
     private String answer;
-    /**
-     * List of urls address.
-     */
-    private List<String> urls;
 
+    private List<String> urls;
 
 }

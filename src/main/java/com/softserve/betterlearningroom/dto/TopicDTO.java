@@ -12,7 +12,7 @@ public class TopicDTO {
     /**
      * Topic identifier.
      */
-    private Integer id;
+    private Long id;
     /**
      * Name of material.
      */
@@ -20,6 +20,6 @@ public class TopicDTO {
     /**
      * List of classrooms.
      */
-    private Integer classroomId;
+    private Long classroomId;
 
 }

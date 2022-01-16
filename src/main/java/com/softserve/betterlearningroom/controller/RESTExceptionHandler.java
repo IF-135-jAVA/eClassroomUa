@@ -190,8 +190,7 @@ public class RESTExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({ AccessDeniedException.class })
-    public ResponseEntity<Object> handleAccessDeniedException(Exception ex, HttpHeaders headers, HttpStatus status,
-            WebRequest request) {
+    public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
         List<String> details = new ArrayList<String>();
         details.add("You dont' have rights to acces this resource.");
 
