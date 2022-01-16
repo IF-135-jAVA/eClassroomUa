@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class AnnouncementMapper {
 
-    public static AnnouncementDTO announcementToAnnouncementDTO(Announcement announcement) {
+    public AnnouncementDTO announcementToAnnouncementDTO(Announcement announcement) {
         AnnouncementDTO announcementDTO = new AnnouncementDTO();
         announcementDTO.setId(announcement.getId());
         announcementDTO.setCourseId(announcement.getCourseId());
         announcementDTO.setText(announcement.getText());
         announcementDTO.setComments(announcement.getComments());
-
+        announcementDTO.setEnabled(announcement.isEnabled());
         return announcementDTO;
     }
 
@@ -25,7 +25,7 @@ public class AnnouncementMapper {
         announcement.setCourseId(announcementDTO.getCourseId());
         announcement.setText(announcementDTO.getText());
         announcement.setComments(announcementDTO.getComments());
-
+        announcement.setEnabled(announcementDTO.isEnabled());
         return announcement;
     }
 

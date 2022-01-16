@@ -1,5 +1,6 @@
 package com.softserve.betterlearningroom.dao.impl;
 
+import com.softserve.betterlearningroom.dao.TopicDao;
 import com.softserve.betterlearningroom.entity.Topic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,10 +14,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
-@PropertySource(value = "classpath:/topicQuery.properties")
-public class TopicDAO {
+@PropertySource(value = "classpath:/db/topic/topicQuery.properties")
+public class TopicDaoImpl implements TopicDao {
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -30,6 +32,9 @@ public class TopicDAO {
     @Value("${topic.findAll}")
     private String findAllQuery;
 
+    @Value("${topic.findAllDeleted}")
+    private String findAllDeletedQuery;
+
     @Value("${topic.findById}")
     private String findByIdQuery;
 
@@ -39,41 +44,52 @@ public class TopicDAO {
     @Value("${topic.findByTitle}")
     private String findByTitleQuery;
 
-    public void save(Topic topic) {
+    @Override
+    public Topic save(Topic topic) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource
-                .addValue("classroomId", topic.getClassroom_id())
+                .addValue("classroomId", topic.getClassroomId())
                 .addValue("title", topic.getTitle());
         jdbcTemplate.update(saveQuery, parameterSource);
+        return topic;
     }
 
-    public void update(Topic topic) {
+    @Override
+    public Topic update(Topic topic) {
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(topic);
         jdbcTemplate.update(updateQuery, parameterSource);
+        return topic;
     }
 
+    @Override
     public List<Topic> findAll() {
-       List<Topic> list=jdbcTemplate.query(findAllQuery,
-               BeanPropertyRowMapper.newInstance(Topic.class));
-        System.out.println(list);
-       return jdbcTemplate.query(findAllQuery,
+        return jdbcTemplate.query(findAllQuery,
                 BeanPropertyRowMapper.newInstance(Topic.class));
     }
 
-
-    public Optional<Topic> findById(Integer id) {
+    @Override
+    public Topic findById(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("topic_id", id);
-        return Optional.ofNullable(jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
-                BeanPropertyRowMapper.newInstance(Topic.class)));
+        return jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
+                BeanPropertyRowMapper.newInstance(Topic.class));
 
     }
 
+    @Override
+    public List<Topic> findAllByClassroomId(Long classroomId) {
+        return findAll().stream().filter(topic -> topic.getClassroomId().equals(classroomId)).collect(Collectors.toList());
+    }
 
-    public void removeById(Integer id) {
+    @Override
+    public void removeById(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("topic_id", id);
         jdbcTemplate.update(removeByIdQuery, parameterSource);
     }
 
+    public List<Topic> findAllDeleted() {
+        return jdbcTemplate.query(findAllDeletedQuery,
+                BeanPropertyRowMapper.newInstance(Topic.class));
+    }
 
     public Optional<List<Topic>> findByTitle(String title) {
         return Optional.of(jdbcTemplate.query(findByTitleQuery, BeanPropertyRowMapper.newInstance(Topic.class)));

@@ -4,6 +4,7 @@ import com.softserve.betterlearningroom.entity.Announcement;
 import com.softserve.betterlearningroom.entity.Comment;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -18,6 +19,7 @@ public class AnnouncementRowMapper implements RowMapper<Announcement> {
         announcement.setCourseId(rs.getLong("courseId"));
         announcement.setText(rs.getString("text"));
         announcement.setComments((List<Comment>) rs.getArray("comments"));
+        announcement.setEnabled(rs.getBoolean("enabled"));
         return announcement;
     }
 }

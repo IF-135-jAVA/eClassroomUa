@@ -2,11 +2,12 @@ package com.softserve.betterlearningroom.dto;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
-
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,5 +19,5 @@ public class CommentDTO {
     private long announcementId;
     private long userAssignmentId;
     private long materialId;
-
+    private boolean enabled;
 }
