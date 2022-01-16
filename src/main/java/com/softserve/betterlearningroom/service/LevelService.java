@@ -16,4 +16,6 @@ public interface LevelService {
 
     LevelDTO update(LevelDTO levelDTO);
 
+    List<LevelDTO> findAllByCriterionId(Long criterionId);
+
 }

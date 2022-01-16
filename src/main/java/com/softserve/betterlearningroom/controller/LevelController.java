@@ -30,6 +30,15 @@ public class LevelController {
     }
 
     /**
+     * get all exist level by criterion id
+     */
+    @GetMapping("/byCriterionId/{byCriterionId}")
+    public ResponseEntity<List<LevelDTO>> getAllByCriterionId(@PathVariable(value = "byCriterionId" ) final Long criterionId) {
+        List<LevelDTO> level = levelServiceImpl.findAllByCriterionId(criterionId);
+        return ResponseEntity.ok().body(level);
+    }
+
+    /**
      * get deleted levels
      */
     @GetMapping("/deleted/{deleted}")
