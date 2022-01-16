@@ -2,10 +2,12 @@ package com.softserve.betterlearningroom.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class UserAssignment {
     private long id;
