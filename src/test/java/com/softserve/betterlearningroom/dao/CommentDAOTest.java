@@ -11,8 +11,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -30,23 +28,18 @@ class CommentDAOTest {
     @Order(1)
     void readByIdCommentTest() {
         Comment comment = prepareCommentDTO();
-        assertEquals((comment), commentDAO.readByIdComment(2));
-        assertEquals((comment), commentDAO.readByIdAuthorId(2));
-        assertEquals((comment), commentDAO.readByIdAnnouncementComments(3));
-        assertEquals((comment), commentDAO.readByIdMaterialComments(2));
-        assertEquals((comment), commentDAO.readByIdUserAssignmentComments(4));
+        commentDAO.createComment(comment);
+        assertEquals(5, commentDAO.readByIdComment(5).getId());
+        assertEquals(5, commentDAO.readByIdAuthorId(2).get(1).getId());
+        assertEquals("text1", commentDAO.readByIdAnnouncementComments(3).get(1).getText());
     }
 
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     @Test
     @Order(3)
     void readByAuthorIdCommentTest() {
-        List<Comment> commentList = new ArrayList<Comment>();
-        commentList.add(prepareCommentDTO());
-        assertEquals((commentList), commentDAO.readByIdAuthorId(2));
-        assertEquals((commentList), commentDAO.readByIdAnnouncementComments(3));
-        assertEquals((commentList), commentDAO.readByIdMaterialComments(2));
-        assertEquals((commentList), commentDAO.readByIdUserAssignmentComments(4));
+        commentDAO.createComment(prepareCommentDTO());
+        assertEquals(2, commentDAO.readByIdAuthorId(2).get(1).getId());
     }
 
     @Test
@@ -62,7 +55,6 @@ class CommentDAOTest {
         assertEquals(2, savedComment.getMaterialId());
     }
 
-
     @Test
     @Order(4)
     void updateCommentTest() {
@@ -77,12 +69,12 @@ class CommentDAOTest {
     @Order(5)
     void deleteCommentTest() {
         Comment comment = prepareCommentDTO();
-        commentDAO.deleteComment(comment.getId());
+        commentDAO.deleteComment(2);
     }
 
     private Comment prepareCommentDTO() {
         return Comment.builder()
-                .id(1)
+                .id(5)
                 .text("text1")
                 .authorId(2)
                 .announcementId(3)
