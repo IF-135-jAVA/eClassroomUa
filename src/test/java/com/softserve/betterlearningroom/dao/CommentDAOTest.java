@@ -11,8 +11,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -25,28 +23,44 @@ class CommentDAOTest {
     private CommentDAO commentDAO;
 
 
+    private Comment prepareCommentDTO() {
+        return Comment.builder()
+                .id(5)
+                .text("text1")
+                .authorId(2)
+                .announcementId(3)
+                .materialId(2)
+                .userAssignmentId(4)
+                .date(LocalDateTime.now())
+                .enabled(true)
+                .build();
+    }
+
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     @Test
     @Order(1)
     void readByIdCommentTest() {
         Comment comment = prepareCommentDTO();
-        assertEquals((comment), commentDAO.readByIdComment(2));
-        assertEquals((comment), commentDAO.readByIdAuthorId(2));
-        assertEquals((comment), commentDAO.readByIdAnnouncementComments(3));
-        assertEquals((comment), commentDAO.readByIdMaterialComments(2));
-        assertEquals((comment), commentDAO.readByIdUserAssignmentComments(4));
+        commentDAO.createComment(comment);
+        assertEquals(5, commentDAO.readByIdComment(5).getId());
+        assertEquals(5, commentDAO.readByIdAuthorId(2).get(1).getId());
+        assertEquals("text1", commentDAO.readByIdAnnouncementComments(3).get(1).getText());
+//        assertEquals((comment), commentDAO.readByIdMaterialComments(2));
+//        assertEquals((comment), commentDAO.readByIdUserAssignmentComments(4));
     }
 
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     @Test
     @Order(3)
     void readByAuthorIdCommentTest() {
-        List<Comment> commentList = new ArrayList<Comment>();
-        commentList.add(prepareCommentDTO());
-        assertEquals((commentList), commentDAO.readByIdAuthorId(2));
-        assertEquals((commentList), commentDAO.readByIdAnnouncementComments(3));
-        assertEquals((commentList), commentDAO.readByIdMaterialComments(2));
-        assertEquals((commentList), commentDAO.readByIdUserAssignmentComments(4));
+//        List<Comment> commentList = new ArrayList<Comment>();
+//        commentList.add(prepareCommentDTO());
+        commentDAO.createComment(prepareCommentDTO());
+
+        assertEquals(2, commentDAO.readByIdAuthorId(2).get(1).getId());
+//        assertEquals((commentList), commentDAO.readByIdAnnouncementComments(3));
+//        assertEquals((commentList), commentDAO.readByIdMaterialComments(2));
+//        assertEquals((commentList), commentDAO.readByIdUserAssignmentComments(4));
     }
 
     @Test
@@ -77,19 +91,8 @@ class CommentDAOTest {
     @Order(5)
     void deleteCommentTest() {
         Comment comment = prepareCommentDTO();
-        commentDAO.deleteComment(comment.getId());
+        commentDAO.deleteComment(2);
     }
 
-    private Comment prepareCommentDTO() {
-        return Comment.builder()
-                .id(1)
-                .text("text1")
-                .authorId(2)
-                .announcementId(3)
-                .materialId(2)
-                .userAssignmentId(4)
-                .date(LocalDateTime.now())
-                .enabled(true)
-                .build();
-    }
+
 }
