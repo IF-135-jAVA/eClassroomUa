@@ -17,6 +17,7 @@
 	<properties>
 		<sonar.organization>if-135-java</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.login>cda3cf0048c505175172f016ad14404587a3e0a0</sonar.login>
 		<java.version>11</java.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
@@ -146,35 +147,12 @@
 					<propertyFileWillOverride>true</propertyFileWillOverride>
 				</configuration>
 			</plugin>
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>0.20.1</version>
-                <configuration>
-                    <images>
-                        <image>
-                            <name>app</name>
-                            <build>
-                                <dockerFileDir>eClassroomUa/src/main/docker</dockerFileDir>
-                                <assembly>
-                                    <mode>dir</mode>
-                                    <targetDir>/app</targetDir>
-                                    <descriptor>eClassroomUa/src/main/docker/assembly.xml</descriptor>
-                                </assembly>
-                            </build>
-                        </image>
-                    </images>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>build</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+<!--			<plugin>-->
+<!--				<groupId>org.sonarsource.scanner.maven</groupId>-->
+<!--				<artifactId>sonar-maven-plugin</artifactId>-->
+<!--				<version>3.7.0.1746</version>-->
+<!--			</plugin>-->
+
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
