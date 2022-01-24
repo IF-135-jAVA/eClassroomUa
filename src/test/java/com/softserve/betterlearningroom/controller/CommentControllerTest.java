@@ -14,7 +14,6 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDateTime;
@@ -49,7 +48,7 @@ class CommentControllerTest {
         mapper = new ObjectMapper();
         CommentDTO comment = new CommentDTO(2, "text2", LocalDateTime.now(), 3, 3, 4, 2, true);
         given(commentService.readByIdComment(Mockito.anyLong())).willReturn(comment);
-        ResultActions result = mvc.perform(get("/api/comments/2")
+        mvc.perform(get("/api/comments/2")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));

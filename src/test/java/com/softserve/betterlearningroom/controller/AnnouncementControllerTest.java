@@ -14,7 +14,6 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -49,7 +48,7 @@ class AnnouncementControllerTest {
         mapper = new ObjectMapper();
         AnnouncementDTO announcement = new AnnouncementDTO(1, 2, "text2", List.of(), true);
         given(announcementService.readById(Mockito.anyLong())).willReturn(announcement);
-        ResultActions result = mvc.perform(get("/api/classrooms/2/announcements/1")
+        mvc.perform(get("/api/classrooms/2/announcements/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));

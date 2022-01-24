@@ -17,7 +17,6 @@ import java.util.List;
 @EqualsAndHashCode
 public class Criterion {
 
-
     private Long criterionId;
 
     private String title;
