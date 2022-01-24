@@ -43,7 +43,6 @@ public class AnnouncementController {
         announcementService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 }
 
 

@@ -5,19 +5,19 @@ import com.softserve.betterlearningroom.entity.Comment;
 import java.util.List;
 
 public interface CommentDAO {
-    Comment readByIdComment(long id);
+    Comment findById(Long id);
 
-    Comment createComment(Comment comment);
+    Comment save(Comment comment);
 
-    Comment updateComment(Comment updateComment);
+    Comment update(Comment updatedComment);
 
-    void deleteComment(long id);
+    void delete(Long id);
 
-    List<Comment> readByIdMaterialComments(long materialCommentsId);
+    List<Comment> findByMaterialId(Long materialId);
 
-    List<Comment> readByIdAnnouncementComments(long announcementCommentsId);
+    List<Comment> findByAnnouncementId(Long announcementId);
 
-    List<Comment> readByIdUserAssignmentComments(long userAssignmentCommentsId);
+    List<Comment> findByUserAssignmentId(Long userAssignmentId);
 
-    List<Comment> readByIdAuthorId(long authorId);
+    List<Comment> findByAuthorId(Long authorId);
 }

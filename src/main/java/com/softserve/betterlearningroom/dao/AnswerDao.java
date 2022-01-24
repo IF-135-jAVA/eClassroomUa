@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface AnswerDao {
 
-    Answer create(Answer answer);
+    Answer save(Answer answer);
 
-    Answer readById(long id);
+    Answer findById(Long id);
 
     Answer update(Answer answer);
 
-    void delete(long id);
+    void delete(Long id);
 
-    List<Answer> getByUserAssignment(long userAssignmentId);
+    List<Answer> findByUserAssignmentId(Long userAssignmentId);
 }

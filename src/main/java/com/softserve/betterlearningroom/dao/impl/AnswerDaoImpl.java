@@ -41,15 +41,15 @@ public class AnswerDaoImpl implements AnswerDao {
     private String getByUserAssignmentQuery;
 
     @Override
-    public Answer create(Answer answer) {
+    public Answer save(Answer answer) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(answer);
         jdbcTemplate.update(createQuery, parameterSource, keyHolder, new String[]{"id"});
-        return readById(keyHolder.getKeyAs(Integer.class));
+        return findById(keyHolder.getKeyAs(Long.class));
     }
 
     @Override
-    public Answer readById(long id) {
+    public Answer findById(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
         Answer result = DataAccessUtils.singleResult(jdbcTemplate.query(readByIdQuery, parameterSource, BeanPropertyRowMapper.newInstance(Answer.class)));
         if (result == null) {
@@ -62,18 +62,18 @@ public class AnswerDaoImpl implements AnswerDao {
     public Answer update(Answer answer) {
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(answer);
         jdbcTemplate.update(updateQuery, parameterSource);
-        return readById(answer.getId());
+        return findById(answer.getId());
     }
 
     @Override
-    public void delete(long id) {
-        readById(id);
+    public void delete(Long id) {
+        findById(id);
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
         jdbcTemplate.update(deleteQuery, parameterSource);
     }
 
     @Override
-    public List<Answer> getByUserAssignment(long userAssignmentId) {
+    public List<Answer> findByUserAssignmentId(Long userAssignmentId) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("userAssignmentId", userAssignmentId);
         return jdbcTemplate.query(getByUserAssignmentQuery, parameterSource, BeanPropertyRowMapper.newInstance(Answer.class));
     }

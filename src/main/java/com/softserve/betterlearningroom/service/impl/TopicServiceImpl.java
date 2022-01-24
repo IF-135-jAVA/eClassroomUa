@@ -25,7 +25,7 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public void removeById(Long id) {
 
-        topicDaoImpl.removeById(id);
+        topicDaoImpl.delete(id);
     }
 
     @Override

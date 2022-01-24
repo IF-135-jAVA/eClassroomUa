@@ -33,8 +33,8 @@ class ClassroomDaoTest {
                 .description("The Present Simple Tense")
                 .code("3v8ev2t")
                 .build();
-        classroomDaoImpl.createClassroom(classroom);
-        Classroom byId = classroomDaoImpl.getClassroomById(classroom.getClassroomId());
+        classroomDaoImpl.save(classroom);
+        Classroom byId = classroomDaoImpl.findClassroomById(classroom.getClassroomId());
         assertNotNull(byId);
         assertEquals(classroom.getClassroomId(), byId.getClassroomId());
         assertEquals(classroom.getUserId(), byId.getUserId());
@@ -54,8 +54,8 @@ class ClassroomDaoTest {
                 .description("You will learn how to make plurals in Ukrainian")
                 .code("1y9eg3t")
                 .build();
-        classroomDaoImpl.createClassroom(classroom);
-        Classroom byCode = classroomDaoImpl.getClassroomByCode(classroom.getCode());
+        classroomDaoImpl.save(classroom);
+        Classroom byCode = classroomDaoImpl.findByCode(classroom.getCode());
         assertNotNull(byCode);
         assertEquals(classroom, byCode);
     }
@@ -70,7 +70,7 @@ class ClassroomDaoTest {
                 .description("Genetics, Genomes, Chromosomes and the Cell Cycle")
                 .code("1ef7g1t")
                 .build();
-        classroomDaoImpl.createClassroom(classroom);
+        classroomDaoImpl.save(classroom);
         Classroom asStudent = classroomDaoImpl.joinClassroomAsStudent(classroom.getCode(), classroom.getUserId());
         assertNotNull(asStudent);
         assertEquals(classroom, asStudent);
@@ -86,7 +86,7 @@ class ClassroomDaoTest {
                 .description("The Thinker")
                 .code("g6hg1t5")
                 .build();
-        classroomDaoImpl.createClassroom(classroom);
+        classroomDaoImpl.save(classroom);
         Classroom asTeacher = classroomDaoImpl.joinClassroomAsTeacher(classroom.getCode(), classroom.getUserId());
         assertNotNull(asTeacher);
         assertEquals(classroom, asTeacher);
@@ -103,7 +103,7 @@ class ClassroomDaoTest {
                 .description("Students will learn history, arts, culture, and other factors of nations and regions around the world")
                 .code("2fe4r1m")
                 .build();
-        classroomDaoImpl.createClassroom(classroom);
+        classroomDaoImpl.save(classroom);
         User user = User.builder()
                 .firstName("Yurii")
                 .lastName("Cheban")
@@ -128,7 +128,7 @@ class ClassroomDaoTest {
                 .description("It deals with the study of the propagation of energy through space")
                 .code("7yu4r1f")
                 .build();
-        classroomDaoImpl.createClassroom(classroom);
+        classroomDaoImpl.save(classroom);
         User user = User.builder()
                 .firstName("John")
                 .lastName("Rambo")
@@ -139,7 +139,7 @@ class ClassroomDaoTest {
         List<User> teachers = new ArrayList<User>();
         teachers.add(user);
         userDaoImpl.save(user);
-        List<User> classroomTeachers = classroomDaoImpl.getClassroomTeachers(classroom.getClassroomId());
+        List<User> classroomTeachers = classroomDaoImpl.getAllTeachersById(classroom.getClassroomId());
         assertNotNull(classroomTeachers);
         assertEquals(teachers, classroomTeachers);
     }
@@ -154,7 +154,7 @@ class ClassroomDaoTest {
                 .description("Philosophy is the study of thought concerning nature, metaphysics, ethics, aesthetics, being, knowledge, logic, and all manner of theory")
                 .code("5ge8r5j")
                 .build();
-        classroomDaoImpl.createClassroom(classroom);
+        classroomDaoImpl.save(classroom);
         User user = User.builder()
                 .firstName("Kevin")
                 .lastName("McCallister")
@@ -165,7 +165,7 @@ class ClassroomDaoTest {
         List<User> students = new ArrayList<User>();
         students.add(user);
         userDaoImpl.save(user);
-        List<User> classroomStudents = classroomDaoImpl.getClassroomStudents(classroom.getClassroomId());
+        List<User> classroomStudents = classroomDaoImpl.getAllStudentsById(classroom.getClassroomId());
         assertNotNull(classroomStudents);
         assertEquals(students, classroomStudents);
     }

@@ -7,25 +7,25 @@ import java.util.List;
 
 public interface ClassroomDao {
 
-    Classroom getClassroomById(Long classroomId);
+    Classroom findClassroomById(Long classroomId);
 
-    List<User> getClassroomTeachers(Long classroomId);
+    List<User> getAllTeachersById(Long classroomId);
 
-    List<User> getClassroomStudents(Long classroomId);
+    List<User> getAllStudentsById(Long classroomId);
 
     User getClassroomOwnerById(Long classroomId);
 
-    List<Classroom> getClassroomsByTeacher(Long userId);
+    List<Classroom> findAllClassroomsByTeacherId(Long userId);
 
-    List<Classroom> getClassroomsByStudent(Long userId);
+    List<Classroom> findAllClassroomsByStudentId(Long userId);
 
     Classroom joinClassroomAsStudent(String code, Long userId);
 
     Classroom joinClassroomAsTeacher(String code, Long userId);
 
-    Classroom createClassroom(Classroom classroom);
+    Classroom save(Classroom classroom);
 
-    void removeClassroomById(Long classroomId);
+    void delete(Long classroomId);
 
-    Classroom getClassroomByCode(String code);
+    Classroom findByCode(String code);
 }

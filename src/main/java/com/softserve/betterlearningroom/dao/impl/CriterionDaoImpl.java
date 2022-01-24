@@ -86,7 +86,7 @@ public class CriterionDaoImpl implements CriterionDao {
     }
 
     @Override
-    public void removeById(Long id) {
+    public void delete(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("criterion_id", id);
         jdbcTemplate.update(removeByIdQuery, parameterSource);
     }

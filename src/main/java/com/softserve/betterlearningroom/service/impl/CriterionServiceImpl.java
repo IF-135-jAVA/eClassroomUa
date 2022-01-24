@@ -24,7 +24,7 @@ public class CriterionServiceImpl implements CriterionServise {
     @Override
     public void removeById(Long id) {
 
-        criterionDAOImpl.removeById(id);
+        criterionDAOImpl.delete(id);
     }
 
     @Override

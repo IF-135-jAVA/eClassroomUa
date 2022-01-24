@@ -19,7 +19,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentDTO readByIdComment(long id) {
-        return commentMapper.commentToCommentDTO(commentDAO.readByIdComment(id));
+        return commentMapper.commentToCommentDTO(commentDAO.findById(id));
     }
 
     @Override
@@ -27,7 +27,7 @@ public class CommentServiceImpl implements CommentService {
         commentDTO.setDate(LocalDateTime.now());
         commentDTO.setEnabled(true);
         return commentMapper.commentToCommentDTO(
-                commentDAO.createComment(commentMapper.commentDTOToComment(commentDTO)));
+                commentDAO.save(commentMapper.commentDTOToComment(commentDTO)));
     }
 
     @Override
@@ -35,17 +35,17 @@ public class CommentServiceImpl implements CommentService {
         CommentDTO oldCommentDTO = readByIdComment(id);
         oldCommentDTO.setText(commentDTO.getText());
         return commentMapper.commentToCommentDTO(
-                commentDAO.updateComment(commentMapper.commentDTOToComment(oldCommentDTO)));
+                commentDAO.update(commentMapper.commentDTOToComment(oldCommentDTO)));
     }
 
     @Override
     public void deleteComment(long id) {
-        commentDAO.deleteComment(id);
+        commentDAO.delete(id);
     }
 
     @Override
     public List<CommentDTO> readByIdMaterialComments(long materialCommentsId) {
-        return commentDAO.readByIdMaterialComments(materialCommentsId)
+        return commentDAO.findByMaterialId(materialCommentsId)
                 .stream()
                 .map(commentMapper::commentToCommentDTO)
                 .collect(Collectors.toList());
@@ -53,7 +53,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDTO> readByIdAnnouncementComments(long announcementCommentsId) {
-        return commentDAO.readByIdAnnouncementComments(announcementCommentsId)
+        return commentDAO.findByAnnouncementId(announcementCommentsId)
                 .stream()
                 .map(commentMapper::commentToCommentDTO)
                 .collect(Collectors.toList());
@@ -61,7 +61,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDTO> readByIdUserAssignmentComments(long userAssignmentCommentsId) {
-        return commentDAO.readByIdUserAssignmentComments(userAssignmentCommentsId)
+        return commentDAO.findByUserAssignmentId(userAssignmentCommentsId)
                 .stream()
                 .map(commentMapper::commentToCommentDTO)
                 .collect(Collectors.toList());
@@ -69,7 +69,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDTO> readByIdAuthorId(long authorId) {
-        return commentDAO.readByIdAuthorId(authorId)
+        return commentDAO.findByAuthorId(authorId)
                 .stream()
                 .map(commentMapper::commentToCommentDTO)
                 .collect(Collectors.toList());

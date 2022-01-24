@@ -101,69 +101,69 @@ public class UserAssignmentServiceTest {
 
     @Test
     public void testCreate() {
-        when(userAssignmentDao.create(userAssignment1)).thenReturn(userAssignment1);
-        when(materialDao.readById(MATERIAL_ID)).thenReturn(material);
+        when(userAssignmentDao.save(userAssignment1)).thenReturn(userAssignment1);
+        when(materialDao.findById(MATERIAL_ID)).thenReturn(material);
 
         UserAssignmentDTO actual = userAssignmentService.create(userAssignmentDTO1);
 
-        verify(userAssignmentDao).create(any(UserAssignment.class));
-        verify(materialDao).readById(anyLong());
+        verify(userAssignmentDao).save(any(UserAssignment.class));
+        verify(materialDao).findById(anyLong());
         assertEquals(userAssignmentDTO1, actual);
     }
 
     @Test
     public void testCreateThrowsSubmissionNotAllowedException() {
-        when(materialDao.readById(MATERIAL_ID)).thenReturn(material);
+        when(materialDao.findById(MATERIAL_ID)).thenReturn(material);
         material.setDueDate(DUE_DATE_2);
 
         SubmissionNotAllowedException exception = assertThrows(SubmissionNotAllowedException.class, () -> userAssignmentService.create(userAssignmentDTO1));
 
         assertEquals(EXCEPTION_MESSAGE, exception.getMessage());
         verifyNoInteractions(userAssignmentDao);
-        verify(materialDao).readById(anyLong());
+        verify(materialDao).findById(anyLong());
     }
 
     @Test
     public void testReadById() {
-        when(userAssignmentDao.readById(ID_2)).thenReturn(userAssignment2);
+        when(userAssignmentDao.findById(ID_2)).thenReturn(userAssignment2);
 
         UserAssignmentDTO actual = userAssignmentService.readById(ID_2);
 
-        verify(userAssignmentDao).readById(anyLong());
+        verify(userAssignmentDao).findById(anyLong());
         assertEquals(userAssignmentDTO2, actual);
     }
 
     @Test
     public void testUpdate() {
         when(userAssignmentDao.update(userAssignment1Updated)).thenReturn(userAssignment1Updated);
-        when(userAssignmentDao.readById(ID_1)).thenReturn(userAssignment1);
+        when(userAssignmentDao.findById(ID_1)).thenReturn(userAssignment1);
 
         UserAssignmentDTO actual = userAssignmentService.update(userAssignmentDTO2, ID_1);
 
         verify(userAssignmentDao).update(any(UserAssignment.class));
-        verify(userAssignmentDao).readById(anyLong());
+        verify(userAssignmentDao).findById(anyLong());
         assertEquals(userAssignmentDTO1Updated, actual);
     }
 
     @Test
     public void testDelete() {
         List<Answer> answers = Arrays.asList(answer1, answer2);
-        when(answerDao.getByUserAssignment(ID_2)).thenReturn(answers);
+        when(answerDao.findByUserAssignmentId(ID_2)).thenReturn(answers);
 
         userAssignmentService.delete(ID_2);
 
         verify(userAssignmentDao).delete(anyLong());
-        verify(answerDao).getByUserAssignment(anyLong());
+        verify(answerDao).findByUserAssignmentId(anyLong());
         verify(answerDao, times(answers.size())).delete(anyLong());
     }
 
     @Test
     public void testGetByAssignment() {
-        when(userAssignmentDao.getByAssignment(MATERIAL_ID)).thenReturn(Arrays.asList(userAssignment1, userAssignment2));
+        when(userAssignmentDao.findByAssignmentId(MATERIAL_ID)).thenReturn(Arrays.asList(userAssignment1, userAssignment2));
 
         List<UserAssignmentDTO> actual = userAssignmentService.getByAssignment(MATERIAL_ID);
 
-        verify(userAssignmentDao).getByAssignment(anyLong());
+        verify(userAssignmentDao).findByAssignmentId(anyLong());
         assertEquals(Arrays.asList(userAssignmentDTO1, userAssignmentDTO2), actual);
     }
 }

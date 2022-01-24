@@ -79,7 +79,7 @@ public class LevelDaoImpl implements LevelDao {
     }
 
     @Override
-    public void removeById(Long id) {
+    public void delete(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("level_id", id);
         jdbcTemplate.update(removeByIdQuery, parameterSource);
     }

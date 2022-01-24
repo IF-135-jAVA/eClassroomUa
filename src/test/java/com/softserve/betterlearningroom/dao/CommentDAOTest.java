@@ -30,11 +30,11 @@ class CommentDAOTest {
     @Order(1)
     void readByIdCommentTest() {
         Comment comment = prepareCommentDTO();
-        assertEquals((comment), commentDAO.readByIdComment(2));
-        assertEquals((comment), commentDAO.readByIdAuthorId(2));
-        assertEquals((comment), commentDAO.readByIdAnnouncementComments(3));
-        assertEquals((comment), commentDAO.readByIdMaterialComments(2));
-        assertEquals((comment), commentDAO.readByIdUserAssignmentComments(4));
+        assertEquals((comment), commentDAO.findById(2));
+        assertEquals((comment), commentDAO.findByAuthorId(2));
+        assertEquals((comment), commentDAO.findByAnnouncementId(3));
+        assertEquals((comment), commentDAO.findByMaterialId(2));
+        assertEquals((comment), commentDAO.findByUserAssignmentId(4));
     }
 
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
@@ -43,17 +43,17 @@ class CommentDAOTest {
     void readByAuthorIdCommentTest() {
         List<Comment> commentList = new ArrayList<Comment>();
         commentList.add(prepareCommentDTO());
-        assertEquals((commentList), commentDAO.readByIdAuthorId(2));
-        assertEquals((commentList), commentDAO.readByIdAnnouncementComments(3));
-        assertEquals((commentList), commentDAO.readByIdMaterialComments(2));
-        assertEquals((commentList), commentDAO.readByIdUserAssignmentComments(4));
+        assertEquals((commentList), commentDAO.findByAuthorId(2));
+        assertEquals((commentList), commentDAO.findByAnnouncementId(3));
+        assertEquals((commentList), commentDAO.findByMaterialId(2));
+        assertEquals((commentList), commentDAO.findByUserAssignmentId(4));
     }
 
     @Test
     @Order(2)
     void createCommentTest() {
         Comment comment = prepareCommentDTO();
-        Comment savedComment = commentDAO.createComment(comment);
+        Comment savedComment = commentDAO.save(comment);
         assertNotNull(savedComment);
         assertEquals("text1", savedComment.getText());
         assertEquals(2, savedComment.getAuthorId());
@@ -68,8 +68,8 @@ class CommentDAOTest {
     void updateCommentTest() {
         Comment comment = prepareCommentDTO();
         comment.setId(2);
-        commentDAO.updateComment(comment);
-        assertEquals("text1", commentDAO.readByIdComment(2).getText());
+        commentDAO.update(comment);
+        assertEquals("text1", commentDAO.findById(2).getText());
     }
 
 
@@ -77,7 +77,7 @@ class CommentDAOTest {
     @Order(5)
     void deleteCommentTest() {
         Comment comment = prepareCommentDTO();
-        commentDAO.deleteComment(comment.getId());
+        commentDAO.delete(comment.getId());
     }
 
     private Comment prepareCommentDTO() {

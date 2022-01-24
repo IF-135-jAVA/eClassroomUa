@@ -72,7 +72,6 @@ public class TopicDaoImpl implements TopicDao {
         SqlParameterSource parameterSource = new MapSqlParameterSource("topic_id", id);
         return jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
                 BeanPropertyRowMapper.newInstance(Topic.class));
-
     }
 
     @Override
@@ -81,7 +80,7 @@ public class TopicDaoImpl implements TopicDao {
     }
 
     @Override
-    public void removeById(Long id) {
+    public void delete(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("topic_id", id);
         jdbcTemplate.update(removeByIdQuery, parameterSource);
     }

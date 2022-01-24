@@ -46,11 +46,11 @@ class AnnouncementServiceTest {
     @Test
     void readByIdTest() {
         Announcement announcement = prepareAnnouncementDTO();
-        given(announcementDAO.readById(ANNOUNCEMENT_ID)).willReturn(announcement);
+        given(announcementDAO.findById(ANNOUNCEMENT_ID)).willReturn(announcement);
         AnnouncementDTO announcementDTO = announcementService.readById(ANNOUNCEMENT_ID);
         assertNotNull(announcementDTO);
         assertEquals(ANNOUNCEMENT_TEXT, announcementDTO.getText());
-        verify(announcementDAO).readById(ANNOUNCEMENT_ID);
+        verify(announcementDAO).findById(ANNOUNCEMENT_ID);
     }
 
     @Test
@@ -60,17 +60,17 @@ class AnnouncementServiceTest {
         announcementList.add(new Announcement(2, 1, "text2", List.of(), ANNOUNCEMENT_ENABLED));
         announcementList.add(new Announcement(3, 3, "text3", List.of(), ANNOUNCEMENT_ENABLED));
         announcementList.add(new Announcement(4, 2, "text4", List.of(), ANNOUNCEMENT_ENABLED));
-        given(announcementDAO.readByCourseId(3)).willReturn(announcementList);
+        given(announcementDAO.findByCourseId(3)).willReturn(announcementList);
         List<AnnouncementDTO> actualAnnouncements = announcementService.readByCourseId(3);
         assertEquals(4, actualAnnouncements.size());
         assertEquals("text3", actualAnnouncements.get(2).getText());
-        verify(announcementDAO).readByCourseId(3);
+        verify(announcementDAO).findByCourseId(3);
     }
 
     @Test
     void createAnnouncementTest() {
         Announcement announcement = prepareAnnouncementDTO();
-        given(announcementDAO.create(any(Announcement.class))).willReturn(announcement);
+        given(announcementDAO.save(any(Announcement.class))).willReturn(announcement);
         AnnouncementDTO announcementDTO = announcementService
                 .create(announcementMapper.announcementToAnnouncementDTO(announcement));
         assertEquals("text1", announcementDTO.getText());

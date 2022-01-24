@@ -21,7 +21,7 @@ public class MaterialServiceImpl implements MaterialService {
 
     @Override
     public MaterialDTO getMaterialById(Long id) {
-        return materialMapper.materialToMaterialDTO(materialDao.readById(id));
+        return materialMapper.materialToMaterialDTO(materialDao.findById(id));
     }
 
     @Override

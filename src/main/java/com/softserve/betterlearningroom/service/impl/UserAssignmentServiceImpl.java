@@ -30,7 +30,7 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
 
     @Override
     public UserAssignmentDTO create(UserAssignmentDTO userAssignmentDTO) {
-        Material material = materialDao.readById(userAssignmentDTO.getMaterialId());
+        Material material = materialDao.findById(userAssignmentDTO.getMaterialId());
         LocalDateTime dueDate = material.getDueDate();
         if (dueDate != null && LocalDateTime.now().isAfter(dueDate)) {
             throw new SubmissionNotAllowedException("Due date for assignment with id - " + material.getId() + " has passed. Due date is " + dueDate + ".");
@@ -41,12 +41,12 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
         userAssignmentDTO.setFeedback(null);
         userAssignmentDTO.setEnabled(true);
         return userAssignmentMapper.userAssignmentToUserAssignmentDTO(
-                userAssignmentDao.create(userAssignmentMapper.userAssignmentDTOToUserAssignment(userAssignmentDTO)));
+                userAssignmentDao.save(userAssignmentMapper.userAssignmentDTOToUserAssignment(userAssignmentDTO)));
     }
 
     @Override
     public UserAssignmentDTO readById(long id) {
-        return userAssignmentMapper.userAssignmentToUserAssignmentDTO(userAssignmentDao.readById(id));
+        return userAssignmentMapper.userAssignmentToUserAssignmentDTO(userAssignmentDao.findById(id));
     }
 
     @Override
@@ -61,7 +61,7 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
 
     @Override
     public void delete(long id) {
-        answerDao.getByUserAssignment(id)
+        answerDao.findByUserAssignmentId(id)
                 .stream()
                 .map(Answer::getId)
                 .forEach(answerDao::delete);
@@ -70,7 +70,7 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
 
     @Override
     public List<UserAssignmentDTO> getByAssignment(long assignmentId) {
-        return userAssignmentDao.getByAssignment(assignmentId)
+        return userAssignmentDao.findByAssignmentId(assignmentId)
                 .stream()
                 .map(userAssignmentMapper::userAssignmentToUserAssignmentDTO)
                 .collect(Collectors.toList());

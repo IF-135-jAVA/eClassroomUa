@@ -26,7 +26,7 @@ public class LevelServiceImpl implements LevelService {
     @Override
     public void removeById(Long id) {
 
-        levelDaoImpl.removeById(id);
+        levelDaoImpl.delete(id);
     }
 
     @Override

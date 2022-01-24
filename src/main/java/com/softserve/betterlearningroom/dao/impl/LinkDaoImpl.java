@@ -38,15 +38,15 @@ public class LinkDaoImpl implements LinkDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Link> getAllLinks(Long materialId) {
+    public List<Link> findAllByMaterialId(Long materialId) {
         return jdbcTemplate.query(getAllQuery, new MapSqlParameterSource("materialid", materialId), BeanPropertyRowMapper.newInstance(Link.class));
     }
 
     public List<Link> getAllLinks(Material material) {
-        return getAllLinks(material.getId());
+        return findAllByMaterialId(material.getId());
     }
 
-    public int addLink(Link link, Long materialId) {
+    public int save(Link link, Long materialId) {
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue("materialid", materialId);
         param.addValue("linktext", link.getText());
@@ -55,22 +55,22 @@ public class LinkDaoImpl implements LinkDao {
     }
 
     public int addLink(Link link, Material material) {
-        return addLink(link, material.getId());
+        return save(link, material.getId());
     }
 
-    public int updateLink(Link link) {
+    public int update(Link link) {
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue("linkid", link.getId());
         param.addValue("linktext", link.getText());
         param.addValue("url", link.getUrl());
         return jdbcTemplate.update(updateQuery, param);    }
 
-    public int removeLink(Long linkId) {
+    public int delete(Long linkId) {
         return jdbcTemplate.update(removeQuery, new MapSqlParameterSource("linkid", linkId));
     }
 
     public int removeLink(Link link) {
-        return removeLink(link.getId());
+        return delete(link.getId());
     }
 
 }

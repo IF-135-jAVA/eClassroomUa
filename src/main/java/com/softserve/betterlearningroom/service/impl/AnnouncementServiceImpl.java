@@ -22,12 +22,12 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         announcementDTO.setText(announcementDTO.getText());
         announcementDTO.setEnabled(true);
         return announcementMapper.announcementToAnnouncementDTO(
-                announcementDAO.create(announcementMapper.announcementDTOToAnnouncement(announcementDTO)));
+                announcementDAO.save(announcementMapper.announcementDTOToAnnouncement(announcementDTO)));
     }
 
     @Override
     public List<AnnouncementDTO> readByCourseId(long courseId) {
-        return announcementDAO.readByCourseId(courseId)
+        return announcementDAO.findByCourseId(courseId)
                 .stream()
                 .map(announcementMapper::announcementToAnnouncementDTO)
                 .collect(Collectors.toList());
@@ -35,7 +35,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     @Override
     public AnnouncementDTO readById(long id) {
-        return announcementMapper.announcementToAnnouncementDTO(announcementDAO.readById(id));
+        return announcementMapper.announcementToAnnouncementDTO(announcementDAO.findById(id));
     }
 
     @Override

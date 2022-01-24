@@ -24,20 +24,20 @@ class AnnouncementDAOTest {
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     void readByIdAnnouncementTest() {
         Announcement announcement = prepareAnnouncementDTO();
-        assertEquals((announcement), announcementDAO.readById(1));
+        assertEquals((announcement), announcementDAO.findById(1));
     }
 
     @Test
     void readByCourseIdAnnouncementTest() {
         List<Announcement> announcementList = new ArrayList<>();
         announcementList.add(prepareAnnouncementDTO());
-        assertEquals((announcementList), announcementDAO.readByCourseId(2));
+        assertEquals((announcementList), announcementDAO.findByCourseId(2));
     }
 
     @Test
     void createAnnouncementTest() {
         Announcement announcement = prepareAnnouncementDTO();
-        Announcement savedAnnouncement = announcementDAO.create(announcement);
+        Announcement savedAnnouncement = announcementDAO.save(announcement);
         assertNotNull(savedAnnouncement);
         assertEquals("text1", savedAnnouncement.getText());
         assertEquals(2, savedAnnouncement.getCourseId());
@@ -48,7 +48,7 @@ class AnnouncementDAOTest {
         Announcement announcement = prepareAnnouncementDTO();
         announcement.setId(2);
         announcementDAO.update(announcement);
-        assertEquals("text1", announcementDAO.readById(2).getText());
+        assertEquals("text1", announcementDAO.findById(2).getText());
     }
 
     @Test
