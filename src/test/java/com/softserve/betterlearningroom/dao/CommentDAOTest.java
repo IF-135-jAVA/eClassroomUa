@@ -69,7 +69,7 @@ class CommentDAOTest {
     @Order(5)
     void deleteCommentTest() {
         Comment comment = prepareCommentDTO();
-        commentDAO.deleteComment(2);
+        commentDAO.deleteComment(3);
     }
 
     private Comment prepareCommentDTO() {
