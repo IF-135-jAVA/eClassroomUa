@@ -11,16 +11,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @ExtendWith(value = {MockitoExtension.class})
 class AnnouncementServiceTest {
@@ -78,25 +76,11 @@ class AnnouncementServiceTest {
         assertEquals("text1", announcementDTO.getText());
     }
 
-//    @Test
-//    void updateCommentsTest() {
-//        Announcement announcement = prepareAnnouncementDTO();
-//        given(announcementDAO.update(any(Announcement.class))).willReturn(announcement);
-//        AnnouncementDTO announcementDTO = announcementService
-//                .update(announcementMapper.announcementToAnnouncementDTO(announcement));
-//        assertEquals("text1", announcementDTO.getText());
-//    }
-
     @Test
     void deleteAnnouncementTest() {
         Announcement announcement = prepareAnnouncementDTO();
         announcementService.delete(announcement.getId());
     }
-
-//    @AfterEach
-//    void tearDown() {
-//        verifyNoMoreInteractions(announcementDAO);
-//    }
 
     private Announcement prepareAnnouncementDTO() {
         return Announcement.builder()
