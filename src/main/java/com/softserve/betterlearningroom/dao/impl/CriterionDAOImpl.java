@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.dao.impl;
 
-import com.softserve.betterlearningroom.dao.CriterionDao;
+import com.softserve.betterlearningroom.dao.CriterionDAO;
 import com.softserve.betterlearningroom.entity.Criterion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @PropertySource(value = "classpath:db/criterion/criterionQuery.properties")
-public class CriterionDaoImpl implements CriterionDao {
+public class CriterionDAOImpl implements CriterionDAO {
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -45,7 +45,6 @@ public class CriterionDaoImpl implements CriterionDao {
     private String findByTitleQuery;
 
     @Override
-
     public Criterion save(Criterion criterion) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource
@@ -73,11 +72,6 @@ public class CriterionDaoImpl implements CriterionDao {
     }
 
     @Override
-    public List<Criterion> findAllByMaterialId(Long materialId){
-        return findAll().stream().filter(criterion ->criterion.getMaterialId().equals(materialId)).collect(Collectors.toList());
-    }
-
-    @Override
     public Criterion findById(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("criterion_id", id);
         return jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
@@ -86,7 +80,12 @@ public class CriterionDaoImpl implements CriterionDao {
     }
 
     @Override
-    public void removeById(Long id) {
+    public List<Criterion> findAllByMaterialId(Long materialId){
+       return findAll().stream().filter(criterion ->criterion.getMaterialId().equals(materialId)).collect(Collectors.toList());
+    }
+
+    @Override
+    public void delete(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("criterion_id", id);
         jdbcTemplate.update(removeByIdQuery, parameterSource);
     }

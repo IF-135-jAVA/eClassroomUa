@@ -20,17 +20,17 @@ public class AnnouncementController {
     @PostMapping
     public ResponseEntity<AnnouncementDTO> create(@RequestBody AnnouncementDTO announcementDTO, @PathVariable long classroomId) {
         announcementDTO.setCourseId(classroomId);
-        return new ResponseEntity<>(announcementService.create(announcementDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(announcementService.save(announcementDTO), HttpStatus.CREATED);
     }
 
     @GetMapping
     public ResponseEntity<List<AnnouncementDTO>> readByCourseId(@PathVariable long classroomId) {
-        return ResponseEntity.ok(announcementService.readByCourseId(classroomId));
+        return ResponseEntity.ok(announcementService.findByCourseId(classroomId));
     }
 
     @GetMapping("{id}")
     public ResponseEntity<AnnouncementDTO> readById(@PathVariable long id) {
-        return ResponseEntity.ok(announcementService.readById(id));
+        return ResponseEntity.ok(announcementService.findById(id));
     }
 
     @PutMapping("{id}")
@@ -43,7 +43,6 @@ public class AnnouncementController {
         announcementService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 }
 
 

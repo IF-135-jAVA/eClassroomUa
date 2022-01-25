@@ -8,7 +8,7 @@ public interface TopicService {
 
     TopicDTO findById(Long id);
 
-    void removeById(Long id);
+    void delete(Long id);
 
     List<TopicDTO> findAll();
 
@@ -17,7 +17,5 @@ public interface TopicService {
     TopicDTO update(TopicDTO topicDTO);
 
     List<TopicDTO> findAllByClassroomId(Long classroomId);
-
-
 
 }

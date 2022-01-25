@@ -5,19 +5,20 @@ import com.softserve.betterlearningroom.dto.CommentDTO;
 import java.util.List;
 
 public interface CommentService {
-    CommentDTO readByIdComment(long id);
+    
+    CommentDTO findByCommentId(Long id);
 
-    CommentDTO createComment(CommentDTO commentDTO);
+    CommentDTO save(CommentDTO commentDTO);
 
-    CommentDTO updateComment(CommentDTO commentDTO, long id);
+    CommentDTO update(CommentDTO commentDTO, Long id);
 
-    void deleteComment(long id);
+    void delete(Long id);
 
-    List<CommentDTO> readByIdMaterialComments(long materialCommentsId);
+    List<CommentDTO> findByMaterialId(Long materialId);
 
-    List<CommentDTO> readByIdAnnouncementComments(long announcementCommentsId);
+    List<CommentDTO> findByAnnouncementId(Long announcementId);
 
-    List<CommentDTO> readByIdUserAssignmentComments(long userAssignmentCommentsId);
+    List<CommentDTO> findByUserAssignmentId(Long userAssignmentId);
 
-    List<CommentDTO> readByIdAuthorId(long authorId);
+    List<CommentDTO> findByAuthorId(Long authorId);
 }

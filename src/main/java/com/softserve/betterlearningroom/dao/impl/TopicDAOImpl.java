@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.dao.impl;
 
-import com.softserve.betterlearningroom.dao.TopicDao;
+import com.softserve.betterlearningroom.dao.TopicDAO;
 import com.softserve.betterlearningroom.entity.Topic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @PropertySource(value = "classpath:/db/topic/topicQuery.properties")
-public class TopicDaoImpl implements TopicDao {
+public class TopicDAOImpl implements TopicDAO {
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -68,20 +68,19 @@ public class TopicDaoImpl implements TopicDao {
     }
 
     @Override
+    public Topic findById(Long id) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource("topic_id", id);
+        return jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
+                BeanPropertyRowMapper.newInstance(Topic.class));
+    }
+
+    @Override
     public List<Topic> findAllByClassroomId(Long classroomId) {
         return findAll().stream().filter(topic -> topic.getClassroomId().equals(classroomId)).collect(Collectors.toList());
     }
 
     @Override
-    public Topic findById(Long id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("topic_id", id);
-        return jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
-                BeanPropertyRowMapper.newInstance(Topic.class));
-
-    }
-
-    @Override
-    public void removeById(Long id) {
+    public void delete(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("topic_id", id);
         jdbcTemplate.update(removeByIdQuery, parameterSource);
     }

@@ -28,43 +28,43 @@ public class CommentController {
 
     @GetMapping("/comments/{id}")
     public ResponseEntity<CommentDTO> readByIdComments(@PathVariable long id) {
-        return ResponseEntity.ok(commentService.readByIdComment(id));
+        return ResponseEntity.ok(commentService.findByCommentId(id));
     }
 
     @PostMapping("/users/{userId}/comments")
     public ResponseEntity<CommentDTO> createComments(@RequestBody CommentDTO commentDTO, @PathVariable long userId) {
         commentDTO.setAuthorId(userId);
-        return new ResponseEntity<>(commentService.createComment(commentDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(commentService.save(commentDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/comments/{id}")
     public ResponseEntity<CommentDTO> updateComments(@PathVariable long id, @RequestBody CommentDTO commentDTO) {
-        return ResponseEntity.ok(commentService.updateComment(commentDTO, id));
+        return ResponseEntity.ok(commentService.update(commentDTO, id));
     }
 
     @DeleteMapping("/comments/{id}")
     public ResponseEntity<CommentDTO> deleteComments(@PathVariable long id) {
-        commentService.deleteComment(id);
+        commentService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/materials/{materialId}/materialComments")
     public ResponseEntity<List<CommentDTO>> readByIdMaterialComments(@PathVariable long materialId) {
-        return ResponseEntity.ok(commentService.readByIdMaterialComments(materialId));
+        return ResponseEntity.ok(commentService.findByMaterialId(materialId));
     }
 
     @GetMapping("/announcements/{announcementId}/announcementComments")
     public ResponseEntity<List<CommentDTO>> readByIdAnnouncementComments(@PathVariable long announcementId) {
-        return ResponseEntity.ok(commentService.readByIdAnnouncementComments(announcementId));
+        return ResponseEntity.ok(commentService.findByAnnouncementId(announcementId));
     }
 
     @GetMapping("/user-assignments/{userAssignmentId}/userAssignmentComments")
     public ResponseEntity<List<CommentDTO>> readByIdUserAssignmentComments(@PathVariable long userAssignmentId) {
-        return ResponseEntity.ok(commentService.readByIdUserAssignmentComments(userAssignmentId));
+        return ResponseEntity.ok(commentService.findByUserAssignmentId(userAssignmentId));
     }
 
     @GetMapping("/users/{userId}/comments")
     public ResponseEntity<List<CommentDTO>> readByIdAuthorId(@PathVariable long userId) {
-        return ResponseEntity.ok(commentService.readByIdAuthorId(userId));
+        return ResponseEntity.ok(commentService.findByAuthorId(userId));
     }
 }

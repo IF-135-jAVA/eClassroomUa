@@ -28,12 +28,12 @@ public class AnswerController {
     @PostMapping
     public ResponseEntity<AnswerDTO> create(@RequestBody AnswerDTO answerDTO, @PathVariable long userAssignmentId) {
         answerDTO.setUserAssignmentId(userAssignmentId);
-        return new ResponseEntity<>(answerService.create(answerDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(answerService.save(answerDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<AnswerDTO> readById(@PathVariable long id) {
-        return ResponseEntity.ok(answerService.readById(id));
+        return ResponseEntity.ok(answerService.findById(id));
     }
 
     @PutMapping("{id}")
@@ -49,6 +49,6 @@ public class AnswerController {
 
     @GetMapping
     public ResponseEntity<List<AnswerDTO>> getByUserAssignment(@PathVariable long userAssignmentId) {
-        return ResponseEntity.ok(answerService.getByUserAssignment(userAssignmentId));
+        return ResponseEntity.ok(answerService.findByUserAssignmentId(userAssignmentId));
     }
 }

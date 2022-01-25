@@ -3,9 +3,7 @@ package com.softserve.betterlearningroom.service.impl;
 import com.softserve.betterlearningroom.configuration.jwt.JwtProvider;
 import com.softserve.betterlearningroom.dao.UserDAO;
 import com.softserve.betterlearningroom.dto.UserDTO;
-import com.softserve.betterlearningroom.entity.CustomUserDetails;
 import com.softserve.betterlearningroom.entity.User;
-
 import com.softserve.betterlearningroom.entity.UserPrincipal;
 import com.softserve.betterlearningroom.entity.roles.Roles;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
@@ -25,7 +23,6 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 @Slf4j
 public class AuthServiceImpl implements AuthService {
-
     private JwtProvider jwtProvider;
     private UserMapper userMapper;
     private UserDAO userDao;

@@ -86,7 +86,7 @@ public class LevelController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable final Long id) {
 
-        levelServiceImpl.removeById(id);
+        levelServiceImpl.delete(id);
     }
 
 }

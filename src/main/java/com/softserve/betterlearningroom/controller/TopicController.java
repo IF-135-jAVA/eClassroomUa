@@ -73,6 +73,6 @@ public class TopicController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable final Long id) {
 
-        topicService.removeById(id);
+        topicService.delete(id);
     }
 }

@@ -27,32 +27,32 @@ public class MaterialController {
 
     @GetMapping("{id}")
     public ResponseEntity<MaterialDTO> findMaterialById(@PathVariable Long id) {
-        return ResponseEntity.ok().body(materialService.getMaterialById(id));
+        return ResponseEntity.ok().body(materialService.findMaterialById(id));
     }
 
     @GetMapping("/byClassroom")
     public ResponseEntity<List<MaterialDTO>> findAllMaterials(@PathVariable Long classroomId) {
-        return ResponseEntity.ok().body(materialService.getMaterialsByClassroom(classroomId));
+        return ResponseEntity.ok().body(materialService.findAllMaterialsByClassroomId(classroomId));
     }
 
     @GetMapping
     public ResponseEntity<List<MaterialDTO>> findMaterialsByTopic(@PathVariable Long classroomId, @PathVariable Long topicId) {
-        return ResponseEntity.ok().body(materialService.getMaterialsByTopic(classroomId, topicId));
+        return ResponseEntity.ok().body(materialService.findAllMaterialsByClassroomIdAndTopicId(classroomId, topicId));
     }
 
     @PostMapping
     public ResponseEntity<MaterialDTO> createMaterial(@RequestBody MaterialDTO material, @PathVariable Long topicId) {
-        return new ResponseEntity<>(materialService.addMaterial(material, topicId), HttpStatus.CREATED);
+        return new ResponseEntity<>(materialService.save(material, topicId), HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
     public ResponseEntity<MaterialDTO> updateMaterial(@RequestBody MaterialDTO material) {
-        return new ResponseEntity<>(materialService.updateMaterial(material), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(materialService.update(material), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteMaterial(@RequestBody MaterialDTO material) {
-        materialService.updateMaterial(material);
+        materialService.update(material);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
