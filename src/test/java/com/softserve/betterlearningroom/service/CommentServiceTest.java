@@ -6,7 +6,6 @@ import com.softserve.betterlearningroom.dto.CommentDTO;
 import com.softserve.betterlearningroom.entity.Comment;
 import com.softserve.betterlearningroom.mapper.CommentMapper;
 import com.softserve.betterlearningroom.service.impl.CommentServiceImpl;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,12 +16,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @ExtendWith(value = {MockitoExtension.class})
 class CommentServiceTest {
@@ -139,11 +137,6 @@ class CommentServiceTest {
                 ANNOUNCEMENT_ID, USER_ASSIGNMENT_ID, MATERIAL_ID, COMMENT_ENABLED);
         commentService.deleteComment(comment.getId());
     }
-
-//    @AfterEach
-//    void tearDown() {
-//        verifyNoMoreInteractions(commentDAO);
-//    }
 
 }
 

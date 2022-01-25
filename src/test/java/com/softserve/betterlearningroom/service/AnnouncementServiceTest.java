@@ -76,25 +76,11 @@ class AnnouncementServiceTest {
         assertEquals("text1", announcementDTO.getText());
     }
 
-//    @Test
-//    void updateCommentsTest() {
-//        Announcement announcement = prepareAnnouncementDTO();
-//        given(announcementDAO.update(any(Announcement.class))).willReturn(announcement);
-//        AnnouncementDTO announcementDTO = announcementService
-//                .update(announcementMapper.announcementToAnnouncementDTO(announcement));
-//        assertEquals("text1", announcementDTO.getText());
-//    }
-
     @Test
     void deleteAnnouncementTest() {
         Announcement announcement = prepareAnnouncementDTO();
         announcementService.delete(announcement.getId());
     }
-
-//    @AfterEach
-//    void tearDown() {
-//        verifyNoMoreInteractions(announcementDAO);
-//    }
 
     private Announcement prepareAnnouncementDTO() {
         return Announcement.builder()

@@ -64,12 +64,11 @@ class CommentDAOTest {
         assertEquals("text1", commentDAO.readByIdComment(2).getText());
     }
 
-
     @Test
     @Order(5)
     void deleteCommentTest() {
         Comment comment = prepareCommentDTO();
-        commentDAO.deleteComment(3);
+        commentDAO.deleteComment(2);
     }
 
     private Comment prepareCommentDTO() {
