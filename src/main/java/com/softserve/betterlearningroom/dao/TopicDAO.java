@@ -4,7 +4,7 @@ import com.softserve.betterlearningroom.entity.Topic;
 
 import java.util.List;
 
-public interface TopicDao {
+public interface TopicDAO {
 
     Topic save(Topic topic);
 

@@ -1,7 +1,7 @@
 package com.softserve.betterlearningroom.dao.impl;
 
-import com.softserve.betterlearningroom.dao.UserAssignmentDao;
-import com.softserve.betterlearningroom.entity.UserAssignment;
+import com.softserve.betterlearningroom.dao.AnswerDAO;
+import com.softserve.betterlearningroom.entity.Answer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -20,49 +20,49 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-@PropertySource("classpath:/db/assignments/user_assignment_queries.properties")
-public class UserAssignmentDaoImpl implements UserAssignmentDao {
+@PropertySource("classpath:/db/answers/answer_queries.properties")
+public class AnswerDAOImpl implements AnswerDAO {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    @Value("${create.user.assignment}")
+    @Value("${create.answer}")
     private String createQuery;
 
-    @Value("${read.user.assignment.by.id}")
+    @Value("${read.answer.by.id}")
     private String readByIdQuery;
 
-    @Value("${update.user.assignment}")
+    @Value("${update.answer}")
     private String updateQuery;
 
-    @Value("${delete.user.assignment}")
+    @Value("${delete.answer}")
     private String deleteQuery;
 
-    @Value("${get.user.assignments.by.assignment}")
-    private String getByAssignmentQuery;
+    @Value("${get.answers.by.user.assignment}")
+    private String getByUserAssignmentQuery;
 
     @Override
-    public UserAssignment save(UserAssignment userAssignment) {
+    public Answer save(Answer answer) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(userAssignment);
+        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(answer);
         jdbcTemplate.update(createQuery, parameterSource, keyHolder, new String[]{"id"});
         return findById(keyHolder.getKeyAs(Long.class));
     }
 
     @Override
-    public UserAssignment findById(Long id) {
+    public Answer findById(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
-        UserAssignment result = DataAccessUtils.singleResult(jdbcTemplate.query(readByIdQuery, parameterSource, BeanPropertyRowMapper.newInstance(UserAssignment.class)));
+        Answer result = DataAccessUtils.singleResult(jdbcTemplate.query(readByIdQuery, parameterSource, BeanPropertyRowMapper.newInstance(Answer.class)));
         if (result == null) {
-            throw new DataRetrievalFailureException("UserAssignment with id - " + id + ", not found.");
+            throw new DataRetrievalFailureException("Answer with id - " + id + ", not found.");
         }
         return result;
     }
 
     @Override
-    public UserAssignment update(UserAssignment userAssignment) {
-        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(userAssignment);
+    public Answer update(Answer answer) {
+        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(answer);
         jdbcTemplate.update(updateQuery, parameterSource);
-        return findById(userAssignment.getId());
+        return findById(answer.getId());
     }
 
     @Override
@@ -73,8 +73,8 @@ public class UserAssignmentDaoImpl implements UserAssignmentDao {
     }
 
     @Override
-    public List<UserAssignment> findByAssignmentId(Long assignmentId) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("assignmentId", assignmentId);
-        return jdbcTemplate.query(getByAssignmentQuery, parameterSource, BeanPropertyRowMapper.newInstance(UserAssignment.class));
+    public List<Answer> findByUserAssignmentId(Long userAssignmentId) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource("userAssignmentId", userAssignmentId);
+        return jdbcTemplate.query(getByUserAssignmentQuery, parameterSource, BeanPropertyRowMapper.newInstance(Answer.class));
     }
 }

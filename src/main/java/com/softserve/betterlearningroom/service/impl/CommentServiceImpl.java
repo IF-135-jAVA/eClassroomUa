@@ -18,12 +18,12 @@ public class CommentServiceImpl implements CommentService {
     private CommentMapper commentMapper;
 
     @Override
-    public CommentDTO readByIdComment(long id) {
+    public CommentDTO findByCommentId(Long id) {
         return commentMapper.commentToCommentDTO(commentDAO.findById(id));
     }
 
     @Override
-    public CommentDTO createComment(CommentDTO commentDTO) {
+    public CommentDTO save(CommentDTO commentDTO) {
         commentDTO.setDate(LocalDateTime.now());
         commentDTO.setEnabled(true);
         return commentMapper.commentToCommentDTO(
@@ -31,20 +31,20 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentDTO updateComment(CommentDTO commentDTO, long id) {
-        CommentDTO oldCommentDTO = readByIdComment(id);
+    public CommentDTO update(CommentDTO commentDTO, Long id) {
+        CommentDTO oldCommentDTO = findByCommentId(id);
         oldCommentDTO.setText(commentDTO.getText());
         return commentMapper.commentToCommentDTO(
                 commentDAO.update(commentMapper.commentDTOToComment(oldCommentDTO)));
     }
 
     @Override
-    public void deleteComment(long id) {
+    public void delete(Long id) {
         commentDAO.delete(id);
     }
 
     @Override
-    public List<CommentDTO> readByIdMaterialComments(long materialCommentsId) {
+    public List<CommentDTO> findByMaterialId(Long materialCommentsId) {
         return commentDAO.findByMaterialId(materialCommentsId)
                 .stream()
                 .map(commentMapper::commentToCommentDTO)
@@ -52,23 +52,23 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDTO> readByIdAnnouncementComments(long announcementCommentsId) {
-        return commentDAO.findByAnnouncementId(announcementCommentsId)
+    public List<CommentDTO> findByAnnouncementId(Long announcementId) {
+        return commentDAO.findByAnnouncementId(announcementId)
                 .stream()
                 .map(commentMapper::commentToCommentDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<CommentDTO> readByIdUserAssignmentComments(long userAssignmentCommentsId) {
-        return commentDAO.findByUserAssignmentId(userAssignmentCommentsId)
+    public List<CommentDTO> findByUserAssignmentId(Long userAssignmentId) {
+        return commentDAO.findByUserAssignmentId(userAssignmentId)
                 .stream()
                 .map(commentMapper::commentToCommentDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<CommentDTO> readByIdAuthorId(long authorId) {
+    public List<CommentDTO> findByAuthorId(Long authorId) {
         return commentDAO.findByAuthorId(authorId)
                 .stream()
                 .map(commentMapper::commentToCommentDTO)

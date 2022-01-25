@@ -24,14 +24,14 @@ class AnnouncementDAOTest {
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     void readByIdAnnouncementTest() {
         Announcement announcement = prepareAnnouncementDTO();
-        assertEquals((announcement), announcementDAO.findById(1));
+        assertEquals((announcement), announcementDAO.findById(1L));
     }
 
     @Test
     void readByCourseIdAnnouncementTest() {
         List<Announcement> announcementList = new ArrayList<>();
         announcementList.add(prepareAnnouncementDTO());
-        assertEquals((announcementList), announcementDAO.findByCourseId(2));
+        assertEquals((announcementList), announcementDAO.findByCourseId(2L));
     }
 
     @Test
@@ -40,7 +40,7 @@ class AnnouncementDAOTest {
         Announcement savedAnnouncement = announcementDAO.save(announcement);
         assertNotNull(savedAnnouncement);
         assertEquals("text1", savedAnnouncement.getText());
-        assertEquals(2, savedAnnouncement.getCourseId());
+        assertEquals(2L, savedAnnouncement.getCourseId());
     }
 
     @Test
@@ -48,7 +48,7 @@ class AnnouncementDAOTest {
         Announcement announcement = prepareAnnouncementDTO();
         announcement.setId(2);
         announcementDAO.update(announcement);
-        assertEquals("text1", announcementDAO.findById(2).getText());
+        assertEquals("text1", announcementDAO.findById(2L).getText());
     }
 
     @Test
@@ -59,8 +59,8 @@ class AnnouncementDAOTest {
 
     private Announcement prepareAnnouncementDTO() {
         return Announcement.builder()
-                .id(1)
-                .courseId(2)
+                .id(1L)
+                .courseId(2L)
                 .text("text1")
                 .enabled(true)
                 .build();

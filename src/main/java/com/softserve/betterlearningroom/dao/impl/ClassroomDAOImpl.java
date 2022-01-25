@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.dao.impl;
 
-import com.softserve.betterlearningroom.dao.ClassroomDao;
+import com.softserve.betterlearningroom.dao.ClassroomDAO;
 import com.softserve.betterlearningroom.entity.Classroom;
 import com.softserve.betterlearningroom.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 @PropertySource(value = "classpath:/db/classrooms/classroomQuery.properties")
-public class ClassroomDaoImpl implements ClassroomDao {
+public class ClassroomDAOImpl implements ClassroomDAO {
 
     private final NamedParameterJdbcTemplate jdbcParameterTemplate;
 

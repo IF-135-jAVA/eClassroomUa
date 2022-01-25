@@ -4,7 +4,7 @@ import com.softserve.betterlearningroom.entity.Answer;
 
 import java.util.List;
 
-public interface AnswerDao {
+public interface AnswerDAO {
 
     Answer save(Answer answer);
 

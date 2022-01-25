@@ -28,12 +28,12 @@ public class UserAssignmentController {
     @PostMapping
     public ResponseEntity<UserAssignmentDTO> create(@RequestBody UserAssignmentDTO userAssignmentDTO, @PathVariable long materialId) {
         userAssignmentDTO.setMaterialId(materialId);
-        return new ResponseEntity<>(userAssignmentService.create(userAssignmentDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(userAssignmentService.save(userAssignmentDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<UserAssignmentDTO> readById(@PathVariable long id) {
-        return ResponseEntity.ok(userAssignmentService.readById(id));
+        return ResponseEntity.ok(userAssignmentService.findById(id));
     }
 
     @PutMapping("{id}")
@@ -49,6 +49,6 @@ public class UserAssignmentController {
 
     @GetMapping
     public ResponseEntity<List<UserAssignmentDTO>> getByAssignment(@PathVariable long materialId) {
-        return ResponseEntity.ok(userAssignmentService.getByAssignment(materialId));
+        return ResponseEntity.ok(userAssignmentService.findAllByAssignmentId(materialId));
     }
 }

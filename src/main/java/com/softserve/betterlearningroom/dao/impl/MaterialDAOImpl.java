@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.dao.impl;
 
-import com.softserve.betterlearningroom.dao.MaterialDao;
+import com.softserve.betterlearningroom.dao.MaterialDAO;
 import com.softserve.betterlearningroom.dao.extractor.MaterialRowMapper;
 import com.softserve.betterlearningroom.entity.Material;
 import com.softserve.betterlearningroom.entity.MaterialType;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Repository
 @RequiredArgsConstructor
 @PropertySource("classpath:db/materials/materialQuery.properties")
-public class MaterialDaoImpl implements MaterialDao {
+public class MaterialDAOImpl implements MaterialDAO {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 

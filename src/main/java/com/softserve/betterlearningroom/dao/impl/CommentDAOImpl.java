@@ -69,7 +69,7 @@ public class CommentDAOImpl implements CommentDAO {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(comment);
         namedParameterJdbcTemplate.update(saveComments, parameterSource, keyHolder, new String[]{"id"});
-        return findById(keyHolder.getKeyAs(Long.class));
+        return findById(keyHolder.getKey().longValue());
     }
 
     @Override

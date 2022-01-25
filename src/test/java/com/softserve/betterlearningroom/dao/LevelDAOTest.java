@@ -1,7 +1,7 @@
-package com.softserve.betterlearningroom.dao.impl;
+package com.softserve.betterlearningroom.dao;
 
 import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
-import com.softserve.betterlearningroom.dao.LevelDao;
+import com.softserve.betterlearningroom.dao.impl.LevelDAOImpl;
 import com.softserve.betterlearningroom.entity.Level;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,19 +12,16 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest(classes = {TestDBConfiguration.class, LevelDaoImpl.class})
-class LevelDaoImplTest {
-
+@SpringBootTest(classes = {TestDBConfiguration.class, LevelDAOImpl.class})
+class LevelDAOTest {
     private static final Long LEVEL_ID = 3L;
     private static final String TITLE = "Pythagorean theorem";
     private static final String DESCRIPTION = "Write example";
     private static final long CRITERION_ID = 3;
     private static final Integer MARK = 4;
 
-
     @Autowired
-    private LevelDao levelDao;
-
+    private LevelDAO levelDao;
 
     @Test
     void testSaveAndGet() {
@@ -87,5 +84,4 @@ class LevelDaoImplTest {
         assertEquals("test description", updatedLevel.getDescription());
         assertEquals(4, updatedLevel.getCriterionId());
     }
-
 }

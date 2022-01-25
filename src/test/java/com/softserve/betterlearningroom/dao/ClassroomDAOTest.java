@@ -1,7 +1,7 @@
 package com.softserve.betterlearningroom.dao;
 
 import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
-import com.softserve.betterlearningroom.dao.impl.ClassroomDaoImpl;
+import com.softserve.betterlearningroom.dao.impl.ClassroomDAOImpl;
 import com.softserve.betterlearningroom.dao.impl.UserDAOImpl;
 import com.softserve.betterlearningroom.entity.Classroom;
 import com.softserve.betterlearningroom.entity.User;
@@ -15,11 +15,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest(classes = {TestDBConfiguration.class, ClassroomDaoImpl.class, UserDAOImpl.class})
-class ClassroomDaoTest {
+@SpringBootTest(classes = {TestDBConfiguration.class, ClassroomDAOImpl.class, UserDAOImpl.class})
+class ClassroomDAOTest {
 
     @Autowired
-    ClassroomDaoImpl classroomDaoImpl;
+    ClassroomDAOImpl classroomDaoImpl;
     @Autowired
     UserDAOImpl userDaoImpl;
 

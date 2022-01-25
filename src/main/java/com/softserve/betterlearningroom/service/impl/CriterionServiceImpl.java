@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.service.impl;
 
-import com.softserve.betterlearningroom.dao.impl.CriterionDaoImpl;
+import com.softserve.betterlearningroom.dao.impl.CriterionDAOImpl;
 import com.softserve.betterlearningroom.dto.CriterionDTO;
 import com.softserve.betterlearningroom.mapper.CriterionMapper;
 import com.softserve.betterlearningroom.service.CriterionServise;
@@ -14,41 +14,35 @@ import java.util.stream.Collectors;
 public class CriterionServiceImpl implements CriterionServise {
 
     @Autowired
-    private CriterionDaoImpl criterionDAOImpl;
+    private CriterionDAOImpl criterionDAOImpl;
 
     public CriterionDTO findById(Long id) {
-
         return CriterionMapper.toDTO(criterionDAOImpl.findById(id));
     }
 
     @Override
-    public void removeById(Long id) {
-
+    public void delete(Long id) {
         criterionDAOImpl.delete(id);
     }
 
     @Override
     public List<CriterionDTO> findAll() {
-
         return criterionDAOImpl.findAll().stream().map(CriterionMapper::toDTO).collect(Collectors.toList());
 
     }
 
     @Override
     public CriterionDTO save(CriterionDTO criterionDTO) {
-
         return CriterionMapper.toDTO(criterionDAOImpl.save(CriterionMapper.toEntity(criterionDTO)));
     }
 
     @Override
     public CriterionDTO update(CriterionDTO criterionDTO) {
-
         return CriterionMapper.toDTO(criterionDAOImpl.update(CriterionMapper.toEntity(criterionDTO)));
     }
 
     @Override
     public List<CriterionDTO> findAllByMaterialId(Long materialId){
-
         return criterionDAOImpl.findAllByMaterialId(materialId).stream().map(CriterionMapper::toDTO).collect(Collectors.toList());
     }
 }

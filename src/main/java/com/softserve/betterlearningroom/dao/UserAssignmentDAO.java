@@ -4,7 +4,7 @@ import com.softserve.betterlearningroom.entity.UserAssignment;
 
 import java.util.List;
 
-public interface UserAssignmentDao {
+public interface UserAssignmentDAO {
 
     UserAssignment save(UserAssignment userAssignment);
 

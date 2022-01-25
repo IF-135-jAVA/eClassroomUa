@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface UserAssignmentService {
 
-    UserAssignmentDTO create(UserAssignmentDTO userAssignmentDTO);
+    UserAssignmentDTO save(UserAssignmentDTO userAssignmentDTO);
 
-    UserAssignmentDTO readById(long id);
+    UserAssignmentDTO findById(Long id);
 
-    UserAssignmentDTO update(UserAssignmentDTO userAssignmentDTO, long id);
+    UserAssignmentDTO update(UserAssignmentDTO userAssignmentDTO, Long id);
 
-    void delete(long id);
+    void delete(Long id);
 
-    List<UserAssignmentDTO> getByAssignment(long assignmentId);
+    List<UserAssignmentDTO> findAllByAssignmentId(Long assignmentId);
 }

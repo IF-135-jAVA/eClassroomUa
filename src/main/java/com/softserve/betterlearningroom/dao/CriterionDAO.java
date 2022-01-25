@@ -4,7 +4,7 @@ import com.softserve.betterlearningroom.entity.Criterion;
 
 import java.util.List;
 
-public interface CriterionDao {
+public interface CriterionDAO {
 
     Criterion save(Criterion criterion);
 

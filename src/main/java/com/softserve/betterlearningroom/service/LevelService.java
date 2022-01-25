@@ -8,7 +8,7 @@ public interface LevelService {
 
     LevelDTO findById(Long id);
 
-    void removeById(Long id);
+    void delete(Long id);
 
     List<LevelDTO> findAll();
 

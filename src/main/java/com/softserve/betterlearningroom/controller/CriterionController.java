@@ -74,7 +74,7 @@ public class CriterionController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable final Long id) {
 
-        criterionService.removeById(id);
+        criterionService.delete(id);
     }
 
 }

@@ -1,7 +1,7 @@
-package com.softserve.betterlearningroom.dao.impl;
+package com.softserve.betterlearningroom.dao;
 
 import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
-import com.softserve.betterlearningroom.dao.TopicDao;
+import com.softserve.betterlearningroom.dao.impl.TopicDAOImpl;
 import com.softserve.betterlearningroom.entity.Topic;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +12,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest(classes = {TestDBConfiguration.class, TopicDaoImpl.class})
-class TopicDaoImplTest {
-
+@SpringBootTest(classes = {TestDBConfiguration.class, TopicDAOImpl.class})
+class TopicDAOTest {
     private static final Long TOPIC_ID = 3L;
     private static final long CLASSROOM_ID = 3;
     private static final String TITLE = "Mathematics";
 
-
     @Autowired
-    private TopicDao topicDao;
-
+    private TopicDAO topicDao;
 
     @Test
     void testSaveAndGet() {
@@ -57,7 +54,6 @@ class TopicDaoImplTest {
         assertNotNull(expectedtopic);
         assertEquals(TITLE, expectedtopic.getTitle());
         assertEquals(TOPIC_ID, expectedtopic.getClassroomId());
-
     }
 
     @Test
@@ -76,5 +72,4 @@ class TopicDaoImplTest {
 
         assertEquals(2, updatedtopic.getClassroomId());
     }
-
 }

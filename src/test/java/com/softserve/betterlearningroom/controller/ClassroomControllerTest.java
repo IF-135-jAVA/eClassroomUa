@@ -66,7 +66,7 @@ class ClassroomControllerTest {
 
     @Test
     void testGetClassroomById() throws Exception {
-        when(classroomServiceImpl.getClassroomById(1L)).thenReturn(expectedClassroom());
+        when(classroomServiceImpl.findById(1L)).thenReturn(expectedClassroom());
 
         MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/1")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -92,7 +92,7 @@ class ClassroomControllerTest {
         List<UserDTO> expectedUsers = new ArrayList<UserDTO>();
         expectedUsers.add(expectedUser());
 
-        when(classroomServiceImpl.getClassroomTeachers(1L)).thenReturn(expectedUsers);
+        when(classroomServiceImpl.getClassroomTeachersById(1L)).thenReturn(expectedUsers);
 
         MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/1/teachers")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -106,7 +106,7 @@ class ClassroomControllerTest {
         List<UserDTO> expectedUsers = new ArrayList<UserDTO>();
         expectedUsers.add(expectedUser());
 
-        when(classroomServiceImpl.getClassroomStudents(1L)).thenReturn(expectedUsers);
+        when(classroomServiceImpl.getClassroomStudentsById(1L)).thenReturn(expectedUsers);
 
         MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/1/students")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -120,7 +120,7 @@ class ClassroomControllerTest {
         List<ClassroomDTO> expectedClassrooms = new ArrayList<ClassroomDTO>();
         expectedClassrooms.add(expectedClassroom());
 
-        when(classroomServiceImpl.getClassroomsByTeacher(1L)).thenReturn(expectedClassrooms);
+        when(classroomServiceImpl.findAllClassroomsByTeacherId(1L)).thenReturn(expectedClassrooms);
 
         MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/byTeacher/1")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -134,7 +134,7 @@ class ClassroomControllerTest {
         List<ClassroomDTO> expectedClassrooms = new ArrayList<ClassroomDTO>();
         expectedClassrooms.add(expectedClassroom());
 
-        when(classroomServiceImpl.getClassroomsByStudent(1L)).thenReturn(expectedClassrooms);
+        when(classroomServiceImpl.findAllClassroomsByStudentId(1L)).thenReturn(expectedClassrooms);
 
         MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/byStudent/1")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -169,7 +169,7 @@ class ClassroomControllerTest {
     void testCreateClassroom() throws Exception {
         ClassroomDTO classroomDTO = expectedClassroom();
 
-        when(classroomServiceImpl.createClassroom(classroomDTO)).thenReturn(expectedClassroom());
+        when(classroomServiceImpl.save(classroomDTO)).thenReturn(expectedClassroom());
         MvcResult mvcResult = mockMvc.perform(post("/api/classrooms/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(classroomDTO)))

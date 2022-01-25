@@ -5,7 +5,7 @@ import com.softserve.betterlearningroom.entity.Question;
 
 import java.util.List;
 
-public interface QuestionDao {
+public interface QuestionDAO {
     
     List<Question> findAllByMaterialId(Long materialId);
     

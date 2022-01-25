@@ -5,7 +5,7 @@ import com.softserve.betterlearningroom.entity.User;
 
 import java.util.List;
 
-public interface ClassroomDao {
+public interface ClassroomDAO {
 
     Classroom findClassroomById(Long classroomId);
 

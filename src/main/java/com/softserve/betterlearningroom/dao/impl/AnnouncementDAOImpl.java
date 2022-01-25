@@ -67,7 +67,7 @@ public class AnnouncementDAOImpl implements AnnouncementDAO {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(announcement);
         namedParameterJdbcTemplate.update(save, parameterSource, keyHolder, new String[]{"id"});
-        return findById(keyHolder.getKeyAs(Long.class));
+        return findById(keyHolder.getKey().longValue());
     }
 
     @Override

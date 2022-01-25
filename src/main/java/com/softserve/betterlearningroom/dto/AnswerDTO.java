@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AnswerDTO {
-    private long id;
-    private long userAssignmentId;
+    private Long id;
+    private Long userAssignmentId;
     private String text;
     private boolean enabled;
 }

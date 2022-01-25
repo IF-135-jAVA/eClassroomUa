@@ -4,7 +4,7 @@ import com.softserve.betterlearningroom.entity.Link;
 
 import java.util.List;
 
-public interface LinkDao {
+public interface LinkDAO {
     
     List<Link> findAllByMaterialId(Long materialId);
 

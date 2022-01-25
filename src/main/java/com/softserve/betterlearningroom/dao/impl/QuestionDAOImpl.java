@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.dao.impl;
 
-import com.softserve.betterlearningroom.dao.QuestionDao;
+import com.softserve.betterlearningroom.dao.QuestionDAO;
 import com.softserve.betterlearningroom.entity.Material;
 import com.softserve.betterlearningroom.entity.Question;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 @PropertySource("classpath:db/materials/questionQuery.properties")
-public class QuestionDaoImpl implements QuestionDao {
+public class QuestionDAOImpl implements QuestionDAO {
 
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -34,7 +34,7 @@ public class QuestionDaoImpl implements QuestionDao {
     private String removeQuery;
 
     @Autowired
-    public QuestionDaoImpl(NamedParameterJdbcTemplate jdbcTemplate) {
+    public QuestionDAOImpl(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

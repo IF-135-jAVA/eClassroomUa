@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.dao.impl;
 
-import com.softserve.betterlearningroom.dao.TopicDao;
+import com.softserve.betterlearningroom.dao.TopicDAO;
 import com.softserve.betterlearningroom.entity.Topic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @PropertySource(value = "classpath:/db/topic/topicQuery.properties")
-public class TopicDaoImpl implements TopicDao {
+public class TopicDAOImpl implements TopicDAO {
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;

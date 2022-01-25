@@ -1,7 +1,7 @@
 package com.softserve.betterlearningroom.dao.impl;
 
-import com.softserve.betterlearningroom.dao.AnswerDao;
-import com.softserve.betterlearningroom.entity.Answer;
+import com.softserve.betterlearningroom.dao.UserAssignmentDAO;
+import com.softserve.betterlearningroom.entity.UserAssignment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -20,49 +20,49 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-@PropertySource("classpath:/db/answers/answer_queries.properties")
-public class AnswerDaoImpl implements AnswerDao {
+@PropertySource("classpath:/db/assignments/user_assignment_queries.properties")
+public class UserAssignmentDAOImpl implements UserAssignmentDAO {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    @Value("${create.answer}")
+    @Value("${create.user.assignment}")
     private String createQuery;
 
-    @Value("${read.answer.by.id}")
+    @Value("${read.user.assignment.by.id}")
     private String readByIdQuery;
 
-    @Value("${update.answer}")
+    @Value("${update.user.assignment}")
     private String updateQuery;
 
-    @Value("${delete.answer}")
+    @Value("${delete.user.assignment}")
     private String deleteQuery;
 
-    @Value("${get.answers.by.user.assignment}")
-    private String getByUserAssignmentQuery;
+    @Value("${get.user.assignments.by.assignment}")
+    private String getByAssignmentQuery;
 
     @Override
-    public Answer save(Answer answer) {
+    public UserAssignment save(UserAssignment userAssignment) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(answer);
+        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(userAssignment);
         jdbcTemplate.update(createQuery, parameterSource, keyHolder, new String[]{"id"});
         return findById(keyHolder.getKeyAs(Long.class));
     }
 
     @Override
-    public Answer findById(Long id) {
+    public UserAssignment findById(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
-        Answer result = DataAccessUtils.singleResult(jdbcTemplate.query(readByIdQuery, parameterSource, BeanPropertyRowMapper.newInstance(Answer.class)));
+        UserAssignment result = DataAccessUtils.singleResult(jdbcTemplate.query(readByIdQuery, parameterSource, BeanPropertyRowMapper.newInstance(UserAssignment.class)));
         if (result == null) {
-            throw new DataRetrievalFailureException("Answer with id - " + id + ", not found.");
+            throw new DataRetrievalFailureException("UserAssignment with id - " + id + ", not found.");
         }
         return result;
     }
 
     @Override
-    public Answer update(Answer answer) {
-        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(answer);
+    public UserAssignment update(UserAssignment userAssignment) {
+        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(userAssignment);
         jdbcTemplate.update(updateQuery, parameterSource);
-        return findById(answer.getId());
+        return findById(userAssignment.getId());
     }
 
     @Override
@@ -73,8 +73,8 @@ public class AnswerDaoImpl implements AnswerDao {
     }
 
     @Override
-    public List<Answer> findByUserAssignmentId(Long userAssignmentId) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("userAssignmentId", userAssignmentId);
-        return jdbcTemplate.query(getByUserAssignmentQuery, parameterSource, BeanPropertyRowMapper.newInstance(Answer.class));
+    public List<UserAssignment> findByAssignmentId(Long assignmentId) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource("assignmentId", assignmentId);
+        return jdbcTemplate.query(getByAssignmentQuery, parameterSource, BeanPropertyRowMapper.newInstance(UserAssignment.class));
     }
 }

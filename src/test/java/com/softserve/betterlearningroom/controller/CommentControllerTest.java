@@ -46,31 +46,31 @@ class CommentControllerTest {
     @Test
     void readByCommentIdTest() throws Exception {
         mapper = new ObjectMapper();
-        CommentDTO comment = new CommentDTO(2, "text2", LocalDateTime.now(), 3, 3, 4, 2, true);
-        given(commentService.readByIdComment(Mockito.anyLong())).willReturn(comment);
+        CommentDTO comment = new CommentDTO(2L, "text2", LocalDateTime.now(), 3L, 3L, 4L, 2L, true);
+        given(commentService.findByCommentId(Mockito.anyLong())).willReturn(comment);
         mvc.perform(get("/api/comments/2")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
 
-        verify(commentService).readByIdComment(2);
+        verify(commentService).findByCommentId(2L);
     }
 
     @Test
     void commentIsNotFoundTest() throws Exception {
-        given(commentService.readByIdComment(Mockito.anyLong())).willThrow(DataRetrievalFailureException.class);
+        given(commentService.findByCommentId(Mockito.anyLong())).willThrow(DataRetrievalFailureException.class);
         assertThatThrownBy(() -> mvc.perform(get("/api/comments/0")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))).hasCause(new DataRetrievalFailureException(null));
-        verify(commentService).readByIdComment(0L);
+        verify(commentService).findByCommentId(0L);
     }
 
     @Test
     void createCommentTest() throws Exception {
         mapper = new ObjectMapper();
         CommentDTO comment = getComment();
-        given(commentService.createComment(any(CommentDTO.class))).willReturn(comment);
+        given(commentService.save(any(CommentDTO.class))).willReturn(comment);
         mvc.perform(MockMvcRequestBuilders.post("/api/users/3/comments")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(comment)))
@@ -82,21 +82,21 @@ class CommentControllerTest {
     void updateCommentTest() throws Exception {
         mapper = new ObjectMapper();
         CommentDTO comment = getComment();
-        given(commentService.updateComment(any(CommentDTO.class), anyLong())).willReturn(comment);
+        given(commentService.update(any(CommentDTO.class), anyLong())).willReturn(comment);
         mvc.perform(put("/api/comments/2")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(comment)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-        verify(commentService).updateComment(any(CommentDTO.class), anyLong());
+        verify(commentService).update(any(CommentDTO.class), anyLong());
     }
 
     @Test
     void readByIdAuthorIdTest() throws Exception {
         List<CommentDTO> commentList = new ArrayList<>();
-        commentList.add(new CommentDTO(2, "text2", LocalDateTime.now(), 3, 3, 4, 2, true));
-        commentList.add(new CommentDTO(3, "text3", LocalDateTime.now(), 3, 3, 4, 2, true));
-        given(commentService.readByIdAuthorId(anyLong())).willReturn(commentList);
+        commentList.add(new CommentDTO(2L, "text2", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
+        commentList.add(new CommentDTO(3L, "text3", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
+        given(commentService.findByAuthorId(anyLong())).willReturn(commentList);
         mvc.perform(get("/api/users/2/comments")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -106,9 +106,9 @@ class CommentControllerTest {
     @Test
     void readByIdMaterialIdTest() throws Exception {
         List<CommentDTO> commentList = new ArrayList<>();
-        commentList.add(new CommentDTO(2, "text2", LocalDateTime.now(), 3, 3, 4, 2, true));
-        commentList.add(new CommentDTO(3, "text3", LocalDateTime.now(), 3, 3, 4, 2, true));
-        given(commentService.readByIdMaterialComments(anyLong())).willReturn(commentList);
+        commentList.add(new CommentDTO(2L, "text2", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
+        commentList.add(new CommentDTO(3L, "text3", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
+        given(commentService.findByMaterialId(anyLong())).willReturn(commentList);
         mvc.perform(get("/api/materials/2/materialComments")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -118,9 +118,9 @@ class CommentControllerTest {
     @Test
     void readByIdAnnouncementCommentsTest() throws Exception {
         List<CommentDTO> commentList = new ArrayList<>();
-        commentList.add(new CommentDTO(2, "text2", LocalDateTime.now(), 3, 3, 4, 2, true));
-        commentList.add(new CommentDTO(3, "text3", LocalDateTime.now(), 3, 3, 4, 2, true));
-        given(commentService.readByIdAnnouncementComments(anyLong())).willReturn(commentList);
+        commentList.add(new CommentDTO(2L, "text2", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
+        commentList.add(new CommentDTO(3L, "text3", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
+        given(commentService.findByAnnouncementId(anyLong())).willReturn(commentList);
         mvc.perform(get("/api/announcements/3/announcementComments")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -130,9 +130,9 @@ class CommentControllerTest {
     @Test
     void readByIdUserAssignmentCommentsTest() throws Exception {
         List<CommentDTO> commentList = new ArrayList<>();
-        commentList.add(new CommentDTO(2, "text2", LocalDateTime.now(), 3, 3, 4, 2, true));
-        commentList.add(new CommentDTO(3, "text3", LocalDateTime.now(), 3, 3, 4, 2, true));
-        given(commentService.readByIdUserAssignmentComments(anyLong())).willReturn(commentList);
+        commentList.add(new CommentDTO(2L, "text2", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
+        commentList.add(new CommentDTO(3L, "text3", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
+        given(commentService.findByUserAssignmentId(anyLong())).willReturn(commentList);
         mvc.perform(get("/api/user-assignments/4/userAssignmentComments")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -141,12 +141,12 @@ class CommentControllerTest {
 
     private CommentDTO getComment() {
         CommentDTO comment = CommentDTO.builder()
-                .id(1)
+                .id(1L)
                 .text("text1")
-                .authorId(2)
-                .announcementId(3)
-                .materialId(2)
-                .userAssignmentId(4)
+                .authorId(2L)
+                .announcementId(3L)
+                .materialId(2L)
+                .userAssignmentId(4L)
                 .enabled(true)
                 .build();
         return comment;

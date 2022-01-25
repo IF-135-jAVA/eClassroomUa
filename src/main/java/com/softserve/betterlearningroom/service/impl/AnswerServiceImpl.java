@@ -1,8 +1,8 @@
 package com.softserve.betterlearningroom.service.impl;
 
-import com.softserve.betterlearningroom.dao.AnswerDao;
-import com.softserve.betterlearningroom.dao.MaterialDao;
-import com.softserve.betterlearningroom.dao.UserAssignmentDao;
+import com.softserve.betterlearningroom.dao.AnswerDAO;
+import com.softserve.betterlearningroom.dao.MaterialDAO;
+import com.softserve.betterlearningroom.dao.UserAssignmentDAO;
 import com.softserve.betterlearningroom.dto.AnswerDTO;
 import com.softserve.betterlearningroom.entity.Material;
 import com.softserve.betterlearningroom.entity.UserAssignment;
@@ -22,18 +22,15 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class AnswerServiceImpl implements AnswerService {
-
-    private final AnswerDao answerDao;
-    private final UserAssignmentDao userAssignmentDao;
-    private final MaterialDao materialDao;
-
+    private final AnswerDAO answerDao;
+    private final UserAssignmentDAO userAssignmentDao;
+    private final MaterialDAO materialDao;
     private AnswerMapper answerMapper = Mappers.getMapper(AnswerMapper.class);
 
     @Override
-    public AnswerDTO create(AnswerDTO answerDTO) {
+    public AnswerDTO save(AnswerDTO answerDTO) {
         UserAssignment userAssignment;
         try {
-            // throws an exception if UserAssignment with the specified id is absent or disabled (deleted)
             userAssignment = userAssignmentDao.findById(answerDTO.getUserAssignmentId());
         } catch (DataRetrievalFailureException e) {
             throw new DataIntegrityViolationException(e.getMessage());
@@ -46,13 +43,13 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public AnswerDTO readById(long id) {
+    public AnswerDTO findById(Long id) {
         return answerMapper.answerToAnswerDTO(answerDao.findById(id));
     }
 
     @Override
-    public AnswerDTO update(AnswerDTO answerDTO, long id) {
-        AnswerDTO oldAnswerDTO = readById(id);
+    public AnswerDTO update(AnswerDTO answerDTO, Long id) {
+        AnswerDTO oldAnswerDTO = findById(id);
         UserAssignment userAssignment = userAssignmentDao.findById(oldAnswerDTO.getUserAssignmentId());
         checkIfSubmissionAllowed(userAssignment);
         oldAnswerDTO.setText(answerDTO.getText());
@@ -62,15 +59,15 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public void delete(long id) {
-        UserAssignment userAssignment = userAssignmentDao.findById(readById(id).getUserAssignmentId());
+    public void delete(Long id) {
+        UserAssignment userAssignment = userAssignmentDao.findById(findById(id).getUserAssignmentId());
         checkIfSubmissionAllowed(userAssignment);
         answerDao.delete(id);
         renewUserAssignmentSubmissionDate(userAssignment);
     }
 
     @Override
-    public List<AnswerDTO> getByUserAssignment(long userAssignmentId) {
+    public List<AnswerDTO> findByUserAssignmentId(Long userAssignmentId) {
         return answerDao.findByUserAssignmentId(userAssignmentId)
                 .stream()
                 .map(answerMapper::answerToAnswerDTO)

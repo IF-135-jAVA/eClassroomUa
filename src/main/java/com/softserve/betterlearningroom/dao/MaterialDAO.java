@@ -5,7 +5,7 @@ import com.softserve.betterlearningroom.entity.MaterialType;
 
 import java.util.List;
 
-public interface MaterialDao {
+public interface MaterialDAO {
     
     Material findById(Long materialId);
     

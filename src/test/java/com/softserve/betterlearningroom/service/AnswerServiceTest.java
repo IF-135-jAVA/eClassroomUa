@@ -1,8 +1,8 @@
 package com.softserve.betterlearningroom.service;
 
-import com.softserve.betterlearningroom.dao.AnswerDao;
-import com.softserve.betterlearningroom.dao.MaterialDao;
-import com.softserve.betterlearningroom.dao.UserAssignmentDao;
+import com.softserve.betterlearningroom.dao.AnswerDAO;
+import com.softserve.betterlearningroom.dao.MaterialDAO;
+import com.softserve.betterlearningroom.dao.UserAssignmentDAO;
 import com.softserve.betterlearningroom.dto.AnswerDTO;
 import com.softserve.betterlearningroom.entity.Answer;
 import com.softserve.betterlearningroom.entity.Assignment;
@@ -32,26 +32,19 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class AnswerServiceTest {
-
     private static final long ID_1 = 1;
-    private static final long USER_ASSIGNMENT_ID = 1;
+    private static final Long USER_ASSIGNMENT_ID = 1L;
     private static final String TEXT_1 = "Monday";
     private static final boolean ENABLED = true;
-
     private static final long ID_2 = 2;
     private static final String TEXT_2 = "Tuesday";
-
     private static final long MATERIAL_ID = 1;
     private static final long USER_ID = 1;
     private static final long ASSIGNMENT_STATUS_ID = 1;
     private static final LocalDateTime SUBMISSION_DATE = LocalDateTime.now().minusMinutes(5);
-
     private static final LocalDateTime DUE_DATE_1 = LocalDateTime.now().plusDays(1);
-
     private static final LocalDateTime DUE_DATE_2 = LocalDateTime.now().minusDays(3);
-
     private static final String EXCEPTION_MESSAGE = "Due date for assignment with id - " + MATERIAL_ID + " has passed. Due date is " + DUE_DATE_2 + ".";
-
     private Answer answer1;
     private Answer answer1Updated;
     private Answer answer2;
@@ -65,13 +58,13 @@ public class AnswerServiceTest {
     private Material material;
 
     @Mock
-    private AnswerDao answerDao;
+    private AnswerDAO answerDao;
 
     @Mock
-    private UserAssignmentDao userAssignmentDao;
+    private UserAssignmentDAO userAssignmentDao;
 
     @Mock
-    private MaterialDao materialDao;
+    private MaterialDAO materialDao;
 
     @InjectMocks
     private AnswerServiceImpl answerService;
@@ -97,7 +90,7 @@ public class AnswerServiceTest {
         when(materialDao.findById(MATERIAL_ID)).thenReturn(material);
         when(userAssignmentDao.update(userAssignment)).thenReturn(userAssignment);
 
-        AnswerDTO actual = answerService.create(answerDTO1);
+        AnswerDTO actual = answerService.save(answerDTO1);
 
         verify(answerDao).save(any(Answer.class));
         verify(userAssignmentDao).findById(anyLong());
@@ -113,7 +106,7 @@ public class AnswerServiceTest {
         when(materialDao.findById(MATERIAL_ID)).thenReturn(material);
         material.setDueDate(DUE_DATE_2);
 
-        SubmissionNotAllowedException exception = assertThrows(SubmissionNotAllowedException.class, () -> answerService.create(answerDTO1));
+        SubmissionNotAllowedException exception = assertThrows(SubmissionNotAllowedException.class, () -> answerService.save(answerDTO1));
 
         assertEquals(EXCEPTION_MESSAGE, exception.getMessage());
         verifyNoInteractions(answerDao);
@@ -126,7 +119,7 @@ public class AnswerServiceTest {
     public void testReadById() {
         when(answerDao.findById(ID_1)).thenReturn(answer1);
 
-        AnswerDTO actual = answerService.readById(ID_1);
+        AnswerDTO actual = answerService.findById(ID_1);
 
         verify(answerDao).findById(anyLong());
         assertEquals(answerDTO1, actual);
@@ -206,7 +199,7 @@ public class AnswerServiceTest {
     public void testGetByUserAssignment() {
         when(answerDao.findByUserAssignmentId(USER_ASSIGNMENT_ID)).thenReturn(Arrays.asList(answer1, answer2));
 
-        List<AnswerDTO> actual = answerService.getByUserAssignment(USER_ASSIGNMENT_ID);
+        List<AnswerDTO> actual = answerService.findByUserAssignmentId(USER_ASSIGNMENT_ID);
 
         verify(answerDao).findByUserAssignmentId(anyLong());
         assertEquals(Arrays.asList(answerDTO1, answerDTO2), actual);

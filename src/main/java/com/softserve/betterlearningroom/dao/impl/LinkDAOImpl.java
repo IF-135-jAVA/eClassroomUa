@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.dao.impl;
 
-import com.softserve.betterlearningroom.dao.LinkDao;
+import com.softserve.betterlearningroom.dao.LinkDAO;
 import com.softserve.betterlearningroom.entity.Link;
 import com.softserve.betterlearningroom.entity.Material;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 @PropertySource("classpath:db/materials/linkQuery.properties")
-public class LinkDaoImpl implements LinkDao {
+public class LinkDAOImpl implements LinkDAO {
 
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -34,7 +34,7 @@ public class LinkDaoImpl implements LinkDao {
     private String removeQuery;
 
     @Autowired
-    public LinkDaoImpl(NamedParameterJdbcTemplate jdbcTemplate) {
+    public LinkDAOImpl(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

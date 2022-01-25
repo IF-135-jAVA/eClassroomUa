@@ -1,8 +1,8 @@
 package com.softserve.betterlearningroom.service.impl;
 
-import com.softserve.betterlearningroom.dao.AnswerDao;
-import com.softserve.betterlearningroom.dao.MaterialDao;
-import com.softserve.betterlearningroom.dao.UserAssignmentDao;
+import com.softserve.betterlearningroom.dao.AnswerDAO;
+import com.softserve.betterlearningroom.dao.MaterialDAO;
+import com.softserve.betterlearningroom.dao.UserAssignmentDAO;
 import com.softserve.betterlearningroom.dto.UserAssignmentDTO;
 import com.softserve.betterlearningroom.entity.Answer;
 import com.softserve.betterlearningroom.entity.AssignmentStatus;
@@ -21,15 +21,13 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserAssignmentServiceImpl implements UserAssignmentService {
-
-    private final UserAssignmentDao userAssignmentDao;
-    private final AnswerDao answerDao;
-    private final MaterialDao materialDao;
-
+    private final UserAssignmentDAO userAssignmentDao;
+    private final AnswerDAO answerDao;
+    private final MaterialDAO materialDao;
     private UserAssignmentMapper userAssignmentMapper = Mappers.getMapper(UserAssignmentMapper.class);
 
     @Override
-    public UserAssignmentDTO create(UserAssignmentDTO userAssignmentDTO) {
+    public UserAssignmentDTO save(UserAssignmentDTO userAssignmentDTO) {
         Material material = materialDao.findById(userAssignmentDTO.getMaterialId());
         LocalDateTime dueDate = material.getDueDate();
         if (dueDate != null && LocalDateTime.now().isAfter(dueDate)) {
@@ -45,13 +43,13 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
     }
 
     @Override
-    public UserAssignmentDTO readById(long id) {
+    public UserAssignmentDTO findById(Long id) {
         return userAssignmentMapper.userAssignmentToUserAssignmentDTO(userAssignmentDao.findById(id));
     }
 
     @Override
-    public UserAssignmentDTO update(UserAssignmentDTO userAssignmentDTO, long id) {
-        UserAssignmentDTO oldUserAssignmentDTO = readById(id);
+    public UserAssignmentDTO update(UserAssignmentDTO userAssignmentDTO, Long id) {
+        UserAssignmentDTO oldUserAssignmentDTO = findById(id);
         oldUserAssignmentDTO.setAssignmentStatusId(userAssignmentDTO.getAssignmentStatusId());
         oldUserAssignmentDTO.setGrade(userAssignmentDTO.getGrade());
         oldUserAssignmentDTO.setFeedback(userAssignmentDTO.getFeedback());
@@ -60,7 +58,7 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Long id) {
         answerDao.findByUserAssignmentId(id)
                 .stream()
                 .map(Answer::getId)
@@ -69,7 +67,7 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
     }
 
     @Override
-    public List<UserAssignmentDTO> getByAssignment(long assignmentId) {
+    public List<UserAssignmentDTO> findAllByAssignmentId(Long assignmentId) {
         return userAssignmentDao.findByAssignmentId(assignmentId)
                 .stream()
                 .map(userAssignmentMapper::userAssignmentToUserAssignmentDTO)
