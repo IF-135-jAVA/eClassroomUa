@@ -8,6 +8,7 @@ import com.softserve.betterlearningroom.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ class ClassroomDAOTest {
     UserDAOImpl userDaoImpl;
 
     @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     void testCreateClassroomAndGetClassroomById() {
         Classroom classroom = Classroom.builder()
                 .classroomId(5L)
