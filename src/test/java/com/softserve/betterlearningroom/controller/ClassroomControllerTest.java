@@ -24,16 +24,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(
-        value = ClassroomController.class
-        , useDefaultFilters = false
-        , includeFilters = {
-        @ComponentScan.Filter(
-                type = FilterType.ASSIGNABLE_TYPE,
-                value = ClassroomController.class
-        )
-}
-)
+@WebMvcTest(value = ClassroomController.class, useDefaultFilters = false, includeFilters = {
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = ClassroomController.class) })
 @AutoConfigureMockMvc(addFilters = false)
 class ClassroomControllerTest {
 
@@ -45,22 +37,12 @@ class ClassroomControllerTest {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     ClassroomDTO expectedClassroom() {
-        return ClassroomDTO.builder()
-                .classroomId(1L)
-                .userId(1L)
-                .title("Biology")
-                .session("Genetics")
-                .description("Genetics, Genomes, Chromosomes and the Cell Cycle")
-                .code("1ef7g1t")
-                .build();
+        return ClassroomDTO.builder().classroomId(1L).userId(1L).title("Biology").session("Genetics")
+                .description("Genetics, Genomes, Chromosomes and the Cell Cycle").code("1ef7g1t").build();
     }
 
     UserDTO expectedUser() {
-        return UserDTO.builder()
-                .firstName("Yurii")
-                .lastName("Cheban")
-                .email("yuriicheban@gmail.com")
-                .enabled(true)
+        return UserDTO.builder().firstName("Yurii").lastName("Cheban").email("yuriicheban@gmail.com").enabled(true)
                 .build();
     }
 
@@ -68,22 +50,18 @@ class ClassroomControllerTest {
     void testGetClassroomById() throws Exception {
         when(classroomServiceImpl.findById(1L)).thenReturn(expectedClassroom());
 
-        MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/1")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
-        assertEquals(objectMapper.writeValueAsString(expectedClassroom()), mvcResult.getResponse().getContentAsString());
-
+        MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/1").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
+        assertEquals(objectMapper.writeValueAsString(expectedClassroom()),
+                mvcResult.getResponse().getContentAsString());
     }
 
     @Test
     void testGetClassroomOwnerById() throws Exception {
         when(classroomServiceImpl.getClassroomOwnerById(1L)).thenReturn(expectedUser());
 
-        MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/1/owner")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
+        MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/1/owner").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
         assertEquals(objectMapper.writeValueAsString(expectedUser()), mvcResult.getResponse().getContentAsString());
     }
 
@@ -94,10 +72,8 @@ class ClassroomControllerTest {
 
         when(classroomServiceImpl.getClassroomTeachersById(1L)).thenReturn(expectedUsers);
 
-        MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/1/teachers")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
+        MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/1/teachers").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
         assertEquals(objectMapper.writeValueAsString(expectedUsers), mvcResult.getResponse().getContentAsString());
     }
 
@@ -108,10 +84,8 @@ class ClassroomControllerTest {
 
         when(classroomServiceImpl.getClassroomStudentsById(1L)).thenReturn(expectedUsers);
 
-        MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/1/students")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
+        MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/1/students").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
         assertEquals(objectMapper.writeValueAsString(expectedUsers), mvcResult.getResponse().getContentAsString());
     }
 
@@ -122,10 +96,9 @@ class ClassroomControllerTest {
 
         when(classroomServiceImpl.findAllClassroomsByTeacherId(1L)).thenReturn(expectedClassrooms);
 
-        MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/byTeacher/1")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
+        MvcResult mvcResult = mockMvc
+                .perform(get("/api/classrooms/teacher/1").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
         assertEquals(objectMapper.writeValueAsString(expectedClassrooms), mvcResult.getResponse().getContentAsString());
     }
 
@@ -136,10 +109,9 @@ class ClassroomControllerTest {
 
         when(classroomServiceImpl.findAllClassroomsByStudentId(1L)).thenReturn(expectedClassrooms);
 
-        MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/byStudent/1")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
+        MvcResult mvcResult = mockMvc
+                .perform(get("/api/classrooms/student/1").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
         assertEquals(objectMapper.writeValueAsString(expectedClassrooms), mvcResult.getResponse().getContentAsString());
     }
 
@@ -147,22 +119,22 @@ class ClassroomControllerTest {
     void testJoinClassroomAsStudent() throws Exception {
         when(classroomServiceImpl.joinClassroomAsStudent("1ef7g1t", 1L)).thenReturn(expectedClassroom());
 
-        MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/asStudent?code=1ef7g1t&userId=1")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
-        assertEquals(objectMapper.writeValueAsString(expectedClassroom()), mvcResult.getResponse().getContentAsString());
+        MvcResult mvcResult = mockMvc
+                .perform(get("/api/classrooms/join/student?code=1ef7g1t&userId=1").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
+        assertEquals(objectMapper.writeValueAsString(expectedClassroom()),
+                mvcResult.getResponse().getContentAsString());
     }
 
     @Test
     void testJoinClassroomAsTeacher() throws Exception {
         when(classroomServiceImpl.joinClassroomAsTeacher("1ef7g1t", 1L)).thenReturn(expectedClassroom());
 
-        MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/asTeacher?code=1ef7g1t&userId=1")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
-        assertEquals(objectMapper.writeValueAsString(expectedClassroom()), mvcResult.getResponse().getContentAsString());
+        MvcResult mvcResult = mockMvc
+                .perform(get("/api/classrooms/join/teacher?code=1ef7g1t&userId=1").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
+        assertEquals(objectMapper.writeValueAsString(expectedClassroom()),
+                mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -170,12 +142,12 @@ class ClassroomControllerTest {
         ClassroomDTO classroomDTO = expectedClassroom();
 
         when(classroomServiceImpl.save(classroomDTO)).thenReturn(expectedClassroom());
-        MvcResult mvcResult = mockMvc.perform(post("/api/classrooms/")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(classroomDTO)))
-                .andExpect(status().isCreated())
-                .andReturn();
+        MvcResult mvcResult = mockMvc
+                .perform(post("/api/classrooms/").contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsBytes(classroomDTO)))
+                .andExpect(status().isCreated()).andReturn();
 
-        assertEquals(objectMapper.writeValueAsString(expectedClassroom()), mvcResult.getResponse().getContentAsString());
+        assertEquals(objectMapper.writeValueAsString(expectedClassroom()),
+                mvcResult.getResponse().getContentAsString());
     }
 }

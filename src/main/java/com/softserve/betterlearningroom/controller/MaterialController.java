@@ -41,17 +41,17 @@ public class MaterialController {
     }
 
     @PostMapping
-    public ResponseEntity<MaterialDTO> createMaterial(@RequestBody MaterialDTO material, @PathVariable Long topicId) {
+    public ResponseEntity<MaterialDTO> save(@RequestBody MaterialDTO material, @PathVariable Long topicId) {
         return new ResponseEntity<>(materialService.save(material, topicId), HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<MaterialDTO> updateMaterial(@RequestBody MaterialDTO material) {
+    public ResponseEntity<MaterialDTO> update(@RequestBody MaterialDTO material) {
         return new ResponseEntity<>(materialService.update(material), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteMaterial(@RequestBody MaterialDTO material) {
+    public ResponseEntity<?> delete(@RequestBody MaterialDTO material) {
         materialService.update(material);
         return new ResponseEntity<>(HttpStatus.OK);
     }

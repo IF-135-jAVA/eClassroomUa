@@ -26,29 +26,29 @@ public class UserAssignmentController {
     private UserAssignmentService userAssignmentService;
 
     @PostMapping
-    public ResponseEntity<UserAssignmentDTO> create(@RequestBody UserAssignmentDTO userAssignmentDTO, @PathVariable long materialId) {
+    public ResponseEntity<UserAssignmentDTO> save(@RequestBody UserAssignmentDTO userAssignmentDTO, @PathVariable Long materialId) {
         userAssignmentDTO.setMaterialId(materialId);
         return new ResponseEntity<>(userAssignmentService.save(userAssignmentDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<UserAssignmentDTO> readById(@PathVariable long id) {
+    public ResponseEntity<UserAssignmentDTO> readById(@PathVariable Long id) {
         return ResponseEntity.ok(userAssignmentService.findById(id));
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<UserAssignmentDTO> update(@PathVariable long id, @RequestBody UserAssignmentDTO userAssignmentDTO) {
+    public ResponseEntity<UserAssignmentDTO> update(@PathVariable Long id, @RequestBody UserAssignmentDTO userAssignmentDTO) {
         return ResponseEntity.ok(userAssignmentService.update(userAssignmentDTO, id));
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<UserAssignmentDTO> delete(@PathVariable long id) {
+    public ResponseEntity<UserAssignmentDTO> delete(@PathVariable Long id) {
         userAssignmentService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
-    public ResponseEntity<List<UserAssignmentDTO>> getByAssignment(@PathVariable long materialId) {
+    public ResponseEntity<List<UserAssignmentDTO>> getByAssignment(@PathVariable Long materialId) {
         return ResponseEntity.ok(userAssignmentService.findAllByAssignmentId(materialId));
     }
 }

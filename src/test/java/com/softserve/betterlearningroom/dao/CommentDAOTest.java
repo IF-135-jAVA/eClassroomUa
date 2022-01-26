@@ -67,7 +67,6 @@ class CommentDAOTest {
     @Test
     @Order(5)
     void deleteCommentTest() {
-        Comment comment = prepareCommentDTO();
         commentDAO.delete(3L);
     }
 

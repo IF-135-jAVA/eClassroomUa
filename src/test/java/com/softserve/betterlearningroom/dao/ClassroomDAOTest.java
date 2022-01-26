@@ -20,161 +20,117 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class ClassroomDAOTest {
 
     @Autowired
-    ClassroomDAOImpl classroomDaoImpl;
+    ClassroomDAOImpl ClassroomDAOImpl;
     @Autowired
     UserDAOImpl userDaoImpl;
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    void testCreateClassroomAndGetClassroomById() {
-        Classroom classroom = Classroom.builder()
-                .classroomId(5L)
+    void testGetClassroomById() {
+        Classroom classroom = prepareClassroomDTO();
+        assertEquals((classroom), ClassroomDAOImpl.findClassroomById(1L));
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    void testGetClassroomTeachers() {
+        List<User> teachersList = new ArrayList<>();
+
+        teachersList.add(prepareUserDTO());
+        userDaoImpl.save(prepareUserDTO());
+
+
+        assertEquals(userDaoImpl.findById(5L), ClassroomDAOImpl.getAllTeachersById(2L));
+    }
+
+    @Test
+    void testGetClassroomStudents() {
+        List<User> teachersList = new ArrayList<>();
+        teachersList.add(prepareUserDTO());
+        userDaoImpl.save(prepareUserDTO());
+        assertEquals((teachersList), ClassroomDAOImpl.getAllStudentsById(2L));
+    }
+
+    @Test
+    void testGetClassroomOwnerById() {
+        User owner = prepareUserDTO();
+
+        userDaoImpl.save(owner);
+        assertNotNull(owner);
+        assertEquals((owner), ClassroomDAOImpl.getClassroomOwnerById(5L));
+    }
+
+    @Test
+    void testJoinClassroomAsStudent() {
+        Classroom asStudent = ClassroomDAOImpl.joinClassroomAsStudent(prepareClassroomDTO().getCode(), prepareClassroomDTO().getUserId());
+        assertNotNull(asStudent);
+        assertEquals((asStudent), ClassroomDAOImpl.joinClassroomAsStudent("3v8ev2t", 1L));
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    void testJoinClassroomAsTeacher() {
+        Classroom asTeacher = ClassroomDAOImpl.joinClassroomAsTeacher(prepareClassroomDTO().getCode(), prepareClassroomDTO().getUserId());
+        assertNotNull(asTeacher);
+        assertEquals((asTeacher), ClassroomDAOImpl.joinClassroomAsTeacher("3v8ev2t", 1L));
+    }
+
+    @Test
+    void testGetClassroomsByTeacher() {
+        List<Classroom> classroomsList = new ArrayList<>();
+        classroomsList.add(prepareClassroomDTO());
+        assertEquals((classroomsList), ClassroomDAOImpl.findAllClassroomsByTeacherId(2L));
+    }
+
+    @Test
+    void testGetClassroomsByStudents() {
+        List<Classroom> classroomsList = new ArrayList<>();
+        classroomsList.add(prepareClassroomDTO());
+        assertEquals((classroomsList), ClassroomDAOImpl.findAllClassroomsByStudentId(2L));
+    }
+
+    @Test
+    void testCreateClassroom() {
+        Classroom classroom = prepareClassroomDTO();
+        Classroom createClassroom = ClassroomDAOImpl.save(classroom);
+        assertNotNull(createClassroom);
+        assertEquals(1L, createClassroom.getClassroomId());
+        assertEquals(2L, createClassroom.getUserId());
+        assertEquals("English Language", createClassroom.getTitle());
+        assertEquals("Present Simple", createClassroom.getSession());
+        assertEquals("The Present Simple Tense", createClassroom.getDescription());
+        assertEquals("3v8ev2t", createClassroom.getCode());
+    }
+
+
+    @Test
+    void testGetClassroomByCode() {
+        Classroom byCode = ClassroomDAOImpl.findByCode((prepareClassroomDTO().getCode()));
+        assertNotNull(byCode);
+        assertEquals((byCode), ClassroomDAOImpl.findByCode("3v8ev2t"));
+    }
+
+    private Classroom prepareClassroomDTO() {
+        return Classroom.builder()
+                .classroomId(1L)
                 .userId(5L)
                 .title("English Language")
                 .session("Present Simple")
                 .description("The Present Simple Tense")
                 .code("3v8ev2t")
                 .build();
-        classroomDaoImpl.save(classroom);
-        Classroom byId = classroomDaoImpl.findClassroomById(5L);
-        assertNotNull(byId);
-        assertEquals(classroom.getClassroomId(), byId.getClassroomId());
-        assertEquals(classroom.getUserId(), byId.getUserId());
-        assertEquals(classroom.getTitle(), byId.getTitle());
-        assertEquals(classroom.getSession(), byId.getSession());
-        assertEquals(classroom.getDescription(), byId.getDescription());
-        assertEquals(classroom.getCode(), byId.getCode());
     }
 
-    @Test
-    void testGetClassroomByCode() {
-        Classroom classroom = Classroom.builder()
-                .classroomId(6L)
-                .userId(6L)
-                .title("Ukraine Language")
-                .session("Plurals")
-                .description("You will learn how to make plurals in Ukrainian")
-                .code("1y9eg3t")
-                .build();
-        classroomDaoImpl.save(classroom);
-        Classroom byCode = classroomDaoImpl.findByCode(classroom.getCode());
-        assertNotNull(byCode);
-        assertEquals(classroom, byCode);
-    }
-
-    @Test
-    void testJoinClassroomAsStudent() {
-        Classroom classroom = Classroom.builder()
-                .classroomId(7L)
-                .userId(7L)
-                .title("Biology")
-                .session("Genetics")
-                .description("Genetics, Genomes, Chromosomes and the Cell Cycle")
-                .code("1ef7g1t")
-                .build();
-        classroomDaoImpl.save(classroom);
-        Classroom asStudent = classroomDaoImpl.joinClassroomAsStudent(classroom.getCode(), classroom.getUserId());
-        assertNotNull(asStudent);
-        assertEquals(classroom, asStudent);
-    }
-
-    @Test
-    void testJoinClassroomAsTeacher() {
-        Classroom classroom = Classroom.builder()
-                .classroomId(8L)
-                .userId(8L)
-                .title("Art")
-                .session("Sculptures")
-                .description("The Thinker")
-                .code("g6hg1t5")
-                .build();
-        classroomDaoImpl.save(classroom);
-        Classroom asTeacher = classroomDaoImpl.joinClassroomAsTeacher(classroom.getCode(), classroom.getUserId());
-        assertNotNull(asTeacher);
-        assertEquals(classroom, asTeacher);
-    }
-
-
-    @Test
-    void testGetClassroomOwnerById() {
-        Classroom classroom = Classroom.builder()
-                .classroomId(3L)
-                .userId(3L)
-                .title("Culture")
-                .session("Culture, Arts, and History")
-                .description("Students will learn history, arts, culture, and other factors of nations and regions around the world")
-                .code("2fe4r1m")
-                .build();
-        classroomDaoImpl.save(classroom);
-        User user = User.builder()
+    private User prepareUserDTO() {
+        return User.builder()
+                .id(5L)
                 .firstName("Yurii")
                 .lastName("Cheban")
                 .email("yuriicheban@gmail.com")
                 .password("$2a$04$MzVXtd4o0y4DOlyHMMLMDeE4/eezrsT5Xad.2lmGr/NkCpwBgvn3e")
                 .enabled(true)
-                .provider("local")
-                .providerId("777")
+                .providerId("ddd")
+                .provider("fff")
                 .build();
-        userDaoImpl.save(user);
-        User classroomOwnerById = classroomDaoImpl.getClassroomOwnerById(classroom.getClassroomId());
-        assertNotNull(classroomOwnerById);
-        assertEquals(user, classroomOwnerById);
-
-    }
-
-    @Test
-    void getClassroomTeachers() {
-        Classroom classroom = Classroom.builder()
-                .classroomId(2L)
-                .userId(2L)
-                .title("Physics")
-                .session("Waves")
-                .description("It deals with the study of the propagation of energy through space")
-                .code("7yu4r1f")
-                .build();
-        classroomDaoImpl.save(classroom);
-        User user = User.builder()
-                .firstName("John")
-                .lastName("Rambo")
-                .email("johnrambo@gmail.com")
-                .password("$2a$04$MzVXtd4o0y4DOlyHMMLMDeE4/eezrsT5Xad.2lmGr/NkCpwBgvn3e")
-                .enabled(true)
-                .provider("local")
-                .providerId("777")
-                .build();
-        List<User> teachers = new ArrayList<User>();
-        teachers.add(user);
-        userDaoImpl.save(user);
-        List<User> classroomTeachers = classroomDaoImpl.getAllTeachersById(classroom.getClassroomId());
-        assertNotNull(classroomTeachers);
-        assertEquals(teachers, classroomTeachers);
-    }
-
-    @Test
-    void getClassroomStudents() {
-        Classroom classroom = Classroom.builder()
-                .classroomId(1L)
-                .userId(1L)
-                .title("Philosophy")
-                .session("General philosophy")
-                .description("Philosophy is the study of thought concerning nature, metaphysics, ethics, aesthetics, being, knowledge, logic, and all manner of theory")
-                .code("5ge8r5j")
-                .build();
-        classroomDaoImpl.save(classroom);
-        User user = User.builder()
-                .firstName("Kevin")
-                .lastName("McCallister")
-                .email("kevinmcallister@gmail.com")
-                .password("$2a$04$MzVXtd4o0y4DOlyHMMLMDeE4/eezrsT5Xad.2lmGr/NkCpwBgvn3e")
-                .enabled(true)
-                .provider("local")
-                .providerId("777")
-                .build();
-        List<User> students = new ArrayList<User>();
-        students.add(user);
-        userDaoImpl.save(user);
-        List<User> classroomStudents = classroomDaoImpl.getAllStudentsById(classroom.getClassroomId());
-        assertNotNull(classroomStudents);
-        assertEquals(students, classroomStudents);
     }
 }

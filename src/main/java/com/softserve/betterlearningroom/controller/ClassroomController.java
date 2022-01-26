@@ -16,36 +16,35 @@ import java.util.List;
 @RequestMapping("/api/classrooms")
 @AllArgsConstructor
 public class ClassroomController {
-
     private ClassroomServiceImpl classroomServiceImpl;
 
     @GetMapping("/{classroomId}")
-    public ResponseEntity<ClassroomDTO> getClassroomById(@PathVariable Long classroomId) {
+    public ResponseEntity<ClassroomDTO> findClassroomById(@PathVariable Long classroomId) {
         return ResponseEntity.ok().body(classroomServiceImpl.findById(classroomId));
     }
 
     @GetMapping("{classroomId}/owner")
-    public ResponseEntity<UserDTO> getClassroomOwnerById(@PathVariable Long classroomId) {
+    public ResponseEntity<UserDTO> findClassroomOwnerById(@PathVariable Long classroomId) {
         return ResponseEntity.ok().body(classroomServiceImpl.getClassroomOwnerById(classroomId));
     }
 
     @GetMapping("/{classroomId}/teachers")
-    public ResponseEntity<List<UserDTO>> getClassroomTeachers(@PathVariable Long classroomId) {
+    public ResponseEntity<List<UserDTO>> findClassroomTeachers(@PathVariable Long classroomId) {
         return ResponseEntity.ok().body(classroomServiceImpl.getClassroomTeachersById(classroomId));
     }
 
     @GetMapping("/{classroomId}/students")
-    public ResponseEntity<List<UserDTO>> getClassroomStudents(@PathVariable Long classroomId) {
+    public ResponseEntity<List<UserDTO>> findClassroomStudents(@PathVariable Long classroomId) {
         return ResponseEntity.ok().body(classroomServiceImpl.getClassroomStudentsById(classroomId));
     }
 
     @GetMapping("/teacher/{userId}")
-    public ResponseEntity<List<ClassroomDTO>> getClassroomsByTeacher(@PathVariable Long userId) {
+    public ResponseEntity<List<ClassroomDTO>> getClassroomsByTeacherId(@PathVariable Long userId) {
         return ResponseEntity.ok().body(classroomServiceImpl.findAllClassroomsByTeacherId(userId));
     }
 
     @GetMapping("/student/{userId}")
-    public ResponseEntity<List<ClassroomDTO>> getClassroomsByStudent(@PathVariable Long userId) {
+    public ResponseEntity<List<ClassroomDTO>> findClassroomsByStudentId(@PathVariable Long userId) {
         return ResponseEntity.ok().body(classroomServiceImpl.findAllClassroomsByStudentId(userId));
     }
 
@@ -62,14 +61,13 @@ public class ClassroomController {
     }
 
     @PostMapping()
-    public ResponseEntity<ClassroomDTO> createClassroom(@RequestBody ClassroomDTO classroomDTO) {
+    public ResponseEntity<ClassroomDTO> save(@RequestBody ClassroomDTO classroomDTO) {
         return new ResponseEntity<>(classroomServiceImpl.save(classroomDTO), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{classroomId}")
-    public ResponseEntity<?> removeClassroom(@PathVariable Long classroomId) {
+    public ResponseEntity<?> delete(@PathVariable Long classroomId) {
         classroomServiceImpl.delete(classroomId);
         return ResponseEntity.ok().build();
     }
 }
-

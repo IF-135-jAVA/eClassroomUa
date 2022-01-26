@@ -20,61 +20,39 @@ public class CriterionController {
     @Autowired
     private CriterionServiceImpl criterionService;
 
-    /**
-     * get all criterion
-     */
     @GetMapping
     public ResponseEntity<List<CriterionDTO>> getAll() {
         List<CriterionDTO> criterion = criterionService.findAll();
         return ResponseEntity.ok().body(criterion);
     }
 
-    /**
-     * get all criterion by material id
-     */
     @GetMapping("/byMaterialId/{byMaterialId}")
     public ResponseEntity<List<CriterionDTO>> getAllByMaterialId(@PathVariable(value = "byMaterialId") final Long materialId) {
         List<CriterionDTO> criterion = criterionService.findAllByMaterialId(materialId);
         return ResponseEntity.ok().body(criterion);
     }
 
-    /**
-     * get criterion by id
-     */
     @GetMapping("/{id}")
     public ResponseEntity<CriterionDTO> getById(@PathVariable(value = "id") final Long criterionId) {
         CriterionDTO criterionDTO = criterionService.findById(criterionId);
         return ResponseEntity.ok().body(criterionDTO);
     }
 
-    /**
-     * create criterion
-     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<CriterionDTO> create(@Valid @RequestBody CriterionDTO criterionDTO) {
-
         return new ResponseEntity<>(criterionService.save(criterionDTO), HttpStatus.CREATED);
     }
 
-    /**
-     * update table by id
-     */
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> update(@RequestBody final CriterionDTO criterionDTO) {
-
         return new ResponseEntity<>(criterionService.update(criterionDTO), HttpStatus.ACCEPTED);
     }
 
-    /**
-     * delete by id
-     */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable final Long id) {
-
         criterionService.delete(id);
     }
-
 }
