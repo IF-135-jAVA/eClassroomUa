@@ -66,7 +66,7 @@ public class ClassroomController {
     }
 
     @DeleteMapping("/{classroomId}")
-    public ResponseEntity<?> delete(@PathVariable Long classroomId) {
+    public ResponseEntity<Object> delete(@PathVariable Long classroomId) {
         classroomServiceImpl.delete(classroomId);
         return ResponseEntity.ok().build();
     }

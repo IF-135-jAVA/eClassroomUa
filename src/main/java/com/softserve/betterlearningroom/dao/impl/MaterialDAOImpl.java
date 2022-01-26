@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 @PropertySource("classpath:db/materials/materialQuery.properties")
 public class MaterialDAOImpl implements MaterialDAO {
 
+    private static final String MATERIALID2 = "materialid";
+
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Value("${get.all.materials}")
@@ -38,7 +40,7 @@ public class MaterialDAOImpl implements MaterialDAO {
 
     @Override
     public Material findById(Long materialId) {
-        return namedParameterJdbcTemplate.query(getByIdQuery, new MapSqlParameterSource("materialid", materialId), new MaterialRowMapper()).stream().findFirst().orElse(null);
+        return namedParameterJdbcTemplate.query(getByIdQuery, new MapSqlParameterSource(MATERIALID2, materialId), new MaterialRowMapper()).stream().findFirst().orElse(null);
     }
 
     @Override
@@ -90,7 +92,7 @@ public class MaterialDAOImpl implements MaterialDAO {
     public Material update(Material material) {
         MapSqlParameterSource param = new MapSqlParameterSource();
         MaterialType type = material.getMaterialType();
-        param.addValue("materialid", material.getId());
+        param.addValue(MATERIALID2, material.getId());
         param.addValue("materialtext", material.getText());
         param.addValue("materialtype", type.name());
         param.addValue("startdate", material.getStartDate());
@@ -105,6 +107,6 @@ public class MaterialDAOImpl implements MaterialDAO {
 
     @Override
     public int delete(Long materialId) {
-        return namedParameterJdbcTemplate.update(removeQuery, new MapSqlParameterSource("materialid", materialId));
+        return namedParameterJdbcTemplate.update(removeQuery, new MapSqlParameterSource(MATERIALID2, materialId));
     }
 }

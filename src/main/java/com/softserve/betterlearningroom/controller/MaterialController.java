@@ -51,7 +51,7 @@ public class MaterialController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<?> delete(@RequestBody MaterialDTO material) {
+    public ResponseEntity<Object> delete(@RequestBody MaterialDTO material) {
         materialService.update(material);
         return new ResponseEntity<>(HttpStatus.OK);
     }

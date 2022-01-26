@@ -18,6 +18,10 @@ import java.util.List;
 @PropertySource(value = "classpath:db/level/levelQuery.properties")
 public class LevelDAOImpl implements LevelDAO {
 
+    private static final String CRITERION_ID = "criterion_id";
+
+    private static final String LEVEL_ID = "level_id";
+
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -46,10 +50,10 @@ public class LevelDAOImpl implements LevelDAO {
     public Level save(Level level) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource
-                .addValue("level_id", level.getLevelId())
+                .addValue(LEVEL_ID, level.getLevelId())
                 .addValue("title", level.getTitle())
                 .addValue("description", level.getDescription())
-                .addValue("criterion_id", level.getCriterionId())
+                .addValue(CRITERION_ID, level.getCriterionId())
                 .addValue("mark", level.getMark());
         jdbcTemplate.update(saveQuery, parameterSource);
         return level;
@@ -70,7 +74,7 @@ public class LevelDAOImpl implements LevelDAO {
 
     @Override
     public List<Level> findAllByCriterionId(Long criterionId) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("criterion_id", criterionId);
+        SqlParameterSource parameterSource = new MapSqlParameterSource(CRITERION_ID, criterionId);
         return jdbcTemplate.query(findByCriterionIdQuery, parameterSource,
                 BeanPropertyRowMapper.newInstance(Level.class));
 
@@ -78,14 +82,14 @@ public class LevelDAOImpl implements LevelDAO {
 
     @Override
     public Level findById(Long id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("level_id", id);
+        SqlParameterSource parameterSource = new MapSqlParameterSource(LEVEL_ID, id);
         return jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
                 BeanPropertyRowMapper.newInstance(Level.class));
     }
 
     @Override
     public void delete(Long id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("level_id", id);
+        SqlParameterSource parameterSource = new MapSqlParameterSource(LEVEL_ID, id);
         jdbcTemplate.update(removeByIdQuery, parameterSource);
     }
 

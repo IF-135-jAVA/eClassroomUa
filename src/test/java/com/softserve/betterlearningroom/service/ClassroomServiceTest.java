@@ -85,7 +85,7 @@ class ClassroomServiceTest {
     }
 
     @Test
-    public void testCreateClassroom() {
+    void testCreateClassroom() {
 
         when(classroomServiceImpl.save(any(ClassroomDTO.class))).thenReturn(expectedClassroomDTO);
 
