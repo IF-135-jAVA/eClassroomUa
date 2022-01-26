@@ -6,13 +6,14 @@ import com.softserve.betterlearningroom.dto.AnnouncementDTO;
 import java.util.List;
 
 public interface AnnouncementService {
-    AnnouncementDTO create(AnnouncementDTO announcementDTO);
+    
+    AnnouncementDTO save(AnnouncementDTO announcementDTO);
 
-    List<AnnouncementDTO> readByCourseId(long courseId);
+    List<AnnouncementDTO> findByCourseId(Long courseId);
 
-    AnnouncementDTO readById(long id);
+    AnnouncementDTO findById(Long id);
 
-    AnnouncementDTO update(AnnouncementDTO announcementDTO, long id);
+    AnnouncementDTO update(AnnouncementDTO announcementDTO, Long id);
 
-    void delete(long id);
+    void delete(Long id);
 }

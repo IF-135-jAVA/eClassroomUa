@@ -30,7 +30,6 @@ import java.net.URI;
 @RequestMapping("/api/auth")
 @Slf4j
 public class AuthController {
-
     private AuthService authService;
     public static final String AUTHORIZATION = "Authorization";
 
@@ -67,5 +66,4 @@ public class AuthController {
         UserDTO updatedUser = authService.updateUser(request, id);
         return ResponseEntity.ok().body(updatedUser);
     }
-
 }

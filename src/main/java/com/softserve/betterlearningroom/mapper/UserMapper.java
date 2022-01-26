@@ -14,7 +14,6 @@ public class UserMapper {
         userDTO.setLastName(user.getLastName());
         userDTO.setEmail(user.getEmail());
         userDTO.setEnabled(user.isEnabled());
-
         return userDTO;
     }
 

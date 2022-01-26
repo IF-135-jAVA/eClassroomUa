@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface AnswerService {
 
-    AnswerDTO create(AnswerDTO answerDTO);
+    AnswerDTO save(AnswerDTO answerDTO);
 
-    AnswerDTO readById(long id);
+    AnswerDTO findById(Long id);
 
-    AnswerDTO update(AnswerDTO answerDTO, long id);
+    AnswerDTO update(AnswerDTO answerDTO, Long id);
 
-    void delete(long id);
+    void delete(Long id);
 
-    List<AnswerDTO> getByUserAssignment(long userAssignmentId);
+    List<AnswerDTO> findByUserAssignmentId(Long userAssignmentId);
 }

@@ -4,7 +4,7 @@ import com.softserve.betterlearningroom.entity.Level;
 
 import java.util.List;
 
-public interface LevelDao {
+public interface LevelDAO {
 
     Level save(Level level);
 
@@ -14,7 +14,7 @@ public interface LevelDao {
 
     Level findById(Long id);
 
-    void removeById(Long id);
+    void delete(Long id);
 
     List<Level> findAllByCriterionId(Long criterionId);
 

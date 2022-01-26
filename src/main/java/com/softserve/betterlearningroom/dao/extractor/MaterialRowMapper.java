@@ -4,8 +4,6 @@ import com.softserve.betterlearningroom.entity.Link;
 import com.softserve.betterlearningroom.entity.Material;
 import com.softserve.betterlearningroom.entity.MaterialType;
 import com.softserve.betterlearningroom.entity.Question;
-import com.softserve.betterlearningroom.entity.Task;
-import com.softserve.betterlearningroom.entity.Test;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
@@ -29,8 +27,6 @@ public class MaterialRowMapper implements ResultSetExtractor<List<Material>> {
             MaterialType type = valueOf(rs.getString("materialType"));
             if (material == null){
                 material = new Material();
-
-                String className = getClass().getSimpleName() + type.name();
                 material.setDueDate(rs.getTimestamp("duedate").toLocalDateTime());
                 material.setTask(rs.getString("task"));
                 material.setUrl(rs.getString("testUrl"));

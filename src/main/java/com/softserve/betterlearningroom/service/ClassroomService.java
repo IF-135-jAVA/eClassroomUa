@@ -7,23 +7,23 @@ import java.util.List;
 
 public interface ClassroomService {
 
-    ClassroomDTO getClassroomById(Long classroomId);
+    ClassroomDTO findById(Long classroomId);
 
-    ClassroomDTO createClassroom(ClassroomDTO classroomDTO);
+    ClassroomDTO save(ClassroomDTO classroomDTO);
 
     UserDTO getClassroomOwnerById(Long classroomId);
 
-    List<UserDTO> getClassroomTeachers(Long classroomId);
+    List<UserDTO> getClassroomTeachersById(Long classroomId);
 
-    List<UserDTO> getClassroomStudents(Long classroomId);
+    List<UserDTO> getClassroomStudentsById(Long classroomId);
 
-    List<ClassroomDTO> getClassroomsByTeacher(Long userId);
+    List<ClassroomDTO> findAllClassroomsByTeacherId(Long userId);
 
-    List<ClassroomDTO> getClassroomsByStudent(Long userId);
+    List<ClassroomDTO> findAllClassroomsByStudentId(Long userId);
 
     ClassroomDTO joinClassroomAsStudent(String code, Long userId);
 
     ClassroomDTO joinClassroomAsTeacher(String code, Long userId);
 
-    void removeClassroomById(Long classroomId);
+    void delete(Long classroomId);
 }

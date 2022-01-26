@@ -1,30 +1,30 @@
-package com.softserve.betterlearningroom.dao.impl;
+package com.softserve.betterlearningroom.dao;
 
 import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
-import com.softserve.betterlearningroom.dao.CriterionDao;
+import com.softserve.betterlearningroom.dao.impl.CriterionDAOImpl;
 import com.softserve.betterlearningroom.entity.Criterion;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest(classes = {TestDBConfiguration.class, CriterionDaoImpl.class})
-class CriterionDaoImplTest {
-
+@SpringBootTest(classes = {TestDBConfiguration.class, CriterionDAOImpl.class})
+class CriterionDAOTest {
     private static final long CRITERION_ID = 3;
     private static final String TITLE = "Using wright formula";
     private static final String DESCRIPTION = "Using wright formula";
     private static final Long MATERIAL_ID = 1L;
 
     @Autowired
-    private CriterionDao criterionDao;
-
+    private CriterionDAO criterionDao;
 
     @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     void testSaveAndGet() {
         Criterion criterionForSave = Criterion.builder()
                 .criterionId(CRITERION_ID)
@@ -44,7 +44,7 @@ class CriterionDaoImplTest {
     @Test
     void testfindAll() {
         Criterion criterionForSave = Criterion.builder()
-                .criterionId(4L)
+                .criterionId(3L)
                 .materialId(MATERIAL_ID)
                 .title(TITLE)
                 .description(DESCRIPTION)
@@ -54,9 +54,9 @@ class CriterionDaoImplTest {
 
         List<Criterion> expectedCriterions = criterionDao.findAll();
 
-        assertEquals(4, expectedCriterions.size());
+        assertEquals(3, expectedCriterions.size());
         Criterion expectedCriterion = expectedCriterions.stream().filter(criterion -> criterion.getCriterionId() == 3L).findFirst().orElse(null);
-        assertNotNull(expectedCriterion);
+        assertNotNull(expectedCriterions);
         assertEquals(TITLE, expectedCriterion.getTitle());
         assertEquals(DESCRIPTION, expectedCriterion.getDescription());
         assertEquals(MATERIAL_ID, expectedCriterion.getMaterialId());
@@ -78,6 +78,4 @@ class CriterionDaoImplTest {
         assertEquals("test description", updatedCriterion.getDescription());
         assertEquals(5, updatedCriterion.getMaterialId());
     }
-
-
 }

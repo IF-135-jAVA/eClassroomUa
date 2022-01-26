@@ -19,16 +19,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(
-        value = TopicController.class
-        , useDefaultFilters = false
-        , includeFilters = {
-        @ComponentScan.Filter(
-                type = FilterType.ASSIGNABLE_TYPE,
-                value = TopicController.class
-        )
-}
-)
+@WebMvcTest(value = TopicController.class, useDefaultFilters = false, includeFilters = {
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = TopicController.class) })
 
 @AutoConfigureMockMvc(addFilters = false)
 class TopicControllerTest {
@@ -41,21 +33,15 @@ class TopicControllerTest {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     private TopicDTO testTopic() {
-        return TopicDTO.builder()
-                .id(1L)
-                .classroomId(2L)
-                .title("Mathematics")
-                .build();
+        return TopicDTO.builder().id(1L).classroomId(2L).title("Mathematics").build();
     }
 
     @Test
     void testGetById() throws Exception {
         when(topicServiceImpl.findById(1L)).thenReturn(testTopic());
 
-        MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/1/topics/1")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
+        MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/1/topics/1").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
         assertEquals(objectMapper.writeValueAsString(testTopic()), mvcResult.getResponse().getContentAsString());
     }
 
@@ -64,14 +50,10 @@ class TopicControllerTest {
         TopicDTO topicDTO = testTopic();
 
         when(topicServiceImpl.save(topicDTO)).thenReturn(testTopic());
-        MvcResult mvcResult = mockMvc.perform(post("/api/classrooms/1/topics")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(topicDTO)))
-                .andExpect(status().isCreated())
-                .andReturn();
+        MvcResult mvcResult = mockMvc.perform(post("/api/classrooms/1/topics").contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(topicDTO))).andExpect(status().isCreated()).andReturn();
 
-        assertEquals(objectMapper.writeValueAsString(testTopic()),
-                mvcResult.getResponse().getContentAsString());
+        assertEquals(objectMapper.writeValueAsString(testTopic()), mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -79,14 +61,12 @@ class TopicControllerTest {
         TopicDTO topicDTO = testTopic();
 
         when(topicServiceImpl.update(topicDTO)).thenReturn(testTopic());
-        MvcResult mvcResult = mockMvc.perform(put("/api/classrooms/1/topics")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(topicDTO)))
-                .andExpect(status().isAccepted())
-                .andReturn();
+        MvcResult mvcResult = mockMvc
+                .perform(put("/api/classrooms/1/topics").contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsBytes(topicDTO)))
+                .andExpect(status().isAccepted()).andReturn();
         System.out.println("res" + mvcResult.getResponse().getContentAsString());
 
-        assertEquals(objectMapper.writeValueAsString(testTopic()),
-                mvcResult.getResponse().getContentAsString());
+        assertEquals(objectMapper.writeValueAsString(testTopic()), mvcResult.getResponse().getContentAsString());
     }
 }

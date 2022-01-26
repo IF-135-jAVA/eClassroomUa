@@ -19,60 +19,39 @@ public class TopicController {
     @Autowired
     private TopicService topicService;
 
-    /**
-     * get all topic
-     */
     @GetMapping
-    public ResponseEntity<List<TopicDTO>> getAll() {
+    public ResponseEntity<List<TopicDTO>> findAll() {
         List<TopicDTO> topic = topicService.findAll();
         return ResponseEntity.ok().body(topic);
     }
 
-    /**
-     * get all topic by classroom id
-     */
     @GetMapping("byClassroomId/{byClassroomId}")
-    public ResponseEntity<List<TopicDTO>> getAllByClassroomId(@PathVariable(value = "byClassroomId") final Long classroomId) {
+    public ResponseEntity<List<TopicDTO>> findAllByClassroomId(@PathVariable(value = "byClassroomId") final Long classroomId) {
         List<TopicDTO> topic = topicService .findAllByClassroomId(classroomId);
         return ResponseEntity.ok().body(topic);
     }
 
-    /**
-     * get topic by id
-     */
     @GetMapping("{id}")
-    public ResponseEntity<TopicDTO> getById(@PathVariable Long id) {
+    public ResponseEntity<TopicDTO> findById(@PathVariable Long id) {
         TopicDTO topicDTO = topicService.findById(id);
         return ResponseEntity.ok().body(topicDTO);
     }
 
-    /**
-     * create topic
-     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<TopicDTO> createTopic(@Valid @RequestBody TopicDTO topicDTO) {
-
+    public ResponseEntity<TopicDTO> save(@Valid @RequestBody TopicDTO topicDTO) {
         return new ResponseEntity<>(topicService.save(topicDTO), HttpStatus.CREATED);
     }
 
-    /**
-     * update table by id
-     */
     @PutMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> update(@RequestBody final TopicDTO topicDTO) {
-
         return new ResponseEntity<>(topicService.update(topicDTO), HttpStatus.ACCEPTED);
     }
 
-    /**
-     * delete by id
-     */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable final Long id) {
-
-        topicService.removeById(id);
+        topicService.delete(id);
     }
 }

@@ -21,17 +21,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
-@WebMvcTest(
-        value = CriterionController.class
-        , useDefaultFilters = false
-        , includeFilters = {
-        @ComponentScan.Filter(
-                type = FilterType.ASSIGNABLE_TYPE,
-                value = CriterionController.class
-        )
-}
-)
+@WebMvcTest(value = CriterionController.class, useDefaultFilters = false, includeFilters = {
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = CriterionController.class) })
 
 @AutoConfigureMockMvc(addFilters = false)
 class CriterionControllerTest {
@@ -43,11 +34,7 @@ class CriterionControllerTest {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     private CriterionDTO testCriterion() {
-        return CriterionDTO.builder()
-                .id(1L)
-                .materialIdDTO(2L)
-                .title("Use formula")
-                .description("Using wright formula")
+        return CriterionDTO.builder().id(1L).materialIdDTO(2L).title("Use formula").description("Using wright formula")
                 .build();
     }
 
@@ -55,10 +42,9 @@ class CriterionControllerTest {
     void testGetById() throws Exception {
         when(criterionServiceImpl.findById(1L)).thenReturn(testCriterion());
 
-        MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/1/topics/1/materials/2/criterions/1")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
+        MvcResult mvcResult = mockMvc.perform(
+                get("/api/classrooms/1/topics/1/materials/2/criterions/1").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andReturn();
         assertEquals(objectMapper.writeValueAsString(testCriterion()), mvcResult.getResponse().getContentAsString());
     }
 
@@ -67,14 +53,12 @@ class CriterionControllerTest {
         CriterionDTO criterionDTO = testCriterion();
 
         when(criterionServiceImpl.save(criterionDTO)).thenReturn(testCriterion());
-        MvcResult mvcResult = mockMvc.perform(post("/api/classrooms/1/topics/1/materials/2/criterions")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(criterionDTO)))
-                .andExpect(status().isCreated())
-                .andReturn();
+        MvcResult mvcResult = mockMvc
+                .perform(post("/api/classrooms/1/topics/1/materials/2/criterions")
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsBytes(criterionDTO)))
+                .andExpect(status().isCreated()).andReturn();
 
-        assertEquals(objectMapper.writeValueAsString(testCriterion()),
-                mvcResult.getResponse().getContentAsString());
+        assertEquals(objectMapper.writeValueAsString(testCriterion()), mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -82,14 +66,11 @@ class CriterionControllerTest {
         CriterionDTO criterionDTO = testCriterion();
 
         when(criterionServiceImpl.update(criterionDTO)).thenReturn(testCriterion());
-        MvcResult mvcResult = mockMvc.perform(put("/api/classrooms/1/topics/1/materials/2/criterions")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(criterionDTO)))
-                .andExpect(status().isAccepted())
-                .andReturn();
+        MvcResult mvcResult = mockMvc
+                .perform(put("/api/classrooms/1/topics/1/materials/2/criterions")
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsBytes(criterionDTO)))
+                .andExpect(status().isAccepted()).andReturn();
 
-        assertEquals(objectMapper.writeValueAsString(testCriterion()),
-                mvcResult.getResponse().getContentAsString());
+        assertEquals(objectMapper.writeValueAsString(testCriterion()), mvcResult.getResponse().getContentAsString());
     }
-
 }
