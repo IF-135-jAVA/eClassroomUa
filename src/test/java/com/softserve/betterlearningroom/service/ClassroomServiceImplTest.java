@@ -27,9 +27,6 @@ class ClassroomServiceImplTest {
     @Mock
     private ClassroomServiceImpl classroomServiceImpl;
 
-    @Mock
-    private ClassroomDaoImpl classroomDaoImpl;
-
     private ClassroomDTO expectedClassroomDTO;
     private Classroom expectedClassroom;
     private User expectedUser;
@@ -116,7 +113,7 @@ class ClassroomServiceImplTest {
 
     @Test
     void testGetClassroomTeachers() {
-        List<UserDTO> listExpectedUsers = new ArrayList<UserDTO>();
+        List<UserDTO> listExpectedUsers = new ArrayList<>();
         listExpectedUsers.add(expectedUserDTO);
 
         when(classroomServiceImpl.getClassroomTeachers(1L)).thenReturn(listExpectedUsers);
@@ -129,7 +126,7 @@ class ClassroomServiceImplTest {
 
     @Test
     void getClassroomStudents() {
-        List<UserDTO> listExpectedUsers = new ArrayList<UserDTO>();
+        List<UserDTO> listExpectedUsers = new ArrayList<>();
         listExpectedUsers.add(expectedUserDTO);
 
         when(classroomServiceImpl.getClassroomStudents(1L)).thenReturn(listExpectedUsers);
@@ -142,7 +139,7 @@ class ClassroomServiceImplTest {
 
     @Test
     void getClassroomsByTeacher() {
-        List<ClassroomDTO> listExpectedClassrooms = new ArrayList<ClassroomDTO>();
+        List<ClassroomDTO> listExpectedClassrooms = new ArrayList<>();
         listExpectedClassrooms.add(expectedClassroomDTO);
 
         when(classroomServiceImpl.getClassroomsByTeacher(1L)).thenReturn(listExpectedClassrooms);
@@ -155,7 +152,7 @@ class ClassroomServiceImplTest {
 
     @Test
     void testGetClassroomsByStudent() {
-        List<ClassroomDTO> listExpectedClassrooms = new ArrayList<ClassroomDTO>();
+        List<ClassroomDTO> listExpectedClassrooms = new ArrayList<>();
         listExpectedClassrooms.add(expectedClassroomDTO);
 
         when(classroomServiceImpl.getClassroomsByStudent(1L)).thenReturn(listExpectedClassrooms);

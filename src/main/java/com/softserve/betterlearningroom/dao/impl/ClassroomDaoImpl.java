@@ -93,7 +93,9 @@ public class ClassroomDaoImpl implements ClassroomDao {
     @Override
     public List<Classroom> getClassroomsByStudent(Long userId) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource("userId", userId);
-        return jdbcParameterTemplate.query(getClassroomsByStudent, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class));
+        List<Classroom> classrooms = new ArrayList<>(jdbcParameterTemplate.query(getClassroomsByStudent, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class)));
+        classrooms.addAll(jdbcParameterTemplate.query(getClassroomByOwnerId, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class)));
+        return classrooms;
     }
 
     @Override
