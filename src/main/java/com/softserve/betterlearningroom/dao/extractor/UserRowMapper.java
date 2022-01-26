@@ -23,5 +23,4 @@ public class UserRowMapper implements RowMapper<User> {
         user.setProviderId(rs.getString("provider_id"));
         return user;
     }
-
 }

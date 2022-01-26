@@ -4,7 +4,7 @@ import com.softserve.betterlearningroom.entity.Criterion;
 
 import java.util.List;
 
-public interface CriterionDao {
+public interface CriterionDAO {
 
     Criterion save(Criterion criterion);
 
@@ -14,10 +14,7 @@ public interface CriterionDao {
 
     Criterion findById (Long id);
 
-    void removeById(Long id);
+    void delete(Long id);
 
     List<Criterion> findAllByMaterialId(Long id);
-
-
-
 }

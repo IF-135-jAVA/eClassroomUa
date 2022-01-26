@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.dao.impl;
 
-import com.softserve.betterlearningroom.dao.UserAssignmentDao;
+import com.softserve.betterlearningroom.dao.UserAssignmentDAO;
 import com.softserve.betterlearningroom.entity.UserAssignment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +21,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 @PropertySource("classpath:/db/assignments/user_assignment_queries.properties")
-public class UserAssignmentDaoImpl implements UserAssignmentDao {
+public class UserAssignmentDAOImpl implements UserAssignmentDAO {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -41,15 +41,15 @@ public class UserAssignmentDaoImpl implements UserAssignmentDao {
     private String getByAssignmentQuery;
 
     @Override
-    public UserAssignment create(UserAssignment userAssignment) {
+    public UserAssignment save(UserAssignment userAssignment) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(userAssignment);
         jdbcTemplate.update(createQuery, parameterSource, keyHolder, new String[]{"id"});
-        return readById(keyHolder.getKeyAs(Integer.class));
+        return findById(keyHolder.getKeyAs(Long.class));
     }
 
     @Override
-    public UserAssignment readById(long id) {
+    public UserAssignment findById(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
         UserAssignment result = DataAccessUtils.singleResult(jdbcTemplate.query(readByIdQuery, parameterSource, BeanPropertyRowMapper.newInstance(UserAssignment.class)));
         if (result == null) {
@@ -62,18 +62,18 @@ public class UserAssignmentDaoImpl implements UserAssignmentDao {
     public UserAssignment update(UserAssignment userAssignment) {
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(userAssignment);
         jdbcTemplate.update(updateQuery, parameterSource);
-        return readById(userAssignment.getId());
+        return findById(userAssignment.getId());
     }
 
     @Override
-    public void delete(long id) {
-        readById(id);
+    public void delete(Long id) {
+        findById(id);
         SqlParameterSource parameterSource = new MapSqlParameterSource("id", id);
         jdbcTemplate.update(deleteQuery, parameterSource);
     }
 
     @Override
-    public List<UserAssignment> getByAssignment(long assignmentId) {
+    public List<UserAssignment> findByAssignmentId(Long assignmentId) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("assignmentId", assignmentId);
         return jdbcTemplate.query(getByAssignmentQuery, parameterSource, BeanPropertyRowMapper.newInstance(UserAssignment.class));
     }

@@ -24,11 +24,11 @@ public class AnnouncementServiceImpl implements AnnouncementService {
      * @return new announcement
      */
     @Override
-    public AnnouncementDTO create(AnnouncementDTO announcementDTO) {
+    public AnnouncementDTO save(AnnouncementDTO announcementDTO) {
         announcementDTO.setText(announcementDTO.getText());
         announcementDTO.setEnabled(true);
         return announcementMapper.announcementToAnnouncementDTO(
-                announcementDAO.create(announcementMapper.announcementDTOToAnnouncement(announcementDTO)));
+                announcementDAO.save(announcementMapper.announcementDTOToAnnouncement(announcementDTO)));
     }
 
     /**
@@ -38,8 +38,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
      * @return List<Announcement> by classroom id
      */
     @Override
-    public List<AnnouncementDTO> readByCourseId(long courseId) {
-        return announcementDAO.readByCourseId(courseId)
+    public List<AnnouncementDTO> findByCourseId(Long courseId) {
+        return announcementDAO.findByCourseId(courseId)
                 .stream()
                 .map(announcementMapper::announcementToAnnouncementDTO)
                 .collect(Collectors.toList());
@@ -52,8 +52,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
      * @return announcement by id
      */
     @Override
-    public AnnouncementDTO readById(long id) {
-        return announcementMapper.announcementToAnnouncementDTO(announcementDAO.readById(id));
+    public AnnouncementDTO findById(Long id) {
+        return announcementMapper.announcementToAnnouncementDTO(announcementDAO.findById(id));
     }
 
     /**
@@ -64,8 +64,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
      * @return updated announcement
      */
     @Override
-    public AnnouncementDTO update(AnnouncementDTO announcementDTO, long id) {
-        AnnouncementDTO oldAnnouncementDTO = readById(id);
+    public AnnouncementDTO update(AnnouncementDTO announcementDTO, Long id) {
+        AnnouncementDTO oldAnnouncementDTO = findById(id);
         oldAnnouncementDTO.setText(announcementDTO.getText());
         return announcementMapper.announcementToAnnouncementDTO(
                 announcementDAO.update(announcementMapper.announcementDTOToAnnouncement(oldAnnouncementDTO)));
@@ -77,7 +77,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
      * @param id
      */
     @Override
-    public void delete(long id) {
+    public void delete(Long id) {
         announcementDAO.delete(id);
     }
 }

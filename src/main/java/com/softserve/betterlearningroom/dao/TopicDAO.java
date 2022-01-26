@@ -4,7 +4,7 @@ import com.softserve.betterlearningroom.entity.Topic;
 
 import java.util.List;
 
-public interface TopicDao {
+public interface TopicDAO {
 
     Topic save(Topic topic);
 
@@ -14,12 +14,7 @@ public interface TopicDao {
 
     Topic findById(Long id);
 
-    void removeById(Long id);
+    void delete(Long id);
 
     List<Topic> findAllByClassroomId(Long classroomId);
-
-
-
-
-
 }

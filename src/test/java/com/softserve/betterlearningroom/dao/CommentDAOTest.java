@@ -22,31 +22,30 @@ class CommentDAOTest {
     @Autowired
     private CommentDAO commentDAO;
 
-
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     @Test
     @Order(1)
     void readByIdCommentTest() {
         Comment comment = prepareCommentDTO();
-        commentDAO.createComment(comment);
-        assertEquals(5, commentDAO.readByIdComment(5).getId());
-        assertEquals(5, commentDAO.readByIdAuthorId(2).get(1).getId());
-        assertEquals("text1", commentDAO.readByIdAnnouncementComments(3).get(1).getText());
+        commentDAO.save(comment);
+        assertEquals(5, commentDAO.findById(5L).getId());
+        assertEquals(5, commentDAO.findByAuthorId(2L).get(1).getId());
+        assertEquals("text1", commentDAO.findByAnnouncementId(3L).get(1).getText());
     }
 
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     @Test
     @Order(3)
     void readByAuthorIdCommentTest() {
-        commentDAO.createComment(prepareCommentDTO());
-        assertEquals(2, commentDAO.readByIdAuthorId(2).get(1).getId());
+        commentDAO.save(prepareCommentDTO());
+        assertEquals(2, commentDAO.findByAuthorId(2L).get(1).getId());
     }
 
     @Test
     @Order(2)
     void createCommentTest() {
         Comment comment = prepareCommentDTO();
-        Comment savedComment = commentDAO.createComment(comment);
+        Comment savedComment = commentDAO.save(comment);
         assertNotNull(savedComment);
         assertEquals("text1", savedComment.getText());
         assertEquals(2, savedComment.getAuthorId());
@@ -60,15 +59,14 @@ class CommentDAOTest {
     void updateCommentTest() {
         Comment comment = prepareCommentDTO();
         comment.setId(2);
-        commentDAO.updateComment(comment);
-        assertEquals("text1", commentDAO.readByIdComment(2).getText());
+        commentDAO.update(comment);
+        assertEquals("text1", commentDAO.findById(2L).getText());
     }
 
     @Test
     @Order(5)
     void deleteCommentTest() {
-        Comment comment = prepareCommentDTO();
-        commentDAO.deleteComment(2);
+        commentDAO.delete(3L);
     }
 
     private Comment prepareCommentDTO() {
@@ -84,3 +82,4 @@ class CommentDAOTest {
                 .build();
     }
 }
+

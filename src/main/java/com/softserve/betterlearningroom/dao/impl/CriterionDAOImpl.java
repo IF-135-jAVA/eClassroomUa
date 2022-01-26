@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.dao.impl;
 
-import com.softserve.betterlearningroom.dao.CriterionDao;
+import com.softserve.betterlearningroom.dao.CriterionDAO;
 import com.softserve.betterlearningroom.entity.Criterion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,12 +13,13 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
 @PropertySource(value = "classpath:db/criterion/criterionQuery.properties")
-public class CriterionDaoImpl implements CriterionDao {
+public class CriterionDAOImpl implements CriterionDAO {
+
+    private static final String CRITERION_ID = "criterion_id";
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -45,11 +46,10 @@ public class CriterionDaoImpl implements CriterionDao {
     private String findByTitleQuery;
 
     @Override
-
     public Criterion save(Criterion criterion) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource
-                .addValue("criterion_id", criterion.getCriterionId())
+                .addValue(CRITERION_ID, criterion.getCriterionId())
                 .addValue("material_id", criterion.getMaterialId())
                 .addValue("title", criterion.getTitle())
                 .addValue("description", criterion.getDescription());
@@ -68,13 +68,11 @@ public class CriterionDaoImpl implements CriterionDao {
     public List<Criterion> findAll() {
         return jdbcTemplate.query(findAllQuery,
                 BeanPropertyRowMapper.newInstance(Criterion.class));
-
-
     }
 
     @Override
     public Criterion findById(Long id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("criterion_id", id);
+        SqlParameterSource parameterSource = new MapSqlParameterSource(CRITERION_ID, id);
         return jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
                 BeanPropertyRowMapper.newInstance(Criterion.class));
 
@@ -86,15 +84,8 @@ public class CriterionDaoImpl implements CriterionDao {
     }
 
     @Override
-    public void removeById(Long id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("criterion_id", id);
+    public void delete(Long id) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource(CRITERION_ID, id);
         jdbcTemplate.update(removeByIdQuery, parameterSource);
     }
-
-
-    public Optional<List<Criterion>> findByTitle(String title) {
-        return Optional.of(jdbcTemplate.query(findByTitleQuery,
-                BeanPropertyRowMapper.newInstance(Criterion.class)));
-    }
-
 }

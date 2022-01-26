@@ -12,7 +12,6 @@ public class TopicMapper {
                 .title(topicDTO.getTitle())
                 .classroomId(topicDTO.getClassroomId())
                 .build();
-
     }
 
     public static TopicDTO toDTO(Topic topic) {
@@ -21,6 +20,5 @@ public class TopicMapper {
                 .title(topic.getTitle())
                 .classroomId(topic.getClassroomId())
                 .build();
-
     }
 }

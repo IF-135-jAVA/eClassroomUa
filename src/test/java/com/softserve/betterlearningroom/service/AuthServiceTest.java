@@ -125,5 +125,4 @@ class AuthServiceTest {
                                                            .build();
         return request;
     }
-
 }

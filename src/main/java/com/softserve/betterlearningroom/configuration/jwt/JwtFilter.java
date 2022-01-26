@@ -47,7 +47,6 @@ public class JwtFilter extends GenericFilterBean {
             }
         }
         chain.doFilter(request, response);
-
     }
 
     private String getTokenFromRequest(HttpServletRequest request) {
@@ -57,5 +56,4 @@ public class JwtFilter extends GenericFilterBean {
         }
         return null;
     }
-
 }

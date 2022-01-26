@@ -10,10 +10,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserAssignmentDTO {
-    private long id;
-    private long materialId;
-    private long userId;
-    private long assignmentStatusId;
+    private Long id;
+    private Long materialId;
+    private Long userId;
+    private Long assignmentStatusId;
     private LocalDateTime submissionDate;
     private int grade;
     private String feedback;

@@ -76,7 +76,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     private boolean isAuthorizedRedirectUri(String uri) {
         URI clientRedirectUri = URI.create(uri);
         log.info(uri);
-        List<String> redirectUris = new ArrayList<>(); //
+        List<String> redirectUris = new ArrayList<>();
         redirectUris.add("https://belero-app.herokuapp.com/oauth2/callback/google");
         return redirectUris
                 .stream()

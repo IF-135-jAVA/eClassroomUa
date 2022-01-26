@@ -22,15 +22,10 @@ import static org.mockito.Mockito.verify;
 
 @ExtendWith(value = {MockitoExtension.class})
 class AnnouncementServiceTest {
-
     private static final long ANNOUNCEMENT_ID = 1;
-
     private static final long COURSE_ID = 1;
-
     private static final String ANNOUNCEMENT_TEXT = "text1";
-
     private static final boolean ANNOUNCEMENT_ENABLED = true;
-
 
     @Mock
     private AnnouncementDAO announcementDAO;
@@ -46,11 +41,11 @@ class AnnouncementServiceTest {
     @Test
     void readByIdTest() {
         Announcement announcement = prepareAnnouncementDTO();
-        given(announcementDAO.readById(ANNOUNCEMENT_ID)).willReturn(announcement);
-        AnnouncementDTO announcementDTO = announcementService.readById(ANNOUNCEMENT_ID);
+        given(announcementDAO.findById(ANNOUNCEMENT_ID)).willReturn(announcement);
+        AnnouncementDTO announcementDTO = announcementService.findById(ANNOUNCEMENT_ID);
         assertNotNull(announcementDTO);
         assertEquals(ANNOUNCEMENT_TEXT, announcementDTO.getText());
-        verify(announcementDAO).readById(ANNOUNCEMENT_ID);
+        verify(announcementDAO).findById(ANNOUNCEMENT_ID);
     }
 
     @Test
@@ -60,19 +55,19 @@ class AnnouncementServiceTest {
         announcementList.add(new Announcement(2, 1, "text2", List.of(), ANNOUNCEMENT_ENABLED));
         announcementList.add(new Announcement(3, 3, "text3", List.of(), ANNOUNCEMENT_ENABLED));
         announcementList.add(new Announcement(4, 2, "text4", List.of(), ANNOUNCEMENT_ENABLED));
-        given(announcementDAO.readByCourseId(3)).willReturn(announcementList);
-        List<AnnouncementDTO> actualAnnouncements = announcementService.readByCourseId(3);
+        given(announcementDAO.findByCourseId(3L)).willReturn(announcementList);
+        List<AnnouncementDTO> actualAnnouncements = announcementService.findByCourseId(3L);
         assertEquals(4, actualAnnouncements.size());
         assertEquals("text3", actualAnnouncements.get(2).getText());
-        verify(announcementDAO).readByCourseId(3);
+        verify(announcementDAO).findByCourseId(3L);
     }
 
     @Test
     void createAnnouncementTest() {
         Announcement announcement = prepareAnnouncementDTO();
-        given(announcementDAO.create(any(Announcement.class))).willReturn(announcement);
+        given(announcementDAO.save(any(Announcement.class))).willReturn(announcement);
         AnnouncementDTO announcementDTO = announcementService
-                .create(announcementMapper.announcementToAnnouncementDTO(announcement));
+                .save(announcementMapper.announcementToAnnouncementDTO(announcement));
         assertEquals("text1", announcementDTO.getText());
     }
 
@@ -92,5 +87,3 @@ class AnnouncementServiceTest {
                 .build();
     }
 }
-
-
