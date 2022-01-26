@@ -3,7 +3,6 @@ package com.softserve.betterlearningroom.dao;
 import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
 import com.softserve.betterlearningroom.dao.impl.AnnouncementDAOImpl;
 import com.softserve.betterlearningroom.entity.Announcement;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
