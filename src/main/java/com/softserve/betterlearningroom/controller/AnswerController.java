@@ -46,7 +46,7 @@ public class AnswerController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("user_assignment/{userAssignmentId}")
+    @GetMapping("user_assignment")
     public ResponseEntity<List<AnswerDTO>> findByUserAssignment(@PathVariable Long userAssignmentId) {
         return ResponseEntity.ok(answerService.findByUserAssignmentId(userAssignmentId));
     }

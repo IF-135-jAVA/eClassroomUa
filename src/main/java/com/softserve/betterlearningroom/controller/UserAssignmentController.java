@@ -22,7 +22,6 @@ import java.util.List;
 @RequestMapping("/api/materials/{materialId}/assignments")
 @AllArgsConstructor
 public class UserAssignmentController {
-
     private UserAssignmentService userAssignmentService;
 
     @PostMapping
