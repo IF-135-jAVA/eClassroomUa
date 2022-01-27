@@ -67,7 +67,7 @@ class CommentControllerTest {
         mapper = new ObjectMapper();
         CommentDTO comment = getComment();
         given(commentService.save(any(CommentDTO.class))).willReturn(comment);
-        mvc.perform(MockMvcRequestBuilders.post("/api/users/3/comments").contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(MockMvcRequestBuilders.post("/api/comments/users/3").contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(comment))).andExpect(status().isCreated())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
@@ -89,7 +89,7 @@ class CommentControllerTest {
         commentList.add(new CommentDTO(2L, "text2", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
         commentList.add(new CommentDTO(3L, "text3", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
         given(commentService.findByAuthorId(anyLong())).willReturn(commentList);
-        mvc.perform(get("/api/users/2/comments").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+        mvc.perform(get("/api/comments/users/2").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
@@ -99,7 +99,7 @@ class CommentControllerTest {
         commentList.add(new CommentDTO(2L, "text2", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
         commentList.add(new CommentDTO(3L, "text3", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
         given(commentService.findByMaterialId(anyLong())).willReturn(commentList);
-        mvc.perform(get("/api/materials/2/materialComments").contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(get("/api/comments/materials/2").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
@@ -109,7 +109,7 @@ class CommentControllerTest {
         commentList.add(new CommentDTO(2L, "text2", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
         commentList.add(new CommentDTO(3L, "text3", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
         given(commentService.findByAnnouncementId(anyLong())).willReturn(commentList);
-        mvc.perform(get("/api/announcements/3/announcementComments").contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(get("/api/comments/announcements/3").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
@@ -119,7 +119,7 @@ class CommentControllerTest {
         commentList.add(new CommentDTO(2L, "text2", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
         commentList.add(new CommentDTO(3L, "text3", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
         given(commentService.findByUserAssignmentId(anyLong())).willReturn(commentList);
-        mvc.perform(get("/api/user-assignments/4/userAssignmentComments").contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(get("/api/comments/user-assignments/4").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
     }
 
