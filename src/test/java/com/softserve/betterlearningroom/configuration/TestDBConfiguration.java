@@ -36,6 +36,8 @@ public class TestDBConfiguration {
 				.addScript("classpath:/db/comments/test-data.sql")
 				.addScript("classpath:/db/announcements/schema.sql")
 				.addScript("classpath:/db/announcements/test-data.sql")
+				.addScript("classpath:/db/users/schema.sql")
+				.addScript("classpath:/db/users/test-data.sql")
                 .build();
 
         return dataSource;

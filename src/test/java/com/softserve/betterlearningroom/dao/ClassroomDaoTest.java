@@ -37,7 +37,7 @@ class ClassroomDaoTest {
         List<User> teachersList = new ArrayList<>();
         teachersList.add(prepareUserDTO());
         userDaoImpl.save(prepareUserDTO());
-        assertEquals((teachersList), classroomDaoImpl.getClassroomTeachers(2L));
+        assertEquals((teachersList), classroomDaoImpl.getClassroomTeachers(1L));
     }
 
     @Test
@@ -107,8 +107,7 @@ class ClassroomDaoTest {
 
     private Classroom prepareClassroomDTO() {
         return Classroom.builder()
-                .classroomId(1L)
-                .userId(2L)
+                .userId(1L)
                 .title("English Language")
                 .session("Present Simple")
                 .description("The Present Simple Tense")
@@ -118,7 +117,6 @@ class ClassroomDaoTest {
 
     private User prepareUserDTO() {
         return User.builder()
-                .id(1L)
                 .firstName("Yurii")
                 .lastName("Cheban")
                 .email("yuriicheban@gmail.com")
