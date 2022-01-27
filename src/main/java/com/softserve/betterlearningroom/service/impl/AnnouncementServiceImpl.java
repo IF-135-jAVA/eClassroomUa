@@ -17,12 +17,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private AnnouncementDAO announcementDAO;
     private AnnouncementMapper announcementMapper;
 
-    /**
-     * Create a new resource (announcement) in database
-     *
-     * @param announcementDTO
-     * @return new announcement
-     */
     @Override
     public AnnouncementDTO save(AnnouncementDTO announcementDTO) {
         announcementDTO.setText(announcementDTO.getText());
@@ -31,12 +25,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 announcementDAO.save(announcementMapper.announcementDTOToAnnouncement(announcementDTO)));
     }
 
-    /**
-     * get all announcement by classroom id from the database
-     *
-     * @param courseId
-     * @return List<Announcement> by classroom id
-     */
     @Override
     public List<AnnouncementDTO> findByCourseId(Long courseId) {
         return announcementDAO.findByCourseId(courseId)
@@ -45,24 +33,11 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * get announcement by id from the database
-     *
-     * @param id
-     * @return announcement by id
-     */
     @Override
     public AnnouncementDTO findById(Long id) {
         return announcementMapper.announcementToAnnouncementDTO(announcementDAO.findById(id));
     }
 
-    /**
-     * update announcement by id in the database
-     *
-     * @param announcementDTO
-     * @param id
-     * @return updated announcement
-     */
     @Override
     public AnnouncementDTO update(AnnouncementDTO announcementDTO, Long id) {
         AnnouncementDTO oldAnnouncementDTO = findById(id);
@@ -71,11 +46,6 @@ public class AnnouncementServiceImpl implements AnnouncementService {
                 announcementDAO.update(announcementMapper.announcementDTOToAnnouncement(oldAnnouncementDTO)));
     }
 
-    /**
-     * delete announcement by id, do it not active in the database
-     *
-     * @param id
-     */
     @Override
     public void delete(Long id) {
         announcementDAO.delete(id);
