@@ -17,6 +17,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 @RequiredArgsConstructor
@@ -45,7 +46,7 @@ public class AnswerDAOImpl implements AnswerDAO {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(answer);
         jdbcTemplate.update(createQuery, parameterSource, keyHolder, new String[]{"id"});
-        return findById(keyHolder.getKeyAs(Integer.class).longValue());
+        return findById(Objects.requireNonNull(keyHolder.getKey()).longValue());
     }
 
     @Override
