@@ -1,12 +1,8 @@
 package com.softserve.betterlearningroom.configuration;
 
-import com.softserve.betterlearningroom.dao.extractor.AnnouncementRowMapper;
 import com.softserve.betterlearningroom.dao.extractor.ClassroomRowMapper;
-import com.softserve.betterlearningroom.dao.extractor.CommentRowMapper;
 import com.softserve.betterlearningroom.dao.extractor.UserRowMapper;
-import com.softserve.betterlearningroom.mapper.CriterionMapper;
 import com.softserve.betterlearningroom.mapper.LevelMapper;
-import com.softserve.betterlearningroom.mapper.TopicMapper;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
@@ -24,7 +20,9 @@ public class TestDBConfiguration {
 	public DataSource postgresDataSource() {
         final DataSource dataSource = new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("classpath:/db/classrooms/schema.sql")
+				.addScript("classpath:/db/users/schema.sql")
+				.addScript("classpath:/db/users/test-data.sql")
+				.addScript("classpath:/db/classrooms/schema.sql")
                 .addScript("classpath:/db/classrooms/test-data.sql")
                 .addScript("classpath:/db/criterion/schema.sql")
                 .addScript("classpath:/db/criterion/test-data.sql")
@@ -40,6 +38,8 @@ public class TestDBConfiguration {
 				.addScript("classpath:/db/assignments/test-data.sql")
 				.addScript("classpath:/db/answers/schema.sql")
 				.addScript("classpath:/db/answers/test-data.sql")
+				.addScript("classpath:/db/users/schema.sql")
+				.addScript("classpath:/db/users/test-data.sql")
                 .build();
 
         return dataSource;

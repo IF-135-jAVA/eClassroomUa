@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.dao.impl;
 
-import com.softserve.betterlearningroom.dao.LevelDao;
+import com.softserve.betterlearningroom.dao.LevelDAO;
 import com.softserve.betterlearningroom.entity.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,11 +13,14 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 @PropertySource(value = "classpath:db/level/levelQuery.properties")
-public class LevelDaoImpl implements LevelDao {
+public class LevelDAOImpl implements LevelDAO {
+
+    private static final String CRITERION_ID = "criterion_id";
+
+    private static final String LEVEL_ID = "level_id";
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -40,14 +43,17 @@ public class LevelDaoImpl implements LevelDao {
     @Value("${level.removeById}")
     private String removeByIdQuery;
 
+    @Value("${level.findByCriterionId}")
+    private String findByCriterionIdQuery;
+
     @Override
     public Level save(Level level) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource
-                .addValue("level_id", level.getLevelId())
+                .addValue(LEVEL_ID, level.getLevelId())
                 .addValue("title", level.getTitle())
                 .addValue("description", level.getDescription())
-                .addValue("criterion_id", level.getCriterionId())
+                .addValue(CRITERION_ID, level.getCriterionId())
                 .addValue("mark", level.getMark());
         jdbcTemplate.update(saveQuery, parameterSource);
         return level;
@@ -68,19 +74,22 @@ public class LevelDaoImpl implements LevelDao {
 
     @Override
     public List<Level> findAllByCriterionId(Long criterionId) {
-        return findAll().stream().filter(level -> level.getCriterionId().equals(criterionId)).collect(Collectors.toList());
+        SqlParameterSource parameterSource = new MapSqlParameterSource(CRITERION_ID, criterionId);
+        return jdbcTemplate.query(findByCriterionIdQuery, parameterSource,
+                BeanPropertyRowMapper.newInstance(Level.class));
+
     }
 
     @Override
     public Level findById(Long id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("level_id", id);
+        SqlParameterSource parameterSource = new MapSqlParameterSource(LEVEL_ID, id);
         return jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
                 BeanPropertyRowMapper.newInstance(Level.class));
     }
 
     @Override
-    public void removeById(Long id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("level_id", id);
+    public void delete(Long id) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource(LEVEL_ID, id);
         jdbcTemplate.update(removeByIdQuery, parameterSource);
     }
 

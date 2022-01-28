@@ -27,13 +27,11 @@ import static org.springframework.util.StringUtils.hasText;
 @AllArgsConstructor
 @Slf4j
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
-
     private UserDAO userDAO;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
-        OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
-        
+        OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);   
         try {
             return processOAuth2User(oAuth2UserRequest, oAuth2User);
         } catch (AuthenticationException ex) {
@@ -44,19 +42,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
-        OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User.getAttributes());
-        
+        OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User.getAttributes());   
         if (!hasText(oAuth2UserInfo.getEmail())) {
             throw new OAuth2AuthenticationException("Email not found from OAuth2 provider");
         }
-        
         Optional<User> userOptional = userDAO.findByEmail(oAuth2UserInfo.getEmail());
         User user;
-        
         if(userOptional.isPresent()) {
             user = userOptional.get();
             log.info("Registration is is " + oAuth2UserRequest.getClientRegistration().getRegistrationId());
-            
             if(!user.getProvider().equals(Provider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()).name())) {
                 throw new OAuth2AuthenticationProcessingException("Looks like you're signed up with " +
                         user.getProvider() + " account. Please use your " + user.getProvider() +
@@ -66,7 +60,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         } else {
             user = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
         }
-        
         return UserPrincipal.create(user, oAuth2User.getAttributes());
     }
 
@@ -78,7 +71,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         user.setFirstName(oAuth2UserInfo.getFirstName());
         user.setLastName(oAuth2UserInfo.getLastName());
         user.setEmail(oAuth2UserInfo.getEmail());
-        user.setPassword("oauth_password"); // TODO:ask about this
+        user.setPassword("oauth_password"); 
         log.info("Saving user " + user.toString());
         return userDAO.save(user);
     }
@@ -89,5 +82,4 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         log.info("Updated user " + existingUser.toString());
         return userDAO.update(existingUser);
     }
-
 }

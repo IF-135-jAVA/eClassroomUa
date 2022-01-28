@@ -22,4 +22,5 @@ public class AnnouncementRowMapper implements RowMapper<Announcement> {
         announcement.setEnabled(rs.getBoolean("enabled"));
         return announcement;
     }
+    
 }

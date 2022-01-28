@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.dao.impl;
 
-import com.softserve.betterlearningroom.dao.MaterialDao;
+import com.softserve.betterlearningroom.dao.MaterialDAO;
 import com.softserve.betterlearningroom.dao.extractor.MaterialRowMapper;
 import com.softserve.betterlearningroom.entity.Material;
 import com.softserve.betterlearningroom.entity.MaterialType;
@@ -17,7 +17,9 @@ import java.util.stream.Collectors;
 @Repository
 @RequiredArgsConstructor
 @PropertySource("classpath:db/materials/materialQuery.properties")
-public class MaterialDaoImpl implements MaterialDao {
+public class MaterialDAOImpl implements MaterialDAO {
+
+    private static final String MATERIALID2 = "materialid";
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -36,33 +38,39 @@ public class MaterialDaoImpl implements MaterialDao {
     @Value("${remove.material}")
     private String removeQuery;
 
-    public Material readById(Long materialId) {
-        return namedParameterJdbcTemplate.query(getByIdQuery, new MapSqlParameterSource("materialid", materialId), new MaterialRowMapper()).stream().findFirst().orElse(null);
+    @Override
+    public Material findById(Long materialId) {
+        return namedParameterJdbcTemplate.query(getByIdQuery, new MapSqlParameterSource(MATERIALID2, materialId), new MaterialRowMapper()).stream().findFirst().orElse(null);
     }
 
-    public List<Material> readAllByClassroom(Long classroomId) {
+    @Override
+    public List<Material> findAllByClassroomId(Long classroomId) {
         return namedParameterJdbcTemplate.query(getAllQuery, new MapSqlParameterSource("topicid", classroomId), new MaterialRowMapper());
     }
 
-    public List<Material> readAllByTopic(Long classroomId, Long topicId) {
-        return readAllByClassroom(classroomId).stream()
+    @Override
+    public List<Material> findAllByClassroomIdAndTopicId(Long classroomId, Long topicId) {
+        return findAllByClassroomId(classroomId).stream()
                 .filter(material -> material.getId().equals(topicId))
                 .collect(Collectors.toList());
     }
 
-    public List<Material> readAllByName(Long classroomId, String name) {
-        return readAllByClassroom(classroomId).stream()
+    @Override
+    public List<Material> findAllByClassroomIdAndName(Long classroomId, String name) {
+        return findAllByClassroomId(classroomId).stream()
                 .filter(material -> material.getTitle().contains(name))
                 .collect(Collectors.toList());
     }
 
-    public List<Material> readAllByType(Long classroomId, MaterialType materialType) {
-        return readAllByClassroom(classroomId).stream()
+    @Override
+    public List<Material> findAllByClassroomIdAndType(Long classroomId, MaterialType materialType) {
+        return findAllByClassroomId(classroomId).stream()
                 .filter(material -> material.getMaterialType().equals(materialType))
                 .collect(Collectors.toList());
     }
 
-    public Material create(Material material, Long topicId) {
+    @Override
+    public Material save(Material material, Long topicId) {
         MapSqlParameterSource param = new MapSqlParameterSource();
         MaterialType type = material.getMaterialType();
         param.addValue("materialtype", type.name());
@@ -75,15 +83,16 @@ public class MaterialDaoImpl implements MaterialDao {
         param.addValue("title", material.getTitle());
         param.addValue("topicid", material.getTopicId());
         namedParameterJdbcTemplate.update(addQuery, param);
-        return readAllByName(material.getClassroomId(), material.getTitle())
+        return findAllByClassroomIdAndName(material.getClassroomId(), material.getTitle())
                 .stream()
                 .findFirst().orElse(null);
     }
 
+    @Override
     public Material update(Material material) {
         MapSqlParameterSource param = new MapSqlParameterSource();
         MaterialType type = material.getMaterialType();
-        param.addValue("materialid", material.getId());
+        param.addValue(MATERIALID2, material.getId());
         param.addValue("materialtext", material.getText());
         param.addValue("materialtype", type.name());
         param.addValue("startdate", material.getStartDate());
@@ -93,15 +102,11 @@ public class MaterialDaoImpl implements MaterialDao {
         param.addValue("testurl", material.getUrl());
         param.addValue("title", material.getTitle());
         namedParameterJdbcTemplate.update(updateQuery, param);
-        return readById(material.getId());
+        return findById(material.getId());
     }
 
+    @Override
     public int delete(Long materialId) {
-        return namedParameterJdbcTemplate.update(removeQuery, new MapSqlParameterSource("materialid", materialId));
+        return namedParameterJdbcTemplate.update(removeQuery, new MapSqlParameterSource(MATERIALID2, materialId));
     }
-
-    public int delete(Material material) {
-        return delete(material.getId());
-    }
-
 }

@@ -19,16 +19,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(
-        value = LevelController.class
-        , useDefaultFilters = false
-        , includeFilters = {
-        @ComponentScan.Filter(
-                type = FilterType.ASSIGNABLE_TYPE,
-                value = LevelController.class
-        )
-}
-)
+@WebMvcTest(value = LevelController.class, useDefaultFilters = false, includeFilters = {
+        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = LevelController.class) })
 
 @AutoConfigureMockMvc(addFilters = false)
 class LevelControllerTest {
@@ -41,13 +33,8 @@ class LevelControllerTest {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     private LevelDTO testLevel() {
-        return LevelDTO.builder()
-                .id(1L)
-                .title("Pythagorean theorem")
-                .description("Write example")
-                .criterionId(2L)
-                .mark(5)
-                .build();
+        return LevelDTO.builder().id(1L).title("Pythagorean theorem").description("Write example").criterionId(2L)
+                .mark(5).build();
     }
 
     @Test
@@ -55,9 +42,7 @@ class LevelControllerTest {
         when(levelServiceImpl.findById(1L)).thenReturn(testLevel());
 
         MvcResult mvcResult = mockMvc.perform(get("/api/classrooms/1/topics/1/materials/2/criterions/1/level/1")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
+                .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
         assertEquals(objectMapper.writeValueAsString(testLevel()), mvcResult.getResponse().getContentAsString());
     }
 
@@ -66,14 +51,12 @@ class LevelControllerTest {
         LevelDTO LevelDTO = testLevel();
 
         when(levelServiceImpl.save(LevelDTO)).thenReturn(testLevel());
-        MvcResult mvcResult = mockMvc.perform(post("/api/classrooms/1/topics/1/materials/2/criterions/1/level")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(LevelDTO)))
-                .andExpect(status().isCreated())
-                .andReturn();
+        MvcResult mvcResult = mockMvc
+                .perform(post("/api/classrooms/1/topics/1/materials/2/criterions/1/level")
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsBytes(LevelDTO)))
+                .andExpect(status().isCreated()).andReturn();
 
-        assertEquals(objectMapper.writeValueAsString(testLevel()),
-                mvcResult.getResponse().getContentAsString());
+        assertEquals(objectMapper.writeValueAsString(testLevel()), mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -81,15 +64,12 @@ class LevelControllerTest {
         LevelDTO LevelDTO = testLevel();
 
         when(levelServiceImpl.update(LevelDTO)).thenReturn(testLevel());
-        MvcResult mvcResult = mockMvc.perform(put("/api/classrooms/1/topics/1/materials/2/criterions/1/level")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(LevelDTO)))
-                .andExpect(status().isAccepted())
-                .andReturn();
+        MvcResult mvcResult = mockMvc
+                .perform(put("/api/classrooms/1/topics/1/materials/2/criterions/1/level")
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsBytes(LevelDTO)))
+                .andExpect(status().isAccepted()).andReturn();
         System.out.println("res" + mvcResult.getResponse().getContentAsString());
 
-        assertEquals(objectMapper.writeValueAsString(testLevel()),
-                mvcResult.getResponse().getContentAsString());
+        assertEquals(objectMapper.writeValueAsString(testLevel()), mvcResult.getResponse().getContentAsString());
     }
-
 }

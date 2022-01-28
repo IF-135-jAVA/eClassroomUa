@@ -1,6 +1,5 @@
 package com.softserve.betterlearningroom.service;
 
-import com.softserve.betterlearningroom.dao.impl.ClassroomDaoImpl;
 import com.softserve.betterlearningroom.dto.ClassroomDTO;
 import com.softserve.betterlearningroom.dto.UserDTO;
 import com.softserve.betterlearningroom.entity.Classroom;
@@ -22,13 +21,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(value = {MockitoExtension.class})
-class ClassroomServiceImplTest {
+class ClassroomServiceTest {
 
     @Mock
     private ClassroomServiceImpl classroomServiceImpl;
-
-    @Mock
-    private ClassroomDaoImpl classroomDaoImpl;
 
     private ClassroomDTO expectedClassroomDTO;
     private Classroom expectedClassroom;
@@ -69,10 +65,10 @@ class ClassroomServiceImplTest {
     }
 
     @Test
-    void testGetClassroomById() {
-        when(classroomServiceImpl.getClassroomById(1L)).thenReturn(expectedClassroomDTO);
+    void testFindById() {
+        when(classroomServiceImpl.findById(1L)).thenReturn(expectedClassroomDTO);
 
-        ClassroomDTO byId = classroomServiceImpl.getClassroomById(1L);
+        ClassroomDTO byId = classroomServiceImpl.findById(1L);
 
         assertNotNull(byId);
         assertEquals(expectedClassroom.getClassroomId(), byId.getClassroomId());
@@ -81,15 +77,15 @@ class ClassroomServiceImplTest {
         assertEquals(expectedClassroom.getSession(), byId.getSession());
         assertEquals(expectedClassroom.getDescription(), byId.getDescription());
         assertEquals(expectedClassroom.getCode(), byId.getCode());
-        verify(classroomServiceImpl).getClassroomById(1L);
+        verify(classroomServiceImpl).findById(1L);
     }
 
     @Test
-    public void testCreateClassroom() {
+    public void testSave() {
 
-        when(classroomServiceImpl.createClassroom(any(ClassroomDTO.class))).thenReturn(expectedClassroomDTO);
+        when(classroomServiceImpl.save(any(ClassroomDTO.class))).thenReturn(expectedClassroomDTO);
 
-        ClassroomDTO create = classroomServiceImpl.createClassroom(expectedClassroomDTO);
+        ClassroomDTO create = classroomServiceImpl.save(expectedClassroomDTO);
         assertNotNull(create);
         assertEquals(1L, create.getClassroomId());
         assertEquals(1L, create.getUserId());
@@ -115,52 +111,52 @@ class ClassroomServiceImplTest {
     }
 
     @Test
-    void testGetClassroomTeachers() {
-        List<UserDTO> listExpectedUsers = new ArrayList<UserDTO>();
+    void testGetClassroomTeachersById() {
+        List<UserDTO> listExpectedUsers = new ArrayList<>();
         listExpectedUsers.add(expectedUserDTO);
 
-        when(classroomServiceImpl.getClassroomTeachers(1L)).thenReturn(listExpectedUsers);
+        when(classroomServiceImpl.getClassroomTeachersById(1L)).thenReturn(listExpectedUsers);
 
-        List<UserDTO> listActualUsers = classroomServiceImpl.getClassroomTeachers(1L);
+        List<UserDTO> listActualUsers = classroomServiceImpl.getClassroomTeachersById(1L);
 
         assertNotNull(listActualUsers);
         assertEquals(listActualUsers, listExpectedUsers);
     }
 
     @Test
-    void getClassroomStudents() {
-        List<UserDTO> listExpectedUsers = new ArrayList<UserDTO>();
+    void testGetClassroomStudentsById() {
+        List<UserDTO> listExpectedUsers = new ArrayList<>();
         listExpectedUsers.add(expectedUserDTO);
 
-        when(classroomServiceImpl.getClassroomStudents(1L)).thenReturn(listExpectedUsers);
+        when(classroomServiceImpl.getClassroomStudentsById(1L)).thenReturn(listExpectedUsers);
 
-        List<UserDTO> listActualUsers = classroomServiceImpl.getClassroomStudents(1L);
+        List<UserDTO> listActualUsers = classroomServiceImpl.getClassroomStudentsById(1L);
 
         assertNotNull(listActualUsers);
         assertEquals(listActualUsers, listExpectedUsers);
     }
 
     @Test
-    void getClassroomsByTeacher() {
-        List<ClassroomDTO> listExpectedClassrooms = new ArrayList<ClassroomDTO>();
+    void testFindAllClassroomsByTeacherId() {
+        List<ClassroomDTO> listExpectedClassrooms = new ArrayList<>();
         listExpectedClassrooms.add(expectedClassroomDTO);
 
-        when(classroomServiceImpl.getClassroomsByTeacher(1L)).thenReturn(listExpectedClassrooms);
+        when(classroomServiceImpl.findAllClassroomsByTeacherId(1L)).thenReturn(listExpectedClassrooms);
 
-        List<ClassroomDTO> listActualClassrooms = classroomServiceImpl.getClassroomsByTeacher(1L);
+        List<ClassroomDTO> listActualClassrooms = classroomServiceImpl.findAllClassroomsByTeacherId(1L);
 
         assertNotNull(listActualClassrooms);
         assertEquals(listActualClassrooms, listExpectedClassrooms);
     }
 
     @Test
-    void testGetClassroomsByStudent() {
-        List<ClassroomDTO> listExpectedClassrooms = new ArrayList<ClassroomDTO>();
+    void testFindAllClassroomsByStudentId() {
+        List<ClassroomDTO> listExpectedClassrooms = new ArrayList<>();
         listExpectedClassrooms.add(expectedClassroomDTO);
 
-        when(classroomServiceImpl.getClassroomsByStudent(1L)).thenReturn(listExpectedClassrooms);
+        when(classroomServiceImpl.findAllClassroomsByStudentId(1L)).thenReturn(listExpectedClassrooms);
 
-        List<ClassroomDTO> listActualClassrooms = classroomServiceImpl.getClassroomsByStudent(1L);
+        List<ClassroomDTO> listActualClassrooms = classroomServiceImpl.findAllClassroomsByStudentId(1L);
 
         assertNotNull(listActualClassrooms);
         assertEquals(listActualClassrooms, listExpectedClassrooms);

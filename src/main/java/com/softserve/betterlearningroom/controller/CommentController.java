@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,50 +22,55 @@ import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api")
-
+@RequestMapping("/api/comments")
 public class CommentController {
     private CommentService commentService;
 
-    @GetMapping("/comments/{id}")
-    public ResponseEntity<CommentDTO> readByIdComments(@PathVariable long id) {
-        return ResponseEntity.ok(commentService.readByIdComment(id));
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('comment:read')")
+    public ResponseEntity<CommentDTO> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(commentService.findByCommentId(id));
     }
 
-    @PostMapping("/users/{userId}/comments")
-    public ResponseEntity<CommentDTO> createComments(@RequestBody CommentDTO commentDTO, @PathVariable long userId) {
+    @PostMapping("/users/{userId}")
+    @PreAuthorize("hasAuthority('comment:write')")
+    public ResponseEntity<CommentDTO> save(@RequestBody CommentDTO commentDTO, @PathVariable Long userId) {
         commentDTO.setAuthorId(userId);
-        return new ResponseEntity<>(commentService.createComment(commentDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(commentService.save(commentDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping("/comments/{id}")
-    public ResponseEntity<CommentDTO> updateComments(@PathVariable long id, @RequestBody CommentDTO commentDTO) {
-        return ResponseEntity.ok(commentService.updateComment(commentDTO, id));
+    @PutMapping("/{id}")
+    public ResponseEntity<CommentDTO> update(@PathVariable Long id, @RequestBody CommentDTO commentDTO) {
+        return ResponseEntity.ok(commentService.update(commentDTO, id));
     }
 
-    @DeleteMapping("/comments/{id}")
-    public ResponseEntity<CommentDTO> deleteComments(@PathVariable long id) {
-        commentService.deleteComment(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<CommentDTO> delete(@PathVariable Long id) {
+        commentService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/materials/{materialId}/materialComments")
-    public ResponseEntity<List<CommentDTO>> readByIdMaterialComments(@PathVariable long materialId) {
-        return ResponseEntity.ok(commentService.readByIdMaterialComments(materialId));
+    @GetMapping("/materials/{materialId}")
+    @PreAuthorize("hasAuthority('comment:read')")
+    public ResponseEntity<List<CommentDTO>> findByMaterialId(@PathVariable Long materialId) {
+        return ResponseEntity.ok(commentService.findByMaterialId(materialId));
     }
 
-    @GetMapping("/announcements/{announcementId}/announcementComments")
-    public ResponseEntity<List<CommentDTO>> readByIdAnnouncementComments(@PathVariable long announcementId) {
-        return ResponseEntity.ok(commentService.readByIdAnnouncementComments(announcementId));
+    @GetMapping("/announcements/{announcementId}")
+    @PreAuthorize("hasAuthority('comment:read')")
+    public ResponseEntity<List<CommentDTO>> findByAnnouncementId(@PathVariable Long announcementId) {
+        return ResponseEntity.ok(commentService.findByAnnouncementId(announcementId));
     }
 
-    @GetMapping("/user-assignments/{userAssignmentId}/userAssignmentComments")
-    public ResponseEntity<List<CommentDTO>> readByIdUserAssignmentComments(@PathVariable long userAssignmentId) {
-        return ResponseEntity.ok(commentService.readByIdUserAssignmentComments(userAssignmentId));
+    @GetMapping("/user-assignments/{userAssignmentId}")
+    @PreAuthorize("hasAuthority('comment:read')")
+    public ResponseEntity<List<CommentDTO>> findByUserAssignmentId(@PathVariable Long userAssignmentId) {
+        return ResponseEntity.ok(commentService.findByUserAssignmentId(userAssignmentId));
     }
 
-    @GetMapping("/users/{userId}/comments")
-    public ResponseEntity<List<CommentDTO>> readByIdAuthorId(@PathVariable long userId) {
-        return ResponseEntity.ok(commentService.readByIdAuthorId(userId));
+    @GetMapping("/users/{userId}")
+    @PreAuthorize("hasAuthority('comment:read')")
+    public ResponseEntity<List<CommentDTO>> findByAuthorId(@PathVariable Long userId) {
+        return ResponseEntity.ok(commentService.findByAuthorId(userId));
     }
 }

@@ -11,8 +11,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -24,36 +22,54 @@ class CommentDAOTest {
     @Autowired
     private CommentDAO commentDAO;
 
-
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     @Test
     @Order(1)
     void readByIdCommentTest() {
         Comment comment = prepareCommentDTO();
-        assertEquals((comment), commentDAO.readByIdComment(2));
-        assertEquals((comment), commentDAO.readByIdAuthorId(2));
-        assertEquals((comment), commentDAO.readByIdAnnouncementComments(3));
-        assertEquals((comment), commentDAO.readByIdMaterialComments(2));
-        assertEquals((comment), commentDAO.readByIdUserAssignmentComments(4));
+        commentDAO.save(comment);
+        assertEquals(5, commentDAO.findById(5L).getId());
+        assertEquals(5, commentDAO.findByAuthorId(2L).get(1).getId());
+        assertEquals("text1", commentDAO.findByAnnouncementId(3L).get(1).getText());
     }
 
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     @Test
     @Order(3)
     void readByAuthorIdCommentTest() {
-        List<Comment> commentList = new ArrayList<Comment>();
-        commentList.add(prepareCommentDTO());
-        assertEquals((commentList), commentDAO.readByIdAuthorId(2));
-        assertEquals((commentList), commentDAO.readByIdAnnouncementComments(3));
-        assertEquals((commentList), commentDAO.readByIdMaterialComments(2));
-        assertEquals((commentList), commentDAO.readByIdUserAssignmentComments(4));
+        commentDAO.save(prepareCommentDTO());
+        assertEquals(2, commentDAO.findByAuthorId(2L).get(1).getId());
+    }
+
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    @Test
+    @Order(4)
+    void readByAnnouncementIdCommentTest() {
+        commentDAO.save(prepareCommentDTO());
+        assertEquals(5, commentDAO.findByAnnouncementId(3L).get(1).getId());
+    }
+
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    @Test
+    @Order(5)
+    void readByMaterialIdCommentTest() {
+        commentDAO.save(prepareCommentDTO());
+        assertEquals(5, commentDAO.findByMaterialId(2L).get(1).getId());
+    }
+
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    @Test
+    @Order(6)
+    void readByUserAssignmentIdCommentTest() {
+        commentDAO.save(prepareCommentDTO());
+        assertEquals(4, commentDAO.findByUserAssignmentId(2L).get(1).getId());
     }
 
     @Test
     @Order(2)
     void createCommentTest() {
         Comment comment = prepareCommentDTO();
-        Comment savedComment = commentDAO.createComment(comment);
+        Comment savedComment = commentDAO.save(comment);
         assertNotNull(savedComment);
         assertEquals("text1", savedComment.getText());
         assertEquals(2, savedComment.getAuthorId());
@@ -62,27 +78,24 @@ class CommentDAOTest {
         assertEquals(2, savedComment.getMaterialId());
     }
 
-
     @Test
-    @Order(4)
+    @Order(7)
     void updateCommentTest() {
         Comment comment = prepareCommentDTO();
         comment.setId(2);
-        commentDAO.updateComment(comment);
-        assertEquals("text1", commentDAO.readByIdComment(2).getText());
+        commentDAO.update(comment);
+        assertEquals("text1", commentDAO.findById(2L).getText());
     }
 
-
     @Test
-    @Order(5)
+    @Order(8)
     void deleteCommentTest() {
-        Comment comment = prepareCommentDTO();
-        commentDAO.deleteComment(comment.getId());
+        commentDAO.delete(3L);
     }
 
     private Comment prepareCommentDTO() {
         return Comment.builder()
-                .id(1)
+                .id(5)
                 .text("text1")
                 .authorId(2)
                 .announcementId(3)
@@ -93,3 +106,4 @@ class CommentDAOTest {
                 .build();
     }
 }
+

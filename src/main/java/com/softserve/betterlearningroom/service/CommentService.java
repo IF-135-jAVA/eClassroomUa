@@ -5,19 +5,68 @@ import com.softserve.betterlearningroom.dto.CommentDTO;
 import java.util.List;
 
 public interface CommentService {
-    CommentDTO readByIdComment(long id);
 
-    CommentDTO createComment(CommentDTO commentDTO);
+    /**
+     * get comment by id from the database
+     *
+     * @param id Long
+     * @return comment by id
+     */
+    CommentDTO findByCommentId(Long id);
 
-    CommentDTO updateComment(CommentDTO commentDTO, long id);
+    /**
+     * Create a new resource (comment) in database
+     *
+     * @param commentDTO CommentDTO
+     * @return new comment
+     */
+    CommentDTO save(CommentDTO commentDTO);
 
-    void deleteComment(long id);
+    /**
+     * update comment by id in the database
+     *
+     * @param commentDTO CommentDTO
+     * @param id         Long
+     * @return updated comment
+     */
+    CommentDTO update(CommentDTO commentDTO, Long id);
 
-    List<CommentDTO> readByIdMaterialComments(long materialCommentsId);
+    /**
+     * delete comment by id, do it not active in the database
+     *
+     * @param id Long
+     */
+    void delete(Long id);
 
-    List<CommentDTO> readByIdAnnouncementComments(long announcementCommentsId);
+    /**
+     * get all comments by material id from the database
+     *
+     * @param materialId Long
+     * @return List Comment by material id
+     */
+    List<CommentDTO> findByMaterialId(Long materialId);
 
-    List<CommentDTO> readByIdUserAssignmentComments(long userAssignmentCommentsId);
+    /**
+     * get all comments by announcement id from the database
+     *
+     * @param announcementId Long
+     * @return List Comment by announcement id
+     */
+    List<CommentDTO> findByAnnouncementId(Long announcementId);
 
-    List<CommentDTO> readByIdAuthorId(long authorId);
+    /**
+     * get all comments by userAssignment id from the database
+     *
+     * @param userAssignmentId Long
+     * @return List Comment by userAssignment id
+     */
+    List<CommentDTO> findByUserAssignmentId(Long userAssignmentId);
+
+    /**
+     * get all comments by author id from the database
+     *
+     * @param authorId Long
+     * @return List Comment by author id
+     */
+    List<CommentDTO> findByAuthorId(Long authorId);
 }

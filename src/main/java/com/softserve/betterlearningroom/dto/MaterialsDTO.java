@@ -8,31 +8,18 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Contains data for assignment.
- *
- * @author Igor Tryniak
- */
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class MaterialsDTO {
-
     private Integer id;
-
     private String title;
-
     private String text;
-
     private Date startDate;
-
     private Date dueDate;
-
     private String task;
-
     private String answer;
-
     private List<String> urls;
-
 }
