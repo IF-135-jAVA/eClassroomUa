@@ -1,6 +1,5 @@
 package com.softserve.betterlearningroom.service;
 
-import com.softserve.betterlearningroom.dao.impl.ClassroomDAOImpl;
 import com.softserve.betterlearningroom.dto.ClassroomDTO;
 import com.softserve.betterlearningroom.dto.UserDTO;
 import com.softserve.betterlearningroom.entity.Classroom;
@@ -26,9 +25,6 @@ class ClassroomServiceTest {
 
     @Mock
     private ClassroomServiceImpl classroomServiceImpl;
-
-    @Mock
-    private ClassroomDAOImpl classroomDaoImpl;
 
     private ClassroomDTO expectedClassroomDTO;
     private Classroom expectedClassroom;
@@ -69,7 +65,7 @@ class ClassroomServiceTest {
     }
 
     @Test
-    void testGetClassroomById() {
+    void testFindById() {
         when(classroomServiceImpl.findById(1L)).thenReturn(expectedClassroomDTO);
 
         ClassroomDTO byId = classroomServiceImpl.findById(1L);
@@ -85,7 +81,7 @@ class ClassroomServiceTest {
     }
 
     @Test
-    void testCreateClassroom() {
+    public void testSave() {
 
         when(classroomServiceImpl.save(any(ClassroomDTO.class))).thenReturn(expectedClassroomDTO);
 
@@ -115,8 +111,8 @@ class ClassroomServiceTest {
     }
 
     @Test
-    void testGetClassroomTeachers() {
-        List<UserDTO> listExpectedUsers = new ArrayList<UserDTO>();
+    void testGetClassroomTeachersById() {
+        List<UserDTO> listExpectedUsers = new ArrayList<>();
         listExpectedUsers.add(expectedUserDTO);
 
         when(classroomServiceImpl.getClassroomTeachersById(1L)).thenReturn(listExpectedUsers);
@@ -128,8 +124,8 @@ class ClassroomServiceTest {
     }
 
     @Test
-    void getClassroomStudents() {
-        List<UserDTO> listExpectedUsers = new ArrayList<UserDTO>();
+    void testGetClassroomStudentsById() {
+        List<UserDTO> listExpectedUsers = new ArrayList<>();
         listExpectedUsers.add(expectedUserDTO);
 
         when(classroomServiceImpl.getClassroomStudentsById(1L)).thenReturn(listExpectedUsers);
@@ -141,8 +137,8 @@ class ClassroomServiceTest {
     }
 
     @Test
-    void getClassroomsByTeacher() {
-        List<ClassroomDTO> listExpectedClassrooms = new ArrayList<ClassroomDTO>();
+    void testFindAllClassroomsByTeacherId() {
+        List<ClassroomDTO> listExpectedClassrooms = new ArrayList<>();
         listExpectedClassrooms.add(expectedClassroomDTO);
 
         when(classroomServiceImpl.findAllClassroomsByTeacherId(1L)).thenReturn(listExpectedClassrooms);
@@ -154,8 +150,8 @@ class ClassroomServiceTest {
     }
 
     @Test
-    void testGetClassroomsByStudent() {
-        List<ClassroomDTO> listExpectedClassrooms = new ArrayList<ClassroomDTO>();
+    void testFindAllClassroomsByStudentId() {
+        List<ClassroomDTO> listExpectedClassrooms = new ArrayList<>();
         listExpectedClassrooms.add(expectedClassroomDTO);
 
         when(classroomServiceImpl.findAllClassroomsByStudentId(1L)).thenReturn(listExpectedClassrooms);

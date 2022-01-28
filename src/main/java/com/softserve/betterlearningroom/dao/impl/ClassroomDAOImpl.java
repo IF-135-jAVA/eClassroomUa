@@ -97,7 +97,9 @@ public class ClassroomDAOImpl implements ClassroomDAO {
     @Override
     public List<Classroom> findAllClassroomsByStudentId(Long userId) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource(USER_ID, userId);
-        return jdbcParameterTemplate.query(getClassroomsByStudent, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class));
+        List<Classroom> classrooms = new ArrayList<>(jdbcParameterTemplate.query(getClassroomsByTeacher, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class)));
+        classrooms.addAll(jdbcParameterTemplate.query(getClassroomByOwnerId, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class)));
+        return classrooms;
     }
 
     @Override
