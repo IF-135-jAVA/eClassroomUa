@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.service.impl;
 
-import com.softserve.betterlearningroom.dao.impl.LevelDaoImpl;
+import com.softserve.betterlearningroom.dao.impl.LevelDAOImpl;
 import com.softserve.betterlearningroom.dto.LevelDTO;
 import com.softserve.betterlearningroom.entity.Level;
 import com.softserve.betterlearningroom.mapper.LevelMapper;
@@ -28,7 +28,7 @@ class LevelServiceImplTest {
     private LevelServiceImpl levelService;
 
     @Mock
-    private LevelDaoImpl levelDaoImpl;
+    private LevelDAOImpl levelDaoImpl;
 
     private Level expectedLevel;
     private LevelDTO expectedLevelDTO;

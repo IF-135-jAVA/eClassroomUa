@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.service.impl;
 
-import com.softserve.betterlearningroom.dao.impl.CriterionDaoImpl;
+import com.softserve.betterlearningroom.dao.impl.CriterionDAOImpl;
 import com.softserve.betterlearningroom.dto.CriterionDTO;
 import com.softserve.betterlearningroom.entity.Criterion;
 import com.softserve.betterlearningroom.mapper.CriterionMapper;
@@ -28,7 +28,7 @@ class CriterionServiceTest {
     private CriterionServiceImpl criterionService;
 
     @Mock
-    private CriterionDaoImpl criterionDAOImpl;
+    private CriterionDAOImpl criterionDAOImpl;
 
     private CriterionDTO expectedCriterionDTO;
     private Criterion expectedCriterion;

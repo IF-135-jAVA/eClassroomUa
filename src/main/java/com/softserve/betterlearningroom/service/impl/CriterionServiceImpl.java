@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.service.impl;
 
-import com.softserve.betterlearningroom.dao.impl.CriterionDaoImpl;
+import com.softserve.betterlearningroom.dao.impl.CriterionDAOImpl;
 import com.softserve.betterlearningroom.dto.CriterionDTO;
 import com.softserve.betterlearningroom.mapper.CriterionMapper;
 import com.softserve.betterlearningroom.service.CriterionServise;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class CriterionServiceImpl implements CriterionServise {
 
     @Autowired
-    private CriterionDaoImpl criterionDAOImpl;
+    private CriterionDAOImpl criterionDAOImpl;
 
     public CriterionDTO findById(Long id) {
 

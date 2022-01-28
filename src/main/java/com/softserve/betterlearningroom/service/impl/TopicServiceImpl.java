@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.service.impl;
 
-import com.softserve.betterlearningroom.dao.impl.TopicDaoImpl;
+import com.softserve.betterlearningroom.dao.impl.TopicDAOImpl;
 import com.softserve.betterlearningroom.dto.TopicDTO;
 import com.softserve.betterlearningroom.mapper.TopicMapper;
 import com.softserve.betterlearningroom.service.TopicService;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class TopicServiceImpl implements TopicService {
 
     @Autowired
-    private TopicDaoImpl topicDaoImpl;
+    private TopicDAOImpl topicDaoImpl;
 
     @Override
     public TopicDTO findById(Long id) {

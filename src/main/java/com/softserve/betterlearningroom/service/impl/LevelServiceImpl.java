@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.service.impl;
 
-import com.softserve.betterlearningroom.dao.impl.LevelDaoImpl;
+import com.softserve.betterlearningroom.dao.impl.LevelDAOImpl;
 import com.softserve.betterlearningroom.dto.LevelDTO;
 import com.softserve.betterlearningroom.mapper.LevelMapper;
 import com.softserve.betterlearningroom.service.LevelService;
@@ -15,7 +15,7 @@ public class LevelServiceImpl implements LevelService {
 
 
     @Autowired
-    private LevelDaoImpl levelDaoImpl;
+    private LevelDAOImpl levelDaoImpl;
 
     @Override
     public LevelDTO findById(Long id) {

@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.service.impl;
 
-import com.softserve.betterlearningroom.dao.impl.TopicDaoImpl;
+import com.softserve.betterlearningroom.dao.impl.TopicDAOImpl;
 import com.softserve.betterlearningroom.dto.TopicDTO;
 import com.softserve.betterlearningroom.entity.Topic;
 import com.softserve.betterlearningroom.mapper.TopicMapper;
@@ -28,7 +28,7 @@ class TopicServiceImplTest {
     private TopicServiceImpl topicService;
 
     @Mock
-    private TopicDaoImpl topicDaoImpl;
+    private TopicDAOImpl topicDaoImpl;
 
     private Topic expectedTopic;
     private TopicDTO expectedTopicDTO;

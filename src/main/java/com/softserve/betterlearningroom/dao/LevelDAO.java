@@ -4,7 +4,7 @@ import com.softserve.betterlearningroom.entity.Level;
 
 import java.util.List;
 
-public interface LevelDao {
+public interface LevelDAO {
 
     Level save(Level level);
 

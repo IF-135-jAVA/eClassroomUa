@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.dao.impl;
 
-import com.softserve.betterlearningroom.dao.LevelDao;
+import com.softserve.betterlearningroom.dao.LevelDAO;
 import com.softserve.betterlearningroom.entity.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @Repository
 @PropertySource(value = "classpath:db/level/levelQuery.properties")
-public class LevelDaoImpl implements LevelDao {
+public class LevelDAOImpl implements LevelDAO {
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;

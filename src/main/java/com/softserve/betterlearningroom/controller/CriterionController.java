@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,9 +21,7 @@ public class CriterionController {
     @Autowired
     private CriterionServiceImpl criterionService;
 
-    /**
-     * get all criterion
-     */
+   @PreAuthorize("h)
     @GetMapping
     public ResponseEntity<List<CriterionDTO>> getAll() {
         List<CriterionDTO> criterion = criterionService.findAll();

@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.dao.impl;
 
-import com.softserve.betterlearningroom.dao.CriterionDao;
+import com.softserve.betterlearningroom.dao.CriterionDAO;
 import com.softserve.betterlearningroom.entity.Criterion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @PropertySource(value = "classpath:db/criterion/criterionQuery.properties")
-public class CriterionDaoImpl implements CriterionDao {
+public class CriterionDAOImpl implements CriterionDAO {
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
