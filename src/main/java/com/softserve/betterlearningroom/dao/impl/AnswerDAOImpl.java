@@ -45,7 +45,7 @@ public class AnswerDAOImpl implements AnswerDAO {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(answer);
         jdbcTemplate.update(createQuery, parameterSource, keyHolder, new String[]{"id"});
-        return findById(keyHolder.getKeyAs(Long.class));
+        return findById(keyHolder.getKeyAs(Integer.class).longValue());
     }
 
     @Override

@@ -14,5 +14,5 @@ public interface UserAssignmentService {
 
     void delete(Long id);
 
-    List<UserAssignmentDTO> findAllByAssignmentId(Long assignmentId);
+    List<UserAssignmentDTO> findByAssignmentId(Long assignmentId);
 }

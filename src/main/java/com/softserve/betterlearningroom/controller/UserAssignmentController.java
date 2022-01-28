@@ -31,7 +31,7 @@ public class UserAssignmentController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<UserAssignmentDTO> readById(@PathVariable Long id) {
+    public ResponseEntity<UserAssignmentDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(userAssignmentService.findById(id));
     }
 
@@ -47,7 +47,7 @@ public class UserAssignmentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserAssignmentDTO>> getByAssignment(@PathVariable Long materialId) {
-        return ResponseEntity.ok(userAssignmentService.findAllByAssignmentId(materialId));
+    public ResponseEntity<List<UserAssignmentDTO>> findByAssignmentId(@PathVariable Long materialId) {
+        return ResponseEntity.ok(userAssignmentService.findByAssignmentId(materialId));
     }
 }

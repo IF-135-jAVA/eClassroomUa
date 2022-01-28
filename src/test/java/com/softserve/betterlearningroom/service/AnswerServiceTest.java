@@ -32,19 +32,21 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class AnswerServiceTest {
-    private static final long ID_1 = 1;
+
+    private static final Long ID_1 = 1L;
     private static final Long USER_ASSIGNMENT_ID = 1L;
     private static final String TEXT_1 = "Monday";
     private static final boolean ENABLED = true;
-    private static final long ID_2 = 2;
+    private static final Long ID_2 = 2L;
     private static final String TEXT_2 = "Tuesday";
-    private static final long MATERIAL_ID = 1;
-    private static final long USER_ID = 1;
-    private static final long ASSIGNMENT_STATUS_ID = 1;
+    private static final Long MATERIAL_ID = 1L;
+    private static final Long USER_ID = 1L;
+    private static final Long ASSIGNMENT_STATUS_ID = 1L;
     private static final LocalDateTime SUBMISSION_DATE = LocalDateTime.now().minusMinutes(5);
     private static final LocalDateTime DUE_DATE_1 = LocalDateTime.now().plusDays(1);
     private static final LocalDateTime DUE_DATE_2 = LocalDateTime.now().minusDays(3);
     private static final String EXCEPTION_MESSAGE = "Due date for assignment with id - " + MATERIAL_ID + " has passed. Due date is " + DUE_DATE_2 + ".";
+
     private Answer answer1;
     private Answer answer1Updated;
     private Answer answer2;
@@ -84,7 +86,7 @@ public class AnswerServiceTest {
     }
 
     @Test
-    public void testCreate() {
+    public void testSave() {
         when(answerDao.save(answer1)).thenReturn(answer1);
         when(userAssignmentDao.findById(USER_ASSIGNMENT_ID)).thenReturn(userAssignment);
         when(materialDao.findById(MATERIAL_ID)).thenReturn(material);
@@ -101,7 +103,7 @@ public class AnswerServiceTest {
     }
 
     @Test
-    public void testCreateThrowsSubmissionNotAllowedException() {
+    public void testSaveThrowsSubmissionNotAllowedException() {
         when(userAssignmentDao.findById(USER_ASSIGNMENT_ID)).thenReturn(userAssignment);
         when(materialDao.findById(MATERIAL_ID)).thenReturn(material);
         material.setDueDate(DUE_DATE_2);
@@ -116,7 +118,7 @@ public class AnswerServiceTest {
     }
 
     @Test
-    public void testReadById() {
+    public void testFindById() {
         when(answerDao.findById(ID_1)).thenReturn(answer1);
 
         AnswerDTO actual = answerService.findById(ID_1);
@@ -196,7 +198,7 @@ public class AnswerServiceTest {
     }
 
     @Test
-    public void testGetByUserAssignment() {
+    public void testFindByUserAssignmentId() {
         when(answerDao.findByUserAssignmentId(USER_ASSIGNMENT_ID)).thenReturn(Arrays.asList(answer1, answer2));
 
         List<AnswerDTO> actual = answerService.findByUserAssignmentId(USER_ASSIGNMENT_ID);

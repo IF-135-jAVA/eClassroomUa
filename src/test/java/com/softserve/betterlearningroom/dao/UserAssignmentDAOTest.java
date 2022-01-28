@@ -1,7 +1,7 @@
 package com.softserve.betterlearningroom.dao;
 
 import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
-import com.softserve.betterlearningroom.dao.impl.UserAssignmentDaoImpl;
+import com.softserve.betterlearningroom.dao.impl.UserAssignmentDAOImpl;
 import com.softserve.betterlearningroom.entity.UserAssignment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,31 +16,31 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest(classes = { TestDBConfiguration.class, UserAssignmentDaoImpl.class })
+@SpringBootTest(classes = { TestDBConfiguration.class, UserAssignmentDAOImpl.class })
 public class UserAssignmentDAOTest {
 
-    private static final long ID_1 = 1;
-    private static final long MATERIAL_ID_1 = 1;
-    private static final long USER_ID_1 = 2;
-    private static final long ASSIGNMENT_STATUS_ID_1 = 1;
+    private static final Long ID_1 = 1L;
+    private static final Long MATERIAL_ID_1 = 1L;
+    private static final Long USER_ID_1 = 2L;
+    private static final Long ASSIGNMENT_STATUS_ID_1 = 1L;
     private static final LocalDateTime SUBMISSION_DATE_1 = LocalDateTime.of(2022, 1, 26, 19, 25);
     private static final int GRADE_1 = 10;
     private static final String FEEDBACK_1 = "Good";
     private static final boolean ENABLED = true;
 
-    private static final long ID_2 = 2;
-    private static final long USER_ID_2 = 3;
-    private static final long ASSIGNMENT_STATUS_ID_2 = 3;
+    private static final Long ID_2 = 2L;
+    private static final Long USER_ID_2 = 3L;
+    private static final Long ASSIGNMENT_STATUS_ID_2 = 3L;
     private static final LocalDateTime SUBMISSION_DATE_2 = LocalDateTime.of(2022, 1, 28, 14, 15);
     private static final int GRADE_2 = 9;
     private static final String FEEDBACK_2 = "Almost good";
 
-    private static final long ID_3 = 3;
-    private static final long MATERIAL_ID_2 = 2;
-    private static final long MATERIAL_ID_3 = 3;
+    private static final Long ID_3 = 3L;
+    private static final Long MATERIAL_ID_2 = 2L;
+    private static final Long MATERIAL_ID_3 = 3L;
 
-    private static final long ID_4 = 4;
-    private static final long ID_NOT_FOUND = 10;
+    private static final Long ID_4 = 4L;
+    private static final Long ID_NOT_FOUND = 10L;
 
     private static final String EXCEPTION_MESSAGE_1 = "UserAssignment with id - " + ID_4 + ", not found.";
     private static final String EXCEPTION_MESSAGE_2 = "UserAssignment with id - " + ID_NOT_FOUND + ", not found.";
@@ -50,7 +50,7 @@ public class UserAssignmentDAOTest {
     private UserAssignment userAssignment3;
 
     @Autowired
-    private UserAssignmentDaoImpl userAssignmentDao;
+    private UserAssignmentDAOImpl userAssignmentDao;
 
     @BeforeEach
     public void setUp() {
@@ -61,8 +61,8 @@ public class UserAssignmentDAOTest {
 
     @Test
     public void testSaveAndFindById() {
-        UserAssignment savedUserAssignment = userAssignmentDao.create(userAssignment3);
-        UserAssignment foundUserAssignment = userAssignmentDao.readById(savedUserAssignment.getId());
+        UserAssignment savedUserAssignment = userAssignmentDao.save(userAssignment3);
+        UserAssignment foundUserAssignment = userAssignmentDao.findById(savedUserAssignment.getId());
 
         userAssignment3.setId(savedUserAssignment.getId());
         assertEquals(userAssignment3, savedUserAssignment);
@@ -78,7 +78,7 @@ public class UserAssignmentDAOTest {
         userAssignment3.setGrade(GRADE_1);
         userAssignment3.setFeedback(FEEDBACK_1);
         UserAssignment updatedUserAssignment = userAssignmentDao.update(userAssignment3);
-        UserAssignment foundUserAssignment = userAssignmentDao.readById(userAssignment3.getId());
+        UserAssignment foundUserAssignment = userAssignmentDao.findById(userAssignment3.getId());
 
         assertEquals(userAssignment3, updatedUserAssignment);
         assertEquals(userAssignment3, foundUserAssignment);
@@ -88,7 +88,7 @@ public class UserAssignmentDAOTest {
     public void testDelete() {
         userAssignmentDao.delete(ID_4);
 
-        DataRetrievalFailureException exception = assertThrows(DataRetrievalFailureException.class, () -> userAssignmentDao.readById(ID_4));
+        DataRetrievalFailureException exception = assertThrows(DataRetrievalFailureException.class, () -> userAssignmentDao.findById(ID_4));
         assertEquals(EXCEPTION_MESSAGE_1, exception.getMessage());
     }
 
@@ -96,7 +96,7 @@ public class UserAssignmentDAOTest {
     public void testMethodsThrowDataRetrievalFailureException() {
         userAssignment3.setId(ID_NOT_FOUND);
 
-        DataRetrievalFailureException exception1 = assertThrows(DataRetrievalFailureException.class, () -> userAssignmentDao.readById(ID_NOT_FOUND));
+        DataRetrievalFailureException exception1 = assertThrows(DataRetrievalFailureException.class, () -> userAssignmentDao.findById(ID_NOT_FOUND));
         DataRetrievalFailureException exception2 = assertThrows(DataRetrievalFailureException.class, () -> userAssignmentDao.update(userAssignment3));
         DataRetrievalFailureException exception3 = assertThrows(DataRetrievalFailureException.class, () -> userAssignmentDao.delete(ID_NOT_FOUND));
 
@@ -107,7 +107,7 @@ public class UserAssignmentDAOTest {
 
     @Test
     public void testFindByAssignmentId() {
-        List<UserAssignment> actual = userAssignmentDao.getByAssignment(MATERIAL_ID_1);
+        List<UserAssignment> actual = userAssignmentDao.findByAssignmentId(MATERIAL_ID_1);
 
         assertEquals(Arrays.asList(userAssignment1, userAssignment2), actual);
     }

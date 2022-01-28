@@ -67,7 +67,7 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
     }
 
     @Override
-    public List<UserAssignmentDTO> findAllByAssignmentId(Long assignmentId) {
+    public List<UserAssignmentDTO> findByAssignmentId(Long assignmentId) {
         return userAssignmentDao.findByAssignmentId(assignmentId)
                 .stream()
                 .map(userAssignmentMapper::userAssignmentToUserAssignmentDTO)

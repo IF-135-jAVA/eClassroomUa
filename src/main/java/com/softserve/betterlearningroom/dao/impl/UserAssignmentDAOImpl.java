@@ -45,7 +45,7 @@ public class UserAssignmentDAOImpl implements UserAssignmentDAO {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(userAssignment);
         jdbcTemplate.update(createQuery, parameterSource, keyHolder, new String[]{"id"});
-        return findById(keyHolder.getKeyAs(Long.class));
+        return findById(keyHolder.getKeyAs(Integer.class).longValue());
     }
 
     @Override
