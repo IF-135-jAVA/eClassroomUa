@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(classes = { TestDBConfiguration.class, AnswerDAOImpl.class })
-public class AnswerDAOTest {
+class AnswerDAOTest {
 
     private static final Long ID_1 = 1L;
     private static final Long USER_ASSIGNMENT_ID_1 = 1L;
@@ -44,14 +44,14 @@ public class AnswerDAOTest {
     private AnswerDAOImpl answerDao;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         answer1 = new Answer(ID_1, USER_ASSIGNMENT_ID_1, TEXT_1, ENABLED);
         answer2 = new Answer(ID_2, USER_ASSIGNMENT_ID_1, TEXT_2, ENABLED);
         answer3 = new Answer(ID_3, USER_ASSIGNMENT_ID_3, TEXT_2, ENABLED);
     }
 
     @Test
-    public void testSaveAndFindById() {
+    void testSaveAndFindById() {
         Answer savedAnswer = answerDao.save(answer3);
         Answer foundAnswer = answerDao.findById(savedAnswer.getId());
 
@@ -61,7 +61,7 @@ public class AnswerDAOTest {
     }
 
     @Test
-    public void testUpdateAndFindById() {
+    void testUpdateAndFindById() {
         answer3.setUserAssignmentId(USER_ASSIGNMENT_ID_2);
         answer3.setText(TEXT_1);
         Answer updatedAnswer = answerDao.update(answer3);
@@ -72,7 +72,7 @@ public class AnswerDAOTest {
     }
 
     @Test
-    public void testDelete() {
+    void testDelete() {
         answerDao.delete(ID_4);
 
         DataRetrievalFailureException exception = assertThrows(DataRetrievalFailureException.class, () -> answerDao.findById(ID_4));
@@ -80,7 +80,7 @@ public class AnswerDAOTest {
     }
 
     @Test
-    public void testMethodsThrowDataRetrievalFailureException() {
+    void testMethodsThrowDataRetrievalFailureException() {
         answer3.setId(ID_NOT_FOUND);
 
         DataRetrievalFailureException exception1 = assertThrows(DataRetrievalFailureException.class, () -> answerDao.findById(ID_NOT_FOUND));
@@ -93,7 +93,7 @@ public class AnswerDAOTest {
     }
 
     @Test
-    public void testFindByUserAssignmentId() {
+    void testFindByUserAssignmentId() {
         List<Answer> actual = answerDao.findByUserAssignmentId(USER_ASSIGNMENT_ID_1);
 
         assertEquals(Arrays.asList(answer1, answer2), actual);

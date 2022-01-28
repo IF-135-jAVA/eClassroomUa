@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(value = AnswerController.class, useDefaultFilters = false, includeFilters = {
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = AnswerController.class)})
 @AutoConfigureMockMvc(addFilters = false)
-public class AnswerControllerTest {
+class AnswerControllerTest {
 
     private static final Long ID_1 = 1L;
     private static final Long USER_ASSIGNMENT_ID = 1L;
@@ -54,14 +54,14 @@ public class AnswerControllerTest {
     private AnswerService answerService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         answerDTO1 = new AnswerDTO(ID_1, USER_ASSIGNMENT_ID, TEXT_1, ENABLED);
         answerDTO1Updated = new AnswerDTO(ID_1, USER_ASSIGNMENT_ID, TEXT_2, ENABLED);
         answerDTO2 = new AnswerDTO(ID_2, USER_ASSIGNMENT_ID, TEXT_2, ENABLED);
     }
 
     @Test
-    public void testSave() throws Exception {
+    void testSave() throws Exception {
         when(answerService.save(answerDTO1)).thenReturn(answerDTO1);
 
         MvcResult mvcResult = mockMvc.perform(post("/api/assignments/" + USER_ASSIGNMENT_ID + "/answers")
@@ -75,7 +75,7 @@ public class AnswerControllerTest {
     }
 
     @Test
-    public void testFindById() throws Exception {
+    void testFindById() throws Exception {
         when(answerService.findById(ID_1)).thenReturn(answerDTO1);
 
         MvcResult mvcResult = mockMvc.perform(get("/api/assignments/" + USER_ASSIGNMENT_ID + "/answers/" + ID_1)
@@ -88,7 +88,7 @@ public class AnswerControllerTest {
     }
 
     @Test
-    public void testUpdate() throws Exception {
+    void testUpdate() throws Exception {
         when(answerService.update(answerDTO2, ID_1)).thenReturn(answerDTO1Updated);
 
         MvcResult mvcResult = mockMvc.perform(put("/api/assignments/" + USER_ASSIGNMENT_ID + "/answers/" + ID_1)
@@ -102,7 +102,7 @@ public class AnswerControllerTest {
     }
 
     @Test
-    public void testDelete() throws Exception {
+    void testDelete() throws Exception {
         MvcResult mvcResult = mockMvc.perform(delete("/api/assignments/" + USER_ASSIGNMENT_ID + "/answers/" + ID_1)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent())
@@ -113,7 +113,7 @@ public class AnswerControllerTest {
     }
 
     @Test
-    public void testFindByUserAssignmentId() throws Exception {
+    void testFindByUserAssignmentId() throws Exception {
         when(answerService.findByUserAssignmentId(USER_ASSIGNMENT_ID)).thenReturn(Arrays.asList(answerDTO1, answerDTO2));
 
         MvcResult mvcResult = mockMvc.perform(get("/api/assignments/" + USER_ASSIGNMENT_ID + "/answers")

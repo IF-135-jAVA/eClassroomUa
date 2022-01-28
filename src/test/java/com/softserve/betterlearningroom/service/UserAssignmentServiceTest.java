@@ -31,7 +31,7 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class UserAssignmentServiceTest {
+class UserAssignmentServiceTest {
 
     private static final Long ID_1 = 1L;
     private static final Long MATERIAL_ID = 1L;
@@ -79,7 +79,7 @@ public class UserAssignmentServiceTest {
     private UserAssignmentServiceImpl userAssignmentService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         userAssignment1 = new UserAssignment(ID_1, MATERIAL_ID, USER_ID_1, ASSIGNMENT_STATUS_ID_1, SUBMISSION_DATE_1, GRADE_1, FEEDBACK_1, ENABLED);
         userAssignment1Updated = new UserAssignment(ID_1, MATERIAL_ID, USER_ID_1, ASSIGNMENT_STATUS_ID_2, SUBMISSION_DATE_1, GRADE_2, FEEDBACK_2, ENABLED);
         userAssignment2 = new UserAssignment(ID_2, MATERIAL_ID, USER_ID_2, ASSIGNMENT_STATUS_ID_2, SUBMISSION_DATE_2, GRADE_2, FEEDBACK_2, ENABLED);
@@ -94,7 +94,7 @@ public class UserAssignmentServiceTest {
     }
 
     @Test
-    public void testSave() {
+    void testSave() {
         when(userAssignmentDao.save(userAssignment1)).thenReturn(userAssignment1);
         when(materialDao.findById(MATERIAL_ID)).thenReturn(material);
 
@@ -106,7 +106,7 @@ public class UserAssignmentServiceTest {
     }
 
     @Test
-    public void testSaveThrowsSubmissionNotAllowedException() {
+    void testSaveThrowsSubmissionNotAllowedException() {
         when(materialDao.findById(MATERIAL_ID)).thenReturn(material);
         material.setDueDate(DUE_DATE_2);
 
@@ -118,7 +118,7 @@ public class UserAssignmentServiceTest {
     }
 
     @Test
-    public void testFindById() {
+    void testFindById() {
         when(userAssignmentDao.findById(ID_2)).thenReturn(userAssignment2);
 
         UserAssignmentDTO actual = userAssignmentService.findById(ID_2);
@@ -128,7 +128,7 @@ public class UserAssignmentServiceTest {
     }
 
     @Test
-    public void testUpdate() {
+    void testUpdate() {
         when(userAssignmentDao.update(userAssignment1Updated)).thenReturn(userAssignment1Updated);
         when(userAssignmentDao.findById(ID_1)).thenReturn(userAssignment1);
 
@@ -140,7 +140,7 @@ public class UserAssignmentServiceTest {
     }
 
     @Test
-    public void testDelete() {
+    void testDelete() {
         List<Answer> answers = Arrays.asList(answer1, answer2);
         when(answerDao.findByUserAssignmentId(ID_2)).thenReturn(answers);
 
@@ -152,7 +152,7 @@ public class UserAssignmentServiceTest {
     }
 
     @Test
-    public void testFindByAssignmentId() {
+    void testFindByAssignmentId() {
         when(userAssignmentDao.findByAssignmentId(MATERIAL_ID)).thenReturn(Arrays.asList(userAssignment1, userAssignment2));
 
         List<UserAssignmentDTO> actual = userAssignmentService.findByAssignmentId(MATERIAL_ID);

@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(classes = { TestDBConfiguration.class, UserAssignmentDAOImpl.class })
-public class UserAssignmentDAOTest {
+class UserAssignmentDAOTest {
 
     private static final Long ID_1 = 1L;
     private static final Long MATERIAL_ID_1 = 1L;
@@ -53,14 +53,14 @@ public class UserAssignmentDAOTest {
     private UserAssignmentDAOImpl userAssignmentDao;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         userAssignment1 = new UserAssignment(ID_1, MATERIAL_ID_1, USER_ID_1, ASSIGNMENT_STATUS_ID_1, SUBMISSION_DATE_1, GRADE_1, FEEDBACK_1, ENABLED);
         userAssignment2 = new UserAssignment(ID_2, MATERIAL_ID_1, USER_ID_2, ASSIGNMENT_STATUS_ID_2, SUBMISSION_DATE_2, GRADE_2, FEEDBACK_2, ENABLED);
         userAssignment3 = new UserAssignment(ID_3, MATERIAL_ID_3, USER_ID_2, ASSIGNMENT_STATUS_ID_2, SUBMISSION_DATE_2, GRADE_2, FEEDBACK_2, ENABLED);
     }
 
     @Test
-    public void testSaveAndFindById() {
+    void testSaveAndFindById() {
         UserAssignment savedUserAssignment = userAssignmentDao.save(userAssignment3);
         UserAssignment foundUserAssignment = userAssignmentDao.findById(savedUserAssignment.getId());
 
@@ -70,7 +70,7 @@ public class UserAssignmentDAOTest {
     }
 
     @Test
-    public void testUpdateAndFindById() {
+    void testUpdateAndFindById() {
         userAssignment3.setMaterialId(MATERIAL_ID_2);
         userAssignment3.setUserId(USER_ID_1);
         userAssignment3.setAssignmentStatusId(ASSIGNMENT_STATUS_ID_1);
@@ -85,7 +85,7 @@ public class UserAssignmentDAOTest {
     }
 
     @Test
-    public void testDelete() {
+    void testDelete() {
         userAssignmentDao.delete(ID_4);
 
         DataRetrievalFailureException exception = assertThrows(DataRetrievalFailureException.class, () -> userAssignmentDao.findById(ID_4));
@@ -93,7 +93,7 @@ public class UserAssignmentDAOTest {
     }
 
     @Test
-    public void testMethodsThrowDataRetrievalFailureException() {
+    void testMethodsThrowDataRetrievalFailureException() {
         userAssignment3.setId(ID_NOT_FOUND);
 
         DataRetrievalFailureException exception1 = assertThrows(DataRetrievalFailureException.class, () -> userAssignmentDao.findById(ID_NOT_FOUND));
@@ -106,7 +106,7 @@ public class UserAssignmentDAOTest {
     }
 
     @Test
-    public void testFindByAssignmentId() {
+    void testFindByAssignmentId() {
         List<UserAssignment> actual = userAssignmentDao.findByAssignmentId(MATERIAL_ID_1);
 
         assertEquals(Arrays.asList(userAssignment1, userAssignment2), actual);

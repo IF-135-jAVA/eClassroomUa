@@ -31,7 +31,7 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class AnswerServiceTest {
+class AnswerServiceTest {
 
     private static final Long ID_1 = 1L;
     private static final Long USER_ASSIGNMENT_ID = 1L;
@@ -72,7 +72,7 @@ public class AnswerServiceTest {
     private AnswerServiceImpl answerService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         answer1 = new Answer(ID_1, USER_ASSIGNMENT_ID, TEXT_1, ENABLED);
         answer1Updated = new Answer(ID_1, USER_ASSIGNMENT_ID, TEXT_2, ENABLED);
         answer2 = new Answer(ID_2, USER_ASSIGNMENT_ID, TEXT_2, ENABLED);
@@ -86,7 +86,7 @@ public class AnswerServiceTest {
     }
 
     @Test
-    public void testSave() {
+    void testSave() {
         when(answerDao.save(answer1)).thenReturn(answer1);
         when(userAssignmentDao.findById(USER_ASSIGNMENT_ID)).thenReturn(userAssignment);
         when(materialDao.findById(MATERIAL_ID)).thenReturn(material);
@@ -103,7 +103,7 @@ public class AnswerServiceTest {
     }
 
     @Test
-    public void testSaveThrowsSubmissionNotAllowedException() {
+    void testSaveThrowsSubmissionNotAllowedException() {
         when(userAssignmentDao.findById(USER_ASSIGNMENT_ID)).thenReturn(userAssignment);
         when(materialDao.findById(MATERIAL_ID)).thenReturn(material);
         material.setDueDate(DUE_DATE_2);
@@ -118,7 +118,7 @@ public class AnswerServiceTest {
     }
 
     @Test
-    public void testFindById() {
+    void testFindById() {
         when(answerDao.findById(ID_1)).thenReturn(answer1);
 
         AnswerDTO actual = answerService.findById(ID_1);
@@ -128,7 +128,7 @@ public class AnswerServiceTest {
     }
 
     @Test
-    public void testUpdate() {
+    void testUpdate() {
         when(answerDao.update(answer1Updated)).thenReturn(answer1Updated);
         when(answerDao.findById(ID_1)).thenReturn(answer1);
         when(userAssignmentDao.findById(USER_ASSIGNMENT_ID)).thenReturn(userAssignment);
@@ -147,7 +147,7 @@ public class AnswerServiceTest {
     }
 
     @Test
-    public void testUpdateThrowsSubmissionNotAllowedException() {
+    void testUpdateThrowsSubmissionNotAllowedException() {
         when(answerDao.findById(ID_1)).thenReturn(answer1);
         when(userAssignmentDao.findById(USER_ASSIGNMENT_ID)).thenReturn(userAssignment);
         when(materialDao.findById(MATERIAL_ID)).thenReturn(material);
@@ -164,7 +164,7 @@ public class AnswerServiceTest {
     }
 
     @Test
-    public void testDelete() {
+    void testDelete() {
         when(answerDao.findById(ID_1)).thenReturn(answer1);
         when(userAssignmentDao.findById(USER_ASSIGNMENT_ID)).thenReturn(userAssignment);
         when(materialDao.findById(MATERIAL_ID)).thenReturn(material);
@@ -181,7 +181,7 @@ public class AnswerServiceTest {
     }
 
     @Test
-    public void testDeleteThrowsSubmissionNotAllowedException() {
+    void testDeleteThrowsSubmissionNotAllowedException() {
         when(answerDao.findById(ID_1)).thenReturn(answer1);
         when(userAssignmentDao.findById(USER_ASSIGNMENT_ID)).thenReturn(userAssignment);
         when(materialDao.findById(MATERIAL_ID)).thenReturn(material);
@@ -198,7 +198,7 @@ public class AnswerServiceTest {
     }
 
     @Test
-    public void testFindByUserAssignmentId() {
+    void testFindByUserAssignmentId() {
         when(answerDao.findByUserAssignmentId(USER_ASSIGNMENT_ID)).thenReturn(Arrays.asList(answer1, answer2));
 
         List<AnswerDTO> actual = answerService.findByUserAssignmentId(USER_ASSIGNMENT_ID);
