@@ -64,7 +64,7 @@ public class ClassroomServiceImpl implements ClassroomService {
         Classroom classroom = classroomDaoImpl.findByCode(code);
         if (classroomDaoImpl.getAllTeachersById(classroom.getClassroomId()).stream().anyMatch(user -> user.getId().equals(userId))) {
         } else if (classroomDaoImpl.getAllStudentsById(classroom.getClassroomId()).stream().anyMatch(user -> user.getId().equals(userId))) {
-        } else if (classroomDaoImpl.getClassroomOwnerById(classroom.getClassroomId()).getId() == userId) {
+        } else if (classroomDaoImpl.getClassroomOwnerById(classroom.getClassroomId()).getId().equals(userId)) {
         } else {
             classroomDaoImpl.joinClassroomAsStudent(code, userId);
             return classroomMapper.classroomToClassroomDTO(classroom);
@@ -77,7 +77,7 @@ public class ClassroomServiceImpl implements ClassroomService {
         if (classroomDaoImpl.getAllStudentsById(classroom.getClassroomId()).stream().anyMatch(user -> user.getId().equals(userId))) {
             
         } else if (classroomDaoImpl.getAllTeachersById(classroom.getClassroomId()).stream().anyMatch(user -> user.getId().equals(userId))) {
-        } else if (classroomDaoImpl.getClassroomOwnerById(classroom.getClassroomId()).getId() == userId) {
+        } else if (classroomDaoImpl.getClassroomOwnerById(classroom.getClassroomId()).getId().equals(userId)) {
         } else {
             classroomDaoImpl.joinClassroomAsTeacher(code, userId);
             return classroomMapper.classroomToClassroomDTO(classroom);

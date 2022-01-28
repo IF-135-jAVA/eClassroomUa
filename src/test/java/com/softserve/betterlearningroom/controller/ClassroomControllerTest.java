@@ -67,7 +67,7 @@ class ClassroomControllerTest {
 
     @Test
     void testGetClassroomTeachers() throws Exception {
-        List<UserDTO> expectedUsers = new ArrayList<UserDTO>();
+        List<UserDTO> expectedUsers = new ArrayList<>();
         expectedUsers.add(expectedUser());
 
         when(classroomServiceImpl.getClassroomTeachersById(1L)).thenReturn(expectedUsers);
@@ -79,7 +79,7 @@ class ClassroomControllerTest {
 
     @Test
     void testGetClassroomStudents() throws Exception {
-        List<UserDTO> expectedUsers = new ArrayList<UserDTO>();
+        List<UserDTO> expectedUsers = new ArrayList<>();
         expectedUsers.add(expectedUser());
 
         when(classroomServiceImpl.getClassroomStudentsById(1L)).thenReturn(expectedUsers);
@@ -91,7 +91,7 @@ class ClassroomControllerTest {
 
     @Test
     void testGetClassroomsByTeacher() throws Exception {
-        List<ClassroomDTO> expectedClassrooms = new ArrayList<ClassroomDTO>();
+        List<ClassroomDTO> expectedClassrooms = new ArrayList<>();
         expectedClassrooms.add(expectedClassroom());
 
         when(classroomServiceImpl.findAllClassroomsByTeacherId(1L)).thenReturn(expectedClassrooms);
@@ -104,7 +104,7 @@ class ClassroomControllerTest {
 
     @Test
     void testGetClassroomsByStudent() throws Exception {
-        List<ClassroomDTO> expectedClassrooms = new ArrayList<ClassroomDTO>();
+        List<ClassroomDTO> expectedClassrooms = new ArrayList<>();
         expectedClassrooms.add(expectedClassroom());
 
         when(classroomServiceImpl.findAllClassroomsByStudentId(1L)).thenReturn(expectedClassrooms);

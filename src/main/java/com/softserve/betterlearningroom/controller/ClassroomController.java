@@ -29,12 +29,12 @@ public class ClassroomController {
     }
 
     @GetMapping("/{classroomId}/teachers")
-    public ResponseEntity<List<UserDTO>> findClassroomTeachers(@PathVariable Long classroomId) {
+    public ResponseEntity<List<UserDTO>> findClassroomTeachersById(@PathVariable Long classroomId) {
         return ResponseEntity.ok().body(classroomServiceImpl.getClassroomTeachersById(classroomId));
     }
 
     @GetMapping("/{classroomId}/students")
-    public ResponseEntity<List<UserDTO>> findClassroomStudents(@PathVariable Long classroomId) {
+    public ResponseEntity<List<UserDTO>> findClassroomStudentsById(@PathVariable Long classroomId) {
         return ResponseEntity.ok().body(classroomServiceImpl.getClassroomStudentsById(classroomId));
     }
 
