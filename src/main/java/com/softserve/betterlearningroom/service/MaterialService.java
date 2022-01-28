@@ -1,30 +1,28 @@
 package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.dto.MaterialDTO;
-import com.softserve.betterlearningroom.entity.Material;
 import com.softserve.betterlearningroom.entity.MaterialType;
 
 import java.util.List;
 
 public interface MaterialService {
 
-    MaterialDTO getMaterialById(Long id);
+    MaterialDTO findMaterialById(Long id);
 
-    MaterialDTO getFirstMaterialByName(String name, Long classroomId);
+    MaterialDTO findFirstMaterialByNameAndClassroomId(String name, Long classroomId);
 
-    List<? extends MaterialDTO> getAllMaterialsByName(String name, Long classroomId);
+    List<? extends MaterialDTO> findAllMaterialsByNameAndClassroomId(String name, Long classroomId);
 
-    MaterialDTO addMaterial(MaterialDTO material, Long topicId);
+    MaterialDTO save(MaterialDTO material, Long topicId);
 
-    MaterialDTO updateMaterial(MaterialDTO material);
+    MaterialDTO update(MaterialDTO material);
 
-    void deleteMaterial(MaterialDTO material);
+    void delete(MaterialDTO material);
 
-    List<MaterialDTO> getMaterialsByClassroom(Long classroomId);
+    List<MaterialDTO> findAllMaterialsByClassroomId(Long classroomId);
 
-    List<MaterialDTO> getMaterialsByType(Long classroomId, MaterialType materialType);
+    List<MaterialDTO> findAllMaterialsByClassroomIdAndType(Long classroomId, MaterialType materialType);
 
-    List<MaterialDTO> getMaterialsByTopic(Long classroomId, Long topicId);
+    List<MaterialDTO> findAllMaterialsByClassroomIdAndTopicId(Long classroomId, Long topicId);
 
-    //TODO: getMaterialsByUser;
 }

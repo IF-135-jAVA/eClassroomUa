@@ -9,17 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class TopicDTO {
-    /**
-     * Topic identifier.
-     */
     private Long id;
-    /**
-     * Name of material.
-     */
     private String title;
-    /**
-     * List of classrooms.
-     */
     private Long classroomId;
-
 }

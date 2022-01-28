@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.dao.impl;
 
-import com.softserve.betterlearningroom.dao.TopicDao;
+import com.softserve.betterlearningroom.dao.TopicDAO;
 import com.softserve.betterlearningroom.entity.Topic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,12 +13,11 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
 @PropertySource(value = "classpath:/db/topic/topicQuery.properties")
-public class TopicDaoImpl implements TopicDao {
+public class TopicDAOImpl implements TopicDAO {
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -72,7 +71,6 @@ public class TopicDaoImpl implements TopicDao {
         SqlParameterSource parameterSource = new MapSqlParameterSource("topic_id", id);
         return jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
                 BeanPropertyRowMapper.newInstance(Topic.class));
-
     }
 
     @Override
@@ -81,7 +79,7 @@ public class TopicDaoImpl implements TopicDao {
     }
 
     @Override
-    public void removeById(Long id) {
+    public void delete(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("topic_id", id);
         jdbcTemplate.update(removeByIdQuery, parameterSource);
     }
@@ -89,10 +87,6 @@ public class TopicDaoImpl implements TopicDao {
     public List<Topic> findAllDeleted() {
         return jdbcTemplate.query(findAllDeletedQuery,
                 BeanPropertyRowMapper.newInstance(Topic.class));
-    }
-
-    public Optional<List<Topic>> findByTitle(String title) {
-        return Optional.of(jdbcTemplate.query(findByTitleQuery, BeanPropertyRowMapper.newInstance(Topic.class)));
     }
 
 }

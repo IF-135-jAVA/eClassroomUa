@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
-
     UserDAO userDao;
 
     @Override
@@ -22,5 +21,4 @@ public class CustomUserDetailsService implements UserDetailsService {
                 () -> new UsernameNotFoundException(String.format("User with email - %s, not found", email)));
         return UserPrincipal.create(user);
     }
-
 }

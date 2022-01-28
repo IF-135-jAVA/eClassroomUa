@@ -20,34 +20,19 @@ import java.util.List;
 @ToString
 @EqualsAndHashCode
 public class MaterialDTO {
-
     private Long id;
-
     private MaterialType materialType;
-
     private String title;
-
     private String text;
-
     private List<Link> urls;
-
     private LocalDateTime startDate;
-
     private LocalDateTime dueDate;
-
     private List<Criterion> criterions;
-
     private List<User> students;
-
     private int maxScore;
-
     private String task;
-
     private String url;
-
     private Long topicId;
-
     private Long classroomId;
-
     private List<Question> questions;
 }

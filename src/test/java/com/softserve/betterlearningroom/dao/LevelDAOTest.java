@@ -1,32 +1,31 @@
-package com.softserve.betterlearningroom.dao.impl;
+package com.softserve.betterlearningroom.dao;
 
 import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
-import com.softserve.betterlearningroom.dao.LevelDao;
+import com.softserve.betterlearningroom.dao.impl.LevelDAOImpl;
 import com.softserve.betterlearningroom.entity.Level;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest(classes = {TestDBConfiguration.class, LevelDaoImpl.class})
-class LevelDaoImplTest {
-
+@SpringBootTest(classes = {TestDBConfiguration.class, LevelDAOImpl.class})
+class LevelDAOTest {
     private static final Long LEVEL_ID = 3L;
     private static final String TITLE = "Pythagorean theorem";
     private static final String DESCRIPTION = "Write example";
     private static final long CRITERION_ID = 3;
     private static final Integer MARK = 4;
 
-
     @Autowired
-    private LevelDao levelDao;
-
+    private LevelDAOImpl levelDao;
 
     @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     void testSaveAndGet() {
         Level levelForSave = Level.builder()
                 .levelId(LEVEL_ID)
@@ -60,8 +59,8 @@ class LevelDaoImplTest {
 
         List<Level> expectedlevels = levelDao.findAll();
 
-        assertEquals(4, expectedlevels.size());
-        Level expectedLevel = expectedlevels.stream().filter(level -> level.getCriterionId() == 3L).findFirst().orElse(null);
+        assertEquals(3, expectedlevels.size());
+        Level expectedLevel = expectedlevels.stream().filter(level -> level.getLevelId() == 4L).findFirst().orElse(null);
         assertNotNull(expectedLevel);
         assertEquals(TITLE, expectedLevel.getTitle());
         assertEquals(DESCRIPTION, expectedLevel.getDescription());
@@ -72,7 +71,7 @@ class LevelDaoImplTest {
     @Test
     void testUpdate() {
         Level levelForSave = Level.builder()
-                .levelId(3L)
+                .levelId(4L)
                 .criterionId(4L)
                 .title("test title")
                 .description("test description")
@@ -81,11 +80,10 @@ class LevelDaoImplTest {
 
         levelDao.update(levelForSave);
 
-        Level updatedLevel = levelDao.findById(3L);
+        Level updatedLevel = levelDao.findById(4L);
         assertNotNull(updatedLevel);
         assertEquals("test title", updatedLevel.getTitle());
         assertEquals("test description", updatedLevel.getDescription());
         assertEquals(4, updatedLevel.getCriterionId());
     }
-
 }
