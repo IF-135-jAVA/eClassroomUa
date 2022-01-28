@@ -18,42 +18,31 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public TopicDTO findById(Long id) {
-
         return TopicMapper.toDTO(topicDaoImpl.findById(id));
     }
 
     @Override
-    public void removeById(Long id) {
-
-        topicDaoImpl.removeById(id);
+    public void delete(Long id) {
+        topicDaoImpl.delete(id);
     }
 
     @Override
     public List<TopicDTO> findAll() {
-
         return topicDaoImpl.findAll().stream().map(TopicMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
     public TopicDTO save(TopicDTO topicDTO) {
-
         return TopicMapper.toDTO(topicDaoImpl.save(TopicMapper.toEntity(topicDTO)));
     }
 
     @Override
     public TopicDTO update(TopicDTO topicDTO) {
-
         return TopicMapper.toDTO(topicDaoImpl.update(TopicMapper.toEntity(topicDTO)));
     }
 
     @Override
     public List<TopicDTO> findAllByClassroomId(Long classroomId){
         return topicDaoImpl.findAllByClassroomId(classroomId).stream().map(TopicMapper::toDTO).collect(Collectors.toList());
-
     }
-
-
-
-
-
 }

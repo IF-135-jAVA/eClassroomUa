@@ -25,6 +25,7 @@ import java.util.Optional;
 @Slf4j
 public class UserDAOImpl implements UserDAO {
 
+    private static final String EMAIL = "email";
     private final NamedParameterJdbcTemplate template;
     private final RowMapper<User> rowMapper;
 
@@ -62,7 +63,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public Optional<User> findByEmail(String email) {
-        SqlParameterSource param = new MapSqlParameterSource("email", email);
+        SqlParameterSource param = new MapSqlParameterSource(EMAIL, email);
         User user = null;
         try {
             user = template.queryForObject(findByEmail, param, rowMapper);
@@ -79,7 +80,7 @@ public class UserDAOImpl implements UserDAO {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         params.addValue("firstname", user.getFirstName()).addValue("lastname", user.getLastName())
-                .addValue("email", user.getEmail()).addValue("password", user.getPassword())
+                .addValue(EMAIL, user.getEmail()).addValue("password", user.getPassword())
                 .addValue("enabled", user.isEnabled()).addValue("provider", user.getProvider())
                 .addValue("provider_id", user.getProviderId());
 
@@ -97,7 +98,7 @@ public class UserDAOImpl implements UserDAO {
         MapSqlParameterSource params = new MapSqlParameterSource();
 
         params.addValue("firstname", user.getFirstName()).addValue("lastname", user.getLastName())
-                .addValue("email", user.getEmail()).addValue("password", user.getPassword())
+                .addValue(EMAIL, user.getEmail()).addValue("password", user.getPassword())
                 .addValue("enabled", user.isEnabled()).addValue("id", user.getId());
 
         template.update(update, params);

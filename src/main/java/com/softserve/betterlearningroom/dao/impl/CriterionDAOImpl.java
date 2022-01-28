@@ -13,12 +13,13 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
 @PropertySource(value = "classpath:db/criterion/criterionQuery.properties")
 public class CriterionDAOImpl implements CriterionDAO {
+
+    private static final String CRITERION_ID = "criterion_id";
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -45,11 +46,10 @@ public class CriterionDAOImpl implements CriterionDAO {
     private String findByTitleQuery;
 
     @Override
-
     public Criterion save(Criterion criterion) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource
-                .addValue("criterion_id", criterion.getCriterionId())
+                .addValue(CRITERION_ID, criterion.getCriterionId())
                 .addValue("material_id", criterion.getMaterialId())
                 .addValue("title", criterion.getTitle())
                 .addValue("description", criterion.getDescription());
@@ -68,33 +68,24 @@ public class CriterionDAOImpl implements CriterionDAO {
     public List<Criterion> findAll() {
         return jdbcTemplate.query(findAllQuery,
                 BeanPropertyRowMapper.newInstance(Criterion.class));
-
-
-    }
-
-    @Override
-    public List<Criterion> findAllByMaterialId(Long materialId){
-        return findAll().stream().filter(criterion ->criterion.getMaterialId().equals(materialId)).collect(Collectors.toList());
     }
 
     @Override
     public Criterion findById(Long id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("criterion_id", id);
+        SqlParameterSource parameterSource = new MapSqlParameterSource(CRITERION_ID, id);
         return jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
                 BeanPropertyRowMapper.newInstance(Criterion.class));
 
     }
 
     @Override
-    public void removeById(Long id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("criterion_id", id);
+    public List<Criterion> findAllByMaterialId(Long materialId){
+       return findAll().stream().filter(criterion ->criterion.getMaterialId().equals(materialId)).collect(Collectors.toList());
+    }
+
+    @Override
+    public void delete(Long id) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource(CRITERION_ID, id);
         jdbcTemplate.update(removeByIdQuery, parameterSource);
     }
-
-
-    public Optional<List<Criterion>> findByTitle(String title) {
-        return Optional.of(jdbcTemplate.query(findByTitleQuery,
-                BeanPropertyRowMapper.newInstance(Criterion.class)));
-    }
-
 }

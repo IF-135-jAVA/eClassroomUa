@@ -1,9 +1,11 @@
-package com.softserve.betterlearningroom.service.impl;
+package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.dao.impl.TopicDAOImpl;
 import com.softserve.betterlearningroom.dto.TopicDTO;
 import com.softserve.betterlearningroom.entity.Topic;
 import com.softserve.betterlearningroom.mapper.TopicMapper;
+import com.softserve.betterlearningroom.service.impl.TopicServiceImpl;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -71,8 +73,6 @@ class TopicServiceImplTest {
         assertEquals("Mathematics", expectedTopic.getTitle());
         System.out.println(expectedTopic);
         assertEquals(2, expectedTopic.getClassroomId());
-
-
     }
 
     @Test
@@ -98,6 +98,4 @@ class TopicServiceImplTest {
         assertEquals("Mathematics", expectedTopic.getTitle());
         assertEquals(2, expectedTopic.getClassroomId());
     }
-
-
 }

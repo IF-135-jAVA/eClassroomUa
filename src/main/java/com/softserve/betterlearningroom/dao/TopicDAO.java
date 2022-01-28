@@ -14,12 +14,7 @@ public interface TopicDAO {
 
     Topic findById(Long id);
 
-    void removeById(Long id);
+    void delete(Long id);
 
     List<Topic> findAllByClassroomId(Long classroomId);
-
-
-
-
-
 }

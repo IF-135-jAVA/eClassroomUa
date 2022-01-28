@@ -22,7 +22,9 @@ public enum Permissions {
 	CRITERION_READ("criterion:read"),
 	CRITERION_WRITE("criterion:write"),
 	LEVEL_READ("level:read"),
-	LEVEL_WRITE("level:write");
-	
+	LEVEL_WRITE("level:write"),
+	ANNOUNCEMENT_READ("announcement:read"),
+	ANNOUNCEMENT_WRITE("announcement:write");
+
 	private final String permission;
 }

@@ -1,6 +1,6 @@
 package com.softserve.betterlearningroom.service.impl;
 
-import com.softserve.betterlearningroom.dao.MaterialDao;
+import com.softserve.betterlearningroom.dao.MaterialDAO;
 import com.softserve.betterlearningroom.dto.MaterialDTO;
 import com.softserve.betterlearningroom.entity.MaterialType;
 import com.softserve.betterlearningroom.mapper.MaterialMapper;
@@ -11,64 +11,62 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO: Exception handle
 @Service
 @AllArgsConstructor
 public class MaterialServiceImpl implements MaterialService {
-
-    private final MaterialDao materialDao;
+    private final MaterialDAO materialDao;
     private final MaterialMapper materialMapper;
 
     @Override
-    public MaterialDTO getMaterialById(Long id) {
-        return materialMapper.materialToMaterialDTO(materialDao.readById(id));
+    public MaterialDTO findMaterialById(Long id) {
+        return materialMapper.materialToMaterialDTO(materialDao.findById(id));
     }
 
     @Override
-    public MaterialDTO getFirstMaterialByName(String name, Long classroomId) {
-        return materialMapper.materialToMaterialDTO(materialDao.readAllByName(classroomId, name).stream().findFirst().orElse(null));
+    public MaterialDTO findFirstMaterialByNameAndClassroomId(String name, Long classroomId) {
+        return materialMapper.materialToMaterialDTO(materialDao.findAllByClassroomIdAndName(classroomId, name).stream().findFirst().orElse(null));
     }
 
     @Override
-    public List<MaterialDTO> getAllMaterialsByName(String name, Long classroomId) {
+    public List<MaterialDTO> findAllMaterialsByNameAndClassroomId(String name, Long classroomId) {
         List<MaterialDTO> materials = new ArrayList<>();
-        materialDao.readAllByName(classroomId, name).forEach(m -> materials.add(materialMapper.materialToMaterialDTO(m)));
+        materialDao.findAllByClassroomIdAndName(classroomId, name).forEach(m -> materials.add(materialMapper.materialToMaterialDTO(m)));
         return materials;
     }
 
     @Override
-    public List<MaterialDTO> getMaterialsByClassroom(Long classroomId) {
+    public List<MaterialDTO> findAllMaterialsByClassroomId(Long classroomId) {
         List<MaterialDTO> materials = new ArrayList<>();
-        materialDao.readAllByClassroom(classroomId).forEach(m -> materials.add(materialMapper.materialToMaterialDTO(m)));
+        materialDao.findAllByClassroomId(classroomId).forEach(m -> materials.add(materialMapper.materialToMaterialDTO(m)));
         return materials;
     }
 
     @Override
-    public List<MaterialDTO> getMaterialsByType(Long classroomId, MaterialType materialType) {
+    public List<MaterialDTO> findAllMaterialsByClassroomIdAndType(Long classroomId, MaterialType materialType) {
         List<MaterialDTO> materials = new ArrayList<>();
-        materialDao.readAllByType(classroomId, materialType).forEach(m -> materials.add(materialMapper.materialToMaterialDTO(m)));
+        materialDao.findAllByClassroomIdAndType(classroomId, materialType).forEach(m -> materials.add(materialMapper.materialToMaterialDTO(m)));
         return materials;
     }
 
     @Override
-    public List<MaterialDTO> getMaterialsByTopic(Long classroomId, Long topicId) {
+    public List<MaterialDTO> findAllMaterialsByClassroomIdAndTopicId(Long classroomId, Long topicId) {
         List<MaterialDTO> materials = new ArrayList<>();
-        materialDao.readAllByTopic(classroomId, topicId).forEach(m -> materials.add(materialMapper.materialToMaterialDTO(m)));
+        materialDao.findAllByClassroomIdAndTopicId(classroomId, topicId).forEach(m -> materials.add(materialMapper.materialToMaterialDTO(m)));
         return materials;
     }
 
     @Override
-    public MaterialDTO addMaterial(MaterialDTO material, Long topicId) {
-        return materialMapper.materialToMaterialDTO(materialDao.create(materialMapper.materialDTOToMaterial(material), topicId));
+    public MaterialDTO save(MaterialDTO material, Long topicId) {
+        return materialMapper.materialToMaterialDTO(materialDao.save(materialMapper.materialDTOToMaterial(material), topicId));
     }
 
     @Override
-    public MaterialDTO updateMaterial(MaterialDTO material) {
+    public MaterialDTO update(MaterialDTO material) {
         return materialMapper.materialToMaterialDTO(materialDao.update(materialMapper.materialDTOToMaterial(material)));
     }
 
     @Override
-    public void deleteMaterial(MaterialDTO material) {
-        materialDao.delete(materialMapper.materialDTOToMaterial(material));
+    public void delete(MaterialDTO material) {
+        materialDao.delete(material.getId());
     }
 }

@@ -1,9 +1,11 @@
-package com.softserve.betterlearningroom.service.impl;
+package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.dao.impl.CriterionDAOImpl;
 import com.softserve.betterlearningroom.dto.CriterionDTO;
 import com.softserve.betterlearningroom.entity.Criterion;
 import com.softserve.betterlearningroom.mapper.CriterionMapper;
+import com.softserve.betterlearningroom.service.impl.CriterionServiceImpl;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -74,8 +76,6 @@ class CriterionServiceTest {
         assertEquals("Using formula", expectedCriterion.getTitle());
         assertEquals("Using wright formula", expectedCriterion.getDescription());
         assertEquals(2, expectedCriterion.getMaterialId());
-
-        //verify(CriterionMapper.toEntity(eq(expectedCriterionDTO)));
     }
 
     @Test
@@ -102,6 +102,4 @@ class CriterionServiceTest {
         assertEquals("Using wright formula", expectedCriterion.getDescription());
         assertEquals(2, expectedCriterion.getMaterialId());
     }
-
-
 }

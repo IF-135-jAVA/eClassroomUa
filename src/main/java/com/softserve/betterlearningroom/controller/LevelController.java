@@ -20,73 +20,46 @@ public class LevelController {
     @Autowired
     private LevelServiceImpl levelServiceImpl;
 
-    /**
-     * get all exist level
-     */
     @GetMapping
-    public ResponseEntity<List<LevelDTO>> getAll() {
+    public ResponseEntity<List<LevelDTO>> findAll() {
         List<LevelDTO> level = levelServiceImpl.findAll();
         return ResponseEntity.ok().body(level);
     }
 
-    /**
-     * get all exist level by criterion id
-     */
     @GetMapping("/byCriterionId/{byCriterionId}")
-    public ResponseEntity<List<LevelDTO>> getAllByCriterionId(@PathVariable(value = "byCriterionId" ) final Long criterionId) {
+    public ResponseEntity<List<LevelDTO>> findAllByCriterionId(@PathVariable(value = "byCriterionId" ) final Long criterionId) {
         List<LevelDTO> level = levelServiceImpl.findAllByCriterionId(criterionId);
         return ResponseEntity.ok().body(level);
     }
 
-    /**
-     * get deleted levels
-     */
     @GetMapping("/deleted/{deleted}") //fix path
-    public ResponseEntity<List<LevelDTO>> getAllDeleted() {
+    public ResponseEntity<List<LevelDTO>> findAllDeleted() {
         List<LevelDTO> level = levelServiceImpl.findAllDeleted();
         return ResponseEntity.ok().body(level);
     }
 
-    /**
-     * get level by id
-     */
-    // @ApiOperation("Find level by id")
     @GetMapping("/{id}")
-    public ResponseEntity<LevelDTO> getById(@PathVariable(value = "id") final Long levelId) {
+    public ResponseEntity<LevelDTO> findById(@PathVariable(value = "id") final Long levelId) {
         LevelDTO levelDTO = levelServiceImpl.findById(levelId);
         return ResponseEntity.ok().body(levelDTO);
     }
 
-    /**
-     * create level
-     */
-    // @ApiOperation("Create level")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<LevelDTO> createLevel(@Valid @RequestBody LevelDTO levelDTO) {
-
+    public ResponseEntity<LevelDTO> save(@Valid @RequestBody LevelDTO levelDTO) {
         return new ResponseEntity<>(levelServiceImpl.save(levelDTO), HttpStatus.CREATED);
     }
-
-    /**
-     * update table by id
-     */
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> update(@RequestBody final LevelDTO levelDTO) {
-
         return new ResponseEntity<>(levelServiceImpl.update(levelDTO), HttpStatus.ACCEPTED);
     }
 
-    /**
-     * delete by id
-     */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable final Long id) {
 
-        levelServiceImpl.removeById(id);
+        levelServiceImpl.delete(id);
     }
-
 }

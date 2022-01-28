@@ -14,7 +14,7 @@ public interface LevelDAO {
 
     Level findById(Long id);
 
-    void removeById(Long id);
+    void delete(Long id);
 
     List<Level> findAllByCriterionId(Long criterionId);
 

@@ -13,50 +13,41 @@ import java.util.stream.Collectors;
 @Service
 public class LevelServiceImpl implements LevelService {
 
-
     @Autowired
     private LevelDAOImpl levelDaoImpl;
 
     @Override
     public LevelDTO findById(Long id) {
-
         return LevelMapper.toDTO(levelDaoImpl.findById(id));
     }
 
     @Override
-    public void removeById(Long id) {
+    public void delete(Long id) {
 
-        levelDaoImpl.removeById(id);
+        levelDaoImpl.delete(id);
     }
 
     @Override
     public List<LevelDTO> findAll() {
-
         return levelDaoImpl.findAll().stream().map(LevelMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<LevelDTO> findAllByCriterionId(Long criterionId) {
-
         return levelDaoImpl.findAllByCriterionId(criterionId).stream().map(LevelMapper::toDTO).collect(Collectors.toList());
     }
 
     public List<LevelDTO> findAllDeleted() {
-
         return levelDaoImpl.findAllDeleted().stream().map(LevelMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
     public LevelDTO save(LevelDTO levelDTO) {
-
         return LevelMapper.toDTO(levelDaoImpl.save(LevelMapper.toEntity(levelDTO)));
     }
 
     @Override
     public LevelDTO update(LevelDTO levelDTO) {
-
         return LevelMapper.toDTO(levelDaoImpl.update(LevelMapper.toEntity(levelDTO)));
     }
-
-
 }

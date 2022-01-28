@@ -22,33 +22,32 @@ import java.util.List;
 @RequestMapping("/api/assignments/{userAssignmentId}/answers")
 @AllArgsConstructor
 public class AnswerController {
-
     private AnswerService answerService;
 
     @PostMapping
-    public ResponseEntity<AnswerDTO> create(@RequestBody AnswerDTO answerDTO, @PathVariable long userAssignmentId) {
+    public ResponseEntity<AnswerDTO> save(@RequestBody AnswerDTO answerDTO, @PathVariable long userAssignmentId) {
         answerDTO.setUserAssignmentId(userAssignmentId);
-        return new ResponseEntity<>(answerService.create(answerDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(answerService.save(answerDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<AnswerDTO> readById(@PathVariable long id) {
-        return ResponseEntity.ok(answerService.readById(id));
+    public ResponseEntity<AnswerDTO> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(answerService.findById(id));
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<AnswerDTO> update(@PathVariable long id, @RequestBody AnswerDTO answerDTO) {
+    public ResponseEntity<AnswerDTO> update(@PathVariable Long id, @RequestBody AnswerDTO answerDTO) {
         return ResponseEntity.ok(answerService.update(answerDTO, id));
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<AnswerDTO> delete(@PathVariable long id) {
+    public ResponseEntity<AnswerDTO> delete(@PathVariable Long id) {
         answerService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
-    public ResponseEntity<List<AnswerDTO>> getByUserAssignment(@PathVariable long userAssignmentId) {
-        return ResponseEntity.ok(answerService.getByUserAssignment(userAssignmentId));
+    @GetMapping("user_assignment")
+    public ResponseEntity<List<AnswerDTO>> findByUserAssignment(@PathVariable Long userAssignmentId) {
+        return ResponseEntity.ok(answerService.findByUserAssignmentId(userAssignmentId));
     }
 }

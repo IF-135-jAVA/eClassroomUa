@@ -1,9 +1,11 @@
-package com.softserve.betterlearningroom.service.impl;
+package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.dao.impl.LevelDAOImpl;
 import com.softserve.betterlearningroom.dto.LevelDTO;
 import com.softserve.betterlearningroom.entity.Level;
 import com.softserve.betterlearningroom.mapper.LevelMapper;
+import com.softserve.betterlearningroom.service.impl.LevelServiceImpl;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -78,8 +80,6 @@ class LevelServiceImplTest {
         assertEquals("Write example", expectedLevel.getDescription());
         assertEquals(2, expectedLevel.getCriterionId());
         assertEquals(5, expectedLevel.getMark());
-
-        //verify(LevelMapper.toEntity(eq(expectedLevelDTO)));
     }
 
     @Test
@@ -107,6 +107,4 @@ class LevelServiceImplTest {
         assertEquals(2, expectedLevel.getCriterionId());
         assertEquals(5, expectedLevel.getMark());
     }
-
-
 }

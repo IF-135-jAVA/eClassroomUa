@@ -13,7 +13,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -68,20 +67,19 @@ public class TopicDAOImpl implements TopicDAO {
     }
 
     @Override
+    public Topic findById(Long id) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource("topic_id", id);
+        return jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
+                BeanPropertyRowMapper.newInstance(Topic.class));
+    }
+
+    @Override
     public List<Topic> findAllByClassroomId(Long classroomId) {
         return findAll().stream().filter(topic -> topic.getClassroomId().equals(classroomId)).collect(Collectors.toList());
     }
 
     @Override
-    public Topic findById(Long id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource("topic_id", id);
-        return jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
-                BeanPropertyRowMapper.newInstance(Topic.class));
-
-    }
-
-    @Override
-    public void removeById(Long id) {
+    public void delete(Long id) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("topic_id", id);
         jdbcTemplate.update(removeByIdQuery, parameterSource);
     }
@@ -89,10 +87,6 @@ public class TopicDAOImpl implements TopicDAO {
     public List<Topic> findAllDeleted() {
         return jdbcTemplate.query(findAllDeletedQuery,
                 BeanPropertyRowMapper.newInstance(Topic.class));
-    }
-
-    public Optional<List<Topic>> findByTitle(String title) {
-        return Optional.of(jdbcTemplate.query(findByTitleQuery, BeanPropertyRowMapper.newInstance(Topic.class)));
     }
 
 }

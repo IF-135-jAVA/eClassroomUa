@@ -8,7 +8,7 @@ public interface CriterionServise {
 
      CriterionDTO findById(Long id);
 
-     void removeById(Long id);
+     void delete(Long id);
 
     List<CriterionDTO> findAll();
 
