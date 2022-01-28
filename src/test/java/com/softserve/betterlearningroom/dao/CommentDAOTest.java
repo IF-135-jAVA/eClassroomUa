@@ -41,6 +41,30 @@ class CommentDAOTest {
         assertEquals(2, commentDAO.findByAuthorId(2L).get(1).getId());
     }
 
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    @Test
+    @Order(4)
+    void readByAnnouncementIdCommentTest() {
+        commentDAO.save(prepareCommentDTO());
+        assertEquals(5, commentDAO.findByAnnouncementId(3L).get(1).getId());
+    }
+
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    @Test
+    @Order(5)
+    void readByMaterialIdCommentTest() {
+        commentDAO.save(prepareCommentDTO());
+        assertEquals(5, commentDAO.findByMaterialId(2L).get(1).getId());
+    }
+
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    @Test
+    @Order(6)
+    void readByUserAssignmentIdCommentTest() {
+        commentDAO.save(prepareCommentDTO());
+        assertEquals(4, commentDAO.findByUserAssignmentId(2L).get(1).getId());
+    }
+
     @Test
     @Order(2)
     void createCommentTest() {
@@ -55,7 +79,7 @@ class CommentDAOTest {
     }
 
     @Test
-    @Order(4)
+    @Order(7)
     void updateCommentTest() {
         Comment comment = prepareCommentDTO();
         comment.setId(2);
@@ -64,7 +88,7 @@ class CommentDAOTest {
     }
 
     @Test
-    @Order(5)
+    @Order(8)
     void deleteCommentTest() {
         commentDAO.delete(3L);
     }
