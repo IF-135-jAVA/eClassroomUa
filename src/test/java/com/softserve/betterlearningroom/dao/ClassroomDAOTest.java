@@ -102,6 +102,7 @@ class ClassroomDAOTest {
 
     private User prepareUserDTO() {
         return User.builder()
+                .id(1L)
                 .firstName("Yurii")
                 .lastName("Cheban")
                 .email("yuriicheban@gmail.com")
