@@ -75,7 +75,7 @@ public class ClassroomServiceImpl implements ClassroomService {
     public ClassroomDTO joinClassroomAsTeacher(String code, Long userId) {
         Classroom classroom = classroomDaoImpl.findByCode(code);
         if (classroomDaoImpl.getAllStudentsById(classroom.getClassroomId()).stream().anyMatch(user -> user.getId().equals(userId))) {
-            
+
         } else if (classroomDaoImpl.getAllTeachersById(classroom.getClassroomId()).stream().anyMatch(user -> user.getId().equals(userId))) {
         } else if (classroomDaoImpl.getClassroomOwnerById(classroom.getClassroomId()).getId().equals(userId)) {
         } else {
