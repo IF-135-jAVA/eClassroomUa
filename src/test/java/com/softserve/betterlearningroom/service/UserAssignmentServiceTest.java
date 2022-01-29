@@ -31,25 +31,26 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class UserAssignmentServiceTest {
-    private static final long ID_1 = 1;
-    private static final long MATERIAL_ID = 1;
-    private static final long USER_ID_1 = 2;
-    private static final long ASSIGNMENT_STATUS_ID_1 = 1;
+class UserAssignmentServiceTest {
+
+    private static final Long ID_1 = 1L;
+    private static final Long MATERIAL_ID = 1L;
+    private static final Long USER_ID_1 = 2L;
+    private static final Long ASSIGNMENT_STATUS_ID_1 = 1L;
     private static final LocalDateTime SUBMISSION_DATE_1 = null;
     private static final int GRADE_1 = 0;
     private static final String FEEDBACK_1 = null;
     private static final boolean ENABLED = true;
-    private static final long ID_2 = 2;
-    private static final long USER_ID_2 = 3;
-    private static final long ASSIGNMENT_STATUS_ID_2 = 3;
+    private static final Long ID_2 = 2L;
+    private static final Long USER_ID_2 = 3L;
+    private static final Long ASSIGNMENT_STATUS_ID_2 = 3L;
     private static final LocalDateTime SUBMISSION_DATE_2 = LocalDateTime.now().minusDays(2);
     private static final int GRADE_2 = 9;
     private static final String FEEDBACK_2 = "Almost good";
     private static final LocalDateTime DUE_DATE_1 = LocalDateTime.now().plusDays(1);
     private static final LocalDateTime DUE_DATE_2 = LocalDateTime.now().minusDays(3);
-    private static final long ANSWER_ID_1 = 1;
-    private static final long ANSWER_ID_2 = 2;
+    private static final Long ANSWER_ID_1 = 1L;
+    private static final Long ANSWER_ID_2 = 2L;
     private static final String EXCEPTION_MESSAGE = "Due date for assignment with id - " + MATERIAL_ID + " has passed. Due date is " + DUE_DATE_2 + ".";
 
     private UserAssignment userAssignment1;
@@ -78,7 +79,7 @@ public class UserAssignmentServiceTest {
     private UserAssignmentServiceImpl userAssignmentService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         userAssignment1 = new UserAssignment(ID_1, MATERIAL_ID, USER_ID_1, ASSIGNMENT_STATUS_ID_1, SUBMISSION_DATE_1, GRADE_1, FEEDBACK_1, ENABLED);
         userAssignment1Updated = new UserAssignment(ID_1, MATERIAL_ID, USER_ID_1, ASSIGNMENT_STATUS_ID_2, SUBMISSION_DATE_1, GRADE_2, FEEDBACK_2, ENABLED);
         userAssignment2 = new UserAssignment(ID_2, MATERIAL_ID, USER_ID_2, ASSIGNMENT_STATUS_ID_2, SUBMISSION_DATE_2, GRADE_2, FEEDBACK_2, ENABLED);
@@ -93,7 +94,7 @@ public class UserAssignmentServiceTest {
     }
 
     @Test
-    public void testCreate() {
+    void testSave() {
         when(userAssignmentDao.save(userAssignment1)).thenReturn(userAssignment1);
         when(materialDao.findById(MATERIAL_ID)).thenReturn(material);
 
@@ -105,7 +106,7 @@ public class UserAssignmentServiceTest {
     }
 
     @Test
-    public void testCreateThrowsSubmissionNotAllowedException() {
+    void testSaveThrowsSubmissionNotAllowedException() {
         when(materialDao.findById(MATERIAL_ID)).thenReturn(material);
         material.setDueDate(DUE_DATE_2);
 
@@ -117,7 +118,7 @@ public class UserAssignmentServiceTest {
     }
 
     @Test
-    public void testReadById() {
+    void testFindById() {
         when(userAssignmentDao.findById(ID_2)).thenReturn(userAssignment2);
 
         UserAssignmentDTO actual = userAssignmentService.findById(ID_2);
@@ -127,7 +128,7 @@ public class UserAssignmentServiceTest {
     }
 
     @Test
-    public void testUpdate() {
+    void testUpdate() {
         when(userAssignmentDao.update(userAssignment1Updated)).thenReturn(userAssignment1Updated);
         when(userAssignmentDao.findById(ID_1)).thenReturn(userAssignment1);
 
@@ -139,7 +140,7 @@ public class UserAssignmentServiceTest {
     }
 
     @Test
-    public void testDelete() {
+    void testDelete() {
         List<Answer> answers = Arrays.asList(answer1, answer2);
         when(answerDao.findByUserAssignmentId(ID_2)).thenReturn(answers);
 
@@ -151,10 +152,10 @@ public class UserAssignmentServiceTest {
     }
 
     @Test
-    public void testGetByAssignment() {
+    void testFindByAssignmentId() {
         when(userAssignmentDao.findByAssignmentId(MATERIAL_ID)).thenReturn(Arrays.asList(userAssignment1, userAssignment2));
 
-        List<UserAssignmentDTO> actual = userAssignmentService.findAllByAssignmentId(MATERIAL_ID);
+        List<UserAssignmentDTO> actual = userAssignmentService.findByAssignmentId(MATERIAL_ID);
 
         verify(userAssignmentDao).findByAssignmentId(anyLong());
         assertEquals(Arrays.asList(userAssignmentDTO1, userAssignmentDTO2), actual);
