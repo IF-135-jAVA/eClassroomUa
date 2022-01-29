@@ -33,7 +33,10 @@ class TopicControllerTest {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     private TopicDTO testTopic() {
-        return TopicDTO.builder().id(1L).classroomId(2L).title("Mathematics").build();
+        return TopicDTO.builder()
+                .id(1L).classroomId(2L)
+                .title("Mathematics")
+                .build();
     }
 
     @Test

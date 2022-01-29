@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MaterialMapper {
 
-    public MaterialDTO materialToMaterialDTO(Material material) {
+    public static MaterialDTO materialToMaterialDTO(Material material) {
         MaterialDTO materialDTO = new MaterialDTO();
         materialDTO.setCriterions(material.getCriterions());
         materialDTO.setDueDate(material.getDueDate());
@@ -26,7 +26,7 @@ public class MaterialMapper {
         return materialDTO;
     }
 
-    public Material materialDTOToMaterial(MaterialDTO materialDTO) {
+    public static Material materialDTOToMaterial(MaterialDTO materialDTO) {
         Material material = new Material();
         material.setCriterions(materialDTO.getCriterions());
         material.setDueDate(materialDTO.getDueDate());
