@@ -17,6 +17,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 @PropertySource(value = "classpath:/db/comments/comment_queries.properties")
@@ -69,7 +70,7 @@ public class CommentDAOImpl implements CommentDAO {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(comment);
         namedParameterJdbcTemplate.update(saveComments, parameterSource, keyHolder, new String[]{"id"});
-        return findById(keyHolder.getKey().longValue());
+        return findById(Objects.requireNonNull(keyHolder.getKey()).longValue());
     }
 
     @Override

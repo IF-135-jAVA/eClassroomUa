@@ -17,6 +17,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @Repository
@@ -67,7 +68,7 @@ public class AnnouncementDAOImpl implements AnnouncementDAO {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(announcement);
         namedParameterJdbcTemplate.update(save, parameterSource, keyHolder, new String[]{"id"});
-        return findById(keyHolder.getKey().longValue());
+        return findById(Objects.requireNonNull(keyHolder.getKey()).longValue());
     }
 
     @Override
