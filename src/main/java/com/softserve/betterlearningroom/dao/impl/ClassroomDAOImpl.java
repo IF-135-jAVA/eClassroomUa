@@ -106,8 +106,8 @@ public class ClassroomDAOImpl implements ClassroomDAO {
     public Classroom joinClassroomAsStudent(String code, Long userId) {
         Classroom classroom = findByCode(code);
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue(CLASSROOM_ID, classroom.getClassroomId());
         parameterSource.addValue(USER_ID, userId);
+        parameterSource.addValue(CLASSROOM_ID, classroom.getClassroomId());
         jdbcParameterTemplate.update(joinClassroomAsStudent, parameterSource);
         return classroom;
     }
@@ -116,8 +116,8 @@ public class ClassroomDAOImpl implements ClassroomDAO {
     public Classroom joinClassroomAsTeacher(String code, Long userId) {
         Classroom classroom = findByCode(code);
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-        parameterSource.addValue(CLASSROOM_ID, classroom.getClassroomId());
         parameterSource.addValue(USER_ID, userId);
+        parameterSource.addValue(CLASSROOM_ID, classroom.getClassroomId());
         jdbcParameterTemplate.update(joinClassroomAsTeacher, parameterSource);
         return classroom;
     }

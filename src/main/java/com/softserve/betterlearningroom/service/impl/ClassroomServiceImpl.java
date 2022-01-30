@@ -62,27 +62,14 @@ public class ClassroomServiceImpl implements ClassroomService {
 
     public ClassroomDTO joinClassroomAsStudent(String code, Long userId) {
         Classroom classroom = classroomDaoImpl.findByCode(code);
-        if (classroomDaoImpl.getAllTeachersById(classroom.getClassroomId()).stream().anyMatch(user -> user.getId().equals(userId))) {
-        } else if (classroomDaoImpl.getAllStudentsById(classroom.getClassroomId()).stream().anyMatch(user -> user.getId().equals(userId))) {
-        } else if (classroomDaoImpl.getClassroomOwnerById(classroom.getClassroomId()).getId().equals(userId)) {
-        } else {
             classroomDaoImpl.joinClassroomAsStudent(code, userId);
             return classroomMapper.classroomToClassroomDTO(classroom);
-        }
-        return null;
     }
 
     public ClassroomDTO joinClassroomAsTeacher(String code, Long userId) {
         Classroom classroom = classroomDaoImpl.findByCode(code);
-        if (classroomDaoImpl.getAllStudentsById(classroom.getClassroomId()).stream().anyMatch(user -> user.getId().equals(userId))) {
-            
-        } else if (classroomDaoImpl.getAllTeachersById(classroom.getClassroomId()).stream().anyMatch(user -> user.getId().equals(userId))) {
-        } else if (classroomDaoImpl.getClassroomOwnerById(classroom.getClassroomId()).getId().equals(userId)) {
-        } else {
             classroomDaoImpl.joinClassroomAsTeacher(code, userId);
             return classroomMapper.classroomToClassroomDTO(classroom);
-        }
-        return null;
     }
 
     public void delete(Long classroomId) {
