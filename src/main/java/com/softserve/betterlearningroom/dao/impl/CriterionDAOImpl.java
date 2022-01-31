@@ -49,7 +49,7 @@ public class CriterionDAOImpl implements CriterionDAO {
     public Criterion save(Criterion criterion) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource
-                .addValue(CRITERION_ID, criterion.getCriterionId())
+
                 .addValue("material_id", criterion.getMaterialId())
                 .addValue("title", criterion.getTitle())
                 .addValue("description", criterion.getDescription());
