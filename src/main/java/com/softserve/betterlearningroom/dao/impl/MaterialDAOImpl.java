@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @PropertySource("classpath:db/materials/materialQuery.properties")
 public class MaterialDAOImpl implements MaterialDAO {
 
-    private static final String MATERIALID2 = "materialid";
+    private static final String MATERIALID2 = "material_id";
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 

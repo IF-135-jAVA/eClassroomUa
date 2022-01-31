@@ -5,11 +5,7 @@ import com.softserve.betterlearningroom.entity.Link;
 import com.softserve.betterlearningroom.entity.MaterialType;
 import com.softserve.betterlearningroom.entity.Question;
 import com.softserve.betterlearningroom.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
+@Builder
 public class MaterialDTO {
     private Long id;
     private MaterialType materialType;

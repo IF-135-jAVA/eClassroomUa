@@ -33,7 +33,11 @@ class LevelControllerTest {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     private LevelDTO testLevel() {
-        return LevelDTO.builder().id(1L).title("Pythagorean theorem").description("Write example").criterionId(2L)
+        return LevelDTO.builder()
+                .id(1L)
+                .title("Pythagorean theorem")
+                .description("Write example")
+                .criterionId(2L)
                 .mark(5).build();
     }
 
