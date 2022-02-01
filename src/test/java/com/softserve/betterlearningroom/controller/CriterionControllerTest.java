@@ -35,7 +35,7 @@ class CriterionControllerTest {
 
     private CriterionDTO testCriterion() {
         return CriterionDTO.builder()
-                .id(1L).materialIdDTO(2L)
+                .id(1L).materialId(2L)
                 .title("Use formula")
                 .description("Using wright formula")
                 .build();

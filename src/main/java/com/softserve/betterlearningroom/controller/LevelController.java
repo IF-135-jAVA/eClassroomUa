@@ -32,7 +32,7 @@ public class LevelController {
         return ResponseEntity.ok().body(level);
     }
 
-    @GetMapping("/deleted/{deleted}") //fix path
+    @GetMapping("/deleted/{deleted}")
     public ResponseEntity<List<LevelDTO>> findAllDeleted() {
         List<LevelDTO> level = levelServiceImpl.findAllDeleted();
         return ResponseEntity.ok().body(level);

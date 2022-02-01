@@ -13,5 +13,5 @@ public class CriterionDTO {
     private Long id;
     private String title;
     private String description;
-    private Long materialIdDTO;
+    private Long materialId;
 }

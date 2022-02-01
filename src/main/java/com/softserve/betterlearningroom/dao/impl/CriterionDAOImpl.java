@@ -47,9 +47,11 @@ public class CriterionDAOImpl implements CriterionDAO {
 
     @Override
     public Criterion save(Criterion criterion) {
+        if(criterion.getCriterionId() == 0){
+            criterion.setCriterionId(null);
+        }
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource
-
                 .addValue("material_id", criterion.getMaterialId())
                 .addValue("title", criterion.getTitle())
                 .addValue("description", criterion.getDescription());
