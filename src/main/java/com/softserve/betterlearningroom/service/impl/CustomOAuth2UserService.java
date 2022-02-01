@@ -41,6 +41,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
     }
 
+    /**
+     * Performs an OAuth2 request then check if the user with retrieved email exists. If {@link UserDao} finds one then
+     * <code>updateExistingUser()</code> is called. Otherwise <code>registerNewUser()</code>.
+     * @param oAuth2UserRequest
+     * @param oAuth2User
+     * @exception OAuth2AuthenticationException when email not found from OAuth2 provider, or user is already registered with another provider.
+     * @return {@link OAuth2User}
+     */
     private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
         OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User.getAttributes());   
         if (!hasText(oAuth2UserInfo.getEmail())) {
@@ -63,6 +71,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return UserPrincipal.create(user, oAuth2User.getAttributes());
     }
 
+    /**
+     * Registers a new {@link User} when not found one in the database.
+     * @param oAuth2UserRequest current OAuth2 request
+     * @param oAuth2UserInfo User data obtained from current OAuth2 provider
+     * @return created {@link User}
+     */
     private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
         User user = new User();
 
@@ -76,6 +90,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return userDAO.save(user);
     }
 
+    /**
+     * Updates an existing {@link User} when found one in the database.
+     * @param existingUser {@link User}, that is already stored in the database with current OAuth2 provider
+     * @param oAuth2UserInfo    User data obtained from current OAuth2 provider
+     * @return updated {@link User}
+     */
     private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
         existingUser.setFirstName(oAuth2UserInfo.getFirstName());
         existingUser.setLastName(oAuth2UserInfo.getLastName());

@@ -34,7 +34,10 @@ class CriterionControllerTest {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     private CriterionDTO testCriterion() {
-        return CriterionDTO.builder().id(1L).materialIdDTO(2L).title("Use formula").description("Using wright formula")
+        return CriterionDTO.builder()
+                .id(1L).materialIdDTO(2L)
+                .title("Use formula")
+                .description("Using wright formula")
                 .build();
     }
 

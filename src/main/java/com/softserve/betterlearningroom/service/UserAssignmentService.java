@@ -1,18 +1,56 @@
 package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.dto.UserAssignmentDTO;
+import com.softserve.betterlearningroom.exception.SubmissionNotAllowedException;
+import org.springframework.dao.DataRetrievalFailureException;
 
 import java.util.List;
 
 public interface UserAssignmentService {
 
+    /**
+     * Save the given userAssignment in the database if due date for its assignment has not passed.
+     * Set the appropriate values for some fields:
+     * assignmentStatus - TODO, submissionDate - null, grade - 0, feedback - null, enabled - true
+     *
+     * @param userAssignmentDTO new userAssignment
+     * @return saved userAssignment
+     * @throws SubmissionNotAllowedException if due date for assignment has passed
+     */
     UserAssignmentDTO save(UserAssignmentDTO userAssignmentDTO);
 
+    /**
+     * Find userAssignment by id
+     *
+     * @param id id of userAssignment
+     * @return userAssignment with the given id
+     * @throws DataRetrievalFailureException if userAssignment with the given id is missing or disabled (deleted)
+     */
     UserAssignmentDTO findById(Long id);
 
+    /**
+     * Update assignmentStatusId, grade, and feedback of userAssignment with the given id
+     *
+     * @param userAssignmentDTO userAssignment with new values of fields
+     * @param id id of userAssignment
+     * @return updated userAssignment
+     * @throws DataRetrievalFailureException if userAssignment with the given id is missing or disabled (deleted)
+     */
     UserAssignmentDTO update(UserAssignmentDTO userAssignmentDTO, Long id);
 
+    /**
+     * Mark userAssignment with the given id and its answers as disabled in the database
+     *
+     * @param id id of userAssignment
+     * @throws DataRetrievalFailureException if userAssignment with the given id is missing or disabled (deleted)
+     */
     void delete(Long id);
 
-    List<UserAssignmentDTO> findAllByAssignmentId(Long assignmentId);
+    /**
+     * Find enabled (not deleted) userAssignments by assignmentId
+     *
+     * @param assignmentId id of assignment
+     * @return list of userAssignments with the given assignmentId
+     */
+    List<UserAssignmentDTO> findByAssignmentId(Long assignmentId);
 }

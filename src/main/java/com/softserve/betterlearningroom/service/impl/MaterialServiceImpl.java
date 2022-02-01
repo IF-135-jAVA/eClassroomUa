@@ -14,6 +14,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class MaterialServiceImpl implements MaterialService {
+
     private final MaterialDAO materialDao;
     private final MaterialMapper materialMapper;
 

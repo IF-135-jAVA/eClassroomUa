@@ -40,7 +40,7 @@ public class AuthServiceImpl implements AuthService {
     }
     
     @Override
-    public String setRole(String token, String userRole) {
+    public String setRole(String userRole) {
         Roles role = null;
         switch(userRole.trim()) {
             case("student"): role = Roles.STUDENT;

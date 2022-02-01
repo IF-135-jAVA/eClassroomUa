@@ -34,6 +34,7 @@ class CriterionDAOTest {
                 .build();
         criterionDao.save(criterionForSave);
 
+
         Criterion byId = criterionDao.findById(CRITERION_ID);
         assertNotNull(byId);
         assertEquals(TITLE, byId.getTitle());
