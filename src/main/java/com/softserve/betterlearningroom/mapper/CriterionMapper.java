@@ -7,7 +7,7 @@ public class CriterionMapper {
     public static Criterion toEntity(CriterionDTO criterionDTO) {
         return Criterion.builder()
                 .criterionId(criterionDTO.getId())
-                .materialId(criterionDTO.getMaterialIdDTO())
+                .materialId(criterionDTO.getMaterialId())
                 .title(criterionDTO.getTitle())
                 .description(criterionDTO.getDescription())
                 .build();
@@ -16,7 +16,7 @@ public class CriterionMapper {
     public static CriterionDTO toDTO(Criterion criterion) {
         return CriterionDTO.builder()
                 .id(criterion.getCriterionId())
-                .materialIdDTO(criterion.getMaterialId())
+                .materialId(criterion.getMaterialId())
                 .title(criterion.getTitle())
                 .description(criterion.getDescription())
                 .build();

@@ -40,7 +40,7 @@ class CriterionServiceTest {
     void setUp() {
         expectedCriterionDTO = CriterionDTO.builder()
                 .id(1L)
-                .materialIdDTO(2L)
+                .materialId(2L)
                 .title("Using formula")
                 .description("Using wright formula")
                 .build();
@@ -60,7 +60,7 @@ class CriterionServiceTest {
         CriterionDTO byId = criterionService.findById(1L);
 
         assertNotNull(byId);
-        assertEquals(expectedCriterion.getMaterialId(), byId.getMaterialIdDTO());
+        assertEquals(expectedCriterion.getMaterialId(), byId.getMaterialId());
         assertEquals(expectedCriterion.getDescription(), byId.getDescription());
         assertEquals(expectedCriterion.getTitle(), byId.getTitle());
         verify(criterionDAOImpl).findById(1L);
