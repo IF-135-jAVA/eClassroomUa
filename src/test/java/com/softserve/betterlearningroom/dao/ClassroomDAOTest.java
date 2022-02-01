@@ -12,6 +12,7 @@ import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -29,6 +30,38 @@ class ClassroomDAOTest {
     void testFindClassroomById() {
         Classroom classroom = prepareClassroomDTO();
         assertEquals((classroom), classroomDaoImpl.findClassroomById(1L));
+    }
+
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    void testGetAllTeachersById() {
+        User teacher = prepareUserDTO();
+        userDaoImpl.save(teacher);
+        Classroom classroom = prepareClassroomDTO();
+        classroomDaoImpl.save(classroom);
+        assertEquals(teacher, classroomDaoImpl.getAllTeachersById(1L));
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    void testGetAllStudentsById() {
+        User student = prepareUserDTO();
+        userDaoImpl.save(student);
+        Classroom classroom = prepareClassroomDTO();
+        classroomDaoImpl.save(classroom);
+        assertEquals(student, classroomDaoImpl.getAllStudentsById(1L));
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    void testGetClassroomOwnerById() {
+        User owner = prepareUserDTO();
+        userDaoImpl.save(owner);
+        Classroom classroom = prepareClassroomDTO();
+        classroomDaoImpl.save(classroom);
+        assertNotNull(owner);
+        assertEquals((owner), classroomDaoImpl.getClassroomOwnerById(1L));
     }
 
     @Test
@@ -108,8 +141,6 @@ class ClassroomDAOTest {
                 .email("yuriicheban@gmail.com")
                 .password("$2a$04$MzVXtd4o0y4DOlyHMMLMDeE4/eezrsT5Xad.2lmGr/NkCpwBgvn3e")
                 .enabled(true)
-                .provider("local")
-                .providerId("111")
                 .build();
     }
 }

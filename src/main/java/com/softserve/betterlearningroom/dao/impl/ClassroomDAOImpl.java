@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Repository
 @RequiredArgsConstructor
@@ -89,16 +90,16 @@ public class ClassroomDAOImpl implements ClassroomDAO {
     @Override
     public List<Classroom> findAllClassroomsByTeacherId(Long userId) {
         SqlParameterSource parameterSource = new MapSqlParameterSource(USER_ID, userId);
-        List<Classroom> classrooms = new ArrayList<>(jdbcParameterTemplate.query(getClassroomsByTeacher, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class)));
-        classrooms.addAll(jdbcParameterTemplate.query(getClassroomByOwnerId, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class)));
+        List<Classroom> classrooms = new ArrayList<>();
+        classrooms.addAll(jdbcParameterTemplate.query(getClassroomsByTeacher, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class)));
         return classrooms;
     }
 
     @Override
     public List<Classroom> findAllClassroomsByStudentId(Long userId) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource(USER_ID, userId);
-        List<Classroom> classrooms = new ArrayList<>(jdbcParameterTemplate.query(getClassroomsByTeacher, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class)));
-        classrooms.addAll(jdbcParameterTemplate.query(getClassroomByOwnerId, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class)));
+        List<Classroom> classrooms = new ArrayList<>();
+        classrooms.addAll(jdbcParameterTemplate.query(getClassroomsByStudent, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class)));
         return classrooms;
     }
 
@@ -129,7 +130,7 @@ public class ClassroomDAOImpl implements ClassroomDAO {
                 .addValue("title", classroom.getTitle())
                 .addValue("session", classroom.getSession())
                 .addValue("description", classroom.getDescription())
-                .addValue("code", classroom.getCode());
+                .addValue("code", ClassroomDAOImpl.generatingRandomClassroomStringCode());
         jdbcParameterTemplate.update(createClassroom, params);
         return classroom;
     }
@@ -144,5 +145,19 @@ public class ClassroomDAOImpl implements ClassroomDAO {
     public Classroom findByCode(String code) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("code", code);
         return jdbcParameterTemplate.queryForObject(getClassroomByCode, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class));
+    }
+
+    private static String generatingRandomClassroomStringCode() {
+        int leftLimit = 97;
+        int rightLimit = 122;
+        int targetStringLength = 10;
+        Random random = new Random();
+
+        String generatedString = random.ints(leftLimit, rightLimit + 1)
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+
+        return generatedString;
     }
 }
