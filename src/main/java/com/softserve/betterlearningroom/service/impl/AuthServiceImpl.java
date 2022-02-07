@@ -1,8 +1,10 @@
 package com.softserve.betterlearningroom.service.impl;
 
+import com.softserve.betterlearningroom.dao.ConfirmationTokenDAO;
 import com.softserve.betterlearningroom.configuration.jwt.JwtProvider;
 import com.softserve.betterlearningroom.dao.UserDAO;
 import com.softserve.betterlearningroom.dto.UserDTO;
+import com.softserve.betterlearningroom.entity.ConfirmationToken;
 import com.softserve.betterlearningroom.entity.User;
 import com.softserve.betterlearningroom.entity.UserPrincipal;
 import com.softserve.betterlearningroom.entity.roles.Roles;
@@ -19,6 +21,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -26,6 +31,7 @@ public class AuthServiceImpl implements AuthService {
     private JwtProvider jwtProvider;
     private UserMapper userMapper;
     private UserDAO userDao;
+    private ConfirmationTokenDAO tokenDao;
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -65,7 +71,16 @@ public class AuthServiceImpl implements AuthService {
         user.setLastName(request.getLastName());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setEnabled(true);
-        return userMapper.userToUserDTO(userDao.save(user));
+        user.setConfirmed(false);
+        User savedUser = userDao.save(user);
+        log.info(String.format("Saving user with id: %d", savedUser.getId()));
+        
+        ConfirmationToken token = ConfirmationToken.builder().code(UUID.randomUUID().toString()).createdAt(LocalDateTime.now())
+                .expiresAt(LocalDateTime.now().plusMinutes(15)).user(savedUser).build();
+        tokenDao.save(token);
+        log.info(String.format("Saving token for the user with id: %d", savedUser.getId()));
+        
+        return userMapper.userToUserDTO(savedUser);
     }
 
     @Override
@@ -82,6 +97,14 @@ public class AuthServiceImpl implements AuthService {
         user.setLastName(request.getLastName());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setEnabled(request.isEnabled());
+        return userMapper.userToUserDTO(userDao.update(user));
+    }
+    
+    public UserDTO confirmUser(String code) {
+        ConfirmationToken token =  tokenDao.findTokenByCode(code).orElseThrow();
+        User user = userDao.findById(token.getUser().getId())
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User with id - %d, not found.", token.getUser().getId())));
+        user.setConfirmed(true);
         return userMapper.userToUserDTO(userDao.update(user));
     }
 }
