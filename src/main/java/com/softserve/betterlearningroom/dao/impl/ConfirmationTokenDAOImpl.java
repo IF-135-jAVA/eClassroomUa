@@ -3,14 +3,11 @@ package com.softserve.betterlearningroom.dao.impl;
 import com.softserve.betterlearningroom.dao.ConfirmationTokenDAO;
 import com.softserve.betterlearningroom.dao.extractor.ConfirmationTokenRowMapper;
 import com.softserve.betterlearningroom.entity.ConfirmationToken;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -27,7 +24,7 @@ import java.util.Optional;
 public class ConfirmationTokenDAOImpl implements ConfirmationTokenDAO {
 
     private final NamedParameterJdbcTemplate template;
-    private final ConfirmationTokenRowMapper mapper; // TODO: remove (?) this
+    private final ConfirmationTokenRowMapper mapper;
 
     @Value("${find.by_id}")
     private String findById;
@@ -43,8 +40,7 @@ public class ConfirmationTokenDAOImpl implements ConfirmationTokenDAO {
         SqlParameterSource param = new MapSqlParameterSource("id", id);
         ConfirmationToken token = null;
         try {
-            token = template.queryForObject(findById, param,
-                    BeanPropertyRowMapper.newInstance(ConfirmationToken.class));
+            token = template.queryForObject(findById, param, mapper);
         } catch (DataAccessException ex) {
             log.error(String.format("Token with id - %d, not found.", id));
         }
@@ -56,8 +52,7 @@ public class ConfirmationTokenDAOImpl implements ConfirmationTokenDAO {
         SqlParameterSource param = new MapSqlParameterSource("code", code);
         ConfirmationToken token = null;
         try {
-            token = template.queryForObject(findByCode, param,
-                    BeanPropertyRowMapper.newInstance(ConfirmationToken.class));
+            token = template.queryForObject(findByCode, param, mapper);
         } catch (DataAccessException ex) {
             log.error(String.format("Token with code - %s, not found.", code));
         }

@@ -82,7 +82,7 @@ public class UserDAOImpl implements UserDAO {
         params.addValue("firstname", user.getFirstName()).addValue("lastname", user.getLastName())
                 .addValue(EMAIL, user.getEmail()).addValue("password", user.getPassword())
                 .addValue("enabled", user.isEnabled()).addValue("provider", user.getProvider())
-                .addValue("provider_id", user.getProviderId());
+                .addValue("provider_id", user.getProviderId()).addValue("confirmed", user.isConfirmed());
 
         template.update(save, params, keyHolder);
         Long userId = 0L;
@@ -99,7 +99,7 @@ public class UserDAOImpl implements UserDAO {
 
         params.addValue("firstname", user.getFirstName()).addValue("lastname", user.getLastName())
                 .addValue(EMAIL, user.getEmail()).addValue("password", user.getPassword())
-                .addValue("enabled", user.isEnabled()).addValue("id", user.getId());
+                .addValue("enabled", user.isEnabled()).addValue("id", user.getId()).addValue("confirmed", user.isConfirmed());
 
         template.update(update, params);
         

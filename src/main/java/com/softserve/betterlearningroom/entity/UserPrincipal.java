@@ -13,6 +13,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     private String login;
     private String password;
     private boolean enabled;
+    private boolean confirmed;
     private Collection<? extends GrantedAuthority> grantedAuthorities;
     private Map<String, Object> attributes;
     
@@ -22,6 +23,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         userPrincipal.login = user.getEmail();
         userPrincipal.password = user.getPassword();
         userPrincipal.enabled = user.isEnabled();
+        userPrincipal.confirmed = user.isConfirmed();
         return userPrincipal;
     }
     
@@ -57,7 +59,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return enabled;
+        return confirmed;
     }
 
     @Override
