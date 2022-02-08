@@ -2,6 +2,8 @@ package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.exception.APIException;
 import com.softserve.betterlearningroom.exception.SubmissionNotAllowedException;
+import com.softserve.betterlearningroom.exception.TokenExpiredException;
+import com.softserve.betterlearningroom.exception.TokenNotFoundException;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DataRetrievalFailureException;
@@ -43,26 +45,44 @@ public class RESTExceptionHandler extends ResponseEntityExceptionHandler {
                 LocalDateTime.now(), details);
         return new ResponseEntity<>(apiException, apiException.getHttpStatus());
     }
-    
-    @ExceptionHandler({ UsernameNotFoundException.class })
-    protected ResponseEntity<Object> handleUserNotFoundException(UsernameNotFoundException ex,
-            WebRequest request) {
+
+    @ExceptionHandler({ TokenExpiredException.class })
+    protected ResponseEntity<Object> handleTokenExpiredException(TokenExpiredException ex, WebRequest request) {
         List<String> details = new ArrayList<String>();
         details.add(ex.getMessage());
 
-        APIException apiException = new APIException("User not found.", HttpStatus.NOT_FOUND,
+        APIException apiException = new APIException("Your token expired.", HttpStatus.BAD_REQUEST,
                 LocalDateTime.now(), details);
         return new ResponseEntity<>(apiException, apiException.getHttpStatus());
     }
     
+    @ExceptionHandler({ TokenNotFoundException.class })
+    protected ResponseEntity<Object> handleTokenNotFoundException(TokenNotFoundException ex, WebRequest request) {
+        List<String> details = new ArrayList<String>();
+        details.add(ex.getMessage());
+
+        APIException apiException = new APIException("Token not found.", HttpStatus.NOT_FOUND, LocalDateTime.now(),
+                details);
+        return new ResponseEntity<>(apiException, apiException.getHttpStatus());
+    }
+
+    @ExceptionHandler({ UsernameNotFoundException.class })
+    protected ResponseEntity<Object> handleUserNotFoundException(UsernameNotFoundException ex, WebRequest request) {
+        List<String> details = new ArrayList<String>();
+        details.add(ex.getMessage());
+
+        APIException apiException = new APIException("User not found.", HttpStatus.NOT_FOUND, LocalDateTime.now(),
+                details);
+        return new ResponseEntity<>(apiException, apiException.getHttpStatus());
+    }
+
     @ExceptionHandler({ BadCredentialsException.class })
-    protected ResponseEntity<Object> handleBadCredentialsException(BadCredentialsException ex,
-            WebRequest request) {
+    protected ResponseEntity<Object> handleBadCredentialsException(BadCredentialsException ex, WebRequest request) {
         List<String> details = new ArrayList<>();
         details.add(ex.getMessage());
 
-        APIException apiException = new APIException("Bad credentials.", HttpStatus.BAD_REQUEST,
-                LocalDateTime.now(), details);
+        APIException apiException = new APIException("Bad credentials.", HttpStatus.BAD_REQUEST, LocalDateTime.now(),
+                details);
         return new ResponseEntity<>(apiException, apiException.getHttpStatus());
     }
 
@@ -123,8 +143,8 @@ public class RESTExceptionHandler extends ResponseEntityExceptionHandler {
         List<String> details = new ArrayList<String>();
         details.add(ex.getMessage());
 
-        APIException apiException = new APIException("Entity is not found.", HttpStatus.NOT_FOUND,
-                LocalDateTime.now(), details);
+        APIException apiException = new APIException("Entity is not found.", HttpStatus.NOT_FOUND, LocalDateTime.now(),
+                details);
         return new ResponseEntity<>(apiException, apiException.getHttpStatus());
     }
 
@@ -196,16 +216,6 @@ public class RESTExceptionHandler extends ResponseEntityExceptionHandler {
 
         APIException apiException = new APIException("Access denied.", HttpStatus.FORBIDDEN, LocalDateTime.now(),
                 details);
-        return new ResponseEntity<>(apiException, apiException.getHttpStatus());
-    }
-
-    @ExceptionHandler({ Exception.class })
-    public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
-        List<String> details = new ArrayList<String>();
-        details.add(ex.getLocalizedMessage());
-
-        APIException apiException = new APIException("Error occurred.", HttpStatus.INTERNAL_SERVER_ERROR,
-                LocalDateTime.now(), details);
         return new ResponseEntity<>(apiException, apiException.getHttpStatus());
     }
 

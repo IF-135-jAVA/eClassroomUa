@@ -1,6 +1,8 @@
 package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.dto.UserDTO;
+import com.softserve.betterlearningroom.exception.TokenExpiredException;
+import com.softserve.betterlearningroom.exception.TokenNotFoundException;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
 import com.softserve.betterlearningroom.payload.AuthRequest;
 import com.softserve.betterlearningroom.payload.SaveUserRequest;
@@ -40,5 +42,7 @@ public interface AuthService {
      * @return {@link UserDTO} updated <b>User</b>.
      */
     UserDTO updateUser(SaveUserRequest request, Long id) throws UserAlreadyExistsException;
+    //TODO: write jvdog
+    UserDTO confirmUser(String code) throws TokenExpiredException, TokenNotFoundException;
 
 }
