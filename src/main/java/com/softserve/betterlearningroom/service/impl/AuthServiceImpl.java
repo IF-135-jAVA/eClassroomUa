@@ -17,14 +17,16 @@ import com.softserve.betterlearningroom.payload.SaveUserRequest;
 import com.softserve.betterlearningroom.service.AuthService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -91,7 +93,7 @@ public class AuthServiceImpl implements AuthService {
         log.info(String.format("Saving token for the user with id: %d", savedUser.getId()));
 
         sendSimpleMessage(user, token);
-        log.info(String.format("Send email for the user with email: %d", savedUser.getEmail()));
+        log.info(String.format("Send email for the user with email: %s", savedUser.getEmail()));
 
         return userMapper.userToUserDTO(savedUser);
     }
@@ -128,15 +130,16 @@ public class AuthServiceImpl implements AuthService {
 
     private void sendSimpleMessage(User user, ConfirmationToken token) {
         try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom("noreply@belero.com");
-            message.setTo(user.getEmail());
-            message.setSubject("Confirm your email");
-            message.setText(buildEmail(user.getFirstName() + " " + user.getLastName(), baseUrl + token.getCode()));
-            emailSender.send(message);  
-        } catch (MailException e) {
+            MimeMessage mimeMessage = emailSender.createMimeMessage();
+            MimeMessageHelper helper =
+                    new MimeMessageHelper(mimeMessage, "utf-8");
+            helper.setText(buildEmail(user.getFirstName() + " " + user.getLastName(), baseUrl + token.getCode()), true);
+            helper.setTo(user.getEmail());
+            helper.setSubject("Confirm your email");
+            helper.setFrom("noreply@belero.com");
+            emailSender.send(mimeMessage);  
+        } catch (MessagingException e) {
             log.error("failed to send email", e);
-            throw new IllegalStateException("failed to send email");
         }  
     }
 
