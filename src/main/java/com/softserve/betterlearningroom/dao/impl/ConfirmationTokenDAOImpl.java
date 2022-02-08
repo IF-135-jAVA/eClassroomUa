@@ -26,13 +26,13 @@ public class ConfirmationTokenDAOImpl implements ConfirmationTokenDAO {
     private final NamedParameterJdbcTemplate template;
     private final ConfirmationTokenRowMapper mapper;
 
-    @Value("${find.by_id}")
+    @Value("${find_token.by_id}")
     private String findById;
 
-    @Value("${find.by_code}")
+    @Value("${find_token.by_code}")
     private String findByCode;
 
-    @Value("${save}")
+    @Value("${save_token}")
     private String save;
 
     @Override
@@ -65,7 +65,8 @@ public class ConfirmationTokenDAOImpl implements ConfirmationTokenDAO {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         params.addValue("code", token.getCode()).addValue("expires_at", token.getExpiresAt())
                 .addValue("created_at", token.getCreatedAt()).addValue("user_id", token.getUser().getId());
-        template.update(save, params , keyHolder);
+        log.info(save);
+        template.update(save, params , keyHolder, new String[] { "id" });
         Long tokenId = 0L;
         if(keyHolder.getKey() != null) {
             tokenId = keyHolder.getKey().longValue();
