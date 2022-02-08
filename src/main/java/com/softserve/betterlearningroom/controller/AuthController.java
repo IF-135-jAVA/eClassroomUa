@@ -1,6 +1,8 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.UserDTO;
+import com.softserve.betterlearningroom.exception.TokenExpiredException;
+import com.softserve.betterlearningroom.exception.TokenNotFoundException;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
 import com.softserve.betterlearningroom.payload.AuthRequest;
 import com.softserve.betterlearningroom.payload.AuthResponse;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -40,6 +43,11 @@ public class AuthController {
     public ResponseEntity<AuthResponse> setRole(@PathVariable String role) {
         String newToken = authService.setRole(role);
         return ResponseEntity.ok().body(new AuthResponse(newToken, "Bearer"));
+    }
+    
+    @GetMapping("/confirm")
+    public ResponseEntity<UserDTO> confirm(@RequestParam String code) throws TokenExpiredException, TokenNotFoundException {
+        return ResponseEntity.ok().body(authService.confirmUser(code));
     }
 
     @PostMapping("/signup")
