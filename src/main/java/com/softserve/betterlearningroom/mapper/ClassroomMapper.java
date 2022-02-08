@@ -14,7 +14,7 @@ public class ClassroomMapper {
         classroomDTO.setTitle(classroom.getTitle());
         classroomDTO.setSession(classroom.getSession());
         classroomDTO.setDescription(classroom.getDescription());
-        classroomDTO.setCode(classroom.getCode());
+        classroomDTO.setEnabled(classroom.isEnabled());
         classroomDTO.setOwner(classroom.getOwner());
         classroomDTO.setTeachers(classroom.getTeachers());
         classroomDTO.setStudents(classroom.getStudents());
@@ -32,7 +32,7 @@ public class ClassroomMapper {
         classroom.setTitle(classroomDTO.getTitle());
         classroom.setSession(classroomDTO.getSession());
         classroom.setDescription(classroomDTO.getDescription());
-        classroom.setCode(classroomDTO.getCode());
+        classroom.setEnabled(classroomDTO.isEnabled());
         classroom.setOwner(classroomDTO.getOwner());
         classroom.setTeachers(classroomDTO.getTeachers());
         classroom.setStudents(classroomDTO.getStudents());

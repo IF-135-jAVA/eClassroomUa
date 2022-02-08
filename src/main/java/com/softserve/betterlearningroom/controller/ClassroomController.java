@@ -50,14 +50,14 @@ public class ClassroomController {
 
     @GetMapping("/join/student")
     @ResponseBody
-    public ResponseEntity<ClassroomDTO> joinClassroomAsStudent(@RequestParam(value = "code", required = true) String code, @RequestParam(value = "userId", required = true) Long userId) {
-        return ResponseEntity.ok().body(classroomServiceImpl.joinClassroomAsStudent(code, userId));
+    public ResponseEntity<ClassroomDTO> joinClassroomAsStudent(@RequestParam(value = "classroomId", required = true) Long classroomId, @RequestParam(value = "userId", required = true) Long userId) {
+        return ResponseEntity.ok().body(classroomServiceImpl.joinClassroomAsStudent(classroomId, userId));
     }
 
     @GetMapping("/join/teacher")
     @ResponseBody
-    public ResponseEntity<ClassroomDTO> joinClassroomAsTeacher(@RequestParam(value = "code", required = true) String code, @RequestParam(value = "userId", required = true) Long userId) {
-        return ResponseEntity.ok().body(classroomServiceImpl.joinClassroomAsTeacher(code, userId));
+    public ResponseEntity<ClassroomDTO> joinClassroomAsTeacher(@RequestParam(value = "classroomId", required = true) Long classroomId, @RequestParam(value = "userId", required = true) Long userId) {
+        return ResponseEntity.ok().body(classroomServiceImpl.joinClassroomAsTeacher(classroomId, userId));
     }
 
     @PostMapping()
