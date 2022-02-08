@@ -19,13 +19,11 @@ public interface ClassroomDAO {
 
     List<Classroom> findAllClassroomsByStudentId(Long userId);
 
-    Classroom joinClassroomAsStudent(String code, Long userId);
+    Classroom joinClassroomAsStudent(Long classroomId, Long userId);
 
-    Classroom joinClassroomAsTeacher(String code, Long userId);
+    Classroom joinClassroomAsTeacher(Long classroomId, Long userId);
 
     Classroom save(Classroom classroom);
 
     void delete(Long classroomId);
-
-    Classroom findByCode(String code);
 }

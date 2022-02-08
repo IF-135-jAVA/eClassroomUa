@@ -33,38 +33,29 @@ class ClassroomDAOTest {
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    void testGetClassroomOwnerById() {
+        User owner = prepareUserDTO();
+        userDaoImpl.save(owner);
+        Classroom classroom = prepareClassroomDTO();
+        classroomDaoImpl.save(classroom);
+        assertNotNull(owner);
+        assertEquals((owner), classroomDaoImpl.getClassroomOwnerById(1L));
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     void testJoinClassroomAsStudent() {
-        Classroom asStudent = classroomDaoImpl.joinClassroomAsStudent(prepareClassroomDTO().getCode(), prepareClassroomDTO().getUserId());
+        Classroom asStudent = classroomDaoImpl.joinClassroomAsStudent(prepareClassroomDTO().getClassroomId(), prepareClassroomDTO().getUserId());
         assertNotNull(asStudent);
-        assertEquals((asStudent), classroomDaoImpl.joinClassroomAsStudent("3v8ev2t", 1L));
+        assertEquals((asStudent), classroomDaoImpl.joinClassroomAsStudent(1L, 1L));
     }
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     void testJoinClassroomAsTeacher() {
-        Classroom asTeacher = classroomDaoImpl.joinClassroomAsTeacher(prepareClassroomDTO().getCode(), prepareClassroomDTO().getUserId());
+        Classroom asTeacher = classroomDaoImpl.joinClassroomAsTeacher(prepareClassroomDTO().getClassroomId(), prepareClassroomDTO().getUserId());
         assertNotNull(asTeacher);
-        assertEquals((asTeacher), classroomDaoImpl.joinClassroomAsTeacher("3v8ev2t", 2L));
-    }
-
-    @Test
-    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    void testFindAllClassroomsByTeacherId() {
-        User user = prepareUserDTO();
-        userDaoImpl.save(user);
-        List<Classroom> classroomsList = new ArrayList<>();
-        classroomsList.add(prepareClassroomDTO());
-        assertEquals((classroomsList), classroomDaoImpl.findAllClassroomsByTeacherId(5L));
-    }
-
-    @Test
-    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    void testFindAllClassroomsByStudentId() {
-        User user = prepareUserDTO();
-        userDaoImpl.save(user);
-        List<Classroom> classroomsList = new ArrayList<>();
-        classroomsList.add(prepareClassroomDTO());
-        assertEquals(classroomsList, classroomDaoImpl.findAllClassroomsByStudentId(5L));
+        assertEquals((asTeacher), classroomDaoImpl.joinClassroomAsTeacher(1L, 2L));
     }
 
     @Test
@@ -78,15 +69,7 @@ class ClassroomDAOTest {
         assertEquals("English Language", createClassroom.getTitle());
         assertEquals("Present Simple", createClassroom.getSession());
         assertEquals("The Present Simple Tense", createClassroom.getDescription());
-        assertEquals("3v8ev2t", createClassroom.getCode());
-    }
-
-    @Test
-    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    void testFindByCode() {
-        Classroom byCode = classroomDaoImpl.findByCode(prepareClassroomDTO().getCode());
-        assertNotNull(byCode);
-        assertEquals((byCode), classroomDaoImpl.findByCode("3v8ev2t"));
+        assertEquals(true, createClassroom.isEnabled());
     }
 
     private Classroom prepareClassroomDTO() {
@@ -96,7 +79,7 @@ class ClassroomDAOTest {
                 .title("English Language")
                 .session("Present Simple")
                 .description("The Present Simple Tense")
-                .code("3v8ev2t")
+                .enabled(true)
                 .build();
     }
 
@@ -108,8 +91,6 @@ class ClassroomDAOTest {
                 .email("yuriicheban@gmail.com")
                 .password("$2a$04$MzVXtd4o0y4DOlyHMMLMDeE4/eezrsT5Xad.2lmGr/NkCpwBgvn3e")
                 .enabled(true)
-                .provider("local")
-                .providerId("111")
                 .build();
     }
 }

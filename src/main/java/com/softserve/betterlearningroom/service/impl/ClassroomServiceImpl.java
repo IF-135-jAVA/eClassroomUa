@@ -60,16 +60,16 @@ public class ClassroomServiceImpl implements ClassroomService {
                 .collect(Collectors.toList());
     }
 
-    public ClassroomDTO joinClassroomAsStudent(String code, Long userId) {
-        Classroom classroom = classroomDaoImpl.findByCode(code);
-            classroomDaoImpl.joinClassroomAsStudent(code, userId);
-            return classroomMapper.classroomToClassroomDTO(classroom);
+    public ClassroomDTO joinClassroomAsStudent(Long classroomId, Long userId) {
+        Classroom classroom = classroomDaoImpl.findClassroomById(classroomId);
+        classroomDaoImpl.joinClassroomAsStudent(classroomId, userId);
+        return classroomMapper.classroomToClassroomDTO(classroom);
     }
 
-    public ClassroomDTO joinClassroomAsTeacher(String code, Long userId) {
-        Classroom classroom = classroomDaoImpl.findByCode(code);
-            classroomDaoImpl.joinClassroomAsTeacher(code, userId);
-            return classroomMapper.classroomToClassroomDTO(classroom);
+    public ClassroomDTO joinClassroomAsTeacher(Long classroomId, Long userId) {
+        Classroom classroom = classroomDaoImpl.findClassroomById(classroomId);
+        classroomDaoImpl.joinClassroomAsTeacher(classroomId, userId);
+        return classroomMapper.classroomToClassroomDTO(classroom);
     }
 
     public void delete(Long classroomId) {
