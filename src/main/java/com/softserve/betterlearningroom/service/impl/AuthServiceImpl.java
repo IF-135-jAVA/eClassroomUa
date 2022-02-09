@@ -92,7 +92,7 @@ public class AuthServiceImpl implements AuthService {
         tokenDao.save(token);
         log.info(String.format("Saving token for the user with id: %d", savedUser.getId()));
 
-        sendSimpleMessage(user, token);
+        sendEmail(user, token);
         log.info(String.format("Send email for the user with email: %s", savedUser.getEmail()));
 
         return userMapper.userToUserDTO(savedUser);
@@ -127,8 +127,20 @@ public class AuthServiceImpl implements AuthService {
         user.setConfirmed(true);
         return userMapper.userToUserDTO(userDao.update(user));
     }
+    
+    public UserDTO changePassword(String code, String password) throws TokenExpiredException, TokenNotFoundException {
+        ConfirmationToken token = tokenDao.findTokenByCode(code)
+                .orElseThrow(() -> new TokenNotFoundException(String.format("Token with code - %s, not found.", code)));
+        if (token.getExpiresAt().isBefore(LocalDateTime.now())) {
+            throw new TokenExpiredException("Sorry, your token has expired.");
+        }
+        User user = userDao.findById(token.getUser().getId()).orElseThrow(() -> new UsernameNotFoundException(
+                String.format("User with id - %d, not found.", token.getUser().getId())));
+        user.setPassword(passwordEncoder.encode(password));
+        return userMapper.userToUserDTO(userDao.update(user));
+    }
 
-    private void sendSimpleMessage(User user, ConfirmationToken token) {
+    private void sendEmail(User user, ConfirmationToken token) {
         try {
             MimeMessage mimeMessage = emailSender.createMimeMessage();
             MimeMessageHelper helper =
