@@ -45,4 +45,8 @@ public interface AuthService {
     //TODO: write jvdog
     UserDTO confirmUser(String code) throws TokenExpiredException, TokenNotFoundException;
 
+    UserDTO changePassword(String code, String password) throws TokenExpiredException, TokenNotFoundException;
+
+    void resetPasswordRequest(String email) throws TokenExpiredException, TokenNotFoundException;
+
 }

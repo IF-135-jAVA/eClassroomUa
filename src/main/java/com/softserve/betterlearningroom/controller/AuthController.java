@@ -60,9 +60,14 @@ public class AuthController {
     }
     
     @PostMapping("/reset_password")
-    public ResponseEntity resetPassword(@RequestBody String email) {
-
-            return ResponseEntity.ok().build();    
+    public ResponseEntity resetPassword(@RequestBody String email) throws TokenExpiredException, TokenNotFoundException {
+        authService.resetPasswordRequest(email);
+        return ResponseEntity.ok().build();    
+    }
+    
+    @PostMapping("/change_password")
+    public ResponseEntity<UserDTO> changePassword(@RequestParam String code, @RequestBody String password) throws TokenExpiredException, TokenNotFoundException {
+        return ResponseEntity.ok().body(authService.changePassword(code, password));    
     }
 
     @PutMapping("/users/{id}")

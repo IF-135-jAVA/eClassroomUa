@@ -1,6 +1,7 @@
 package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.configuration.jwt.JwtProvider;
+import com.softserve.betterlearningroom.configuration.util.EmailSender;
 import com.softserve.betterlearningroom.dao.ConfirmationTokenDAO;
 import com.softserve.betterlearningroom.dao.UserDAO;
 import com.softserve.betterlearningroom.entity.User;
@@ -15,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,7 +45,7 @@ class AuthServiceTest {
     private PasswordEncoder passwordEncoder;  
     private AuthServiceImpl authService;
     private UserMapper userMapper;
-    private JavaMailSender mailSender;
+    private EmailSender mailSender;
     
     @BeforeEach
     void setUp() {
