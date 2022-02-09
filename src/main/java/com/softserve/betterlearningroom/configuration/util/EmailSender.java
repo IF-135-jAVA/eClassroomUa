@@ -1,7 +1,5 @@
 package com.softserve.betterlearningroom.configuration.util;
 
-import com.softserve.betterlearningroom.entity.ConfirmationToken;
-import com.softserve.betterlearningroom.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -16,6 +14,7 @@ import javax.mail.internet.MimeMessage;
 @Slf4j
 public class EmailSender {
     private JavaMailSender emailSender;
+    
     private static final String EMAIL_TEMPLATE = "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">%n" + "%n"
             + "<span style=\"display:none;font-size:1px;color:#fff;max-height:0\"></span>%n" + "%n"
             + "  <table role=\"presentation\" width=\"100%%\" style=\"border-collapse:collapse;min-width:100%%;width:100%%!important\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">%n"
@@ -50,19 +49,14 @@ public class EmailSender {
             + "        %n" + "      </td>%n" + "      <td width=\"10\" valign=\"middle\"><br></td>%n"
             + "    </tr>%n" + "    <tr>%n" + "      <td height=\"30\"><br></td>%n" + "    </tr>%n"
             + "  </tbody></table><div class=\"yj6qo\"></div><div class=\"adL\">%n" + "%n" + "</div></div>";
-    
-    private static final String BASE_URL = "http://localhost:8080/api/auth/confirm?code=";
 
-    public void sendEmail(User user, ConfirmationToken token, String title, String description) {
+    public void sendEmail(String to, String userName, String url, String title, String description) {
         try {
             MimeMessage mimeMessage = emailSender.createMimeMessage();
             MimeMessageHelper helper =
                     new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setText(String.format(EMAIL_TEMPLATE, user.getFirstName() + " "
-            + user.getLastName(), BASE_URL + token.getCode(),
-            description,
-            title), true);
-            helper.setTo(user.getEmail());
+            helper.setText(String.format(EMAIL_TEMPLATE, userName, url, description, title), true);
+            helper.setTo(to);
             helper.setSubject(title);
             helper.setFrom("noreply@belero.com");
             emailSender.send(mimeMessage);  

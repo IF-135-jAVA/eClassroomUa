@@ -38,10 +38,12 @@ public class AuthServiceImpl implements AuthService {
     private PasswordEncoder passwordEncoder;
     private EmailSender emailSender;
     
-    private static final String CONFIRM_YOUR_EMAIL = "Confirm your email";
-    private static final String CONFIRM_YOUR_EMAIL_DESCRIPTION = "Thank you for registering. Please click on the below link to activate your account:";
-    private static final String RESET_PASSWORD = "Reset your password";
+    private static final String CONFIRM_EMAIL_TITLE = "Confirm your email";
+    private static final String CONFIRM_EMAIL_DESCRIPTION = "Thank you for registering. Please click on the below link to activate your account:";
+    private static final String CONFIRM_EMAIL_URL = "http://localhost:8080/api/auth/confirm?code=";
+    private static final String RESET_PASSWORD_TITLE = "Reset your password";
     private static final String RESET_PASSWORD_DESCRIPTION = "Please click on the below link to reset your password:";
+    private static final String RESET_PASSWORD_URL = "http://localhost:8080/api/auth/reset_password?code=";
 
     @Override
     public String login(AuthRequest request) throws UsernameNotFoundException {
@@ -86,7 +88,7 @@ public class AuthServiceImpl implements AuthService {
         User savedUser = userDao.save(user);
         log.info(String.format("Saving user with id: %d", savedUser.getId()));
 
-        sendEmailRequest(savedUser, CONFIRM_YOUR_EMAIL, CONFIRM_YOUR_EMAIL_DESCRIPTION);
+        sendEmailRequest(savedUser, CONFIRM_EMAIL_URL, CONFIRM_EMAIL_TITLE, CONFIRM_EMAIL_DESCRIPTION);
 
         return userMapper.userToUserDTO(savedUser);
     }
@@ -126,16 +128,16 @@ public class AuthServiceImpl implements AuthService {
     public void resetPasswordRequest(String email) throws TokenExpiredException, TokenNotFoundException {
         User user = userDao.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User with email - %s, not found.", email)));
-        sendEmailRequest(user, RESET_PASSWORD, RESET_PASSWORD_DESCRIPTION);
+        sendEmailRequest(user, RESET_PASSWORD_URL, RESET_PASSWORD_TITLE, RESET_PASSWORD_DESCRIPTION);
     }
 
-    private void sendEmailRequest(User user, String title, String description) {
+    private void sendEmailRequest(User user, String url, String title, String description) {
         ConfirmationToken token = ConfirmationToken.builder().code(UUID.randomUUID().toString())
                 .createdAt(LocalDateTime.now()).expiresAt(LocalDateTime.now().plusMinutes(15)).user(user).build();
         tokenDao.save(token);
         log.info(String.format("Saving token for the user with id: %d", user.getId()));
 
-        emailSender.sendEmail(user, token, title, description);
+        emailSender.sendEmail(user.getEmail(), user.getFirstName() + " " + user.getLastName(), url + token.getCode(), title, description);
         log.info(String.format("Send email for the user with email: %s", user.getEmail()));
     }
     
