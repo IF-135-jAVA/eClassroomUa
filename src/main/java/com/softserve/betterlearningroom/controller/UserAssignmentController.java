@@ -26,12 +26,14 @@ public class UserAssignmentController {
     private UserAssignmentService userAssignmentService;
 
     @PostMapping
+    @PreAuthorize("#userAssignmentDTO.userId.equals(authentication.principal.getId())")
     public ResponseEntity<UserAssignmentDTO> save(@RequestBody UserAssignmentDTO userAssignmentDTO, @PathVariable Long materialId) {
         userAssignmentDTO.setMaterialId(materialId);
         return new ResponseEntity<>(userAssignmentService.save(userAssignmentDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasRole('TEACHER') or @userAssignmentServiceImpl.findById(#id).userId.equals(authentication.principal.getId())")
     public ResponseEntity<UserAssignmentDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(userAssignmentService.findById(id));
     }
@@ -49,12 +51,14 @@ public class UserAssignmentController {
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('TEACHER') or @userAssignmentServiceImpl.findById(#id).userId.equals(authentication.principal.getId())")
     public ResponseEntity<UserAssignmentDTO> delete(@PathVariable Long id) {
         userAssignmentService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('TEACHER')")
     public ResponseEntity<List<UserAssignmentDTO>> findByAssignmentId(@PathVariable Long materialId) {
         return ResponseEntity.ok(userAssignmentService.findByAssignmentId(materialId));
     }
