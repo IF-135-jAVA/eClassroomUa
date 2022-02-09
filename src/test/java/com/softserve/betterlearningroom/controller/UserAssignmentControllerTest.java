@@ -103,7 +103,7 @@ class UserAssignmentControllerTest {
 
     @Test
     void testUpdate() throws Exception {
-        when(userAssignmentService.update(userAssignmentDTO2, ID_1)).thenReturn(userAssignmentDTO1Updated);
+        when(userAssignmentService.updateAsTeacher(userAssignmentDTO2, ID_1)).thenReturn(userAssignmentDTO1Updated);
 
         MvcResult mvcResult = mockMvc.perform(put("/api/materials/" + MATERIAL_ID + "/assignments/" + ID_1)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -111,7 +111,7 @@ class UserAssignmentControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        verify(userAssignmentService).update(any(UserAssignmentDTO.class), anyLong());
+        verify(userAssignmentService).updateAsTeacher(any(UserAssignmentDTO.class), anyLong());
         assertEquals(objectMapper.writeValueAsString(userAssignmentDTO1Updated), mvcResult.getResponse().getContentAsString());
     }
 

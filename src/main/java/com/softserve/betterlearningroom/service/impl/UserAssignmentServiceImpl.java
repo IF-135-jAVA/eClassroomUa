@@ -48,11 +48,21 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
     }
 
     @Override
-    public UserAssignmentDTO update(UserAssignmentDTO userAssignmentDTO, Long id) {
+    public UserAssignmentDTO updateAsTeacher(UserAssignmentDTO userAssignmentDTO, Long id) {
         UserAssignmentDTO oldUserAssignmentDTO = findById(id);
-        oldUserAssignmentDTO.setAssignmentStatusId(userAssignmentDTO.getAssignmentStatusId());
+        oldUserAssignmentDTO.setAssignmentStatusId(AssignmentStatus.ONREVIEW.getId());
         oldUserAssignmentDTO.setGrade(userAssignmentDTO.getGrade());
         oldUserAssignmentDTO.setFeedback(userAssignmentDTO.getFeedback());
+        return userAssignmentMapper.userAssignmentToUserAssignmentDTO(
+                userAssignmentDao.update(userAssignmentMapper.userAssignmentDTOToUserAssignment(oldUserAssignmentDTO)));
+    }
+
+    @Override
+    public UserAssignmentDTO updateAsStudent(UserAssignmentDTO userAssignmentDTO, Long id) {
+        UserAssignmentDTO oldUserAssignmentDTO = findById(id);
+        if (!userAssignmentDTO.getAssignmentStatusId().equals(AssignmentStatus.ONREVIEW.getId())) {
+            oldUserAssignmentDTO.setAssignmentStatusId(userAssignmentDTO.getAssignmentStatusId());
+        }
         return userAssignmentMapper.userAssignmentToUserAssignmentDTO(
                 userAssignmentDao.update(userAssignmentMapper.userAssignmentDTOToUserAssignment(oldUserAssignmentDTO)));
     }

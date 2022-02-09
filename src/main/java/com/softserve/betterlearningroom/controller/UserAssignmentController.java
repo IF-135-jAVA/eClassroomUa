@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,9 +36,16 @@ public class UserAssignmentController {
         return ResponseEntity.ok(userAssignmentService.findById(id));
     }
 
+    @PutMapping("{id}/evaluate")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<UserAssignmentDTO> updateAsTeacher(@PathVariable Long id, @RequestBody UserAssignmentDTO userAssignmentDTO) {
+        return ResponseEntity.ok(userAssignmentService.updateAsTeacher(userAssignmentDTO, id));
+    }
+
     @PutMapping("{id}")
-    public ResponseEntity<UserAssignmentDTO> update(@PathVariable Long id, @RequestBody UserAssignmentDTO userAssignmentDTO) {
-        return ResponseEntity.ok(userAssignmentService.update(userAssignmentDTO, id));
+    @PreAuthorize("@userAssignmentServiceImpl.findById(#id).userId.equals(authentication.principal.getId())")
+    public ResponseEntity<UserAssignmentDTO> updateAsStudent(@PathVariable Long id, @RequestBody UserAssignmentDTO userAssignmentDTO) {
+        return ResponseEntity.ok(userAssignmentService.updateAsStudent(userAssignmentDTO, id));
     }
 
     @DeleteMapping("{id}")

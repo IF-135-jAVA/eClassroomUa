@@ -132,7 +132,7 @@ class UserAssignmentServiceTest {
         when(userAssignmentDao.update(userAssignment1Updated)).thenReturn(userAssignment1Updated);
         when(userAssignmentDao.findById(ID_1)).thenReturn(userAssignment1);
 
-        UserAssignmentDTO actual = userAssignmentService.update(userAssignmentDTO2, ID_1);
+        UserAssignmentDTO actual = userAssignmentService.updateAsTeacher(userAssignmentDTO2, ID_1);
 
         verify(userAssignmentDao).update(any(UserAssignment.class));
         verify(userAssignmentDao).findById(anyLong());

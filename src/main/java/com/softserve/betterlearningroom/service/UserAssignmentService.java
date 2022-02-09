@@ -29,14 +29,24 @@ public interface UserAssignmentService {
     UserAssignmentDTO findById(Long id);
 
     /**
-     * Update assignmentStatusId, grade, and feedback of userAssignment with the given id
+     * Update grade and feedback of userAssignment with the given id. Set the appropriate value for the field: assignmentStatus - REVIEWED
      *
      * @param userAssignmentDTO userAssignment with new values of fields
      * @param id id of userAssignment
      * @return updated userAssignment
      * @throws DataRetrievalFailureException if userAssignment with the given id is missing or disabled (deleted)
      */
-    UserAssignmentDTO update(UserAssignmentDTO userAssignmentDTO, Long id);
+    UserAssignmentDTO updateAsTeacher(UserAssignmentDTO userAssignmentDTO, Long id);
+
+    /**
+     * Update assignmentStatusId of userAssignment with the given id. Set the new value for the field: assignmentStatus - any except REVIEWED
+     *
+     * @param userAssignmentDTO userAssignment with the new value of the field assignmentStatusId
+     * @param id id of userAssignment
+     * @return updated userAssignment
+     * @throws DataRetrievalFailureException if userAssignment with the given id is missing or disabled (deleted)
+     */
+    UserAssignmentDTO updateAsStudent(UserAssignmentDTO userAssignmentDTO, Long id);
 
     /**
      * Mark userAssignment with the given id and its answers as disabled in the database
