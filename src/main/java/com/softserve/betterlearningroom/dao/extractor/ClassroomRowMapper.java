@@ -22,7 +22,7 @@ public class ClassroomRowMapper implements RowMapper<Classroom> {
         classroom.setTitle(rs.getString("title"));
         classroom.setSession(rs.getString("session"));
         classroom.setDescription(rs.getString("description"));
-        classroom.setCode(rs.getString("code"));
+        classroom.setEnabled(rs.getBoolean("enabled"));
         classroom.setOwner((User) rs.getObject("owner"));
         classroom.setTeachers((List<User>) rs.getArray("teachers"));
         classroom.setStudents((List<User>) rs.getArray("students"));

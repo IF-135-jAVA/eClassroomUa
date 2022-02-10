@@ -25,7 +25,7 @@ public class ClassroomDTO {
 
     private String description;
 
-    private String code;
+    private boolean enabled;
 
     private User owner;
 

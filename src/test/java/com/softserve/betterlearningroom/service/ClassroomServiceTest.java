@@ -39,7 +39,6 @@ class ClassroomServiceTest {
                 .title("English Language")
                 .session("Present Simple")
                 .description("The Present Simple Tense")
-                .code("3v8ev2t")
                 .build();
         expectedClassroom = Classroom.builder()
                 .classroomId(1L)
@@ -47,7 +46,6 @@ class ClassroomServiceTest {
                 .title("English Language")
                 .session("Present Simple")
                 .description("The Present Simple Tense")
-                .code("3v8ev2t")
                 .build();
         expectedUserDTO = UserDTO.builder()
                 .firstName("John")
@@ -76,7 +74,6 @@ class ClassroomServiceTest {
         assertEquals(expectedClassroom.getTitle(), byId.getTitle());
         assertEquals(expectedClassroom.getSession(), byId.getSession());
         assertEquals(expectedClassroom.getDescription(), byId.getDescription());
-        assertEquals(expectedClassroom.getCode(), byId.getCode());
         verify(classroomServiceImpl).findById(1L);
     }
 
@@ -92,7 +89,6 @@ class ClassroomServiceTest {
         assertEquals("English Language", create.getTitle());
         assertEquals("Present Simple", create.getSession());
         assertEquals("The Present Simple Tense", create.getDescription());
-        assertEquals("3v8ev2t", create.getCode());
     }
 
     @Test
@@ -164,9 +160,9 @@ class ClassroomServiceTest {
 
     @Test
     void testJoinClassroomAsStudent() {
-        when(classroomServiceImpl.joinClassroomAsStudent("3v8ev2t", 1L)).thenReturn(expectedClassroomDTO);
+        when(classroomServiceImpl.joinClassroomAsStudent(1L, 1L)).thenReturn(expectedClassroomDTO);
 
-        ClassroomDTO joinClassroomDTO = classroomServiceImpl.joinClassroomAsStudent("3v8ev2t", 1L);
+        ClassroomDTO joinClassroomDTO = classroomServiceImpl.joinClassroomAsStudent(1L, 1L);
 
         assertNotNull(joinClassroomDTO);
         assertEquals(expectedClassroomDTO, joinClassroomDTO);
@@ -174,9 +170,9 @@ class ClassroomServiceTest {
 
     @Test
     void testJoinClassroomAsTeacher() {
-        when(classroomServiceImpl.joinClassroomAsTeacher("3v8ev2t", 1L)).thenReturn(expectedClassroomDTO);
+        when(classroomServiceImpl.joinClassroomAsTeacher(1L, 1L)).thenReturn(expectedClassroomDTO);
 
-        ClassroomDTO joinClassroomDTO = classroomServiceImpl.joinClassroomAsTeacher("3v8ev2t", 1L);
+        ClassroomDTO joinClassroomDTO = classroomServiceImpl.joinClassroomAsTeacher(1L, 1L);
 
         assertNotNull(joinClassroomDTO);
         assertEquals(expectedClassroomDTO, joinClassroomDTO);

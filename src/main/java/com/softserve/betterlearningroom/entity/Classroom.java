@@ -23,7 +23,7 @@ public class Classroom {
 
     private String description;
 
-    private String code;
+    private boolean enabled;
 
     private User owner;
 

@@ -37,12 +37,22 @@ class ClassroomControllerTest {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     ClassroomDTO expectedClassroom() {
-        return ClassroomDTO.builder().classroomId(1L).userId(1L).title("Biology").session("Genetics")
-                .description("Genetics, Genomes, Chromosomes and the Cell Cycle").code("1ef7g1t").build();
+        return ClassroomDTO.builder()
+                .classroomId(1L)
+                .userId(1L)
+                .title("Biology")
+                .session("Genetics")
+                .description("Genetics, Genomes, Chromosomes and the Cell Cycle")
+                .enabled(true)
+                .build();
     }
 
     UserDTO expectedUser() {
-        return UserDTO.builder().firstName("Yurii").lastName("Cheban").email("yuriicheban@gmail.com").enabled(true)
+        return UserDTO.builder()
+                .firstName("Yurii")
+                .lastName("Cheban")
+                .email("yuriicheban@gmail.com")
+                .enabled(true)
                 .build();
     }
 
@@ -117,10 +127,10 @@ class ClassroomControllerTest {
 
     @Test
     void testJoinClassroomAsStudent() throws Exception {
-        when(classroomServiceImpl.joinClassroomAsStudent("1ef7g1t", 1L)).thenReturn(expectedClassroom());
+        when(classroomServiceImpl.joinClassroomAsStudent(1L, 1L)).thenReturn(expectedClassroom());
 
         MvcResult mvcResult = mockMvc
-                .perform(get("/api/classrooms/join/student?code=1ef7g1t&userId=1").contentType(MediaType.APPLICATION_JSON))
+                .perform(get("/api/classrooms/join/student?classroomId=1&userId=1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
         assertEquals(objectMapper.writeValueAsString(expectedClassroom()),
                 mvcResult.getResponse().getContentAsString());
@@ -128,10 +138,10 @@ class ClassroomControllerTest {
 
     @Test
     void testJoinClassroomAsTeacher() throws Exception {
-        when(classroomServiceImpl.joinClassroomAsTeacher("1ef7g1t", 1L)).thenReturn(expectedClassroom());
+        when(classroomServiceImpl.joinClassroomAsTeacher(1L, 1L)).thenReturn(expectedClassroom());
 
         MvcResult mvcResult = mockMvc
-                .perform(get("/api/classrooms/join/teacher?code=1ef7g1t&userId=1").contentType(MediaType.APPLICATION_JSON))
+                .perform(get("/api/classrooms/join/teacher?classroomId=1&userId=1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
         assertEquals(objectMapper.writeValueAsString(expectedClassroom()),
                 mvcResult.getResponse().getContentAsString());
