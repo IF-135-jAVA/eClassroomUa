@@ -1,7 +1,6 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.UserDTO;
-import com.softserve.betterlearningroom.exception.TokenExpiredException;
 import com.softserve.betterlearningroom.exception.TokenNotFoundException;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
 import com.softserve.betterlearningroom.payload.AuthRequest;
@@ -46,7 +45,7 @@ public class AuthController {
     }
     
     @GetMapping("/confirm")
-    public ResponseEntity<UserDTO> confirm(@RequestParam String code) throws TokenExpiredException, TokenNotFoundException {
+    public ResponseEntity<UserDTO> confirm(@RequestParam String code) throws TokenNotFoundException {
         return ResponseEntity.ok().body(authService.confirmUser(code));
     }
 
@@ -59,14 +58,20 @@ public class AuthController {
             return ResponseEntity.created(location).body(savedUser);    
     }
     
+    @PostMapping("/confirm_user")
+    public ResponseEntity<Object> confirmUser(@RequestBody String email) throws TokenNotFoundException {
+        authService.resetPasswordRequest(email);
+        return ResponseEntity.ok().build();    
+    }
+    
     @PostMapping("/reset_password")
-    public ResponseEntity resetPassword(@RequestBody String email) throws TokenExpiredException, TokenNotFoundException {
+    public ResponseEntity<Object> resetPassword(@RequestBody String email) throws TokenNotFoundException {
         authService.resetPasswordRequest(email);
         return ResponseEntity.ok().build();    
     }
     
     @PostMapping("/change_password")
-    public ResponseEntity<UserDTO> changePassword(@RequestParam String code, @RequestBody String password) throws TokenExpiredException, TokenNotFoundException {
+    public ResponseEntity<UserDTO> changePassword(@RequestParam String code, @RequestBody String password) throws TokenNotFoundException {
         return ResponseEntity.ok().body(authService.changePassword(code, password));    
     }
 

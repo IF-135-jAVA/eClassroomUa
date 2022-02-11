@@ -1,7 +1,6 @@
 package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.dto.UserDTO;
-import com.softserve.betterlearningroom.exception.TokenExpiredException;
 import com.softserve.betterlearningroom.exception.TokenNotFoundException;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
 import com.softserve.betterlearningroom.payload.AuthRequest;
@@ -42,11 +41,34 @@ public interface AuthService {
      * @return {@link UserDTO} updated <b>User</b>.
      */
     UserDTO updateUser(SaveUserRequest request, Long id) throws UserAlreadyExistsException;
-    //TODO: write jvdog
-    UserDTO confirmUser(String code) throws TokenExpiredException, TokenNotFoundException;
+    
+    /**
+     * Sets <i>confirmed = true</i> for the <b>User</b> extracted from {@link ConfrirmationToken} by the code.
+     * @param code Special UUID code from <b>ConfrirmationToken</b>.
+     * @exception TokenNotFoundException when the <b>ConfrirmationToken</b> with current <i>code</i> not found.
+     * @return {@link UserDTO} confirmed <b>User</b>.
+     */
+    UserDTO confirmUser(String code) throws TokenNotFoundException;
 
-    UserDTO changePassword(String code, String password) throws TokenExpiredException, TokenNotFoundException;
+    /**
+     * Sets new <i>password</i> for the <b>User</b> extracted from {@link ConfrirmationToken} by the code.
+     * @param code Special UUID <i>String</i> from <b>ConfrirmationToken</b>.
+     * @param password New user password.
+     * @exception TokenNotFoundException when the <b>ConfrirmationToken</b> with current <i>code</i> not found.
+     * @return {@link UserDTO} updated <b>User</b>.
+     */
+    UserDTO changePassword(String code, String password) throws TokenNotFoundException;
 
-    void resetPasswordRequest(String email) throws TokenExpiredException, TokenNotFoundException;
+    /**
+     * Generates a new {@link ConfrirmationToken}, which lives 15 minutes, and sends the confirmation <i>link</i> to the specified <b>email</b>.
+     * @param email User email where the special generated <i>link</i> is sent to.
+     */
+    void resetPasswordRequest(String email);
+    
+    /**
+     * Generates a new {@link ConfrirmationToken}, which lives 15 minutes, and sends the password reset <i>link</i> to the specified <b>email</b>.
+     * @param email User email where the special generated <i>link</i> is sent to.
+     */
+    void confirmUserRequest(String email);
 
 }

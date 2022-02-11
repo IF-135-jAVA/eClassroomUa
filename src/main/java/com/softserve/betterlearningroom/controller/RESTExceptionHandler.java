@@ -2,7 +2,6 @@ package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.exception.APIException;
 import com.softserve.betterlearningroom.exception.SubmissionNotAllowedException;
-import com.softserve.betterlearningroom.exception.TokenExpiredException;
 import com.softserve.betterlearningroom.exception.TokenNotFoundException;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -42,16 +41,6 @@ public class RESTExceptionHandler extends ResponseEntityExceptionHandler {
         details.add(ex.getMessage());
 
         APIException apiException = new APIException("User with current email already exists.", HttpStatus.BAD_REQUEST,
-                LocalDateTime.now(), details);
-        return new ResponseEntity<>(apiException, apiException.getHttpStatus());
-    }
-
-    @ExceptionHandler({ TokenExpiredException.class })
-    protected ResponseEntity<Object> handleTokenExpiredException(TokenExpiredException ex, WebRequest request) {
-        List<String> details = new ArrayList<String>();
-        details.add(ex.getMessage());
-
-        APIException apiException = new APIException("Your token expired.", HttpStatus.BAD_REQUEST,
                 LocalDateTime.now(), details);
         return new ResponseEntity<>(apiException, apiException.getHttpStatus());
     }

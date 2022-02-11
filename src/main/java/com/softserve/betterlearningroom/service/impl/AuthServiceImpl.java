@@ -1,6 +1,5 @@
 package com.softserve.betterlearningroom.service.impl;
 
-import com.softserve.betterlearningroom.dao.ConfirmationTokenDAO;
 import com.softserve.betterlearningroom.configuration.jwt.JwtProvider;
 import com.softserve.betterlearningroom.configuration.util.EmailSender;
 import com.softserve.betterlearningroom.dao.UserDAO;
@@ -9,13 +8,13 @@ import com.softserve.betterlearningroom.entity.ConfirmationToken;
 import com.softserve.betterlearningroom.entity.User;
 import com.softserve.betterlearningroom.entity.UserPrincipal;
 import com.softserve.betterlearningroom.entity.roles.Roles;
-import com.softserve.betterlearningroom.exception.TokenExpiredException;
 import com.softserve.betterlearningroom.exception.TokenNotFoundException;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
 import com.softserve.betterlearningroom.mapper.UserMapper;
 import com.softserve.betterlearningroom.payload.AuthRequest;
 import com.softserve.betterlearningroom.payload.SaveUserRequest;
 import com.softserve.betterlearningroom.service.AuthService;
+import com.softserve.betterlearningroom.service.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -34,7 +33,7 @@ public class AuthServiceImpl implements AuthService {
     private JwtProvider jwtProvider;
     private UserMapper userMapper;
     private UserDAO userDao;
-    private ConfirmationTokenDAO tokenDao;
+    private ConfirmationTokenService tokenService;
     private PasswordEncoder passwordEncoder;
     private EmailSender emailSender;
     
@@ -43,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
     private static final String CONFIRM_EMAIL_URL = "http://localhost:8080/api/auth/confirm?code=";
     private static final String RESET_PASSWORD_TITLE = "Reset your password";
     private static final String RESET_PASSWORD_DESCRIPTION = "Please click on the below link to reset your password:";
-    private static final String RESET_PASSWORD_URL = "http://localhost:8080/api/auth/reset_password?code=";
+    private static final String RESET_PASSWORD_URL = "http://localhost:8080/api/auth/change_password?code=";
 
     @Override
     public String login(AuthRequest request) throws UsernameNotFoundException {
@@ -85,6 +84,7 @@ public class AuthServiceImpl implements AuthService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setEnabled(true);
         user.setConfirmed(false);
+        user.setProvider("local");
         User savedUser = userDao.save(user);
         log.info(String.format("Saving user with id: %d", savedUser.getId()));
 
@@ -111,21 +111,28 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserDTO confirmUser(String code) throws TokenExpiredException, TokenNotFoundException {
+    public UserDTO confirmUser(String code) throws TokenNotFoundException {
         User user = extractUserFromConfirmationToken(code);
         user.setConfirmed(true);
         return userMapper.userToUserDTO(userDao.update(user));
     }
     
     @Override
-    public UserDTO changePassword(String code, String password) throws TokenExpiredException, TokenNotFoundException {
+    public UserDTO changePassword(String code, String password) throws TokenNotFoundException {
         User user = extractUserFromConfirmationToken(code);
         user.setPassword(passwordEncoder.encode(password));
         return userMapper.userToUserDTO(userDao.update(user));
     }
     
     @Override
-    public void resetPasswordRequest(String email) throws TokenExpiredException, TokenNotFoundException {
+    public void confirmUserRequest(String email) {
+        User user = userDao.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User with email - %s, not found.", email)));
+        sendEmailRequest(user, CONFIRM_EMAIL_URL, CONFIRM_EMAIL_TITLE, CONFIRM_EMAIL_DESCRIPTION);
+    }
+    
+    @Override
+    public void resetPasswordRequest(String email) {
         User user = userDao.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User with email - %s, not found.", email)));
         sendEmailRequest(user, RESET_PASSWORD_URL, RESET_PASSWORD_TITLE, RESET_PASSWORD_DESCRIPTION);
@@ -134,21 +141,21 @@ public class AuthServiceImpl implements AuthService {
     private void sendEmailRequest(User user, String url, String title, String description) {
         ConfirmationToken token = ConfirmationToken.builder().code(UUID.randomUUID().toString())
                 .createdAt(LocalDateTime.now()).expiresAt(LocalDateTime.now().plusMinutes(15)).user(user).build();
-        tokenDao.save(token);
+        tokenService.save(token);
         log.info(String.format("Saving token for the user with id: %d", user.getId()));
 
         emailSender.sendEmail(user.getEmail(), user.getFirstName() + " " + user.getLastName(), url + token.getCode(), title, description);
         log.info(String.format("Send email for the user with email: %s", user.getEmail()));
     }
     
-    private User extractUserFromConfirmationToken(String code) throws TokenNotFoundException, TokenExpiredException {
-        ConfirmationToken token = tokenDao.findTokenByCode(code)
-                .orElseThrow(() -> new TokenNotFoundException(String.format("Token with code - %s, not found.", code)));
-        if (token.getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new TokenExpiredException("Sorry, your token has expired.");
+    private User extractUserFromConfirmationToken(String code) throws TokenNotFoundException {
+        ConfirmationToken token = tokenService.findTokenByCode(code);
+        if(token == null) {
+            throw new TokenNotFoundException(String.format("Token with code - %s, not found.", code));
         }
         User user = userDao.findById(token.getUser().getId()).orElseThrow(() -> new UsernameNotFoundException(
                 String.format("User with id - %d, not found.", token.getUser().getId())));
+        tokenService.delete(code);
         return user;
     }
 

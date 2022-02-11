@@ -2,31 +2,28 @@ package com.softserve.betterlearningroom.service.impl;
 
 import com.softserve.betterlearningroom.entity.ConfirmationToken;
 import com.softserve.betterlearningroom.service.ConfirmationTokenService;
-
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ConfirmationTokenServiceImpl implements ConfirmationTokenService{
 
     @Override
-    @Cacheable(cacheNames = "confirmation_token", key = "#id")
-    public ConfirmationToken findTokenById(Long id) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    @Cacheable(cacheNames = "confirmation_token", key = "#code")
+    @Cacheable(cacheNames = "confirmation_tokens", key = "#code")
     public ConfirmationToken findTokenByCode(String code) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    @CachePut(cacheNames = "confirmation_token", key = "#token.id")
+    @CachePut(cacheNames = "confirmation_tokens", key = "#token.code")
     public ConfirmationToken save(ConfirmationToken token) {
-        // TODO Auto-generated method stub
-        return null;
+        return token;
     }
+    
+    @Override
+    @CacheEvict(cacheNames = "confirmation_tokens", key = "#code")
+    public void delete(String code) {}
 
 }
