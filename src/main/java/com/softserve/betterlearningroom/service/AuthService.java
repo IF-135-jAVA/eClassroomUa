@@ -2,6 +2,7 @@ package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.dto.UserDTO;
 import com.softserve.betterlearningroom.exception.TokenNotFoundException;
+import com.softserve.betterlearningroom.exception.UserAlreadyConfirmedException;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
 import com.softserve.betterlearningroom.payload.AuthRequest;
 import com.softserve.betterlearningroom.payload.SaveUserRequest;
@@ -68,7 +69,8 @@ public interface AuthService {
     /**
      * Generates a new {@link ConfrirmationToken}, which lives 15 minutes, and sends the password reset <i>link</i> to the specified <b>email</b>.
      * @param email User email where the special generated <i>link</i> is sent to.
+     * @throws UserAlreadyConfirmedException When <b>User</b> is already confirmed.
      */
-    void confirmUserRequest(String email);
+    void confirmUserRequest(String email) throws UserAlreadyConfirmedException;
 
 }

@@ -9,6 +9,7 @@ import com.softserve.betterlearningroom.entity.User;
 import com.softserve.betterlearningroom.entity.UserPrincipal;
 import com.softserve.betterlearningroom.entity.roles.Roles;
 import com.softserve.betterlearningroom.exception.TokenNotFoundException;
+import com.softserve.betterlearningroom.exception.UserAlreadyConfirmedException;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
 import com.softserve.betterlearningroom.mapper.UserMapper;
 import com.softserve.betterlearningroom.payload.AuthRequest;
@@ -42,7 +43,7 @@ public class AuthServiceImpl implements AuthService {
     private static final String CONFIRM_EMAIL_URL = "http://localhost:8080/api/auth/confirm?code=";
     private static final String RESET_PASSWORD_TITLE = "Reset your password";
     private static final String RESET_PASSWORD_DESCRIPTION = "Please click on the below link to reset your password:";
-    private static final String RESET_PASSWORD_URL = "http://localhost:8080/api/auth/change_password?code=";
+    private static final String RESET_PASSWORD_URL = "http://localhost:8080/api/auth/password?code=";
 
     @Override
     public String login(AuthRequest request) throws UsernameNotFoundException {
@@ -125,9 +126,12 @@ public class AuthServiceImpl implements AuthService {
     }
     
     @Override
-    public void confirmUserRequest(String email) {
+    public void confirmUserRequest(String email) throws UserAlreadyConfirmedException {
         User user = userDao.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User with email - %s, not found.", email)));
+        if(user.isConfirmed()) {
+            throw new UserAlreadyConfirmedException(String.format("User with email - %s, is already confirmed.", email));
+        }
         sendEmailRequest(user, CONFIRM_EMAIL_URL, CONFIRM_EMAIL_TITLE, CONFIRM_EMAIL_DESCRIPTION);
     }
     

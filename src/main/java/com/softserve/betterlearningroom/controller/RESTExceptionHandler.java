@@ -3,6 +3,7 @@ package com.softserve.betterlearningroom.controller;
 import com.softserve.betterlearningroom.exception.APIException;
 import com.softserve.betterlearningroom.exception.SubmissionNotAllowedException;
 import com.softserve.betterlearningroom.exception.TokenNotFoundException;
+import com.softserve.betterlearningroom.exception.UserAlreadyConfirmedException;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DataRetrievalFailureException;
@@ -41,6 +42,17 @@ public class RESTExceptionHandler extends ResponseEntityExceptionHandler {
         details.add(ex.getMessage());
 
         APIException apiException = new APIException("User with current email already exists.", HttpStatus.BAD_REQUEST,
+                LocalDateTime.now(), details);
+        return new ResponseEntity<>(apiException, apiException.getHttpStatus());
+    }
+    
+    @ExceptionHandler({ UserAlreadyConfirmedException.class })
+    protected ResponseEntity<Object> handleUserAlreadyConfirmedException(UserAlreadyConfirmedException ex,
+            WebRequest request) {
+        List<String> details = new ArrayList<String>();
+        details.add(ex.getMessage());
+
+        APIException apiException = new APIException("User with current email already confirmed his account.", HttpStatus.BAD_REQUEST,
                 LocalDateTime.now(), details);
         return new ResponseEntity<>(apiException, apiException.getHttpStatus());
     }
