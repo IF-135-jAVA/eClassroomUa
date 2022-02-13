@@ -20,11 +20,11 @@ public class LevelController {
     @Autowired
     private LevelServiceImpl levelServiceImpl;
 
-//    @GetMapping
-//    public ResponseEntity<List<LevelDTO>> findAll() {
-//        List<LevelDTO> level = levelServiceImpl.findAll();
-//        return ResponseEntity.ok().body(level);
-//    }
+    @GetMapping("/all")
+    public ResponseEntity<List<LevelDTO>> findAll() {
+        List<LevelDTO> level = levelServiceImpl.findAll();
+        return ResponseEntity.ok().body(level);
+    }
 
     @GetMapping
     public ResponseEntity<List<LevelDTO>> findAllByCriterionId(@PathVariable(value = "criterionId" ) final Long criterionId) {
