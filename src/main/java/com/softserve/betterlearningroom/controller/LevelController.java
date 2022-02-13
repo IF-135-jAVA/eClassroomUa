@@ -20,19 +20,19 @@ public class LevelController {
     @Autowired
     private LevelServiceImpl levelServiceImpl;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<LevelDTO>> findAll() {
         List<LevelDTO> level = levelServiceImpl.findAll();
         return ResponseEntity.ok().body(level);
     }
 
-    @GetMapping("/byCriterionId/{byCriterionId}")
-    public ResponseEntity<List<LevelDTO>> findAllByCriterionId(@PathVariable(value = "byCriterionId" ) final Long criterionId) {
+    @GetMapping
+    public ResponseEntity<List<LevelDTO>> findAllByCriterionId(@PathVariable(value = "criterionId" ) final Long criterionId) {
         List<LevelDTO> level = levelServiceImpl.findAllByCriterionId(criterionId);
         return ResponseEntity.ok().body(level);
     }
 
-    @GetMapping("/deleted/{deleted}")
+    @GetMapping("/deleted/{deleted}") //TODO remove
     public ResponseEntity<List<LevelDTO>> findAllDeleted() {
         List<LevelDTO> level = levelServiceImpl.findAllDeleted();
         return ResponseEntity.ok().body(level);
