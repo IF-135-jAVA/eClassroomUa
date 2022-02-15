@@ -57,7 +57,9 @@ public interface UserAssignmentService {
     void delete(Long id);
 
     /**
-     * Find enabled (not deleted) userAssignments by assignmentId
+     * Find enabled (not deleted) userAssignments by assignmentId.
+     * If the authenticated user's role is STUDENT, filter the returned list of userAssignments by userId that should be equal to
+     * id of the authenticated user
      *
      * @param assignmentId id of assignment
      * @return list of userAssignments with the given assignmentId

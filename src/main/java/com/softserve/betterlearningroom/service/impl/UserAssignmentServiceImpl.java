@@ -12,6 +12,7 @@ import com.softserve.betterlearningroom.mapper.UserAssignmentMapper;
 import com.softserve.betterlearningroom.service.UserAssignmentService;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -77,6 +78,7 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
     }
 
     @Override
+    @PostFilter("hasRole('TEACHER') or filterObject.userId.equals(authentication.principal.getId())")
     public List<UserAssignmentDTO> findByAssignmentId(Long assignmentId) {
         return userAssignmentDao.findByAssignmentId(assignmentId)
                 .stream()

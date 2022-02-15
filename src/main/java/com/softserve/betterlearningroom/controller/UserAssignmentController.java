@@ -51,14 +51,13 @@ public class UserAssignmentController {
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasRole('TEACHER') or @userAssignmentServiceImpl.findById(#id).userId.equals(authentication.principal.getId())")
+    @PreAuthorize("hasRole('TEACHER')")
     public ResponseEntity<UserAssignmentDTO> delete(@PathVariable Long id) {
         userAssignmentService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('TEACHER')")
     public ResponseEntity<List<UserAssignmentDTO>> findByAssignmentId(@PathVariable Long materialId) {
         return ResponseEntity.ok(userAssignmentService.findByAssignmentId(materialId));
     }
