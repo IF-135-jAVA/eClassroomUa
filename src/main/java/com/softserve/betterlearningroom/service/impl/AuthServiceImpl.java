@@ -38,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
     private PasswordEncoder passwordEncoder;
     private EmailSender emailSender;
     
-    private static final String CONFIRM_EMAIL_TITLE = "Confirm your email";
+    private static final String CONFIRM_EMAIL_TITLE = "Confirm your email"; //TODO: Put correct links
     private static final String CONFIRM_EMAIL_DESCRIPTION = "Thank you for registering. Please click on the below link to activate your account:";
     private static final String CONFIRM_EMAIL_URL = "http://localhost:8080/api/auth/confirm?code=";
     private static final String RESET_PASSWORD_TITLE = "Reset your password";
