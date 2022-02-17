@@ -18,7 +18,6 @@ import com.softserve.betterlearningroom.service.AuthService;
 import com.softserve.betterlearningroom.service.ConfirmationTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -39,15 +38,12 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final EmailSender emailSender;
     
-    @Value("${site.url}")
-    private static String baseUrl;
-    
     private static final String CONFIRM_EMAIL_TITLE = "Confirm your email";
     private static final String CONFIRM_EMAIL_DESCRIPTION = "Thank you for registering. Please click on the below link to activate your account:";
-    private static final String CONFIRM_EMAIL_URL = baseUrl + "confirm?code=";
+    private static final String CONFIRM_EMAIL_URL = "http://localhost:4200/confirm?code=";
     private static final String RESET_PASSWORD_TITLE = "Reset your password";
     private static final String RESET_PASSWORD_DESCRIPTION = "Please click on the below link to reset your password:";
-    private static final String RESET_PASSWORD_URL = baseUrl + "change-password?code=";
+    private static final String RESET_PASSWORD_URL = "http://localhost:4200/change-password?code=";
 
     @Override
     public String login(AuthRequest request) throws UsernameNotFoundException {
