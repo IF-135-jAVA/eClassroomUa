@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 public class Comment {
     private long id;
     private String text;
+    private String firstName;
+    private String lastName;
     private LocalDateTime date;
     private long authorId;
     private long announcementId;
