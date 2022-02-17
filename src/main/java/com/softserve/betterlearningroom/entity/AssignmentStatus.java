@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public enum AssignmentStatus {
 
-    TODO(1), ONREVIEW(2), DONE(3);
+    TODO(1L), ONREVIEW(2L), DONE(3L);
 
-    private long id;
+    private Long id;
 }
