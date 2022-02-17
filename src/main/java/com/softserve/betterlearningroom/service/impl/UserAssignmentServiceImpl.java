@@ -34,7 +34,7 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
         if (dueDate != null && LocalDateTime.now().isAfter(dueDate)) {
             throw new SubmissionNotAllowedException("Due date for assignment with id - " + material.getId() + " has passed. Due date is " + dueDate + ".");
         }
-        userAssignmentDTO.setAssignmentStatusId(AssignmentStatus.TODO.getId());
+        userAssignmentDTO.setAssignmentStatusId(AssignmentStatus.IN_PROGRESS.getId());
         userAssignmentDTO.setSubmissionDate(null);
         userAssignmentDTO.setGrade(0);
         userAssignmentDTO.setFeedback(null);
@@ -51,7 +51,7 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
     @Override
     public UserAssignmentDTO updateAsTeacher(UserAssignmentDTO userAssignmentDTO, Long id) {
         UserAssignmentDTO oldUserAssignmentDTO = findById(id);
-        oldUserAssignmentDTO.setAssignmentStatusId(AssignmentStatus.ONREVIEW.getId());
+        oldUserAssignmentDTO.setAssignmentStatusId(AssignmentStatus.REVIEWED.getId());
         oldUserAssignmentDTO.setGrade(userAssignmentDTO.getGrade());
         oldUserAssignmentDTO.setFeedback(userAssignmentDTO.getFeedback());
         return userAssignmentMapper.userAssignmentToUserAssignmentDTO(
@@ -61,7 +61,7 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
     @Override
     public UserAssignmentDTO updateAsStudent(UserAssignmentDTO userAssignmentDTO, Long id) {
         UserAssignmentDTO oldUserAssignmentDTO = findById(id);
-        if (!userAssignmentDTO.getAssignmentStatusId().equals(AssignmentStatus.ONREVIEW.getId())) {
+        if (!userAssignmentDTO.getAssignmentStatusId().equals(AssignmentStatus.REVIEWED.getId())) {
             oldUserAssignmentDTO.setAssignmentStatusId(userAssignmentDTO.getAssignmentStatusId());
         }
         return userAssignmentMapper.userAssignmentToUserAssignmentDTO(

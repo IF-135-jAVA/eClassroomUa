@@ -11,7 +11,7 @@ public interface UserAssignmentService {
     /**
      * Save the given userAssignment in the database if due date for its assignment has not passed.
      * Set the appropriate values for some fields:
-     * assignmentStatus - TODO, submissionDate - null, grade - 0, feedback - null, enabled - true
+     * assignmentStatus - IN_PROGRESS, submissionDate - null, grade - 0, feedback - null, enabled - true
      *
      * @param userAssignmentDTO new userAssignment
      * @return saved userAssignment
