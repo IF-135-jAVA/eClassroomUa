@@ -52,7 +52,7 @@ class UserServiceTest {
     @Test
     void whenUserIdIsProvided_thenReturnCorrectUser() {
         User user = new User(USER_ID, USER_FIRSTNAME, USER_LASTNAME, USER_PASSWORD, USER_EMAIL, USER_ENABLED,
-                USER_PROVIDER, USER_PROVIDER_ID);
+                USER_ENABLED, USER_PROVIDER, USER_PROVIDER_ID);
         given(userDao.findById(USER_ID)).willReturn(Optional.of(user));
         UserDTO userDTO = userService.findById(USER_ID);
         assertNotNull(userDTO);
@@ -63,7 +63,7 @@ class UserServiceTest {
     @Test
     void whenUserEmailIsProvided_thenReturnCorrectUser() {
         User user = new User(USER_ID, USER_FIRSTNAME, USER_LASTNAME, USER_PASSWORD, USER_EMAIL, USER_ENABLED,
-                USER_PROVIDER, USER_PROVIDER_ID);
+                USER_ENABLED, USER_PROVIDER, USER_PROVIDER_ID);
         given(userDao.findByEmail(Mockito.anyString())).willReturn(Optional.of(user));
         UserDTO userDTO = userService.findByEmail(USER_EMAIL);
         assertNotNull(userDTO);
@@ -81,13 +81,13 @@ class UserServiceTest {
     @Test
     void whenGetAllUsers_thenReturnCorrectList() {
         List<User> userList = new ArrayList<>();
-        userList.add(new User(USER_ID, USER_FIRSTNAME, USER_LASTNAME, USER_PASSWORD, USER_EMAIL, USER_ENABLED,
+        userList.add(new User(USER_ID, USER_FIRSTNAME, USER_LASTNAME, USER_PASSWORD, USER_EMAIL, USER_ENABLED, USER_ENABLED,
                 USER_PROVIDER, USER_PROVIDER_ID));
-        userList.add(new User(2L, "Yurii", "Kotsiuba", USER_PASSWORD, "jurok3x@gmail.com", USER_ENABLED, USER_PROVIDER,
+        userList.add(new User(2L, "Yurii", "Kotsiuba", USER_PASSWORD, "jurok3x@gmail.com", USER_ENABLED, USER_ENABLED, USER_PROVIDER,
                 USER_PROVIDER_ID));
-        userList.add(new User(3l, "Bob", "Smith", USER_PASSWORD, "bob@gmail.com", USER_ENABLED, USER_PROVIDER,
+        userList.add(new User(3l, "Bob", "Smith", USER_PASSWORD, "bob@gmail.com", USER_ENABLED, USER_ENABLED, USER_PROVIDER,
                 USER_PROVIDER_ID));
-        userList.add(new User(4l, "John", "Doe", USER_PASSWORD, "jdoe@gmail.com", USER_ENABLED, USER_PROVIDER,
+        userList.add(new User(4l, "John", "Doe", USER_PASSWORD, "jdoe@gmail.com", USER_ENABLED, USER_ENABLED, USER_PROVIDER,
                 USER_PROVIDER_ID));
         given(userDao.findAll()).willReturn(userList);
         List<UserDTO> actualUsers = userService.findAll();

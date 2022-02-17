@@ -79,12 +79,12 @@ public class UserDAOImpl implements UserDAO {
         
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        params.addValue("firstname", user.getFirstName()).addValue("lastname", user.getLastName())
+        params.addValue("firstName", user.getFirstName()).addValue("lastName", user.getLastName())
                 .addValue(EMAIL, user.getEmail()).addValue("password", user.getPassword())
                 .addValue("enabled", user.isEnabled()).addValue("provider", user.getProvider())
-                .addValue("provider_id", user.getProviderId());
+                .addValue("provider_id", user.getProviderId()).addValue("confirmed", user.isConfirmed());
 
-        template.update(save, params, keyHolder);
+        template.update(save, params, keyHolder, new String[] { "id" });
         Long userId = 0L;
         if(keyHolder.getKey() != null) {
             userId = keyHolder.getKey().longValue();
@@ -97,9 +97,9 @@ public class UserDAOImpl implements UserDAO {
     public User update(User user) {
         MapSqlParameterSource params = new MapSqlParameterSource();
 
-        params.addValue("firstname", user.getFirstName()).addValue("lastname", user.getLastName())
+        params.addValue("firstName", user.getFirstName()).addValue("lastName", user.getLastName())
                 .addValue(EMAIL, user.getEmail()).addValue("password", user.getPassword())
-                .addValue("enabled", user.isEnabled()).addValue("id", user.getId());
+                .addValue("enabled", user.isEnabled()).addValue("id", user.getId()).addValue("confirmed", user.isConfirmed());
 
         template.update(update, params);
         

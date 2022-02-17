@@ -1,6 +1,8 @@
 package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.dto.UserDTO;
+import com.softserve.betterlearningroom.exception.TokenNotFoundException;
+import com.softserve.betterlearningroom.exception.UserAlreadyConfirmedException;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
 import com.softserve.betterlearningroom.payload.AuthRequest;
 import com.softserve.betterlearningroom.payload.SaveUserRequest;
@@ -40,5 +42,35 @@ public interface AuthService {
      * @return {@link UserDTO} updated <b>User</b>.
      */
     UserDTO updateUser(SaveUserRequest request, Long id) throws UserAlreadyExistsException;
+    
+    /**
+     * Sets <i>confirmed = true</i> for the <b>User</b> extracted from {@link ConfrirmationToken} by the code.
+     * @param code Special UUID code from <b>ConfrirmationToken</b>.
+     * @exception TokenNotFoundException when the <b>ConfrirmationToken</b> with current <i>code</i> not found.
+     * @return {@link UserDTO} confirmed <b>User</b>.
+     */
+    UserDTO confirmUser(String code) throws TokenNotFoundException;
+
+    /**
+     * Sets new <i>password</i> for the <b>User</b> extracted from {@link ConfrirmationToken} by the code.
+     * @param code Special UUID <i>String</i> from <b>ConfrirmationToken</b>.
+     * @param password New user password.
+     * @exception TokenNotFoundException when the <b>ConfrirmationToken</b> with current <i>code</i> not found.
+     * @return {@link UserDTO} updated <b>User</b>.
+     */
+    UserDTO changePassword(String code, String password) throws TokenNotFoundException;
+
+    /**
+     * Generates a new {@link ConfrirmationToken}, which lives 15 minutes, and sends the confirmation <i>link</i> to the specified <b>email</b>.
+     * @param email User email where the special generated <i>link</i> is sent to.
+     */
+    void resetPasswordRequest(String email);
+    
+    /**
+     * Generates a new {@link ConfrirmationToken}, which lives 15 minutes, and sends the password reset <i>link</i> to the specified <b>email</b>.
+     * @param email User email where the special generated <i>link</i> is sent to.
+     * @throws UserAlreadyConfirmedException When <b>User</b> is already confirmed.
+     */
+    void confirmUserRequest(String email) throws UserAlreadyConfirmedException;
 
 }

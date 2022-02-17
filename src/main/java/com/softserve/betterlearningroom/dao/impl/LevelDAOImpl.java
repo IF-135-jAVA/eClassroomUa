@@ -46,7 +46,6 @@ public class LevelDAOImpl implements LevelDAO {
     public Level save(Level level) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource
-                .addValue("level_id", level.getLevelId())
                 .addValue("title", level.getTitle())
                 .addValue("description", level.getDescription())
                 .addValue("criterion_id", level.getCriterionId())
