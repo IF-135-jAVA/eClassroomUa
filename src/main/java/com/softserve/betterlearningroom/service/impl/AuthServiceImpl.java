@@ -16,8 +16,9 @@ import com.softserve.betterlearningroom.payload.AuthRequest;
 import com.softserve.betterlearningroom.payload.SaveUserRequest;
 import com.softserve.betterlearningroom.service.AuthService;
 import com.softserve.betterlearningroom.service.ConfirmationTokenService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,22 +29,25 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class AuthServiceImpl implements AuthService {
-    private JwtProvider jwtProvider;
-    private UserMapper userMapper;
-    private UserDAO userDao;
-    private ConfirmationTokenService tokenService;
-    private PasswordEncoder passwordEncoder;
-    private EmailSender emailSender;
+    private final JwtProvider jwtProvider;
+    private final UserMapper userMapper;
+    private final UserDAO userDao;
+    private final ConfirmationTokenService tokenService;
+    private final PasswordEncoder passwordEncoder;
+    private final EmailSender emailSender;
     
-    private static final String CONFIRM_EMAIL_TITLE = "Confirm your email"; //TODO: Put correct links
+    @Value("${site.url}")
+    private static String baseUrl;
+    
+    private static final String CONFIRM_EMAIL_TITLE = "Confirm your email";
     private static final String CONFIRM_EMAIL_DESCRIPTION = "Thank you for registering. Please click on the below link to activate your account:";
-    private static final String CONFIRM_EMAIL_URL = "http://localhost:8080/api/auth/confirm?code=";
+    private static final String CONFIRM_EMAIL_URL = baseUrl + "confirm?code=";
     private static final String RESET_PASSWORD_TITLE = "Reset your password";
     private static final String RESET_PASSWORD_DESCRIPTION = "Please click on the below link to reset your password:";
-    private static final String RESET_PASSWORD_URL = "http://localhost:8080/api/auth/password?code=";
+    private static final String RESET_PASSWORD_URL = baseUrl + "change-password?code=";
 
     @Override
     public String login(AuthRequest request) throws UsernameNotFoundException {

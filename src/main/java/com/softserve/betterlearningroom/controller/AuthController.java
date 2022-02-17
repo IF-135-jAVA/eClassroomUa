@@ -6,6 +6,7 @@ import com.softserve.betterlearningroom.exception.UserAlreadyConfirmedException;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
 import com.softserve.betterlearningroom.payload.AuthRequest;
 import com.softserve.betterlearningroom.payload.AuthResponse;
+import com.softserve.betterlearningroom.payload.ChangePasswordRequest;
 import com.softserve.betterlearningroom.payload.SaveUserRequest;
 import com.softserve.betterlearningroom.service.AuthService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -72,8 +73,8 @@ public class AuthController {
     }
     
     @PostMapping("/password")
-    public ResponseEntity<UserDTO> changePassword(@RequestParam String code, @RequestBody String password) throws TokenNotFoundException {
-        return ResponseEntity.ok().body(authService.changePassword(code, password));    
+    public ResponseEntity<UserDTO> changePassword(@RequestBody ChangePasswordRequest request) throws TokenNotFoundException {
+        return ResponseEntity.ok().body(authService.changePassword(request.getToken(), request.getPassword()));    
     }
 
     @PutMapping("/users/{id}")
