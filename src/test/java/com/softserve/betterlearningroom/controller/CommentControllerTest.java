@@ -45,7 +45,7 @@ class CommentControllerTest {
     @Test
     void readByCommentIdTest() throws Exception {
         mapper = new ObjectMapper();
-        CommentDTO comment = new CommentDTO(2L, "text2", LocalDateTime.now(), 3L, 3L, 4L, 2L, true);
+        CommentDTO comment = new CommentDTO(2L, "text2", "Jon", "Duo", LocalDateTime.now(), 3L, 3L, 4L, 2L, true);
         given(commentService.findByCommentId(Mockito.anyLong())).willReturn(comment);
         mvc.perform(get("/api/comments/2").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
@@ -86,8 +86,8 @@ class CommentControllerTest {
     @Test
     void readByIdAuthorIdTest() throws Exception {
         List<CommentDTO> commentList = new ArrayList<>();
-        commentList.add(new CommentDTO(2L, "text2", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
-        commentList.add(new CommentDTO(3L, "text3", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
+        commentList.add(new CommentDTO(2L, "text2", "Jon", "Duo", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
+        commentList.add(new CommentDTO(3L, "text3","Jon", "Duo", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
         given(commentService.findByAuthorId(anyLong())).willReturn(commentList);
         mvc.perform(get("/api/comments/users/2").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
@@ -96,8 +96,8 @@ class CommentControllerTest {
     @Test
     void readByIdMaterialIdTest() throws Exception {
         List<CommentDTO> commentList = new ArrayList<>();
-        commentList.add(new CommentDTO(2L, "text2", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
-        commentList.add(new CommentDTO(3L, "text3", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
+        commentList.add(new CommentDTO(2L, "text2", "Jon", "Duo", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
+        commentList.add(new CommentDTO(3L, "text3", "Jon", "Duo", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
         given(commentService.findByMaterialId(anyLong())).willReturn(commentList);
         mvc.perform(get("/api/comments/materials/2").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
@@ -106,8 +106,8 @@ class CommentControllerTest {
     @Test
     void readByIdAnnouncementCommentsTest() throws Exception {
         List<CommentDTO> commentList = new ArrayList<>();
-        commentList.add(new CommentDTO(2L, "text2", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
-        commentList.add(new CommentDTO(3L, "text3", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
+        commentList.add(new CommentDTO(2L, "text2", "Jon", "Duo", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
+        commentList.add(new CommentDTO(3L, "text3", "Jon", "Duo", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
         given(commentService.findByAnnouncementId(anyLong())).willReturn(commentList);
         mvc.perform(get("/api/comments/announcements/3").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
@@ -116,8 +116,8 @@ class CommentControllerTest {
     @Test
     void readByIdUserAssignmentCommentsTest() throws Exception {
         List<CommentDTO> commentList = new ArrayList<>();
-        commentList.add(new CommentDTO(2L, "text2", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
-        commentList.add(new CommentDTO(3L, "text3", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
+        commentList.add(new CommentDTO(2L, "text2", "Jon", "Duo", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
+        commentList.add(new CommentDTO(3L, "text3", "Jon", "Duo", LocalDateTime.now(), 3L, 3L, 4L, 2L, true));
         given(commentService.findByUserAssignmentId(anyLong())).willReturn(commentList);
         mvc.perform(get("/api/comments/user-assignments/4").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
