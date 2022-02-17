@@ -1,6 +1,7 @@
 package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.dto.UserAssignmentDTO;
+import com.softserve.betterlearningroom.dto.UserAssignmentEvaluationDTO;
 import com.softserve.betterlearningroom.exception.SubmissionNotAllowedException;
 import org.springframework.dao.DataRetrievalFailureException;
 
@@ -36,7 +37,7 @@ public interface UserAssignmentService {
      * @return updated userAssignment
      * @throws DataRetrievalFailureException if userAssignment with the given id is missing or disabled (deleted)
      */
-    UserAssignmentDTO updateAsTeacher(UserAssignmentDTO userAssignmentDTO, Long id);
+    UserAssignmentDTO updateAsTeacher(UserAssignmentEvaluationDTO userAssignmentDTO, Long id);
 
     /**
      * Update assignmentStatusId of userAssignment with the given id. Set the new value for the field: assignmentStatus - any except REVIEWED

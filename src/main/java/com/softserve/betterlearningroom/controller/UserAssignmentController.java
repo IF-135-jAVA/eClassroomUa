@@ -1,6 +1,7 @@
 package com.softserve.betterlearningroom.controller;
 
 import com.softserve.betterlearningroom.dto.UserAssignmentDTO;
+import com.softserve.betterlearningroom.dto.UserAssignmentEvaluationDTO;
 import com.softserve.betterlearningroom.service.UserAssignmentService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
@@ -40,7 +41,7 @@ public class UserAssignmentController {
 
     @PutMapping("{id}/evaluate")
     @PreAuthorize("hasRole('TEACHER')")
-    public ResponseEntity<UserAssignmentDTO> updateAsTeacher(@PathVariable Long id, @RequestBody UserAssignmentDTO userAssignmentDTO) {
+    public ResponseEntity<UserAssignmentDTO> updateAsTeacher(@PathVariable Long id, @RequestBody UserAssignmentEvaluationDTO userAssignmentDTO) {
         return ResponseEntity.ok(userAssignmentService.updateAsTeacher(userAssignmentDTO, id));
     }
 

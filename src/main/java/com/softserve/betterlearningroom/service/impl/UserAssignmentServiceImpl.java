@@ -4,6 +4,7 @@ import com.softserve.betterlearningroom.dao.AnswerDAO;
 import com.softserve.betterlearningroom.dao.MaterialDAO;
 import com.softserve.betterlearningroom.dao.UserAssignmentDAO;
 import com.softserve.betterlearningroom.dto.UserAssignmentDTO;
+import com.softserve.betterlearningroom.dto.UserAssignmentEvaluationDTO;
 import com.softserve.betterlearningroom.entity.Answer;
 import com.softserve.betterlearningroom.entity.AssignmentStatus;
 import com.softserve.betterlearningroom.entity.Material;
@@ -49,7 +50,7 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
     }
 
     @Override
-    public UserAssignmentDTO updateAsTeacher(UserAssignmentDTO userAssignmentDTO, Long id) {
+    public UserAssignmentDTO updateAsTeacher(UserAssignmentEvaluationDTO userAssignmentDTO, Long id) {
         UserAssignmentDTO oldUserAssignmentDTO = findById(id);
         oldUserAssignmentDTO.setAssignmentStatusId(AssignmentStatus.REVIEWED.getId());
         oldUserAssignmentDTO.setGrade(userAssignmentDTO.getGrade());
