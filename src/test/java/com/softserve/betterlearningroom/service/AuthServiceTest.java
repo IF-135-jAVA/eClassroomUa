@@ -1,6 +1,7 @@
 package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.configuration.jwt.JwtProvider;
+import com.softserve.betterlearningroom.configuration.util.EmailSender;
 import com.softserve.betterlearningroom.dao.UserDAO;
 import com.softserve.betterlearningroom.entity.User;
 import com.softserve.betterlearningroom.exception.UserAlreadyExistsException;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,10 +27,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @ExtendWith(value = { MockitoExtension.class })
+@Import(EmailSender.class)
 class AuthServiceTest {
     
     @Mock
@@ -37,15 +41,21 @@ class AuthServiceTest {
     @Mock
     private JwtProvider jwtProvider;
     
+    @Mock
+    private ConfirmationTokenService tokenService;
+    
     private PasswordEncoder passwordEncoder;  
     private AuthServiceImpl authService;
     private UserMapper userMapper;
+    
+    @Mock
+    private EmailSender mailSender;
     
     @BeforeEach
     void setUp() {
         userMapper = new UserMapper();
         passwordEncoder = new BCryptPasswordEncoder();
-        authService = new AuthServiceImpl(jwtProvider, userMapper, userDao, passwordEncoder);
+        authService = new AuthServiceImpl(jwtProvider, userMapper, userDao, tokenService, passwordEncoder, mailSender);
     }
     
     @Test
@@ -82,6 +92,7 @@ class AuthServiceTest {
         user.setId(0L);
         given(userDao.save(any(User.class))).willReturn(user);
         given(userDao.findByEmail(anyString())).willReturn(Optional.empty());
+        doNothing().when(mailSender).sendEmail(anyString(), anyString(), anyString(), anyString(), anyString());
         SaveUserRequest request = getRequest();
         assertEquals(request.getEmail(), authService.saveUser(request).getEmail());
         verify(userDao).findByEmail(anyString());

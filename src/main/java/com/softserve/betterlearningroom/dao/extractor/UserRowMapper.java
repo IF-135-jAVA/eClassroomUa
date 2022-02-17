@@ -21,6 +21,7 @@ public class UserRowMapper implements RowMapper<User> {
         user.setEnabled(rs.getBoolean("enabled"));
         user.setProvider(rs.getString("provider"));
         user.setProviderId(rs.getString("provider_id"));
+        user.setConfirmed(rs.getBoolean("confirmed"));
         return user;
     }
 }

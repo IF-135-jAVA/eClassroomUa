@@ -23,6 +23,8 @@ public class User {
 
     private boolean enabled;
     
+    private boolean confirmed;
+    
     private String provider;
     
     private String providerId;
