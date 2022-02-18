@@ -34,7 +34,7 @@ class TopicControllerTest {
 
     private TopicDTO testTopic() {
         return TopicDTO.builder()
-                .id(1L).classroomId(2L)
+                .id(1L).classroomId("2")
                 .title("Mathematics")
                 .build();
     }

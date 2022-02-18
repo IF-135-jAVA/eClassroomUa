@@ -38,11 +38,11 @@ class TopicServiceImplTest {
     void setUp() {
         expectedTopicDTO = TopicDTO.builder()
                 .id(1L)
-                .classroomId(2L)
+                .classroomId("2")
                 .title("Mathematics")
                 .build();
         expectedTopic = Topic.builder()
-                .classroomId(2L)
+                .classroomId("2")
                 .topicId(2L)
                 .title("Mathematics")
                 .build();

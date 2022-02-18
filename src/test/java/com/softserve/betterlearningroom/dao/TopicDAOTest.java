@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest(classes = {TestDBConfiguration.class, TopicDAOImpl.class})
 class TopicDAOTest {
     private static final Long TOPIC_ID = 3L;
-    private static final long CLASSROOM_ID = 3;
+    private static final String CLASSROOM_ID = "3";
     private static final String TITLE = "Mathematics";
 
     @Autowired
@@ -43,7 +43,7 @@ class TopicDAOTest {
     void testfindAll() {
         Topic topicForSave = Topic.builder()
                 .topicId(3L)
-                .classroomId(3L)
+                .classroomId("3")
                 .title(TITLE)
                 .build();
 
@@ -62,7 +62,7 @@ class TopicDAOTest {
     void testUpdate() {
         Topic topicForSave = Topic.builder()
                 .topicId(2L)
-                .classroomId(2L)
+                .classroomId("2")
                 .title("test title")
                 .build();
 

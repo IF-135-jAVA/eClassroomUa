@@ -16,6 +16,6 @@ public interface TopicService {
 
     TopicDTO update(TopicDTO topicDTO);
 
-    List<TopicDTO> findAllByClassroomId(Long classroomId);
+    List<TopicDTO> findAllByClassroomId(String classroomId);
 
 }
