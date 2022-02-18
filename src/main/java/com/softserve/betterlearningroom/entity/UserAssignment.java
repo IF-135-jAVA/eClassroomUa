@@ -10,10 +10,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserAssignment {
-    private long id;
-    private long materialId;
-    private long userId;
-    private long assignmentStatusId;
+    private Long id;
+    private Long materialId;
+    private String materialTitle;
+    private LocalDateTime dueDate;
+    private int maxScore;
+    private Long userId;
+    private String userFirstName;
+    private String userLastName;
+    private Long assignmentStatusId;
+    private String assignmentStatusTitle;
     private LocalDateTime submissionDate;
     private int grade;
     private String feedback;

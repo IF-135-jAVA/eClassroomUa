@@ -1,10 +1,8 @@
 package com.softserve.betterlearningroom.service.impl;
 
 import com.softserve.betterlearningroom.dao.AnswerDAO;
-import com.softserve.betterlearningroom.dao.MaterialDAO;
 import com.softserve.betterlearningroom.dao.UserAssignmentDAO;
 import com.softserve.betterlearningroom.dto.AnswerDTO;
-import com.softserve.betterlearningroom.entity.Material;
 import com.softserve.betterlearningroom.entity.UserAssignment;
 import com.softserve.betterlearningroom.exception.SubmissionNotAllowedException;
 import com.softserve.betterlearningroom.mapper.AnswerMapper;
@@ -24,7 +22,6 @@ import java.util.stream.Collectors;
 public class AnswerServiceImpl implements AnswerService {
     private final AnswerDAO answerDao;
     private final UserAssignmentDAO userAssignmentDao;
-    private final MaterialDAO materialDao;
     private AnswerMapper answerMapper = Mappers.getMapper(AnswerMapper.class);
 
     @Override
@@ -35,7 +32,7 @@ public class AnswerServiceImpl implements AnswerService {
         } catch (DataRetrievalFailureException e) {
             throw new DataIntegrityViolationException(e.getMessage());
         }
-        checkIfSubmissionAllowed(userAssignment); // throws an exception if due date for assignment has passed
+        checkIfSubmissionAllowed(userAssignment);
         answerDTO.setEnabled(true);
         AnswerDTO result = answerMapper.answerToAnswerDTO(answerDao.save(answerMapper.answerDTOToAnswer(answerDTO)));
         renewUserAssignmentSubmissionDate(userAssignment);
@@ -80,10 +77,9 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     private void checkIfSubmissionAllowed(UserAssignment userAssignment) {
-        Material material = materialDao.findById(userAssignment.getMaterialId());
-        LocalDateTime dueDate = material.getDueDate();
+        LocalDateTime dueDate = userAssignment.getDueDate();
         if (dueDate != null && LocalDateTime.now().isAfter(dueDate)) {
-            throw new SubmissionNotAllowedException("Due date for assignment with id - " + material.getId() + " has passed. Due date is " + dueDate + ".");
+            throw new SubmissionNotAllowedException("Due date for assignment with id - " + userAssignment.getMaterialId() + " has passed. Due date is " + dueDate + ".");
         }
     }
 }
