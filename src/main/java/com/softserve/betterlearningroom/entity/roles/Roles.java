@@ -1,5 +1,4 @@
 package com.softserve.betterlearningroom.entity.roles;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

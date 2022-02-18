@@ -22,7 +22,7 @@ public class ClassroomServiceImpl implements ClassroomService {
     private ClassroomMapper classroomMapper;
     private UserMapper userMapper;
 
-    public ClassroomDTO findById(Long classroomId) {
+    public ClassroomDTO findById(String classroomId) {
         Classroom classroom = classroomDaoImpl.findClassroomById(classroomId);
         return classroomMapper.classroomToClassroomDTO(classroom);
     }
@@ -31,18 +31,18 @@ public class ClassroomServiceImpl implements ClassroomService {
         return classroomMapper.classroomToClassroomDTO(classroomDaoImpl.save(classroomMapper.classroomDTOToClassroom(classroomDTO)));
     }
 
-    public UserDTO getClassroomOwnerById(Long classroomId) {
+    public UserDTO getClassroomOwnerById(String classroomId) {
         User user = classroomDaoImpl.getClassroomOwnerById(classroomId);
         return userMapper.userToUserDTO(user);
     }
 
-    public List<UserDTO> getClassroomTeachersById(Long classroomId) {
+    public List<UserDTO> getClassroomTeachersById(String classroomId) {
         return classroomDaoImpl.getAllTeachersById(classroomId).stream()
                 .map(userMapper::userToUserDTO)
                 .collect(Collectors.toList());
     }
 
-    public List<UserDTO> getClassroomStudentsById(Long classroomId) {
+    public List<UserDTO> getClassroomStudentsById(String classroomId) {
         return classroomDaoImpl.getAllStudentsById(classroomId).stream()
                 .map(userMapper::userToUserDTO)
                 .collect(Collectors.toList());
@@ -60,19 +60,19 @@ public class ClassroomServiceImpl implements ClassroomService {
                 .collect(Collectors.toList());
     }
 
-    public ClassroomDTO joinClassroomAsStudent(String code, Long userId) {
-        Classroom classroom = classroomDaoImpl.findByCode(code);
-            classroomDaoImpl.joinClassroomAsStudent(code, userId);
-            return classroomMapper.classroomToClassroomDTO(classroom);
+    public ClassroomDTO joinClassroomAsStudent(String classroomId, Long userId) {
+        Classroom classroom = classroomDaoImpl.findClassroomById(classroomId);
+        classroomDaoImpl.joinClassroomAsStudent(classroomId, userId);
+        return classroomMapper.classroomToClassroomDTO(classroom);
     }
 
-    public ClassroomDTO joinClassroomAsTeacher(String code, Long userId) {
-        Classroom classroom = classroomDaoImpl.findByCode(code);
-            classroomDaoImpl.joinClassroomAsTeacher(code, userId);
-            return classroomMapper.classroomToClassroomDTO(classroom);
+    public ClassroomDTO joinClassroomAsTeacher(String classroomId, Long userId) {
+        Classroom classroom = classroomDaoImpl.findClassroomById(classroomId);
+        classroomDaoImpl.joinClassroomAsTeacher(classroomId, userId);
+        return classroomMapper.classroomToClassroomDTO(classroom);
     }
 
-    public void delete(Long classroomId) {
+    public void delete(String classroomId) {
         ClassroomDTO classroomDTO = findById(classroomId);
         classroomDaoImpl.delete(classroomDTO.getClassroomId());
     }

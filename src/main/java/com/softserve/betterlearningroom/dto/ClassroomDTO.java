@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ClassroomDTO {
-    private Long classroomId;
+    private String classroomId;
 
     private Long userId;
 
@@ -25,7 +25,7 @@ public class ClassroomDTO {
 
     private String description;
 
-    private String code;
+    private boolean enabled;
 
     private User owner;
 

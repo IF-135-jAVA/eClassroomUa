@@ -47,7 +47,7 @@ public class AnnouncementDAOImpl implements AnnouncementDAO {
     }
 
     @Override
-    public List<Announcement> findByCourseId(Long courseId) {
+    public List<Announcement> findByCourseId(String courseId) {
         SqlParameterSource parameterSource = new MapSqlParameterSource("courseId", courseId);
         return namedParameterJdbcTemplate.query(getByCourseId, parameterSource, BeanPropertyRowMapper.newInstance(Announcement.class));
     }

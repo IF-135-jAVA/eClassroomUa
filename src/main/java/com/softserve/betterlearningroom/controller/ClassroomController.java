@@ -19,22 +19,22 @@ public class ClassroomController {
     private ClassroomServiceImpl classroomServiceImpl;
 
     @GetMapping("/{classroomId}")
-    public ResponseEntity<ClassroomDTO> findClassroomById(@PathVariable Long classroomId) {
+    public ResponseEntity<ClassroomDTO> findClassroomById(@PathVariable String classroomId) {
         return ResponseEntity.ok().body(classroomServiceImpl.findById(classroomId));
     }
 
     @GetMapping("{classroomId}/owner")
-    public ResponseEntity<UserDTO> findClassroomOwnerById(@PathVariable Long classroomId) {
+    public ResponseEntity<UserDTO> findClassroomOwnerById(@PathVariable String classroomId) {
         return ResponseEntity.ok().body(classroomServiceImpl.getClassroomOwnerById(classroomId));
     }
 
     @GetMapping("/{classroomId}/teachers")
-    public ResponseEntity<List<UserDTO>> findClassroomTeachersById(@PathVariable Long classroomId) {
+    public ResponseEntity<List<UserDTO>> findClassroomTeachersById(@PathVariable String classroomId) {
         return ResponseEntity.ok().body(classroomServiceImpl.getClassroomTeachersById(classroomId));
     }
 
     @GetMapping("/{classroomId}/students")
-    public ResponseEntity<List<UserDTO>> findClassroomStudentsById(@PathVariable Long classroomId) {
+    public ResponseEntity<List<UserDTO>> findClassroomStudentsById(@PathVariable String classroomId) {
         return ResponseEntity.ok().body(classroomServiceImpl.getClassroomStudentsById(classroomId));
     }
 
@@ -50,14 +50,14 @@ public class ClassroomController {
 
     @GetMapping("/join/student")
     @ResponseBody
-    public ResponseEntity<ClassroomDTO> joinClassroomAsStudent(@RequestParam(value = "code", required = true) String code, @RequestParam(value = "userId", required = true) Long userId) {
-        return ResponseEntity.ok().body(classroomServiceImpl.joinClassroomAsStudent(code, userId));
+    public ResponseEntity<ClassroomDTO> joinClassroomAsStudent(@RequestParam(value = "classroomId", required = true) String classroomId, @RequestParam(value = "userId", required = true) Long userId) {
+        return ResponseEntity.ok().body(classroomServiceImpl.joinClassroomAsStudent(classroomId, userId));
     }
 
     @GetMapping("/join/teacher")
     @ResponseBody
-    public ResponseEntity<ClassroomDTO> joinClassroomAsTeacher(@RequestParam(value = "code", required = true) String code, @RequestParam(value = "userId", required = true) Long userId) {
-        return ResponseEntity.ok().body(classroomServiceImpl.joinClassroomAsTeacher(code, userId));
+    public ResponseEntity<ClassroomDTO> joinClassroomAsTeacher(@RequestParam(value = "classroomId", required = true) String classroomId, @RequestParam(value = "userId", required = true) Long userId) {
+        return ResponseEntity.ok().body(classroomServiceImpl.joinClassroomAsTeacher(classroomId, userId));
     }
 
     @PostMapping()
@@ -66,7 +66,7 @@ public class ClassroomController {
     }
 
     @DeleteMapping("/{classroomId}")
-    public ResponseEntity<Object> delete(@PathVariable Long classroomId) {
+    public ResponseEntity<Object> delete(@PathVariable String classroomId) {
         classroomServiceImpl.delete(classroomId);
         return ResponseEntity.ok().build();
     }

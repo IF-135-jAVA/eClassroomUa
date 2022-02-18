@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class TopicDTO {
     private Long id;
+
     private String title;
-    private Long classroomId;
+
+    private String classroomId;
 }

@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 public class Classroom {
 
-    private Long classroomId;
+    private String classroomId;
 
     private Long userId;
 
@@ -23,7 +23,7 @@ public class Classroom {
 
     private String description;
 
-    private String code;
+    private boolean enabled;
 
     private User owner;
 

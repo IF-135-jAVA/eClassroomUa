@@ -16,7 +16,7 @@ public class AnnouncementRowMapper implements RowMapper<Announcement> {
     public Announcement mapRow(ResultSet rs, int rowNum) throws SQLException {
         Announcement announcement = new Announcement();
         announcement.setId(rs.getLong("id"));
-        announcement.setCourseId(rs.getLong("courseId"));
+        announcement.setCourseId(rs.getString("courseId"));
         announcement.setText(rs.getString("text"));
         announcement.setComments((List<Comment>) rs.getArray("comments"));
         announcement.setEnabled(rs.getBoolean("enabled"));

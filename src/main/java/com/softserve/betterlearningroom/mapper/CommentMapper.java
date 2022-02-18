@@ -13,6 +13,8 @@ public class CommentMapper {
         commentDTO.setText(comment.getText());
         commentDTO.setDate(comment.getDate());
         commentDTO.setAuthorId(comment.getAuthorId());
+        commentDTO.setFirstName(comment.getFirstName());
+        commentDTO.setLastName(comment.getLastName());
         commentDTO.setAnnouncementId(comment.getAnnouncementId());
         commentDTO.setUserAssignmentId(comment.getUserAssignmentId());
         commentDTO.setMaterialId(comment.getMaterialId());
@@ -26,6 +28,8 @@ public class CommentMapper {
         comment.setText(commentDTO.getText());
         comment.setDate(commentDTO.getDate());
         comment.setAuthorId(commentDTO.getAuthorId());
+        comment.setFirstName(commentDTO.getFirstName());
+        comment.setLastName(commentDTO.getLastName());
         comment.setAnnouncementId(commentDTO.getAnnouncementId());
         comment.setUserAssignmentId(commentDTO.getUserAssignmentId());
         comment.setMaterialId(commentDTO.getMaterialId());

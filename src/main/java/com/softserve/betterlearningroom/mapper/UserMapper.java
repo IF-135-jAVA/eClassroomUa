@@ -14,6 +14,7 @@ public class UserMapper {
         userDTO.setLastName(user.getLastName());
         userDTO.setEmail(user.getEmail());
         userDTO.setEnabled(user.isEnabled());
+        userDTO.setConfirmed(user.isConfirmed());
         return userDTO;
     }
 
@@ -24,6 +25,7 @@ public class UserMapper {
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail());
         user.setEnabled(userDTO.isEnabled());
+        user.setConfirmed(userDTO.isConfirmed());
         return user;
     }
 

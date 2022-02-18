@@ -16,10 +16,10 @@ public interface AnnouncementService {
     /**
      * get all announcements by classroom id from the database
      *
-     * @param courseId Long
+     * @param courseId String
      * @return List Announcement by classroom id
      */
-    List<AnnouncementDTO> findByCourseId(Long courseId);
+    List<AnnouncementDTO> findByCourseId(String courseId);
 
     /**
      * get announcement by id from the database

@@ -5,17 +5,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Topic {
-
-    private Long topicId;
-
-    private String title;
-
-    private String classroomId;
+public class ConfirmationToken {
+    
+    private String code;
+    private LocalDateTime createdAt;
+    private LocalDateTime expiresAt;
+    private User user;
 
 }

@@ -5,7 +5,7 @@ import com.softserve.betterlearningroom.entity.Announcement;
 import java.util.List;
 
 public interface AnnouncementDAO {
-    List<Announcement> findByCourseId(Long courseId);
+    List<Announcement> findByCourseId(String courseId);
 
     Announcement findById(Long id);
 
