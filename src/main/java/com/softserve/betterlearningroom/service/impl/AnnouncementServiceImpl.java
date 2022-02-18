@@ -26,7 +26,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public List<AnnouncementDTO> findByCourseId(Long courseId) {
+    public List<AnnouncementDTO> findByCourseId(String courseId) {
         return announcementDAO.findByCourseId(courseId)
                 .stream()
                 .map(announcementMapper::announcementToAnnouncementDTO)

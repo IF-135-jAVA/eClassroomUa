@@ -42,7 +42,7 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public List<TopicDTO> findAllByClassroomId(Long classroomId){
+    public List<TopicDTO> findAllByClassroomId(String classroomId){
         return topicDaoImpl.findAllByClassroomId(classroomId).stream().map(TopicMapper::toDTO).collect(Collectors.toList());
     }
 }

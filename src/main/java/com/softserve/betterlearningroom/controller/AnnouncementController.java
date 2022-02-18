@@ -22,7 +22,7 @@ public class AnnouncementController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('announcement:write')")
-    public ResponseEntity<AnnouncementDTO> save(@RequestBody AnnouncementDTO announcementDTO, @PathVariable Long classroomId) {
+    public ResponseEntity<AnnouncementDTO> save(@RequestBody AnnouncementDTO announcementDTO, @PathVariable String classroomId) {
         announcementDTO.setCourseId(classroomId);
         log.info("New announcement has been created");
         return new ResponseEntity<>(announcementService.save(announcementDTO), HttpStatus.CREATED);
@@ -30,7 +30,7 @@ public class AnnouncementController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('announcement:read')")
-    public ResponseEntity<List<AnnouncementDTO>> findByCourseId(@PathVariable Long classroomId) {
+    public ResponseEntity<List<AnnouncementDTO>> findByCourseId(@PathVariable String classroomId) {
         log.info("Loaded all announcements with courseId " + classroomId);
         return ResponseEntity.ok(announcementService.findByCourseId(classroomId));
     }

@@ -16,6 +16,6 @@ public class Topic {
 
     private String title;
 
-    private Long classroomId;
+    private String classroomId;
 
 }

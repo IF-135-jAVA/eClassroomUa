@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 public class Classroom {
 
-    private Long classroomId;
+    private String classroomId;
 
     private Long userId;
 

@@ -13,7 +13,7 @@ public interface ClassroomService {
      * @param classroomId Long
      * @return classroom by id
      */
-    ClassroomDTO findById(Long classroomId);
+    ClassroomDTO findById(String classroomId);
 
     /**
      * create a new resource (classroom) in the database
@@ -29,7 +29,7 @@ public interface ClassroomService {
      * @param classroomId Long
      * @return User by classroom id
      */
-    UserDTO getClassroomOwnerById(Long classroomId);
+    UserDTO getClassroomOwnerById(String classroomId);
 
     /**
      * get all classroom teachers by classroom id from the database
@@ -37,7 +37,7 @@ public interface ClassroomService {
      * @param classroomId Long
      * @return List User by classroom id
      */
-    List<UserDTO> getClassroomTeachersById(Long classroomId);
+    List<UserDTO> getClassroomTeachersById(String classroomId);
 
     /**
      * get all classroom students by classroom id from the database
@@ -45,7 +45,7 @@ public interface ClassroomService {
      * @param classroomId Long
      * @return List User by classroom id
      */
-    List<UserDTO> getClassroomStudentsById(Long classroomId);
+    List<UserDTO> getClassroomStudentsById(String classroomId);
 
     /**
      * get all classrooms by user(teacher) id from the database
@@ -70,7 +70,7 @@ public interface ClassroomService {
      * @param userId Long
      * @return classroom to which was joined
      */
-    ClassroomDTO joinClassroomAsStudent(Long classroomId, Long userId);
+    ClassroomDTO joinClassroomAsStudent(String classroomId, Long userId);
 
     /**
      * user joins like a teacher by classroom code and user id to classroom
@@ -79,12 +79,12 @@ public interface ClassroomService {
      * @param userId Long
      * @return classroom to which was joined
      */
-    ClassroomDTO joinClassroomAsTeacher(Long classroomId, Long userId);
+    ClassroomDTO joinClassroomAsTeacher(String classroomId, Long userId);
 
     /**
      * delete classroom by id, do it not active in the database
      *
      * @param classroomId Long
      */
-    void delete(Long classroomId);
+    void delete(String classroomId);
 }

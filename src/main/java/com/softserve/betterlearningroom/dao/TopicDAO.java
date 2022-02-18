@@ -16,5 +16,5 @@ public interface TopicDAO {
 
     void delete(Long id);
 
-    List<Topic> findAllByClassroomId(Long classroomId);
+    List<Topic> findAllByClassroomId(String classroomId);
 }

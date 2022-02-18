@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ClassroomDTO {
-    private Long classroomId;
+    private String classroomId;
 
     private Long userId;
 
