@@ -27,6 +27,12 @@ class UserAssignmentDAOTest {
     private static final int GRADE_1 = 10;
     private static final String FEEDBACK_1 = "Good";
     private static final boolean ENABLED = true;
+    private static final String MATERIAL_TITLE_1 = "The first assignment";
+    private static final LocalDateTime DUE_DATE_1 = LocalDateTime.of(2022, 3, 26, 19, 25);
+    private static final int MAX_SCORE_1 = 12;
+    private static final String USER_FIRST_NAME_1 = "Yurii";
+    private static final String USER_LAST_NAME_1 = "Kotsiuba";
+    private static final String ASSIGNMENT_STATUS_TITLE_1 = "IN_PROGRESS";
 
     private static final Long ID_2 = 2L;
     private static final Long USER_ID_2 = 3L;
@@ -34,10 +40,19 @@ class UserAssignmentDAOTest {
     private static final LocalDateTime SUBMISSION_DATE_2 = LocalDateTime.of(2022, 1, 28, 14, 15);
     private static final int GRADE_2 = 9;
     private static final String FEEDBACK_2 = "Almost good";
+    private static final String MATERIAL_TITLE_2 = "The second assignment";
+    private static final LocalDateTime DUE_DATE_2 = LocalDateTime.of(2022, 3, 15, 13, 0);
+    private static final int MAX_SCORE_2 = 10;
+    private static final String USER_FIRST_NAME_2 = "John";
+    private static final String USER_LAST_NAME_2 = "Smith";
+    private static final String ASSIGNMENT_STATUS_TITLE_2 = "DONE";
 
     private static final Long ID_3 = 3L;
     private static final Long MATERIAL_ID_2 = 2L;
     private static final Long MATERIAL_ID_3 = 3L;
+    private static final String MATERIAL_TITLE_3 = "The third assignment";
+    private static final LocalDateTime DUE_DATE_3 = LocalDateTime.of(2022, 4, 1, 12, 30);
+    private static final int MAX_SCORE_3 = 100;
 
     private static final Long ID_4 = 4L;
     private static final Long ID_NOT_FOUND = 10L;
@@ -47,21 +62,25 @@ class UserAssignmentDAOTest {
 
     private UserAssignment userAssignment1;
     private UserAssignment userAssignment2;
+    private UserAssignment userAssignment3BeforeSaving;
     private UserAssignment userAssignment3;
+    private UserAssignment userAssignment3Updated;
 
     @Autowired
     private UserAssignmentDAOImpl userAssignmentDao;
 
     @BeforeEach
     void setUp() {
-        userAssignment1 = new UserAssignment(ID_1, MATERIAL_ID_1, USER_ID_1, ASSIGNMENT_STATUS_ID_1, SUBMISSION_DATE_1, GRADE_1, FEEDBACK_1, ENABLED);
-        userAssignment2 = new UserAssignment(ID_2, MATERIAL_ID_1, USER_ID_2, ASSIGNMENT_STATUS_ID_2, SUBMISSION_DATE_2, GRADE_2, FEEDBACK_2, ENABLED);
-        userAssignment3 = new UserAssignment(ID_3, MATERIAL_ID_3, USER_ID_2, ASSIGNMENT_STATUS_ID_2, SUBMISSION_DATE_2, GRADE_2, FEEDBACK_2, ENABLED);
+        userAssignment1 = new UserAssignment(ID_1, MATERIAL_ID_1, MATERIAL_TITLE_1, DUE_DATE_1, MAX_SCORE_1, USER_ID_1, USER_FIRST_NAME_1, USER_LAST_NAME_1, ASSIGNMENT_STATUS_ID_1, ASSIGNMENT_STATUS_TITLE_1, SUBMISSION_DATE_1, GRADE_1, FEEDBACK_1, ENABLED);
+        userAssignment2 = new UserAssignment(ID_2, MATERIAL_ID_1, MATERIAL_TITLE_1, DUE_DATE_1, MAX_SCORE_1, USER_ID_2, USER_FIRST_NAME_2, USER_LAST_NAME_2, ASSIGNMENT_STATUS_ID_2, ASSIGNMENT_STATUS_TITLE_2, SUBMISSION_DATE_2, GRADE_2, FEEDBACK_2, ENABLED);
+        userAssignment3BeforeSaving = new UserAssignment(ID_3, MATERIAL_ID_3, null, null, 0, USER_ID_2, null, null, ASSIGNMENT_STATUS_ID_2, null, SUBMISSION_DATE_2, GRADE_2, FEEDBACK_2, ENABLED);
+        userAssignment3 = new UserAssignment(ID_3, MATERIAL_ID_3, MATERIAL_TITLE_3, DUE_DATE_3, MAX_SCORE_3, USER_ID_2, USER_FIRST_NAME_2, USER_LAST_NAME_2, ASSIGNMENT_STATUS_ID_2, ASSIGNMENT_STATUS_TITLE_2, SUBMISSION_DATE_2, GRADE_2, FEEDBACK_2, ENABLED);
+        userAssignment3Updated = new UserAssignment(ID_3, MATERIAL_ID_2, MATERIAL_TITLE_2, DUE_DATE_2, MAX_SCORE_2, USER_ID_1, USER_FIRST_NAME_1, USER_LAST_NAME_1, ASSIGNMENT_STATUS_ID_1, ASSIGNMENT_STATUS_TITLE_1, SUBMISSION_DATE_1, GRADE_1, FEEDBACK_1, ENABLED);
     }
 
     @Test
     void testSaveAndFindById() {
-        UserAssignment savedUserAssignment = userAssignmentDao.save(userAssignment3);
+        UserAssignment savedUserAssignment = userAssignmentDao.save(userAssignment3BeforeSaving);
         UserAssignment foundUserAssignment = userAssignmentDao.findById(savedUserAssignment.getId());
 
         userAssignment3.setId(savedUserAssignment.getId());
@@ -80,8 +99,8 @@ class UserAssignmentDAOTest {
         UserAssignment updatedUserAssignment = userAssignmentDao.update(userAssignment3);
         UserAssignment foundUserAssignment = userAssignmentDao.findById(userAssignment3.getId());
 
-        assertEquals(userAssignment3, updatedUserAssignment);
-        assertEquals(userAssignment3, foundUserAssignment);
+        assertEquals(userAssignment3Updated, updatedUserAssignment);
+        assertEquals(userAssignment3Updated, foundUserAssignment);
     }
 
     @Test
