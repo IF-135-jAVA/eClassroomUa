@@ -9,13 +9,13 @@ public interface MaterialDAO {
     
     Material findById(Long materialId);
     
-    List<Material> findAllByClassroomId(Long classroomId);
+    List<Material> findAllByClassroomId(String classroomId);
     
-    List<Material> findAllByClassroomIdAndTopicId(Long classroomId, Long topicId);
+    List<Material> findAllByClassroomIdAndTopicId(String classroomId, Long topicId);
     
-    List<Material> findAllByClassroomIdAndName(Long classroomId, String name);
+    List<Material> findAllByClassroomIdAndName(String classroomId, String name);
     
-    List<Material> findAllByClassroomIdAndType(Long classroomId, MaterialType materialType);
+    List<Material> findAllByClassroomIdAndType(String classroomId, MaterialType materialType);
     
     Material save(Material material, Long topicId);
     

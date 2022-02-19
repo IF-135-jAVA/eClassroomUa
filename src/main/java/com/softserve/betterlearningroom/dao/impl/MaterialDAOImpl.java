@@ -5,6 +5,8 @@ import com.softserve.betterlearningroom.dao.extractor.MaterialRowMapper;
 import com.softserve.betterlearningroom.entity.Material;
 import com.softserve.betterlearningroom.entity.MaterialType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 @Repository
 @RequiredArgsConstructor
 @PropertySource("classpath:db/materials/materialQuery.properties")
+@Slf4j
 public class MaterialDAOImpl implements MaterialDAO {
 
     private static final String MATERIALID2 = "material_id";
@@ -44,26 +47,26 @@ public class MaterialDAOImpl implements MaterialDAO {
     }
 
     @Override
-    public List<Material> findAllByClassroomId(Long classroomId) {
-        return namedParameterJdbcTemplate.query(getAllQuery, new MapSqlParameterSource("topicid", classroomId), new MaterialRowMapper());
+    public List<Material> findAllByClassroomId(String classroomId) {
+        return namedParameterJdbcTemplate.query(getAllQuery, new MapSqlParameterSource("classroomid", classroomId), new MaterialRowMapper());
     }
 
     @Override
-    public List<Material> findAllByClassroomIdAndTopicId(Long classroomId, Long topicId) {
+    public List<Material> findAllByClassroomIdAndTopicId(String classroomId, Long topicId) {
         return findAllByClassroomId(classroomId).stream()
                 .filter(material -> material.getId().equals(topicId))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Material> findAllByClassroomIdAndName(Long classroomId, String name) {
+    public List<Material> findAllByClassroomIdAndName(String classroomId, String name) {
         return findAllByClassroomId(classroomId).stream()
                 .filter(material -> material.getTitle().contains(name))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Material> findAllByClassroomIdAndType(Long classroomId, MaterialType materialType) {
+    public List<Material> findAllByClassroomIdAndType(String classroomId, MaterialType materialType) {
         return findAllByClassroomId(classroomId).stream()
                 .filter(material -> material.getMaterialType().equals(materialType))
                 .collect(Collectors.toList());
@@ -71,6 +74,7 @@ public class MaterialDAOImpl implements MaterialDAO {
 
     @Override
     public Material save(Material material, Long topicId) {
+        log.info(material.toString());
         MapSqlParameterSource param = new MapSqlParameterSource();
         MaterialType type = material.getMaterialType();
         param.addValue("materialtype", type.name());
@@ -81,11 +85,9 @@ public class MaterialDAOImpl implements MaterialDAO {
         param.addValue("task", material.getTask());
         param.addValue("testurl", material.getUrl());
         param.addValue("title", material.getTitle());
-        param.addValue("topicid", material.getTopicId());
+        param.addValue("topicid", topicId);
         namedParameterJdbcTemplate.update(addQuery, param);
-        return findAllByClassroomIdAndName(material.getClassroomId(), material.getTitle())
-                .stream()
-                .findFirst().orElse(null);
+        return material;
     }
 
     @Override
