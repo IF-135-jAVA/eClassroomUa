@@ -28,7 +28,7 @@ public class Material {
 
     private Long topicId;
 
-    private Long classroomId;
+    private String classroomId;
 
     private LocalDateTime startDate;
 
