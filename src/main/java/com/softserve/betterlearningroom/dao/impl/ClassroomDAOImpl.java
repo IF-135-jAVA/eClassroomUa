@@ -61,25 +61,25 @@ public class ClassroomDAOImpl implements ClassroomDAO {
     private String joinClassroomAsTeacher;
 
     @Override
-    public Classroom findClassroomById(Long classroomId) {
+    public Classroom findClassroomById(String classroomId) {
         SqlParameterSource parameterSource = new MapSqlParameterSource(CLASSROOM_ID, classroomId);
         return jdbcParameterTemplate.queryForObject(getClassroomById, parameterSource, BeanPropertyRowMapper.newInstance(Classroom.class));
     }
 
     @Override
-    public List<User> getAllTeachersById(Long classroomId) {
+    public List<User> getAllTeachersById(String classroomId) {
         SqlParameterSource parameterSource = new MapSqlParameterSource(CLASSROOM_ID, classroomId);
         return jdbcParameterTemplate.query(getClassroomTeachers, parameterSource, BeanPropertyRowMapper.newInstance(User.class));
     }
 
     @Override
-    public List<User> getAllStudentsById(Long classroomId) {
+    public List<User> getAllStudentsById(String classroomId) {
         SqlParameterSource parameterSource = new MapSqlParameterSource(CLASSROOM_ID, classroomId);
         return jdbcParameterTemplate.query(getClassroomStudents, parameterSource, BeanPropertyRowMapper.newInstance(User.class));
     }
 
     @Override
-    public User getClassroomOwnerById(Long classroomId) {
+    public User getClassroomOwnerById(String classroomId) {
         SqlParameterSource parameterSource = new MapSqlParameterSource(CLASSROOM_ID, classroomId);
         return jdbcParameterTemplate.queryForObject(getClassroomOwnerById, parameterSource, BeanPropertyRowMapper.newInstance(User.class));
     }
@@ -101,7 +101,7 @@ public class ClassroomDAOImpl implements ClassroomDAO {
     }
 
     @Override
-    public Classroom joinClassroomAsStudent(Long classroomId, Long userId) {
+    public Classroom joinClassroomAsStudent(String classroomId, Long userId) {
         Classroom classroom = findClassroomById(classroomId);
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue(USER_ID, userId);
@@ -111,7 +111,7 @@ public class ClassroomDAOImpl implements ClassroomDAO {
     }
 
     @Override
-    public Classroom joinClassroomAsTeacher(Long classroomId, Long userId) {
+    public Classroom joinClassroomAsTeacher(String classroomId, Long userId) {
         Classroom classroom = findClassroomById(classroomId);
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue(USER_ID, userId);
@@ -133,7 +133,7 @@ public class ClassroomDAOImpl implements ClassroomDAO {
     }
 
     @Override
-    public void delete(Long classroomId) {
+    public void delete(String classroomId) {
         SqlParameterSource parameterSource = new MapSqlParameterSource(CLASSROOM_ID, classroomId);
         jdbcParameterTemplate.update(removeClassroom, parameterSource);
     }

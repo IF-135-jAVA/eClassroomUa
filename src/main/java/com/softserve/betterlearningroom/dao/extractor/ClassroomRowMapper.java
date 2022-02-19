@@ -17,7 +17,7 @@ public class ClassroomRowMapper implements RowMapper<Classroom> {
     @Override
     public Classroom mapRow(ResultSet rs, int rowNum) throws SQLException {
         Classroom classroom = new Classroom();
-        classroom.setClassroomId(rs.getLong("classroomId"));
+        classroom.setClassroomId(rs.getString("classroomId"));
         classroom.setUserId(rs.getLong("userId"));
         classroom.setTitle(rs.getString("title"));
         classroom.setSession(rs.getString("session"));
