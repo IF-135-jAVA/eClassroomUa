@@ -1,6 +1,5 @@
 package com.softserve.betterlearningroom.mapper;
 
-import com.softserve.betterlearningroom.dao.impl.MaterialDAOImpl;
 import com.softserve.betterlearningroom.dto.MaterialDTO;
 import com.softserve.betterlearningroom.entity.Material;
 import com.softserve.betterlearningroom.entity.MaterialType;
