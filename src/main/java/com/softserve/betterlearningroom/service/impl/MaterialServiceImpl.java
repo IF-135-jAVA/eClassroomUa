@@ -78,7 +78,7 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     @Override
-    public void delete(MaterialDTO material) {
-        materialDao.delete(material.getId());
+    public void delete(Long id) {
+        materialDao.delete(id);
     }
 }

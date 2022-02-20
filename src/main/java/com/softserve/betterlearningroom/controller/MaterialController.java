@@ -46,8 +46,9 @@ public class MaterialController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<MaterialDTO> update(@RequestBody MaterialDTO material) {
-        return new ResponseEntity<>(materialService.update(material), HttpStatus.ACCEPTED);
+    public ResponseEntity<Object> update(@PathVariable Long id) {
+        materialService.delete(id);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("{id}")
