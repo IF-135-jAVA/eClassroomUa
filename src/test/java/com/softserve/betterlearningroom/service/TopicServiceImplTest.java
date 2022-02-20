@@ -5,7 +5,6 @@ import com.softserve.betterlearningroom.dto.TopicDTO;
 import com.softserve.betterlearningroom.entity.Topic;
 import com.softserve.betterlearningroom.mapper.TopicMapper;
 import com.softserve.betterlearningroom.service.impl.TopicServiceImpl;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,11 +38,11 @@ class TopicServiceImplTest {
     void setUp() {
         expectedTopicDTO = TopicDTO.builder()
                 .id(1L)
-                .classroomId(2L)
+                .classroomId("2")
                 .title("Mathematics")
                 .build();
         expectedTopic = Topic.builder()
-                .classroomId(2L)
+                .classroomId("2")
                 .topicId(2L)
                 .title("Mathematics")
                 .build();

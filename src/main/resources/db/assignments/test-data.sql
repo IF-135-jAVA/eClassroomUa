@@ -1,5 +1,5 @@
-MERGE INTO assignment_statuses (id, title) VALUES (1, 'TODO');
-MERGE INTO assignment_statuses (id, title) VALUES (2, 'ONREVIEW');
+MERGE INTO assignment_statuses (id, title) VALUES (1, 'IN_PROGRESS');
+MERGE INTO assignment_statuses (id, title) VALUES (2, 'REVIEWED');
 MERGE INTO assignment_statuses (id, title) VALUES (3, 'DONE');
 
 MERGE INTO user_assignments (id, material_id, user_id, assignment_status_id, submission_date, grade, feedback, enabled)

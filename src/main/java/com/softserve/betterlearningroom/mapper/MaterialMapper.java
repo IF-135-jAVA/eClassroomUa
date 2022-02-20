@@ -2,14 +2,19 @@ package com.softserve.betterlearningroom.mapper;
 
 import com.softserve.betterlearningroom.dto.MaterialDTO;
 import com.softserve.betterlearningroom.entity.Material;
+import com.softserve.betterlearningroom.entity.MaterialType;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class MaterialMapper {
 
     public static MaterialDTO materialToMaterialDTO(Material material) {
         MaterialDTO materialDTO = new MaterialDTO();
-        materialDTO.setCriterions(material.getCriterions());
+        log.info(material.toString());
         materialDTO.setDueDate(material.getDueDate());
         materialDTO.setStartDate(material.getStartDate());
         materialDTO.setMaxScore(material.getMaxScore());
@@ -22,13 +27,12 @@ public class MaterialMapper {
         materialDTO.setId(material.getId());
         materialDTO.setTopicId(material.getTopicId());
         materialDTO.setClassroomId(material.getClassroomId());
-        materialDTO.setMaterialType(material.getMaterialType());
+        materialDTO.setMaterialType(material.getMaterialType().name());
         return materialDTO;
     }
 
     public static Material materialDTOToMaterial(MaterialDTO materialDTO) {
         Material material = new Material();
-        material.setCriterions(materialDTO.getCriterions());
         material.setDueDate(materialDTO.getDueDate());
         material.setStartDate(materialDTO.getStartDate());
         material.setMaxScore(materialDTO.getMaxScore());
@@ -41,7 +45,7 @@ public class MaterialMapper {
         material.setId(materialDTO.getId());
         material.setTopicId(materialDTO.getTopicId());
         material.setClassroomId(materialDTO.getClassroomId());
-        material.setMaterialType(materialDTO.getMaterialType());
+        material.setMaterialType(MaterialType.valueOf(materialDTO.getMaterialType()));
         return material;
     }
 

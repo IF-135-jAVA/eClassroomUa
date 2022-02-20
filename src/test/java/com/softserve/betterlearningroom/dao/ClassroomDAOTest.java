@@ -1,3 +1,4 @@
+
 package com.softserve.betterlearningroom.dao;
 
 import com.softserve.betterlearningroom.configuration.TestDBConfiguration;
@@ -74,3 +75,4 @@ class ClassroomDAOTest {
                 .build();
     }
 }
+

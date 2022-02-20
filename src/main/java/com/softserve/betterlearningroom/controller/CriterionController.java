@@ -20,14 +20,14 @@ public class CriterionController {
     @Autowired
     private CriterionServiceImpl criterionService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<CriterionDTO>> getAll() {
         List<CriterionDTO> criterion = criterionService.findAll();
         return ResponseEntity.ok().body(criterion);
     }
 
-    @GetMapping("/byMaterialId/{byMaterialId}")
-    public ResponseEntity<List<CriterionDTO>> getAllByMaterialId(@PathVariable(value = "byMaterialId") final Long materialId) {
+    @GetMapping
+    public ResponseEntity<List<CriterionDTO>> getAllByMaterialId(@PathVariable(value = "materialId") final Long materialId) {
         List<CriterionDTO> criterion = criterionService.findAllByMaterialId(materialId);
         return ResponseEntity.ok().body(criterion);
     }

@@ -4,6 +4,7 @@ import com.softserve.betterlearningroom.dao.AnswerDAO;
 import com.softserve.betterlearningroom.dao.MaterialDAO;
 import com.softserve.betterlearningroom.dao.UserAssignmentDAO;
 import com.softserve.betterlearningroom.dto.UserAssignmentDTO;
+import com.softserve.betterlearningroom.dto.UserAssignmentEvaluationDTO;
 import com.softserve.betterlearningroom.entity.Answer;
 import com.softserve.betterlearningroom.entity.AssignmentStatus;
 import com.softserve.betterlearningroom.entity.Material;
@@ -12,6 +13,7 @@ import com.softserve.betterlearningroom.mapper.UserAssignmentMapper;
 import com.softserve.betterlearningroom.service.UserAssignmentService;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -33,7 +35,7 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
         if (dueDate != null && LocalDateTime.now().isAfter(dueDate)) {
             throw new SubmissionNotAllowedException("Due date for assignment with id - " + material.getId() + " has passed. Due date is " + dueDate + ".");
         }
-        userAssignmentDTO.setAssignmentStatusId(AssignmentStatus.TODO.getId());
+        userAssignmentDTO.setAssignmentStatusId(AssignmentStatus.IN_PROGRESS.getId());
         userAssignmentDTO.setSubmissionDate(null);
         userAssignmentDTO.setGrade(0);
         userAssignmentDTO.setFeedback(null);
@@ -48,11 +50,21 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
     }
 
     @Override
-    public UserAssignmentDTO update(UserAssignmentDTO userAssignmentDTO, Long id) {
+    public UserAssignmentDTO updateAsTeacher(UserAssignmentEvaluationDTO userAssignmentDTO, Long id) {
         UserAssignmentDTO oldUserAssignmentDTO = findById(id);
-        oldUserAssignmentDTO.setAssignmentStatusId(userAssignmentDTO.getAssignmentStatusId());
+        oldUserAssignmentDTO.setAssignmentStatusId(AssignmentStatus.REVIEWED.getId());
         oldUserAssignmentDTO.setGrade(userAssignmentDTO.getGrade());
         oldUserAssignmentDTO.setFeedback(userAssignmentDTO.getFeedback());
+        return userAssignmentMapper.userAssignmentToUserAssignmentDTO(
+                userAssignmentDao.update(userAssignmentMapper.userAssignmentDTOToUserAssignment(oldUserAssignmentDTO)));
+    }
+
+    @Override
+    public UserAssignmentDTO updateAsStudent(UserAssignmentDTO userAssignmentDTO, Long id) {
+        UserAssignmentDTO oldUserAssignmentDTO = findById(id);
+        if (!userAssignmentDTO.getAssignmentStatusId().equals(AssignmentStatus.REVIEWED.getId())) {
+            oldUserAssignmentDTO.setAssignmentStatusId(userAssignmentDTO.getAssignmentStatusId());
+        }
         return userAssignmentMapper.userAssignmentToUserAssignmentDTO(
                 userAssignmentDao.update(userAssignmentMapper.userAssignmentDTOToUserAssignment(oldUserAssignmentDTO)));
     }
@@ -67,6 +79,7 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
     }
 
     @Override
+    @PostFilter("hasRole('TEACHER') or filterObject.userId.equals(authentication.principal.getId())")
     public List<UserAssignmentDTO> findByAssignmentId(Long assignmentId) {
         return userAssignmentDao.findByAssignmentId(assignmentId)
                 .stream()

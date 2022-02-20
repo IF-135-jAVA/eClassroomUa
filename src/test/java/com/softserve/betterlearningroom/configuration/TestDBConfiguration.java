@@ -40,6 +40,8 @@ public class TestDBConfiguration {
 				.addScript("classpath:/db/answers/test-data.sql")
 				.addScript("classpath:/db/users/schema.sql")
 				.addScript("classpath:/db/users/test-data.sql")
+				.addScript("classpath:/db/materials/schema.sql")
+				.addScript("classpath:/db/materials/test-data.sql")
                 .build();
 
         return dataSource;

@@ -1,3 +1,4 @@
+
 package com.softserve.betterlearningroom.service;
 
 import com.softserve.betterlearningroom.dto.ClassroomDTO;
@@ -178,3 +179,4 @@ class ClassroomServiceTest {
         assertEquals(expectedClassroomDTO, joinClassroomDTO);
     }
 }
+

@@ -31,13 +31,13 @@ public class MaterialController {
     }
 
     @GetMapping("/byClassroom")
-    public ResponseEntity<List<MaterialDTO>> findAllMaterials(@PathVariable Long classroomId) {
+    public ResponseEntity<List<MaterialDTO>> findAllMaterials(@PathVariable String classroomId) {
         return ResponseEntity.ok().body(materialService.findAllMaterialsByClassroomId(classroomId));
     }
 
     @GetMapping
-    public ResponseEntity<List<MaterialDTO>> findMaterialsByTopic(@PathVariable Long classroomId, @PathVariable Long topicId) {
-        return ResponseEntity.ok().body(materialService.findAllMaterialsByClassroomIdAndTopicId(classroomId, topicId));
+    public ResponseEntity<List<MaterialDTO>> findMaterialsByTopic(@PathVariable String classroomId, @PathVariable Long topicId) {
+        return ResponseEntity.ok().body(materialService.findAllMaterialsByClassroomId(classroomId));
     }
 
     @PostMapping
@@ -46,8 +46,9 @@ public class MaterialController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<MaterialDTO> update(@RequestBody MaterialDTO material) {
-        return new ResponseEntity<>(materialService.update(material), HttpStatus.ACCEPTED);
+    public ResponseEntity<Object> update(@PathVariable Long id) {
+        materialService.delete(id);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("{id}")

@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS USERS
     EMAIL varchar(255),
     PASSWORD varchar(255),
     ENABLED boolean,
+    CONFIRMED boolean,
     PROVIDER varchar(16),
     PROVIDER_ID varchar(255)
 );

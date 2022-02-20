@@ -1,3 +1,4 @@
+
 package com.softserve.betterlearningroom.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -161,3 +162,4 @@ class ClassroomControllerTest {
                 mvcResult.getResponse().getContentAsString());
     }
 }
+

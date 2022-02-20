@@ -19,14 +19,14 @@ public class TopicController {
     @Autowired
     private TopicService topicService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<TopicDTO>> findAll() {
         List<TopicDTO> topic = topicService.findAll();
         return ResponseEntity.ok().body(topic);
     }
 
-    @GetMapping("byClassroomId/{byClassroomId}")
-    public ResponseEntity<List<TopicDTO>> findAllByClassroomId(@PathVariable(value = "byClassroomId") final Long classroomId) {
+    @GetMapping
+    public ResponseEntity<List<TopicDTO>> findAllByClassroomId(@PathVariable(value = "classroomId") final String classroomId) {
         List<TopicDTO> topic = topicService .findAllByClassroomId(classroomId);
         return ResponseEntity.ok().body(topic);
     }
