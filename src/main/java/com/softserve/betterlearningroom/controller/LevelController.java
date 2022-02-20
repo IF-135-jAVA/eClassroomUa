@@ -50,7 +50,7 @@ public class LevelController {
         return new ResponseEntity<>(levelServiceImpl.save(levelDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping
+    @PutMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> update(@RequestBody final LevelDTO levelDTO) {
         return new ResponseEntity<>(levelServiceImpl.update(levelDTO), HttpStatus.ACCEPTED);

@@ -31,12 +31,12 @@ public class MaterialController {
     }
 
     @GetMapping("/byClassroom")
-    public ResponseEntity<List<MaterialDTO>> findAllMaterials(@PathVariable Long classroomId) {
+    public ResponseEntity<List<MaterialDTO>> findAllMaterials(@PathVariable String classroomId) {
         return ResponseEntity.ok().body(materialService.findAllMaterialsByClassroomId(classroomId));
     }
 
     @GetMapping
-    public ResponseEntity<List<MaterialDTO>> findMaterialsByTopic(@PathVariable Long classroomId, @PathVariable Long topicId) {
+    public ResponseEntity<List<MaterialDTO>> findMaterialsByTopic(@PathVariable String classroomId, @PathVariable Long topicId) {
         return ResponseEntity.ok().body(materialService.findAllMaterialsByClassroomIdAndTopicId(classroomId, topicId));
     }
 

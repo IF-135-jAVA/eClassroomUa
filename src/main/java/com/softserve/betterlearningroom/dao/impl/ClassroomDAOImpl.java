@@ -125,8 +125,7 @@ public class ClassroomDAOImpl implements ClassroomDAO {
         params.addValue(USER_ID, classroom.getUserId())
                 .addValue("title", classroom.getTitle())
                 .addValue("session", classroom.getSession())
-                .addValue("description", classroom.getDescription())
-                .addValue("enabled", classroom.isEnabled());
+                .addValue("description", classroom.getDescription());
         jdbcParameterTemplate.update(createClassroom, params);
         return classroom;
     }

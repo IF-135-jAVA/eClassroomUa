@@ -44,7 +44,7 @@ public class CriterionController {
         return new ResponseEntity<>(criterionService.save(criterionDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> update(@RequestBody final CriterionDTO criterionDTO) {
         return new ResponseEntity<>(criterionService.update(criterionDTO), HttpStatus.ACCEPTED);

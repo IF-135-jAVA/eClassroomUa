@@ -30,6 +30,6 @@ public class MaterialDTO {
     private String task;
     private String url;
     private Long topicId;
-    private Long classroomId;
+    private String classroomId;
     private List<Question> questions;
 }

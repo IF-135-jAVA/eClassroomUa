@@ -44,26 +44,26 @@ public class MaterialDAOImpl implements MaterialDAO {
     }
 
     @Override
-    public List<Material> findAllByClassroomId(Long classroomId) {
+    public List<Material> findAllByClassroomId(String classroomId) {
         return namedParameterJdbcTemplate.query(getAllQuery, new MapSqlParameterSource("topicid", classroomId), new MaterialRowMapper());
     }
 
     @Override
-    public List<Material> findAllByClassroomIdAndTopicId(Long classroomId, Long topicId) {
+    public List<Material> findAllByClassroomIdAndTopicId(String classroomId, Long topicId) {
         return findAllByClassroomId(classroomId).stream()
                 .filter(material -> material.getId().equals(topicId))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Material> findAllByClassroomIdAndName(Long classroomId, String name) {
+    public List<Material> findAllByClassroomIdAndName(String classroomId, String name) {
         return findAllByClassroomId(classroomId).stream()
                 .filter(material -> material.getTitle().contains(name))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Material> findAllByClassroomIdAndType(Long classroomId, MaterialType materialType) {
+    public List<Material> findAllByClassroomIdAndType(String classroomId, MaterialType materialType) {
         return findAllByClassroomId(classroomId).stream()
                 .filter(material -> material.getMaterialType().equals(materialType))
                 .collect(Collectors.toList());

@@ -23,33 +23,33 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     @Override
-    public MaterialDTO findFirstMaterialByNameAndClassroomId(String name, Long classroomId) {
+    public MaterialDTO findFirstMaterialByNameAndClassroomId(String name, String classroomId) {
         return MaterialMapper.materialToMaterialDTO(materialDao.findAllByClassroomIdAndName(classroomId, name).stream().findFirst().orElse(null));
     }
 
     @Override
-    public List<MaterialDTO> findAllMaterialsByNameAndClassroomId(String name, Long classroomId) {
+    public List<MaterialDTO> findAllMaterialsByNameAndClassroomId(String name, String classroomId) {
         List<MaterialDTO> materials = new ArrayList<>();
         materialDao.findAllByClassroomIdAndName(classroomId, name).forEach(m -> materials.add(MaterialMapper.materialToMaterialDTO(m)));
         return materials;
     }
 
     @Override
-    public List<MaterialDTO> findAllMaterialsByClassroomId(Long classroomId) {
+    public List<MaterialDTO> findAllMaterialsByClassroomId(String classroomId) {
         List<MaterialDTO> materials = new ArrayList<>();
         materialDao.findAllByClassroomId(classroomId).forEach(m -> materials.add(MaterialMapper.materialToMaterialDTO(m)));
         return materials;
     }
 
     @Override
-    public List<MaterialDTO> findAllMaterialsByClassroomIdAndType(Long classroomId, MaterialType materialType) {
+    public List<MaterialDTO> findAllMaterialsByClassroomIdAndType(String classroomId, MaterialType materialType) {
         List<MaterialDTO> materials = new ArrayList<>();
         materialDao.findAllByClassroomIdAndType(classroomId, materialType).forEach(m -> materials.add(MaterialMapper.materialToMaterialDTO(m)));
         return materials;
     }
 
     @Override
-    public List<MaterialDTO> findAllMaterialsByClassroomIdAndTopicId(Long classroomId, Long topicId) {
+    public List<MaterialDTO> findAllMaterialsByClassroomIdAndTopicId(String classroomId, Long topicId) {
         List<MaterialDTO> materials = new ArrayList<>();
         materialDao.findAllByClassroomIdAndTopicId(classroomId, topicId).forEach(m -> materials.add(MaterialMapper.materialToMaterialDTO(m)));
         return materials;
