@@ -9,20 +9,20 @@ public interface MaterialService {
 
     MaterialDTO findMaterialById(Long id);
 
-    MaterialDTO findFirstMaterialByNameAndClassroomId(String name, Long classroomId);
+    MaterialDTO findFirstMaterialByNameAndClassroomId(String name, String classroomId);
 
-    List<? extends MaterialDTO> findAllMaterialsByNameAndClassroomId(String name, Long classroomId);
+    List<? extends MaterialDTO> findAllMaterialsByNameAndClassroomId(String name, String classroomId);
 
     MaterialDTO save(MaterialDTO material, Long topicId);
 
     MaterialDTO update(MaterialDTO material);
 
-    void delete(MaterialDTO material);
+    void delete(Long id);
 
-    List<MaterialDTO> findAllMaterialsByClassroomId(Long classroomId);
+    List<MaterialDTO> findAllMaterialsByClassroomId(String classroomId);
 
-    List<MaterialDTO> findAllMaterialsByClassroomIdAndType(Long classroomId, MaterialType materialType);
+    List<MaterialDTO> findAllMaterialsByClassroomIdAndType(String classroomId, MaterialType materialType);
 
-    List<MaterialDTO> findAllMaterialsByClassroomIdAndTopicId(Long classroomId, Long topicId);
+    List<MaterialDTO> findAllMaterialsByClassroomIdAndTopicId(String classroomId, Long topicId);
 
 }

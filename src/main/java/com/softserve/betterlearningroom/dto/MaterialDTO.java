@@ -2,7 +2,6 @@ package com.softserve.betterlearningroom.dto;
 
 import com.softserve.betterlearningroom.entity.Criterion;
 import com.softserve.betterlearningroom.entity.Link;
-import com.softserve.betterlearningroom.entity.MaterialType;
 import com.softserve.betterlearningroom.entity.Question;
 import com.softserve.betterlearningroom.entity.User;
 import lombok.*;
@@ -18,7 +17,7 @@ import java.util.List;
 @Builder
 public class MaterialDTO {
     private Long id;
-    private MaterialType materialType;
+    private String materialType;
     private String title;
     private String text;
     private List<Link> urls;
@@ -30,6 +29,6 @@ public class MaterialDTO {
     private String task;
     private String url;
     private Long topicId;
-    private Long classroomId;
+    private String classroomId;
     private List<Question> questions;
 }

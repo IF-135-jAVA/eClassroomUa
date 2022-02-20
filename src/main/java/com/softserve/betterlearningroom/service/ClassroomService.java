@@ -10,7 +10,7 @@ public interface ClassroomService {
     /**
      * get classroom by id from the database
      *
-     * @param classroomId Long
+     * @param classroomId Character
      * @return classroom by id
      */
     ClassroomDTO findById(String classroomId);
@@ -26,7 +26,7 @@ public interface ClassroomService {
     /**
      * get owner of classroom by classroom id from the database
      *
-     * @param classroomId Long
+     * @param classroomId String
      * @return User by classroom id
      */
     UserDTO getClassroomOwnerById(String classroomId);
@@ -34,7 +34,7 @@ public interface ClassroomService {
     /**
      * get all classroom teachers by classroom id from the database
      *
-     * @param classroomId Long
+     * @param classroomId String
      * @return List User by classroom id
      */
     List<UserDTO> getClassroomTeachersById(String classroomId);
@@ -42,7 +42,7 @@ public interface ClassroomService {
     /**
      * get all classroom students by classroom id from the database
      *
-     * @param classroomId Long
+     * @param classroomId String
      * @return List User by classroom id
      */
     List<UserDTO> getClassroomStudentsById(String classroomId);
@@ -66,7 +66,7 @@ public interface ClassroomService {
     /**
      * user joins like a student by classroom code and user id to classroom
      *
-     * @param classroomId   Long
+     * @param classroomId   String
      * @param userId Long
      * @return classroom to which was joined
      */
@@ -75,7 +75,7 @@ public interface ClassroomService {
     /**
      * user joins like a teacher by classroom code and user id to classroom
      *
-     * @param classroomId   Long
+     * @param classroomId   String
      * @param userId Long
      * @return classroom to which was joined
      */
@@ -84,7 +84,7 @@ public interface ClassroomService {
     /**
      * delete classroom by id, do it not active in the database
      *
-     * @param classroomId Long
+     * @param classroomId String
      */
     void delete(String classroomId);
 }
