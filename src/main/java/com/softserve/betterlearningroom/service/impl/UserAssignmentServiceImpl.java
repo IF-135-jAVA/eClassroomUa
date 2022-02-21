@@ -31,9 +31,11 @@ public class UserAssignmentServiceImpl implements UserAssignmentService {
     @Override
     public UserAssignmentDTO save(UserAssignmentDTO userAssignmentDTO) {
         Material material = materialDao.findById(userAssignmentDTO.getMaterialId());
-        LocalDateTime dueDate = material.getDueDate();
-        if (dueDate != null && LocalDateTime.now().isAfter(dueDate)) {
-            throw new SubmissionNotAllowedException("Due date for assignment with id - " + material.getId() + " has passed. Due date is " + dueDate + ".");
+        if (material != null) {
+            LocalDateTime dueDate = material.getDueDate();
+            if (dueDate != null && LocalDateTime.now().isAfter(dueDate)) {
+                throw new SubmissionNotAllowedException("Due date for assignment with id - " + material.getId() + " has passed. Due date is " + dueDate + ".");
+            }
         }
         userAssignmentDTO.setAssignmentStatusId(AssignmentStatus.IN_PROGRESS.getId());
         userAssignmentDTO.setSubmissionDate(null);
