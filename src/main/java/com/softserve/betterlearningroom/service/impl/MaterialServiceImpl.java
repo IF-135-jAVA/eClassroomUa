@@ -74,7 +74,19 @@ public class MaterialServiceImpl implements MaterialService {
 
     @Override
     public MaterialDTO update(MaterialDTO material) {
-        return MaterialMapper.materialToMaterialDTO(materialDao.update(MaterialMapper.materialDTOToMaterial(material)));
+        Material updatedMaterial = Material.builder()
+                .id(material.getId())
+                .dueDate(material.getDueDate())
+                .startDate(material.getStartDate())
+                .task(material.getTask())
+                .text(material.getText())
+                .title(material.getTitle())
+                .materialType(MaterialType.valueOf(material.getMaterialType()))
+                .topicId(material.getTopicId())
+                .maxScore(material.getMaxScore())
+                .url(material.getUrl())
+                .build();
+        return MaterialMapper.materialToMaterialDTO(materialDao.update(updatedMaterial));
     }
 
     @Override

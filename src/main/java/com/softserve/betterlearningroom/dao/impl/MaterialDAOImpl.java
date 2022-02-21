@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MaterialDAOImpl implements MaterialDAO {
 
-    private static final String MATERIALID2 = "material_id";
+    private static final String MATERIALID2 = "materialid";
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
