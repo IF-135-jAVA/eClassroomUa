@@ -14,7 +14,6 @@ public class MaterialMapper {
 
     public static MaterialDTO materialToMaterialDTO(Material material) {
         MaterialDTO materialDTO = new MaterialDTO();
-        log.info(material.toString());
         materialDTO.setDueDate(material.getDueDate());
         materialDTO.setStartDate(material.getStartDate());
         materialDTO.setMaxScore(material.getMaxScore());

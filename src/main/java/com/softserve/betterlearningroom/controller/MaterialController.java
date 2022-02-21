@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,19 +42,21 @@ public class MaterialController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('TEACHER')")
     public ResponseEntity<MaterialDTO> save(@RequestBody MaterialDTO material, @PathVariable Long topicId) {
         return new ResponseEntity<>(materialService.save(material, topicId), HttpStatus.CREATED);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Object> update(@PathVariable Long id) {
-        materialService.delete(id);
-        return ResponseEntity.ok().build();
+    @PutMapping
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<MaterialDTO> update(@RequestBody MaterialDTO material) {
+        return new ResponseEntity<>(materialService.update(material), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Object> delete(@RequestBody MaterialDTO material) {
-        materialService.update(material);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<Object> delete(@PathVariable Long id) {
+        materialService.delete(id);
+        return ResponseEntity.ok().build();
     }
 }
