@@ -43,7 +43,7 @@ public class TopicController {
         return new ResponseEntity<>(topicService.save(topicDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping()
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> update(@RequestBody final TopicDTO topicDTO) {
         return new ResponseEntity<>(topicService.update(topicDTO), HttpStatus.ACCEPTED);

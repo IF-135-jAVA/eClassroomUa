@@ -40,10 +40,10 @@ public class AuthServiceImpl implements AuthService {
     
     private static final String CONFIRM_EMAIL_TITLE = "Confirm your email";
     private static final String CONFIRM_EMAIL_DESCRIPTION = "Thank you for registering. Please click on the below link to activate your account:";
-    private static final String CONFIRM_EMAIL_URL = "http://localhost:4200/confirm?code=";
+    private static final String CONFIRM_EMAIL_URL = "http://ec2-3-136-11-72.us-east-2.compute.amazonaws.com/confirm?code=";
     private static final String RESET_PASSWORD_TITLE = "Reset your password";
     private static final String RESET_PASSWORD_DESCRIPTION = "Please click on the below link to reset your password:";
-    private static final String RESET_PASSWORD_URL = "http://localhost:4200/change-password?code=";
+    private static final String RESET_PASSWORD_URL = "http://ec2-3-136-11-72.us-east-2.compute.amazonaws.com/change-password?code=";
 
     @Override
     public String login(AuthRequest request) throws UsernameNotFoundException {

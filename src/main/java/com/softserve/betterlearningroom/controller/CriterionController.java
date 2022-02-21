@@ -3,6 +3,7 @@ package com.softserve.betterlearningroom.controller;
 import com.softserve.betterlearningroom.dto.CriterionDTO;
 import com.softserve.betterlearningroom.service.impl.CriterionServiceImpl;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/api/classrooms/{classroomId}/topics/{topicId}/materials/{materialId}/criterions")
-
+@Slf4j
 public class CriterionController {
 
     @Autowired
@@ -44,10 +45,11 @@ public class CriterionController {
         return new ResponseEntity<>(criterionService.save(criterionDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> update(@RequestBody final CriterionDTO criterionDTO) {
-        return new ResponseEntity<>(criterionService.update(criterionDTO), HttpStatus.ACCEPTED);
+    public ResponseEntity<CriterionDTO> update(@PathVariable  Long id, @RequestBody final CriterionDTO criterionDTO) {
+        log.info(criterionDTO.toString());
+        return new ResponseEntity<>(criterionService.update(id, criterionDTO), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{id}")

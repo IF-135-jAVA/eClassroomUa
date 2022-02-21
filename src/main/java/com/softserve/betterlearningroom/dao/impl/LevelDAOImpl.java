@@ -58,7 +58,7 @@ public class LevelDAOImpl implements LevelDAO {
     public Level update(Level level) {
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(level);
         jdbcTemplate.update(updateQuery, parameterSource);
-        return level;
+        return findById(level.getLevelId());
     }
 
     @Override

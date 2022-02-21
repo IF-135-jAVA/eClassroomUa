@@ -14,7 +14,7 @@ public interface CriterionServise {
 
     CriterionDTO save(CriterionDTO criterionDTO);
 
-    CriterionDTO update(CriterionDTO criterionDTO);
+    CriterionDTO update(Long criterionId, CriterionDTO criterionDTO);
 
     List<CriterionDTO> findAllByMaterialId(Long materialId);
 }

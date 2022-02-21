@@ -2,6 +2,7 @@ package com.softserve.betterlearningroom.dao.impl;
 
 import com.softserve.betterlearningroom.dao.CriterionDAO;
 import com.softserve.betterlearningroom.entity.Criterion;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @PropertySource(value = "classpath:db/criterion/criterionQuery.properties")
+@Slf4j
 public class CriterionDAOImpl implements CriterionDAO {
 
     private static final String CRITERION_ID = "criterion_id";
@@ -59,9 +61,10 @@ public class CriterionDAOImpl implements CriterionDAO {
 
     @Override
     public Criterion update(Criterion criterion) {
+        log.info(criterion.toString());
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(criterion);
         jdbcTemplate.update(updateQuery, parameterSource);
-        return criterion;
+        return findById(criterion.getCriterionId());
     }
 
     @Override
@@ -72,7 +75,7 @@ public class CriterionDAOImpl implements CriterionDAO {
 
     @Override
     public Criterion findById(Long id) {
-        SqlParameterSource parameterSource = new MapSqlParameterSource(CRITERION_ID, id);
+        SqlParameterSource parameterSource = new MapSqlParameterSource("criterion_id", id);
         return jdbcTemplate.queryForObject(findByIdQuery, parameterSource,
                 BeanPropertyRowMapper.newInstance(Criterion.class));
 
