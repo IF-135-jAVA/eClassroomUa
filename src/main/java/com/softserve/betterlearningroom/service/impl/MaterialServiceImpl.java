@@ -2,6 +2,7 @@ package com.softserve.betterlearningroom.service.impl;
 
 import com.softserve.betterlearningroom.dao.MaterialDAO;
 import com.softserve.betterlearningroom.dto.MaterialDTO;
+import com.softserve.betterlearningroom.entity.Material;
 import com.softserve.betterlearningroom.entity.MaterialType;
 import com.softserve.betterlearningroom.mapper.MaterialMapper;
 import com.softserve.betterlearningroom.service.MaterialService;
@@ -57,7 +58,18 @@ public class MaterialServiceImpl implements MaterialService {
 
     @Override
     public MaterialDTO save(MaterialDTO material, Long topicId) {
-        return MaterialMapper.materialToMaterialDTO(materialDao.save(MaterialMapper.materialDTOToMaterial(material), topicId));
+        Material savedMaterial = Material.builder()
+                .dueDate(material.getDueDate())
+                .startDate(material.getStartDate())
+                .task(material.getTask())
+                .text(material.getText())
+                .title(material.getTitle())
+                .materialType(MaterialType.valueOf(material.getMaterialType()))
+                .topicId(material.getTopicId())
+                .maxScore(material.getMaxScore())
+                .url(material.getUrl())
+                .build();
+        return MaterialMapper.materialToMaterialDTO(materialDao.save(savedMaterial, topicId));
     }
 
     @Override
@@ -66,7 +78,7 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     @Override
-    public void delete(MaterialDTO material) {
-        materialDao.delete(material.getId());
+    public void delete(Long id) {
+        materialDao.delete(id);
     }
 }

@@ -39,7 +39,7 @@ public class ClassroomController {
     }
 
     @GetMapping("/teacher/{userId}")
-    public ResponseEntity<List<ClassroomDTO>> getClassroomsByTeacherId(@PathVariable Long userId) {
+    public ResponseEntity<List<ClassroomDTO>> findClassroomsByTeacherId(@PathVariable Long userId) {
         return ResponseEntity.ok().body(classroomServiceImpl.findAllClassroomsByTeacherId(userId));
     }
 

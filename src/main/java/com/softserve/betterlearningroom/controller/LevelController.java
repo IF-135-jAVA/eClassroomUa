@@ -4,6 +4,7 @@ package com.softserve.betterlearningroom.controller;
 import com.softserve.betterlearningroom.dto.LevelDTO;
 import com.softserve.betterlearningroom.service.impl.LevelServiceImpl;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-
+@Slf4j
 @SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/api/classrooms/{classroomId}/topics/{topicId}/materials/{materialId}/criterions/{criterionId}/level")
@@ -50,10 +51,11 @@ public class LevelController {
         return new ResponseEntity<>(levelServiceImpl.save(levelDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> update(@RequestBody final LevelDTO levelDTO) {
-        return new ResponseEntity<>(levelServiceImpl.update(levelDTO), HttpStatus.ACCEPTED);
+    public ResponseEntity<LevelDTO> update(@PathVariable  Long id , @RequestBody LevelDTO levelDTO) {
+        log.info(levelDTO.toString());
+        return new ResponseEntity<>(levelServiceImpl.update(id, levelDTO), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{id}")

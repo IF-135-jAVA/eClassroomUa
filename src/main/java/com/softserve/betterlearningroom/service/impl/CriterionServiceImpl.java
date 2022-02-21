@@ -4,6 +4,7 @@ import com.softserve.betterlearningroom.dao.impl.CriterionDAOImpl;
 import com.softserve.betterlearningroom.dto.CriterionDTO;
 import com.softserve.betterlearningroom.mapper.CriterionMapper;
 import com.softserve.betterlearningroom.service.CriterionServise;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class CriterionServiceImpl implements CriterionServise {
 
     @Autowired
@@ -37,8 +39,14 @@ public class CriterionServiceImpl implements CriterionServise {
     }
 
     @Override
-    public CriterionDTO update(CriterionDTO criterionDTO) {
-        return CriterionMapper.toDTO(criterionDAOImpl.update(CriterionMapper.toEntity(criterionDTO)));
+    public CriterionDTO update(Long criterionId, CriterionDTO criterionDTO) {
+
+        CriterionDTO oldCriterionDTO = findById(criterionId);
+        log.info(oldCriterionDTO.toString());
+        oldCriterionDTO.setTitle(criterionDTO.getTitle());
+        oldCriterionDTO.setDescription(criterionDTO.getDescription());
+        oldCriterionDTO.setMaterialId(criterionDTO.getMaterialId());
+        return CriterionMapper.toDTO(criterionDAOImpl.update(CriterionMapper.toEntity(oldCriterionDTO)));
     }
 
     @Override

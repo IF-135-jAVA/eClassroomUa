@@ -17,7 +17,7 @@ public interface MaterialService {
 
     MaterialDTO update(MaterialDTO material);
 
-    void delete(MaterialDTO material);
+    void delete(Long id);
 
     List<MaterialDTO> findAllMaterialsByClassroomId(String classroomId);
 
